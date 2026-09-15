@@ -1,0 +1,5 @@
+category,bytes,meaning
+activation_payload,161740000,INT16 activation payload
+weight_payload,276530176,INT8 weight payload
+output_payload,164575944,INT16 output payload
+all_payload,602846120,"sum of payload fields, not a bandwidth measurement"

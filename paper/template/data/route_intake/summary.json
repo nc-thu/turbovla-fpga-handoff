@@ -1,0 +1,29 @@
+{
+  "received_at": "2026-09-12T14:00:40",
+  "scope": "top_eng48 OOC engine; vectorless routed estimate",
+  "device": "xczu7ev-ffvc1156-2-e",
+  "period_ns": 3.298,
+  "temperature_ambient_C": 25,
+  "old": {
+    "version": "v5",
+    "lut": 118356,
+    "power_w": 8.321
+  },
+  "new": {
+    "version": "v10_base_pa48",
+    "lut": 104066,
+    "ff": 169969,
+    "dsp": 768,
+    "bram": 0,
+    "power_w": 7.043,
+    "dynamic_w": 6.414,
+    "static_w": 0.629,
+    "wns_ns": 0.034,
+    "whs_ns": 0.014,
+    "timing_closed": true
+  },
+  "lut_reduction_pct": 12.073743620940213,
+  "power_reduction_pct": 15.358730921764208,
+  "energy_per_call_j": null,
+  "notes": "Historical-to-current comparison, not simultaneous rerun. Same nominal clock and ambient conditions; switching activity is vectorless, not measured workload activity."
+}

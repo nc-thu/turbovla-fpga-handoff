@@ -1,0 +1,26 @@
+{
+  "source": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/source",
+  "checkpoint": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/pretrained/TurboVLA/checkpoints/libero/turbovla_libero.pth",
+  "dino": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/pretrained/assets/dinov3_local",
+  "bert": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/pretrained/assets/bert_local",
+  "device": "cuda:0",
+  "precision": "bf16",
+  "status": "passed",
+  "load_seconds": 5.866383755579591,
+  "parameters": 216073239,
+  "parameters_millions": 216.073239,
+  "parameter_dtypes": [
+    "torch.bfloat16"
+  ],
+  "forward_seconds": 0.5178136136382818,
+  "output_shape": [
+    12,
+    7
+  ],
+  "output_finite": true,
+  "output_min": -0.98828125,
+  "output_max": 0.234375,
+  "peak_cuda_allocated_bytes": 474697728,
+  "peak_cuda_reserved_bytes": 484442112,
+  "elapsed_seconds": 6.389370746910572
+}

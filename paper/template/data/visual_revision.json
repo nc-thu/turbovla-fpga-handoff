@@ -1,0 +1,36 @@
+{
+  "completed_at": "2026-09-12 14:20:10",
+  "method": "Built-in imagegen local edits; vector data insets; PDF composition; no Visio reconstruction",
+  "values": {
+    "mac_pct": 5.907410359354482,
+    "cycles_pct": 29.114303898978715,
+    "long_run_byte_pct": 99.50662967551399,
+    "pe_lut": [
+      121,
+      103
+    ]
+  },
+  "sources": [
+    "data/arch.json",
+    "data/derived_metrics.json",
+    "2026-09-12_证据索引_r2.md"
+  ],
+  "artifacts": [
+    {
+      "path": "figures\\publication_model.pdf",
+      "sha256": "90e6154b9ad3414350090910415942de95dc7fe8f9ff4731260a16e1247a587b"
+    },
+    {
+      "path": "figures\\publication_model.png",
+      "sha256": "2d24b90dd3fad74e8d1576e5c4c985a9dfbbf9bc53123705cf3ee5ebf5aee9ca"
+    },
+    {
+      "path": "figures\\publication_codesign.pdf",
+      "sha256": "27c929132ef57b1c3988ca04734d4e3fda307e988a7e0841e062d8e50a27d42a"
+    },
+    {
+      "path": "figures\\publication_codesign.png",
+      "sha256": "daec2f6c58837fa2769f7b1ecd010de8e0251a8d426830e59cf7c8c35e0b3f63"
+    }
+  ]
+}

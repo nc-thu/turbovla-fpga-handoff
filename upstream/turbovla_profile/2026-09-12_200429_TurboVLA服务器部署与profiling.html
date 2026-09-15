@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TurboVLA 服务器部署与 profiling</title>
+<style>
+body{margin:0;background:#f5f6f7;color:#20252b;font-family:"Microsoft YaHei",Arial,sans-serif;line-height:1.65}
+main{max-width:1120px;margin:0 auto;padding:28px 34px 56px;background:#fff;min-height:100vh}
+h1{font-size:28px;margin:0 0 5px} h2{font-size:20px;border-bottom:1px solid #d9dde2;padding-bottom:6px;margin-top:30px}
+h3{font-size:16px;margin-bottom:5px} .meta{color:#66717c;font-size:13px} .lead{font-size:16px;background:#eef6f3;border-left:4px solid #1f8a70;padding:12px 16px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0} .kpi{border:1px solid #d8dde3;padding:12px;background:#fafbfc} .kpi b{font-size:22px;display:block;color:#1d5f50}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:10px 0 18px} th,td{border:1px solid #d8dde3;padding:7px 8px;text-align:left;vertical-align:top} th{background:#eef1f3}
+.figure{border:1px solid #d8dde3;padding:10px;margin:14px 0} .caption{font-size:13px;color:#4d5964;margin-top:5px} .chart{width:100%;max-height:300px} .note{color:#5a6570;font-size:13px}
+code{background:#f0f2f4;padding:1px 4px} a{color:#195f8d} ul{margin-top:6px}
+@media(max-width:720px){main{padding:18px 14px}h1{font-size:23px}.grid{grid-template-columns:repeat(2,1fr)}table{font-size:12px;display:block;overflow-x:auto;white-space:nowrap}.chart{min-width:620px}}
+</style></head><body><main>
+<div class="meta">生成时间：2026-09-12 200429　|　实验目录：E:\GPU ARCH\vector_core_sim\algo\turbovla_profile\2026-09-12_192541</div>
+<h1>TurboVLA 在 V100 上的部署与 runtime profiling</h1>
+<p class="lead">结论：发布的 TurboVLA LIBERO checkpoint 已在 V100 上完成严格加载、真实 LIBERO 闭环和稳定单次推理测量。当前 V100 的稳定单次调用约 <b>67.0 ms（FP32）</b> / <b>67.1 ms（BF16）</b>；BF16 相比 FP32 的中位数变化为 <b>+0.16%</b>，主要收益是显存从 859.5 MiB 降到 452.7 MiB（减少 47.3%）。</p>
+<div class="grid"><div class="kpi"><b>216.1M</b>严格加载参数</div><div class="kpi"><b>672</b>checkpoint 张量</div><div class="kpi"><b>19/20</b>FP32 spot check</div><div class="kpi"><b>18/20</b>BF16 spot check</div></div>
+
+<h2>1. 这次实际跑了什么</h2>
+<p>代码来自 TurboVLA 官方仓库 commit <code>b29ab1420baa5c663ec935df513f2012430beb67</code>（2026-09-02T14:15:30+08:00）。服务器使用 GPU 3 单进程共享；启动时记录到 GPU 3 仍有约 25.8 GiB 空闲，没有停止其他进程。模型 checkpoint 的 SHA-256 为 <code>d031ad7be05a2f5d04afb3194ed26b0cb46083685edee7a5e145078a37d26bab</code>。</p>
+<p>发布文件的顶层字段是 <code>model_state_dict</code> 和 <code>model_config</code>，没有官方评测代码当前要求的 <code>ema_model_state_dict</code>。因此实验包装器只在本进程把回退顺序设为 EMA（若有）→ model_state_dict；任务、环境、动作协议和统计文件仍使用官方入口。</p>
+<p>DINOv3 官方 HF 权重仓库在服务器上需要权限。checkpoint 本身包含完整 DINOv3 ViT-B/16 的 211 个张量，所以我们用 Transformers 的 <code>DINOv3ViTModel</code> 实例化同一结构，并从 checkpoint 抽出权重保存成本地目录；BERT 也从 checkpoint 抽出。图像归一化采用 DINOv3 官方 LVD-1689M 推荐的 ImageNet mean/std，输入保持 256×256，不做额外裁剪。</p>
+
+<h2>2. V100 runtime</h2>
+<div class="figure"><svg class="chart" viewBox="0 0 700 260" role="img" aria-label="V100稳定单次推理耗时"><line x1="100" y1="205" x2="620" y2="205" stroke="#333" stroke-width="1.5"/><line x1="100" y1="45" x2="100" y2="205" stroke="#333" stroke-width="1.5"/><text x="24" y="42">稳定单次推理耗时（ms）</text><rect x="180" y="94.1" width="120" height="110.9" fill="#34495e"/><text x="240" y="86.1" text-anchor="middle">67.01</text><text x="240" y="230" text-anchor="middle">FP32</text><rect x="430" y="93.9" width="120" height="111.1" fill="#1f8a70"/><text x="490" y="85.9" text-anchor="middle">67.11</text><text x="490" y="230" text-anchor="middle">BF16</text><text x="350" y="258" text-anchor="middle">精度配置（5 次预热，10 次同步测量）</text></svg><div class="caption">这张图看稳定调用，不看第一次加载。每种精度先预热 5 次，再做 10 次 CUDA 同步测量；FP32 和 BF16 的 GPU event 时间与 wall time 基本一致。</div></div>
+<table><thead><tr><th>配置</th><th>中位数</th><th>P90</th><th>峰值已分配显存</th><th>峰值保留显存</th></tr></thead><tbody><tr><td>FP32</td><td>67.01 ms</td><td>70.96 ms</td><td>859.5 MiB</td><td>938.0 MiB</td></tr><tr><td>BF16</td><td>67.11 ms</td><td>68.31 ms</td><td>452.7 MiB</td><td>462.0 MiB</td></tr></tbody></table>
+<p>这里的 67 ms 是“当前 V100、两路 256×256 图像、在线 BERT、一次 12 动作 chunk”的单次规划推理，不是整回合耗时。它比官方在 RTX 4090 上报告的 31.2 ms 慢约 115%；两者 GPU 型号和软件环境不同，不能直接当作架构加速倍数。</p>
+<p class="note">首次加载和第一次前向包含磁盘读取、CUDA kernel 初始化，FP32 smoke 约 11.9 s，BF16 smoke 约 6.4 s；这两个冷启动数不用于精度排名。重复调用输出最大绝对差为 0，输出形状为 12×7 且全部有限。</p>
+
+<h2>3. LIBERO 闭环 spot check</h2>
+<div class="figure"><svg class="chart" viewBox="0 0 700 250" role="img" aria-label="LIBERO task 0 五回合成功率"><line x1="65" y1="190" x2="660" y2="190" stroke="#333" stroke-width="1.5"/><line x1="65" y1="55" x2="65" y2="190" stroke="#333" stroke-width="1.5"/><text x="9" y="52">成功率（%）</text><text x="65" y="205">0</text><text x="48" y="122">50</text><text x="48" y="57">100</text><rect x="85" y="55.0" width="28" height="135.0" fill="#34495e"/><text x="99" y="50.0" text-anchor="middle">100</text><rect x="123" y="55.0" width="28" height="135.0" fill="#1f8a70"/><text x="137" y="50.0" text-anchor="middle">100</text><text x="118" y="215" text-anchor="middle">SPATIAL</text><rect x="235" y="55.0" width="28" height="135.0" fill="#34495e"/><text x="249" y="50.0" text-anchor="middle">100</text><rect x="273" y="55.0" width="28" height="135.0" fill="#1f8a70"/><text x="287" y="50.0" text-anchor="middle">100</text><text x="268" y="215" text-anchor="middle">OBJECT</text><rect x="385" y="82.0" width="28" height="108.0" fill="#34495e"/><text x="399" y="77.0" text-anchor="middle">80</text><rect x="423" y="82.0" width="28" height="108.0" fill="#1f8a70"/><text x="437" y="77.0" text-anchor="middle">80</text><text x="418" y="215" text-anchor="middle">GOAL</text><rect x="535" y="55.0" width="28" height="135.0" fill="#34495e"/><text x="549" y="50.0" text-anchor="middle">100</text><rect x="573" y="82.0" width="28" height="108.0" fill="#1f8a70"/><text x="587" y="77.0" text-anchor="middle">80</text><text x="568" y="215" text-anchor="middle">10</text><rect x="535" y="35" width="13" height="13" fill="#34495e"/><text x="554" y="46">FP32</text><rect x="600" y="35" width="13" height="13" fill="#1f8a70"/><text x="619" y="46">BF16</text></svg><div class="caption">每套只跑 task 0 的初始状态 0–4，共 5 回合；四套合计 20 回合。成功由 LIBERO 环境 done 判定，程序异常和初始化失败没有混入成功率。</div></div>
+<table><thead><tr><th>精度</th><th>Suite</th><th>Task 0</th><th>成功/回合</th><th>成功率</th></tr></thead><tbody><tr><td>FP32</td><td>libero_spatial</td><td>pick up the black bowl between the plate and the ramekin and place it on the plate</td><td>5/5</td><td>100%</td></tr><tr><td>FP32</td><td>libero_object</td><td>pick up the alphabet soup and place it in the basket</td><td>5/5</td><td>100%</td></tr><tr><td>FP32</td><td>libero_goal</td><td>open the middle drawer of the cabinet</td><td>4/5</td><td>80%</td></tr><tr><td>FP32</td><td>libero_10</td><td>put both the alphabet soup and the tomato sauce in the basket</td><td>5/5</td><td>100%</td></tr><tr><td>BF16</td><td>libero_spatial</td><td>pick up the black bowl between the plate and the ramekin and place it on the plate</td><td>5/5</td><td>100%</td></tr><tr><td>BF16</td><td>libero_object</td><td>pick up the alphabet soup and place it in the basket</td><td>5/5</td><td>100%</td></tr><tr><td>BF16</td><td>libero_goal</td><td>open the middle drawer of the cabinet</td><td>4/5</td><td>80%</td></tr><tr><td>BF16</td><td>libero_10</td><td>put both the alphabet soup and the tomato sauce in the basket</td><td>4/5</td><td>80%</td></tr></tbody></table>
+<p>在这组固定 task 0 的小样本中，FP32 为 <b>19/20（95%）</b>，BF16 为 <b>18/20（90%）</b>。Goal 的两种精度都为 4/5；BF16 的 LIBERO-10 为 4/5，FP32 为 5/5。这个差异只有 1 个回合，不能据此推断精度导致策略退化。</p>
+<p>Spatial task 0 的 FP32/BF16 录像各保留 1 段，已检查可解码：FP32 3.90 s，BF16 4.05 s。录像播放时间是仿真帧时间，不是推理速度。</p>
+
+<h2>4. 官方数字与本次实测要分开</h2>
+<table><thead><tr><th>口径</th><th>数字</th><th>怎么理解</th></tr></thead><tbody>
+<tr><td>官方模型卡</td><td>LIBERO 平均 97.7%</td><td>官方完整 benchmark 报告；本次没有重跑 50 trials/task 的完整协议。</td></tr>
+<tr><td>官方模型卡</td><td>31.2 ms、0.9 GB</td><td>RTX 4090 上的报告值；不能替代 V100 实测。</td></tr>
+<tr><td>本次 V100</td><td>67.01 ms FP32 / 67.11 ms BF16</td><td>稳定单次规划调用，真实 LIBERO 初始观测。</td></tr>
+<tr><td>本次闭环</td><td>19/20 FP32、18/20 BF16</td><td>四套 task 0 各 5 回合的快速 spot check，不是论文成功率。</td></tr>
+</tbody></table>
+<p>官方参考：<a href="https://github.com/H-EmbodVis/TurboVLA">TurboVLA 官方仓库</a>、<a href="https://huggingface.co/H-EmbodVis/TurboVLA">TurboVLA checkpoint/model card</a>、<a href="https://github.com/H-EmbodVis/TurboVLA/blob/main/experiments/libero/README.md">官方 LIBERO 评测说明</a>、<a href="https://github.com/facebookresearch/dinov3">DINOv3 官方预处理说明</a>。</p>
+
+<h2>5. 目前能下的结论</h2>
+<ul><li><b>部署可行：</b>checkpoint、DINOv3、BERT、策略头和 LIBERO 环境已在 V100 上接通；严格加载的实际参数量是 216.1M，不是只看 action policy 的 40M。</li><li><b>V100 的瓶颈：</b>稳定调用约 67 ms，FP32 与 BF16 几乎同速；BF16 的确定收益是显存减少约 47.3%，不是当前 V100 上的端到端加速。</li><li><b>策略行为：</b>task 0 spot check 合计 FP32 95%、BF16 90%，两种精度在 Goal 都各失败 1/5。样本太小，不能把 95%/90% 写成 TurboVLA 的正式成绩。</li><li><b>下一步：</b>如果要做正式对照，优先修正官方 evaluator 对 checkpoint 字段的兼容并固定 DINOv3 processor 文件，然后按官方四套、每任务 50 回合跑完整 benchmark；若目标是硬件映射，再以 trace 中 GEMM、BMM、softmax 和 DINO backbone 的算子形状建立周期表。</li></ul>
+
+<h2>6. 交付文件</h2>
+<ul><li><a href="summary.json">机器可读汇总</a></li><li><a href="runtime_fp32.json">FP32 runtime JSON</a>、<a href="runtime_bf16.json">BF16 runtime JSON</a></li><li><a href="trace_fp32.json.txt">FP32 算子统计</a>、<a href="trace_bf16.json.txt">BF16 算子统计</a>、<a href="trace_fp32.json">FP32 Chrome trace</a>、<a href="trace_bf16.json">BF16 Chrome trace</a></li><li><a href="eval_libero_spatial_fp32_5ep.json">FP32 Spatial 5 回合</a>、<a href="eval_libero_spatial_bf16_5ep.json">BF16 Spatial 5 回合</a> 等四套 JSON 与原始日志</li><li><a href="remote_artifacts/spatial_task0_fp32.mp4">FP32 Spatial task 0 录像</a>、<a href="remote_artifacts/spatial_task0_bf16.mp4">BF16 Spatial task 0 录像</a></li><li>复现脚本位于 <a href="scripts/runtime_profile.py">runtime_profile.py</a>、<a href="scripts/run_eval_patched.py">run_eval_patched.py</a>、<a href="scripts/prepare_local_backbones.py">prepare_local_backbones.py</a>。</li></ul>
+<p class="meta">未做：完整四套正式 50 trials/task benchmark、W8A16 量化、FPGA 周期映射。原因是本轮目标先确认服务器部署和稳定 runtime，避免把小样本或条件估计当成正式结果。</p>
+</main></body></html>

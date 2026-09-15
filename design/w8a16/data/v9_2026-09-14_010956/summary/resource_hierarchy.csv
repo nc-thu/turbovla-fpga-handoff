@@ -1,0 +1,7 @@
+configuration,component,lut,logic_lut,lutram,srl,ff,ramb36,ramb18,uram,dsp
+array_on_trace_off,top_logic,2224,2224,0,0,9333,0,0,0,0
+array_on_trace_off,sysarr,58195,56747,0,1448,109881,0,0,0,768
+array_on_trace_off,pe_example,63,62,0,1,140,0,0,0,1
+array_on_trace_on,top_logic,2224,2224,0,0,9333,0,0,0,0
+array_on_trace_on,sysarr,58195,56747,0,1448,109881,0,0,0,768
+array_on_trace_on,pe_example,63,62,0,1,140,0,0,0,1

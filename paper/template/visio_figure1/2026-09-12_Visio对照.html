@@ -1,0 +1,12 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><title>图 1：视觉草案与 Visio 重绘对照</title>
+<style>body{font:17px/1.6 Arial,"Microsoft YaHei";margin:28px auto;max-width:1700px;padding:0 24px;color:#222}h1{font-size:28px}a{color:#176b97}button{font:inherit;padding:7px 18px;background:white;border:1px solid #999;cursor:pointer}button.active{background:#dcecf5}figure{margin:18px 0}img{display:block;width:100%}.compare{position:relative;aspect-ratio:1920/820;border:1px solid #aaa}.compare img{position:absolute;inset:0;width:100%;height:100%}.line{position:absolute;left:50%;height:100%;border-left:2px solid #d47700;pointer-events:none}.caption{display:flex;justify-content:space-between}input{width:100%}.pair{display:grid;grid-template-columns:1fr 1fr;gap:16px}summary{cursor:pointer}small{color:#555}</style>
+<h1>图 1：视觉草案与 Visio 重绘对照</h1>
+<p>生成时间：2026-09-12 14:28:58。拖动分界线比较同一位置：左侧为原视觉草案，右侧为 Visio 导出。模块、文字、箭头、深度网格和机器人图标均为原生 Visio 对象；相机画面保留为一张位图。</p>
+<p><a href="figure1_native.vsdx">下载可编辑 VSDX</a> · <a href="figure1_native.pdf">Visio 导出 PDF</a> · <a href="figure1_native.svg">矢量 SVG</a> · <a href="figure1_native.png">完整 PNG</a></p>
+<div class="caption"><b>原视觉草案</b><b>Visio 重绘</b></div>
+<div class="compare"><img src="figure1_native.png"><img id="original" src="../figures/publication_model.png" style="clip-path:inset(0 50% 0 0)"><div class="line" id="line"></div></div>
+<input type="range" min="0" max="100" value="50" aria-label="原图与Visio图分界" oninput="document.getElementById('original').style.clipPath='inset(0 '+(100-this.value)+'% 0 0)';document.getElementById('line').style.left=this.value+'%'">
+<p><button onclick="show('native',this)" class="active">只看 Visio</button> <button onclick="show('original',this)">只看原草案</button></p>
+<figure><img id="single" src="figure1_native.png"></figure>
+<details><summary>相似之处与差异</summary><p>相似之处：两面板比例、模块位置、梯形编码器、四种主色、注意力子块、动作序列和两条反馈路径。差异：Visio 使用平面填色和统一线宽；机器人由可编辑几何图形重画，比原图简化；字体为 Arial Bold，换行与原图略有不同。这里不提供未经定义的“相似度百分比”。</p><p>这次是独立重绘试稿，尚未替换论文中的图 1。用于先比较风格与可编辑性。</p></details>
+<script>function show(which,b){document.getElementById('single').src=which==='native'?'figure1_native.png':'../figures/publication_model.png';document.querySelectorAll('button').forEach(x=>x.classList.remove('active'));b.classList.add('active')}</script></html>

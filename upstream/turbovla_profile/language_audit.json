@@ -1,0 +1,31 @@
+{
+  "path": "E:\\GPU ARCH\\vector_core_sim\\algo\\turbovla_profile\\2026-09-12_192541\\2026-09-12_200536_TurboVLA服务器部署与profiling.html",
+  "status": "PASS",
+  "critical": [],
+  "bad_headings": [],
+  "raw_field_name_count": 12,
+  "raw_field_name_examples": [
+    "ema_model_state_dict",
+    "libero_10",
+    "libero_goal",
+    "libero_object",
+    "libero_spatial",
+    "model_config",
+    "model_state_dict",
+    "prepare_local_backbones",
+    "run_eval_patched",
+    "runtime_profile",
+    "turbovla_profile",
+    "vector_core_sim"
+  ],
+  "scientific_notation_count": 0,
+  "scientific_notation_examples": [],
+  "story_markers": {
+    "goal_or_background": true,
+    "problem": true,
+    "comparison": true,
+    "meaning": true,
+    "limitation": true
+  },
+  "note": "Automated checks find common bad smells; a human read-through is still required."
+}

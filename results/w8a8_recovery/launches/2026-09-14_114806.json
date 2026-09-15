@@ -1,0 +1,20 @@
+{
+  "started": "2026-09-14T11:48:06",
+  "arguments": {
+    "root": "/home/nc23/experiments/turbovla_w8a8_recovery_2026-09-14_104416",
+    "stage": "episodes",
+    "mode": "fp32",
+    "modes": "fp32,observe,tensor,token,smooth_0.25,smooth_0.5,smooth_0.75,group_128,group_64,group_32",
+    "suites": "libero_goal",
+    "start": 13,
+    "end": 18,
+    "capture": false,
+    "limit": 0
+  },
+  "torch": "2.6.0+cu124",
+  "visible_gpu": "1",
+  "source_sha256": {
+    "run_recovery.py": "8fc05b6c52ceca85cfefa25943036eaf4e23d69164ab043b89bb121bb10729c1",
+    "quant_core.py": "6a8f01069c553ec847a1967e9a62029e44fc14f81edb891033f67ae0121268f0"
+  }
+}

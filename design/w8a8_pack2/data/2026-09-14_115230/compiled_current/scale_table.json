@@ -1,0 +1,3463 @@
+{
+  "schema_version": "tvla_w8a8_pack2.scale_table.v1",
+  "source": "target W8A8 result plus captured trace",
+  "static_scale_status": "not present in trace; compiler emits IDs and requires calibration import",
+  "entries": {
+    "0": {
+      "a_scale_id": "tvla.ev0.a",
+      "w_scale_id": "tvla.ev0.w",
+      "out_scale_id": "tvla.ev0.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "1": {
+      "a_scale_id": "tvla.ev1.a",
+      "w_scale_id": "tvla.ev1.w",
+      "out_scale_id": "tvla.ev1.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "2": {
+      "a_scale_id": "tvla.ev2.a",
+      "w_scale_id": "tvla.ev2.w",
+      "out_scale_id": "tvla.ev2.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "3": {
+      "a_scale_id": "tvla.ev3.a",
+      "w_scale_id": "tvla.ev3.w",
+      "out_scale_id": "tvla.ev3.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "4": {
+      "a_scale_id": "tvla.ev4.a",
+      "w_scale_id": "tvla.ev4.w",
+      "out_scale_id": "tvla.ev4.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "5": {
+      "a_scale_id": "tvla.ev5.a",
+      "w_scale_id": "tvla.ev5.w",
+      "out_scale_id": "tvla.ev5.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "6": {
+      "a_scale_id": "tvla.ev6.a",
+      "w_scale_id": "tvla.ev6.w",
+      "out_scale_id": "tvla.ev6.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "7": {
+      "a_scale_id": "tvla.ev7.a",
+      "w_scale_id": "tvla.ev7.w",
+      "out_scale_id": "tvla.ev7.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "8": {
+      "a_scale_id": "tvla.ev8.a",
+      "w_scale_id": "tvla.ev8.w",
+      "out_scale_id": "tvla.ev8.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "9": {
+      "a_scale_id": "tvla.ev9.a",
+      "w_scale_id": "tvla.ev9.w",
+      "out_scale_id": "tvla.ev9.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "10": {
+      "a_scale_id": "tvla.ev10.a",
+      "w_scale_id": "tvla.ev10.w",
+      "out_scale_id": "tvla.ev10.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "11": {
+      "a_scale_id": "tvla.ev11.a",
+      "w_scale_id": "tvla.ev11.w",
+      "out_scale_id": "tvla.ev11.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "12": {
+      "a_scale_id": "tvla.ev12.a",
+      "w_scale_id": "tvla.ev12.w",
+      "out_scale_id": "tvla.ev12.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "13": {
+      "a_scale_id": "tvla.ev13.a",
+      "w_scale_id": "tvla.ev13.w",
+      "out_scale_id": "tvla.ev13.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "14": {
+      "a_scale_id": "tvla.ev14.a",
+      "w_scale_id": "tvla.ev14.w",
+      "out_scale_id": "tvla.ev14.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "15": {
+      "a_scale_id": "tvla.ev15.a",
+      "w_scale_id": "tvla.ev15.w",
+      "out_scale_id": "tvla.ev15.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "16": {
+      "a_scale_id": "tvla.ev16.a",
+      "w_scale_id": "tvla.ev16.w",
+      "out_scale_id": "tvla.ev16.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "17": {
+      "a_scale_id": "tvla.ev17.a",
+      "w_scale_id": "tvla.ev17.w",
+      "out_scale_id": "tvla.ev17.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "18": {
+      "a_scale_id": "tvla.ev18.a",
+      "w_scale_id": "tvla.ev18.w",
+      "out_scale_id": "tvla.ev18.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "19": {
+      "a_scale_id": "tvla.ev19.a",
+      "w_scale_id": "tvla.ev19.w",
+      "out_scale_id": "tvla.ev19.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "20": {
+      "a_scale_id": "tvla.ev20.a",
+      "w_scale_id": "tvla.ev20.w",
+      "out_scale_id": "tvla.ev20.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "21": {
+      "a_scale_id": "tvla.ev21.a",
+      "w_scale_id": "tvla.ev21.w",
+      "out_scale_id": "tvla.ev21.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "22": {
+      "a_scale_id": "tvla.ev22.a",
+      "w_scale_id": "tvla.ev22.w",
+      "out_scale_id": "tvla.ev22.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "23": {
+      "a_scale_id": "tvla.ev23.a",
+      "w_scale_id": "tvla.ev23.w",
+      "out_scale_id": "tvla.ev23.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "24": {
+      "a_scale_id": "tvla.ev24.a",
+      "w_scale_id": "tvla.ev24.w",
+      "out_scale_id": "tvla.ev24.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "25": {
+      "a_scale_id": "tvla.ev25.a",
+      "w_scale_id": "tvla.ev25.w",
+      "out_scale_id": "tvla.ev25.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "26": {
+      "a_scale_id": "tvla.ev26.a",
+      "w_scale_id": "tvla.ev26.w",
+      "out_scale_id": "tvla.ev26.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "27": {
+      "a_scale_id": "tvla.ev27.a",
+      "w_scale_id": "tvla.ev27.w",
+      "out_scale_id": "tvla.ev27.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "28": {
+      "a_scale_id": "tvla.ev28.a",
+      "w_scale_id": "tvla.ev28.w",
+      "out_scale_id": "tvla.ev28.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "29": {
+      "a_scale_id": "tvla.ev29.a",
+      "w_scale_id": "tvla.ev29.w",
+      "out_scale_id": "tvla.ev29.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "30": {
+      "a_scale_id": "tvla.ev30.a",
+      "w_scale_id": "tvla.ev30.w",
+      "out_scale_id": "tvla.ev30.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "31": {
+      "a_scale_id": "tvla.ev31.a",
+      "w_scale_id": "tvla.ev31.w",
+      "out_scale_id": "tvla.ev31.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "32": {
+      "a_scale_id": "tvla.ev32.a",
+      "w_scale_id": "tvla.ev32.w",
+      "out_scale_id": "tvla.ev32.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "33": {
+      "a_scale_id": "tvla.ev33.a",
+      "w_scale_id": "tvla.ev33.w",
+      "out_scale_id": "tvla.ev33.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "34": {
+      "a_scale_id": "tvla.ev34.a",
+      "w_scale_id": "tvla.ev34.w",
+      "out_scale_id": "tvla.ev34.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "35": {
+      "a_scale_id": "tvla.ev35.a",
+      "w_scale_id": "tvla.ev35.w",
+      "out_scale_id": "tvla.ev35.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "36": {
+      "a_scale_id": "tvla.ev36.a",
+      "w_scale_id": "tvla.ev36.w",
+      "out_scale_id": "tvla.ev36.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "37": {
+      "a_scale_id": "tvla.ev37.a",
+      "w_scale_id": "tvla.ev37.w",
+      "out_scale_id": "tvla.ev37.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "38": {
+      "a_scale_id": "tvla.ev38.a",
+      "w_scale_id": "tvla.ev38.w",
+      "out_scale_id": "tvla.ev38.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "39": {
+      "a_scale_id": "tvla.ev39.a",
+      "w_scale_id": "tvla.ev39.w",
+      "out_scale_id": "tvla.ev39.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "40": {
+      "a_scale_id": "tvla.ev40.a",
+      "w_scale_id": "tvla.ev40.w",
+      "out_scale_id": "tvla.ev40.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "41": {
+      "a_scale_id": "tvla.ev41.a",
+      "w_scale_id": "tvla.ev41.w",
+      "out_scale_id": "tvla.ev41.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "42": {
+      "a_scale_id": "tvla.ev42.a",
+      "w_scale_id": "tvla.ev42.w",
+      "out_scale_id": "tvla.ev42.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "43": {
+      "a_scale_id": "tvla.ev43.a",
+      "w_scale_id": "tvla.ev43.w",
+      "out_scale_id": "tvla.ev43.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "44": {
+      "a_scale_id": "tvla.ev44.a",
+      "w_scale_id": "tvla.ev44.w",
+      "out_scale_id": "tvla.ev44.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "45": {
+      "a_scale_id": "tvla.ev45.a",
+      "w_scale_id": "tvla.ev45.w",
+      "out_scale_id": "tvla.ev45.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "46": {
+      "a_scale_id": "tvla.ev46.a",
+      "w_scale_id": "tvla.ev46.w",
+      "out_scale_id": "tvla.ev46.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "47": {
+      "a_scale_id": "tvla.ev47.a",
+      "w_scale_id": "tvla.ev47.w",
+      "out_scale_id": "tvla.ev47.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "48": {
+      "a_scale_id": "tvla.ev48.a",
+      "w_scale_id": "tvla.ev48.w",
+      "out_scale_id": "tvla.ev48.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "49": {
+      "a_scale_id": "tvla.ev49.a",
+      "w_scale_id": "tvla.ev49.w",
+      "out_scale_id": "tvla.ev49.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "50": {
+      "a_scale_id": "tvla.ev50.a",
+      "w_scale_id": "tvla.ev50.w",
+      "out_scale_id": "tvla.ev50.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "51": {
+      "a_scale_id": "tvla.ev51.a",
+      "w_scale_id": "tvla.ev51.w",
+      "out_scale_id": "tvla.ev51.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "52": {
+      "a_scale_id": "tvla.ev52.a",
+      "w_scale_id": "tvla.ev52.w",
+      "out_scale_id": "tvla.ev52.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "53": {
+      "a_scale_id": "tvla.ev53.a",
+      "w_scale_id": "tvla.ev53.w",
+      "out_scale_id": "tvla.ev53.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "54": {
+      "a_scale_id": "tvla.ev54.a",
+      "w_scale_id": "tvla.ev54.w",
+      "out_scale_id": "tvla.ev54.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "55": {
+      "a_scale_id": "tvla.ev55.a",
+      "w_scale_id": "tvla.ev55.w",
+      "out_scale_id": "tvla.ev55.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "56": {
+      "a_scale_id": "tvla.ev56.a",
+      "w_scale_id": "tvla.ev56.w",
+      "out_scale_id": "tvla.ev56.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "57": {
+      "a_scale_id": "tvla.ev57.a",
+      "w_scale_id": "tvla.ev57.w",
+      "out_scale_id": "tvla.ev57.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "58": {
+      "a_scale_id": "tvla.ev58.a",
+      "w_scale_id": "tvla.ev58.w",
+      "out_scale_id": "tvla.ev58.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "59": {
+      "a_scale_id": "tvla.ev59.a",
+      "w_scale_id": "tvla.ev59.w",
+      "out_scale_id": "tvla.ev59.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "60": {
+      "a_scale_id": "tvla.ev60.a",
+      "w_scale_id": "tvla.ev60.w",
+      "out_scale_id": "tvla.ev60.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "61": {
+      "a_scale_id": "tvla.ev61.a",
+      "w_scale_id": "tvla.ev61.w",
+      "out_scale_id": "tvla.ev61.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "62": {
+      "a_scale_id": "tvla.ev62.a",
+      "w_scale_id": "tvla.ev62.w",
+      "out_scale_id": "tvla.ev62.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "63": {
+      "a_scale_id": "tvla.ev63.a",
+      "w_scale_id": "tvla.ev63.w",
+      "out_scale_id": "tvla.ev63.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "64": {
+      "a_scale_id": "tvla.ev64.a",
+      "w_scale_id": "tvla.ev64.w",
+      "out_scale_id": "tvla.ev64.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "65": {
+      "a_scale_id": "tvla.ev65.a",
+      "w_scale_id": "tvla.ev65.w",
+      "out_scale_id": "tvla.ev65.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "66": {
+      "a_scale_id": "tvla.ev66.a",
+      "w_scale_id": "tvla.ev66.w",
+      "out_scale_id": "tvla.ev66.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "67": {
+      "a_scale_id": "tvla.ev67.a",
+      "w_scale_id": "tvla.ev67.w",
+      "out_scale_id": "tvla.ev67.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "68": {
+      "a_scale_id": "tvla.ev68.a",
+      "w_scale_id": "tvla.ev68.w",
+      "out_scale_id": "tvla.ev68.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "69": {
+      "a_scale_id": "tvla.ev69.a",
+      "w_scale_id": "tvla.ev69.w",
+      "out_scale_id": "tvla.ev69.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "70": {
+      "a_scale_id": "tvla.ev70.a",
+      "w_scale_id": "tvla.ev70.w",
+      "out_scale_id": "tvla.ev70.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "71": {
+      "a_scale_id": "tvla.ev71.a",
+      "w_scale_id": "tvla.ev71.w",
+      "out_scale_id": "tvla.ev71.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "72": {
+      "a_scale_id": "tvla.ev72.a",
+      "w_scale_id": "tvla.ev72.w",
+      "out_scale_id": "tvla.ev72.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "73": {
+      "a_scale_id": "tvla.ev73.a",
+      "w_scale_id": "tvla.ev73.w",
+      "out_scale_id": "tvla.ev73.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "74": {
+      "a_scale_id": "tvla.ev74.a",
+      "w_scale_id": "tvla.ev74.w",
+      "out_scale_id": "tvla.ev74.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "75": {
+      "a_scale_id": "tvla.ev75.a",
+      "w_scale_id": "tvla.ev75.w",
+      "out_scale_id": "tvla.ev75.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "76": {
+      "a_scale_id": "tvla.ev76.a",
+      "w_scale_id": "tvla.ev76.w",
+      "out_scale_id": "tvla.ev76.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "77": {
+      "a_scale_id": "tvla.ev77.a",
+      "w_scale_id": "tvla.ev77.w",
+      "out_scale_id": "tvla.ev77.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "78": {
+      "a_scale_id": "tvla.ev78.a",
+      "w_scale_id": "tvla.ev78.w",
+      "out_scale_id": "tvla.ev78.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "79": {
+      "a_scale_id": "tvla.ev79.a",
+      "w_scale_id": "tvla.ev79.w",
+      "out_scale_id": "tvla.ev79.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "80": {
+      "a_scale_id": "tvla.ev80.a",
+      "w_scale_id": "tvla.ev80.w",
+      "out_scale_id": "tvla.ev80.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "81": {
+      "a_scale_id": "tvla.ev81.a",
+      "w_scale_id": "tvla.ev81.w",
+      "out_scale_id": "tvla.ev81.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "82": {
+      "a_scale_id": "tvla.ev82.a",
+      "w_scale_id": "tvla.ev82.w",
+      "out_scale_id": "tvla.ev82.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "83": {
+      "a_scale_id": "tvla.ev83.a",
+      "w_scale_id": "tvla.ev83.w",
+      "out_scale_id": "tvla.ev83.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "84": {
+      "a_scale_id": "tvla.ev84.a",
+      "w_scale_id": "tvla.ev84.w",
+      "out_scale_id": "tvla.ev84.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "85": {
+      "a_scale_id": "tvla.ev85.a",
+      "w_scale_id": "tvla.ev85.w",
+      "out_scale_id": "tvla.ev85.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "86": {
+      "a_scale_id": "tvla.ev86.a",
+      "w_scale_id": "tvla.ev86.w",
+      "out_scale_id": "tvla.ev86.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "87": {
+      "a_scale_id": "tvla.ev87.a",
+      "w_scale_id": "tvla.ev87.w",
+      "out_scale_id": "tvla.ev87.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "88": {
+      "a_scale_id": "tvla.ev88.a",
+      "w_scale_id": "tvla.ev88.w",
+      "out_scale_id": "tvla.ev88.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "89": {
+      "a_scale_id": "tvla.ev89.a",
+      "w_scale_id": "tvla.ev89.w",
+      "out_scale_id": "tvla.ev89.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "90": {
+      "a_scale_id": "tvla.ev90.a",
+      "w_scale_id": "tvla.ev90.w",
+      "out_scale_id": "tvla.ev90.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "91": {
+      "a_scale_id": "tvla.ev91.a",
+      "w_scale_id": "tvla.ev91.w",
+      "out_scale_id": "tvla.ev91.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "92": {
+      "a_scale_id": "tvla.ev92.a",
+      "w_scale_id": "tvla.ev92.w",
+      "out_scale_id": "tvla.ev92.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "93": {
+      "a_scale_id": "tvla.ev93.a",
+      "w_scale_id": "tvla.ev93.w",
+      "out_scale_id": "tvla.ev93.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "94": {
+      "a_scale_id": "tvla.ev94.a",
+      "w_scale_id": "tvla.ev94.w",
+      "out_scale_id": "tvla.ev94.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "95": {
+      "a_scale_id": "tvla.ev95.a",
+      "w_scale_id": "tvla.ev95.w",
+      "out_scale_id": "tvla.ev95.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "96": {
+      "a_scale_id": "tvla.ev96.a",
+      "w_scale_id": "tvla.ev96.w",
+      "out_scale_id": "tvla.ev96.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "97": {
+      "a_scale_id": "tvla.ev97.a",
+      "w_scale_id": "tvla.ev97.w",
+      "out_scale_id": "tvla.ev97.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "98": {
+      "a_scale_id": "tvla.ev98.a",
+      "w_scale_id": "tvla.ev98.w",
+      "out_scale_id": "tvla.ev98.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "99": {
+      "a_scale_id": "tvla.ev99.a",
+      "w_scale_id": "tvla.ev99.w",
+      "out_scale_id": "tvla.ev99.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "100": {
+      "a_scale_id": "tvla.ev100.a",
+      "w_scale_id": "tvla.ev100.w",
+      "out_scale_id": "tvla.ev100.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "101": {
+      "a_scale_id": "tvla.ev101.a",
+      "w_scale_id": "tvla.ev101.w",
+      "out_scale_id": "tvla.ev101.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "102": {
+      "a_scale_id": "tvla.ev102.a",
+      "w_scale_id": "tvla.ev102.w",
+      "out_scale_id": "tvla.ev102.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "103": {
+      "a_scale_id": "tvla.ev103.a",
+      "w_scale_id": "tvla.ev103.w",
+      "out_scale_id": "tvla.ev103.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "104": {
+      "a_scale_id": "tvla.ev104.a",
+      "w_scale_id": "tvla.ev104.w",
+      "out_scale_id": "tvla.ev104.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "105": {
+      "a_scale_id": "tvla.ev105.a",
+      "w_scale_id": "tvla.ev105.w",
+      "out_scale_id": "tvla.ev105.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "106": {
+      "a_scale_id": "tvla.ev106.a",
+      "w_scale_id": "tvla.ev106.w",
+      "out_scale_id": "tvla.ev106.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "107": {
+      "a_scale_id": "tvla.ev107.a",
+      "w_scale_id": "tvla.ev107.w",
+      "out_scale_id": "tvla.ev107.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "108": {
+      "a_scale_id": "tvla.ev108.a",
+      "w_scale_id": "tvla.ev108.w",
+      "out_scale_id": "tvla.ev108.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "109": {
+      "a_scale_id": "tvla.ev109.a",
+      "w_scale_id": "tvla.ev109.w",
+      "out_scale_id": "tvla.ev109.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "110": {
+      "a_scale_id": "tvla.ev110.a",
+      "w_scale_id": "tvla.ev110.w",
+      "out_scale_id": "tvla.ev110.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "111": {
+      "a_scale_id": "tvla.ev111.a",
+      "w_scale_id": "tvla.ev111.w",
+      "out_scale_id": "tvla.ev111.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "112": {
+      "a_scale_id": "tvla.ev112.a",
+      "w_scale_id": "tvla.ev112.w",
+      "out_scale_id": "tvla.ev112.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "113": {
+      "a_scale_id": "tvla.ev113.a",
+      "w_scale_id": "tvla.ev113.w",
+      "out_scale_id": "tvla.ev113.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "114": {
+      "a_scale_id": "tvla.ev114.a",
+      "w_scale_id": "tvla.ev114.w",
+      "out_scale_id": "tvla.ev114.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "115": {
+      "a_scale_id": "tvla.ev115.a",
+      "w_scale_id": "tvla.ev115.w",
+      "out_scale_id": "tvla.ev115.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "116": {
+      "a_scale_id": "tvla.ev116.a",
+      "w_scale_id": "tvla.ev116.w",
+      "out_scale_id": "tvla.ev116.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "117": {
+      "a_scale_id": "tvla.ev117.a",
+      "w_scale_id": "tvla.ev117.w",
+      "out_scale_id": "tvla.ev117.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "118": {
+      "a_scale_id": "tvla.ev118.a",
+      "w_scale_id": "tvla.ev118.w",
+      "out_scale_id": "tvla.ev118.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "119": {
+      "a_scale_id": "tvla.ev119.a",
+      "w_scale_id": "tvla.ev119.w",
+      "out_scale_id": "tvla.ev119.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "120": {
+      "a_scale_id": "tvla.ev120.a",
+      "w_scale_id": "tvla.ev120.w",
+      "out_scale_id": "tvla.ev120.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "121": {
+      "a_scale_id": "tvla.ev121.a",
+      "w_scale_id": "tvla.ev121.w",
+      "out_scale_id": "tvla.ev121.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "122": {
+      "a_scale_id": "tvla.ev122.a",
+      "w_scale_id": "tvla.ev122.w",
+      "out_scale_id": "tvla.ev122.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "123": {
+      "a_scale_id": "tvla.ev123.a",
+      "w_scale_id": "tvla.ev123.w",
+      "out_scale_id": "tvla.ev123.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "124": {
+      "a_scale_id": "tvla.ev124.a",
+      "w_scale_id": "tvla.ev124.w",
+      "out_scale_id": "tvla.ev124.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "125": {
+      "a_scale_id": "tvla.ev125.a",
+      "w_scale_id": "tvla.ev125.w",
+      "out_scale_id": "tvla.ev125.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "126": {
+      "a_scale_id": "tvla.ev126.a",
+      "w_scale_id": "tvla.ev126.w",
+      "out_scale_id": "tvla.ev126.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "127": {
+      "a_scale_id": "tvla.ev127.a",
+      "w_scale_id": "tvla.ev127.w",
+      "out_scale_id": "tvla.ev127.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "128": {
+      "a_scale_id": "tvla.ev128.a",
+      "w_scale_id": "tvla.ev128.w",
+      "out_scale_id": "tvla.ev128.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "129": {
+      "a_scale_id": "tvla.ev129.a",
+      "w_scale_id": "tvla.ev129.w",
+      "out_scale_id": "tvla.ev129.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "130": {
+      "a_scale_id": "tvla.ev130.a",
+      "w_scale_id": "tvla.ev130.w",
+      "out_scale_id": "tvla.ev130.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "131": {
+      "a_scale_id": "tvla.ev131.a",
+      "w_scale_id": "tvla.ev131.w",
+      "out_scale_id": "tvla.ev131.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "132": {
+      "a_scale_id": "tvla.ev132.a",
+      "w_scale_id": "tvla.ev132.w",
+      "out_scale_id": "tvla.ev132.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "133": {
+      "a_scale_id": "tvla.ev133.a",
+      "w_scale_id": "tvla.ev133.w",
+      "out_scale_id": "tvla.ev133.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "134": {
+      "a_scale_id": "tvla.ev134.a",
+      "w_scale_id": "tvla.ev134.w",
+      "out_scale_id": "tvla.ev134.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "135": {
+      "a_scale_id": "tvla.ev135.a",
+      "w_scale_id": "tvla.ev135.w",
+      "out_scale_id": "tvla.ev135.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "136": {
+      "a_scale_id": "tvla.ev136.a",
+      "w_scale_id": "tvla.ev136.w",
+      "out_scale_id": "tvla.ev136.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "137": {
+      "a_scale_id": "tvla.ev137.a",
+      "w_scale_id": "tvla.ev137.w",
+      "out_scale_id": "tvla.ev137.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "138": {
+      "a_scale_id": "tvla.ev138.a",
+      "w_scale_id": "tvla.ev138.w",
+      "out_scale_id": "tvla.ev138.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "139": {
+      "a_scale_id": "tvla.ev139.a",
+      "w_scale_id": "tvla.ev139.w",
+      "out_scale_id": "tvla.ev139.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "140": {
+      "a_scale_id": "tvla.ev140.a",
+      "w_scale_id": "tvla.ev140.w",
+      "out_scale_id": "tvla.ev140.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "141": {
+      "a_scale_id": "tvla.ev141.a",
+      "w_scale_id": "tvla.ev141.w",
+      "out_scale_id": "tvla.ev141.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "142": {
+      "a_scale_id": "tvla.ev142.a",
+      "w_scale_id": "tvla.ev142.w",
+      "out_scale_id": "tvla.ev142.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "143": {
+      "a_scale_id": "tvla.ev143.a",
+      "w_scale_id": "tvla.ev143.w",
+      "out_scale_id": "tvla.ev143.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "144": {
+      "a_scale_id": "tvla.ev144.a",
+      "w_scale_id": "tvla.ev144.w",
+      "out_scale_id": "tvla.ev144.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "145": {
+      "a_scale_id": "tvla.ev145.a",
+      "w_scale_id": "tvla.ev145.w",
+      "out_scale_id": "tvla.ev145.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "146": {
+      "a_scale_id": "tvla.ev146.a",
+      "w_scale_id": "tvla.ev146.w",
+      "out_scale_id": "tvla.ev146.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "147": {
+      "a_scale_id": "tvla.ev147.a",
+      "w_scale_id": "tvla.ev147.w",
+      "out_scale_id": "tvla.ev147.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "148": {
+      "a_scale_id": "tvla.ev148.a",
+      "w_scale_id": "tvla.ev148.w",
+      "out_scale_id": "tvla.ev148.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "149": {
+      "a_scale_id": "tvla.ev149.a",
+      "w_scale_id": "tvla.ev149.w",
+      "out_scale_id": "tvla.ev149.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "150": {
+      "a_scale_id": "tvla.ev150.a",
+      "w_scale_id": "tvla.ev150.w",
+      "out_scale_id": "tvla.ev150.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "151": {
+      "a_scale_id": "tvla.ev151.a",
+      "w_scale_id": "tvla.ev151.w",
+      "out_scale_id": "tvla.ev151.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "152": {
+      "a_scale_id": "tvla.ev152.a",
+      "w_scale_id": "tvla.ev152.w",
+      "out_scale_id": "tvla.ev152.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "153": {
+      "a_scale_id": "tvla.ev153.a",
+      "w_scale_id": "tvla.ev153.w",
+      "out_scale_id": "tvla.ev153.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "154": {
+      "a_scale_id": "tvla.ev154.a",
+      "w_scale_id": "tvla.ev154.w",
+      "out_scale_id": "tvla.ev154.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "155": {
+      "a_scale_id": "tvla.ev155.a",
+      "w_scale_id": "tvla.ev155.w",
+      "out_scale_id": "tvla.ev155.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "156": {
+      "a_scale_id": "tvla.ev156.a",
+      "w_scale_id": "tvla.ev156.w",
+      "out_scale_id": "tvla.ev156.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "157": {
+      "a_scale_id": "tvla.ev157.a",
+      "w_scale_id": "tvla.ev157.w",
+      "out_scale_id": "tvla.ev157.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "158": {
+      "a_scale_id": "tvla.ev158.a",
+      "w_scale_id": "tvla.ev158.w",
+      "out_scale_id": "tvla.ev158.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "159": {
+      "a_scale_id": "tvla.ev159.a",
+      "w_scale_id": "tvla.ev159.w",
+      "out_scale_id": "tvla.ev159.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "160": {
+      "a_scale_id": "tvla.ev160.a",
+      "w_scale_id": "tvla.ev160.w",
+      "out_scale_id": "tvla.ev160.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "161": {
+      "a_scale_id": "tvla.ev161.a",
+      "w_scale_id": "tvla.ev161.w",
+      "out_scale_id": "tvla.ev161.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "162": {
+      "a_scale_id": "tvla.ev162.a",
+      "w_scale_id": "tvla.ev162.w",
+      "out_scale_id": "tvla.ev162.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "163": {
+      "a_scale_id": "tvla.ev163.a",
+      "w_scale_id": "tvla.ev163.w",
+      "out_scale_id": "tvla.ev163.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "164": {
+      "a_scale_id": "tvla.ev164.a",
+      "w_scale_id": "tvla.ev164.w",
+      "out_scale_id": "tvla.ev164.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "165": {
+      "a_scale_id": "tvla.ev165.a",
+      "w_scale_id": "tvla.ev165.w",
+      "out_scale_id": "tvla.ev165.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "166": {
+      "a_scale_id": "tvla.ev166.a",
+      "w_scale_id": "tvla.ev166.w",
+      "out_scale_id": "tvla.ev166.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "167": {
+      "a_scale_id": "tvla.ev167.a",
+      "w_scale_id": "tvla.ev167.w",
+      "out_scale_id": "tvla.ev167.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "168": {
+      "a_scale_id": "tvla.ev168.a",
+      "w_scale_id": "tvla.ev168.w",
+      "out_scale_id": "tvla.ev168.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "169": {
+      "a_scale_id": "tvla.ev169.a",
+      "w_scale_id": "tvla.ev169.w",
+      "out_scale_id": "tvla.ev169.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "170": {
+      "a_scale_id": "tvla.ev170.a",
+      "w_scale_id": "tvla.ev170.w",
+      "out_scale_id": "tvla.ev170.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "171": {
+      "a_scale_id": "tvla.ev171.a",
+      "w_scale_id": "tvla.ev171.w",
+      "out_scale_id": "tvla.ev171.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "172": {
+      "a_scale_id": "tvla.ev172.a",
+      "w_scale_id": "tvla.ev172.w",
+      "out_scale_id": "tvla.ev172.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "173": {
+      "a_scale_id": "tvla.ev173.a",
+      "w_scale_id": "tvla.ev173.w",
+      "out_scale_id": "tvla.ev173.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "174": {
+      "a_scale_id": "tvla.ev174.a",
+      "w_scale_id": "tvla.ev174.w",
+      "out_scale_id": "tvla.ev174.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "175": {
+      "a_scale_id": "tvla.ev175.a",
+      "w_scale_id": "tvla.ev175.w",
+      "out_scale_id": "tvla.ev175.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "176": {
+      "a_scale_id": "tvla.ev176.a",
+      "w_scale_id": "tvla.ev176.w",
+      "out_scale_id": "tvla.ev176.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "177": {
+      "a_scale_id": "tvla.ev177.a",
+      "w_scale_id": "tvla.ev177.w",
+      "out_scale_id": "tvla.ev177.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "178": {
+      "a_scale_id": "tvla.ev178.a",
+      "w_scale_id": "tvla.ev178.w",
+      "out_scale_id": "tvla.ev178.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "179": {
+      "a_scale_id": "tvla.ev179.a",
+      "w_scale_id": "tvla.ev179.w",
+      "out_scale_id": "tvla.ev179.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "180": {
+      "a_scale_id": "tvla.ev180.a",
+      "w_scale_id": "tvla.ev180.w",
+      "out_scale_id": "tvla.ev180.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "181": {
+      "a_scale_id": "tvla.ev181.a",
+      "w_scale_id": "tvla.ev181.w",
+      "out_scale_id": "tvla.ev181.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "182": {
+      "a_scale_id": "tvla.ev182.a",
+      "w_scale_id": "tvla.ev182.w",
+      "out_scale_id": "tvla.ev182.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "183": {
+      "a_scale_id": "tvla.ev183.a",
+      "w_scale_id": "tvla.ev183.w",
+      "out_scale_id": "tvla.ev183.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "184": {
+      "a_scale_id": "tvla.ev184.a",
+      "w_scale_id": "tvla.ev184.w",
+      "out_scale_id": "tvla.ev184.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "185": {
+      "a_scale_id": "tvla.ev185.a",
+      "w_scale_id": "tvla.ev185.w",
+      "out_scale_id": "tvla.ev185.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "186": {
+      "a_scale_id": "tvla.ev186.a",
+      "w_scale_id": "tvla.ev186.w",
+      "out_scale_id": "tvla.ev186.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "187": {
+      "a_scale_id": "tvla.ev187.a",
+      "w_scale_id": "tvla.ev187.w",
+      "out_scale_id": "tvla.ev187.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "188": {
+      "a_scale_id": "tvla.ev188.a",
+      "w_scale_id": "tvla.ev188.w",
+      "out_scale_id": "tvla.ev188.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "189": {
+      "a_scale_id": "tvla.ev189.a",
+      "w_scale_id": "tvla.ev189.w",
+      "out_scale_id": "tvla.ev189.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "190": {
+      "a_scale_id": "tvla.ev190.a",
+      "w_scale_id": "tvla.ev190.w",
+      "out_scale_id": "tvla.ev190.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "191": {
+      "a_scale_id": "tvla.ev191.a",
+      "w_scale_id": "tvla.ev191.w",
+      "out_scale_id": "tvla.ev191.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "192": {
+      "a_scale_id": "tvla.ev192.a",
+      "w_scale_id": "tvla.ev192.w",
+      "out_scale_id": "tvla.ev192.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "193": {
+      "a_scale_id": "tvla.ev193.a",
+      "w_scale_id": "tvla.ev193.w",
+      "out_scale_id": "tvla.ev193.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "194": {
+      "a_scale_id": "tvla.ev194.a",
+      "w_scale_id": "tvla.ev194.w",
+      "out_scale_id": "tvla.ev194.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "195": {
+      "a_scale_id": "tvla.ev195.a",
+      "w_scale_id": "tvla.ev195.w",
+      "out_scale_id": "tvla.ev195.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "196": {
+      "a_scale_id": "tvla.ev196.a",
+      "w_scale_id": "tvla.ev196.w",
+      "out_scale_id": "tvla.ev196.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "197": {
+      "a_scale_id": "tvla.ev197.a",
+      "w_scale_id": "tvla.ev197.w",
+      "out_scale_id": "tvla.ev197.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "198": {
+      "a_scale_id": "tvla.ev198.a",
+      "w_scale_id": "tvla.ev198.w",
+      "out_scale_id": "tvla.ev198.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "199": {
+      "a_scale_id": "tvla.ev199.a",
+      "w_scale_id": "tvla.ev199.w",
+      "out_scale_id": "tvla.ev199.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "200": {
+      "a_scale_id": "tvla.ev200.a",
+      "w_scale_id": "tvla.ev200.w",
+      "out_scale_id": "tvla.ev200.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "201": {
+      "a_scale_id": "tvla.ev201.a",
+      "w_scale_id": "tvla.ev201.w",
+      "out_scale_id": "tvla.ev201.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "202": {
+      "a_scale_id": "tvla.ev202.a",
+      "w_scale_id": "tvla.ev202.w",
+      "out_scale_id": "tvla.ev202.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "203": {
+      "a_scale_id": "tvla.ev203.a",
+      "w_scale_id": "tvla.ev203.w",
+      "out_scale_id": "tvla.ev203.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "204": {
+      "a_scale_id": "tvla.ev204.a",
+      "w_scale_id": "tvla.ev204.w",
+      "out_scale_id": "tvla.ev204.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "205": {
+      "a_scale_id": "tvla.ev205.a",
+      "w_scale_id": "tvla.ev205.w",
+      "out_scale_id": "tvla.ev205.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "206": {
+      "a_scale_id": "tvla.ev206.a",
+      "w_scale_id": "tvla.ev206.w",
+      "out_scale_id": "tvla.ev206.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "207": {
+      "a_scale_id": "tvla.ev207.a",
+      "w_scale_id": "tvla.ev207.w",
+      "out_scale_id": "tvla.ev207.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "208": {
+      "a_scale_id": "tvla.ev208.a",
+      "w_scale_id": "tvla.ev208.w",
+      "out_scale_id": "tvla.ev208.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "209": {
+      "a_scale_id": "tvla.ev209.a",
+      "w_scale_id": "tvla.ev209.w",
+      "out_scale_id": "tvla.ev209.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "210": {
+      "a_scale_id": "tvla.ev210.a",
+      "w_scale_id": "tvla.ev210.w",
+      "out_scale_id": "tvla.ev210.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "211": {
+      "a_scale_id": "tvla.ev211.a",
+      "w_scale_id": "tvla.ev211.w",
+      "out_scale_id": "tvla.ev211.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "212": {
+      "a_scale_id": "tvla.ev212.a",
+      "w_scale_id": "tvla.ev212.w",
+      "out_scale_id": "tvla.ev212.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "213": {
+      "a_scale_id": "tvla.ev213.a",
+      "w_scale_id": "tvla.ev213.w",
+      "out_scale_id": "tvla.ev213.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "214": {
+      "a_scale_id": "tvla.ev214.a",
+      "w_scale_id": "tvla.ev214.w",
+      "out_scale_id": "tvla.ev214.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "215": {
+      "a_scale_id": "tvla.ev215.a",
+      "w_scale_id": "tvla.ev215.w",
+      "out_scale_id": "tvla.ev215.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "216": {
+      "a_scale_id": "tvla.ev216.a",
+      "w_scale_id": "tvla.ev216.w",
+      "out_scale_id": "tvla.ev216.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "217": {
+      "a_scale_id": "tvla.ev217.a",
+      "w_scale_id": "tvla.ev217.w",
+      "out_scale_id": "tvla.ev217.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "218": {
+      "a_scale_id": "tvla.ev218.a",
+      "w_scale_id": "tvla.ev218.w",
+      "out_scale_id": "tvla.ev218.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "219": {
+      "a_scale_id": "tvla.ev219.a",
+      "w_scale_id": "tvla.ev219.w",
+      "out_scale_id": "tvla.ev219.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "220": {
+      "a_scale_id": "tvla.ev220.a",
+      "w_scale_id": "tvla.ev220.w",
+      "out_scale_id": "tvla.ev220.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "221": {
+      "a_scale_id": "tvla.ev221.a",
+      "w_scale_id": "tvla.ev221.w",
+      "out_scale_id": "tvla.ev221.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "222": {
+      "a_scale_id": "tvla.ev222.a",
+      "w_scale_id": "tvla.ev222.w",
+      "out_scale_id": "tvla.ev222.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "223": {
+      "a_scale_id": "tvla.ev223.a",
+      "w_scale_id": "tvla.ev223.w",
+      "out_scale_id": "tvla.ev223.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "224": {
+      "a_scale_id": "tvla.ev224.a",
+      "w_scale_id": "tvla.ev224.w",
+      "out_scale_id": "tvla.ev224.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "225": {
+      "a_scale_id": "tvla.ev225.a",
+      "w_scale_id": "tvla.ev225.w",
+      "out_scale_id": "tvla.ev225.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "226": {
+      "a_scale_id": "tvla.ev226.a",
+      "w_scale_id": "tvla.ev226.w",
+      "out_scale_id": "tvla.ev226.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "227": {
+      "a_scale_id": "tvla.ev227.a",
+      "w_scale_id": "tvla.ev227.w",
+      "out_scale_id": "tvla.ev227.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "228": {
+      "a_scale_id": "tvla.ev228.a",
+      "w_scale_id": "tvla.ev228.w",
+      "out_scale_id": "tvla.ev228.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "229": {
+      "a_scale_id": "tvla.ev229.a",
+      "w_scale_id": "tvla.ev229.w",
+      "out_scale_id": "tvla.ev229.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "230": {
+      "a_scale_id": "tvla.ev230.a",
+      "w_scale_id": "tvla.ev230.w",
+      "out_scale_id": "tvla.ev230.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "231": {
+      "a_scale_id": "tvla.ev231.a",
+      "w_scale_id": "tvla.ev231.w",
+      "out_scale_id": "tvla.ev231.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "232": {
+      "a_scale_id": "tvla.ev232.a",
+      "w_scale_id": "tvla.ev232.w",
+      "out_scale_id": "tvla.ev232.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "233": {
+      "a_scale_id": "tvla.ev233.a",
+      "w_scale_id": "tvla.ev233.w",
+      "out_scale_id": "tvla.ev233.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "234": {
+      "a_scale_id": "tvla.ev234.a",
+      "w_scale_id": "tvla.ev234.w",
+      "out_scale_id": "tvla.ev234.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "235": {
+      "a_scale_id": "tvla.ev235.a",
+      "w_scale_id": "tvla.ev235.w",
+      "out_scale_id": "tvla.ev235.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "236": {
+      "a_scale_id": "tvla.ev236.a",
+      "w_scale_id": "tvla.ev236.w",
+      "out_scale_id": "tvla.ev236.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "237": {
+      "a_scale_id": "tvla.ev237.a",
+      "w_scale_id": "tvla.ev237.w",
+      "out_scale_id": "tvla.ev237.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "238": {
+      "a_scale_id": "tvla.ev238.a",
+      "w_scale_id": "tvla.ev238.w",
+      "out_scale_id": "tvla.ev238.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "239": {
+      "a_scale_id": "tvla.ev239.a",
+      "w_scale_id": "tvla.ev239.w",
+      "out_scale_id": "tvla.ev239.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "240": {
+      "a_scale_id": "tvla.ev240.a",
+      "w_scale_id": "tvla.ev240.w",
+      "out_scale_id": "tvla.ev240.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "241": {
+      "a_scale_id": "tvla.ev241.a",
+      "w_scale_id": "tvla.ev241.w",
+      "out_scale_id": "tvla.ev241.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "242": {
+      "a_scale_id": "tvla.ev242.a",
+      "w_scale_id": "tvla.ev242.w",
+      "out_scale_id": "tvla.ev242.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "243": {
+      "a_scale_id": "tvla.ev243.a",
+      "w_scale_id": "tvla.ev243.w",
+      "out_scale_id": "tvla.ev243.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "244": {
+      "a_scale_id": "tvla.ev244.a",
+      "w_scale_id": "tvla.ev244.w",
+      "out_scale_id": "tvla.ev244.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "245": {
+      "a_scale_id": "tvla.ev245.a",
+      "w_scale_id": "tvla.ev245.w",
+      "out_scale_id": "tvla.ev245.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "246": {
+      "a_scale_id": "tvla.ev246.a",
+      "w_scale_id": "tvla.ev246.w",
+      "out_scale_id": "tvla.ev246.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "247": {
+      "a_scale_id": "tvla.ev247.a",
+      "w_scale_id": "tvla.ev247.w",
+      "out_scale_id": "tvla.ev247.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "248": {
+      "a_scale_id": "tvla.ev248.a",
+      "w_scale_id": "tvla.ev248.w",
+      "out_scale_id": "tvla.ev248.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "249": {
+      "a_scale_id": "tvla.ev249.a",
+      "w_scale_id": "tvla.ev249.w",
+      "out_scale_id": "tvla.ev249.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "250": {
+      "a_scale_id": "tvla.ev250.a",
+      "w_scale_id": "tvla.ev250.w",
+      "out_scale_id": "tvla.ev250.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "251": {
+      "a_scale_id": "tvla.ev251.a",
+      "w_scale_id": "tvla.ev251.w",
+      "out_scale_id": "tvla.ev251.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "252": {
+      "a_scale_id": "tvla.ev252.a",
+      "w_scale_id": "tvla.ev252.w",
+      "out_scale_id": "tvla.ev252.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "253": {
+      "a_scale_id": "tvla.ev253.a",
+      "w_scale_id": "tvla.ev253.w",
+      "out_scale_id": "tvla.ev253.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "254": {
+      "a_scale_id": "tvla.ev254.a",
+      "w_scale_id": "tvla.ev254.w",
+      "out_scale_id": "tvla.ev254.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "255": {
+      "a_scale_id": "tvla.ev255.a",
+      "w_scale_id": "tvla.ev255.w",
+      "out_scale_id": "tvla.ev255.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "256": {
+      "a_scale_id": "tvla.ev256.a",
+      "w_scale_id": "tvla.ev256.w",
+      "out_scale_id": "tvla.ev256.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "257": {
+      "a_scale_id": "tvla.ev257.a",
+      "w_scale_id": "tvla.ev257.w",
+      "out_scale_id": "tvla.ev257.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "258": {
+      "a_scale_id": "tvla.ev258.a",
+      "w_scale_id": "tvla.ev258.w",
+      "out_scale_id": "tvla.ev258.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "259": {
+      "a_scale_id": "tvla.ev259.a",
+      "w_scale_id": "tvla.ev259.w",
+      "out_scale_id": "tvla.ev259.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "260": {
+      "a_scale_id": "tvla.ev260.a",
+      "w_scale_id": "tvla.ev260.w",
+      "out_scale_id": "tvla.ev260.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "261": {
+      "a_scale_id": "tvla.ev261.a",
+      "w_scale_id": "tvla.ev261.w",
+      "out_scale_id": "tvla.ev261.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "262": {
+      "a_scale_id": "tvla.ev262.a",
+      "w_scale_id": "tvla.ev262.w",
+      "out_scale_id": "tvla.ev262.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "263": {
+      "a_scale_id": "tvla.ev263.a",
+      "w_scale_id": "tvla.ev263.w",
+      "out_scale_id": "tvla.ev263.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "264": {
+      "a_scale_id": "tvla.ev264.a",
+      "w_scale_id": "tvla.ev264.w",
+      "out_scale_id": "tvla.ev264.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "265": {
+      "a_scale_id": "tvla.ev265.a",
+      "w_scale_id": "tvla.ev265.w",
+      "out_scale_id": "tvla.ev265.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "266": {
+      "a_scale_id": "tvla.ev266.a",
+      "w_scale_id": "tvla.ev266.w",
+      "out_scale_id": "tvla.ev266.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "267": {
+      "a_scale_id": "tvla.ev267.a",
+      "w_scale_id": "tvla.ev267.w",
+      "out_scale_id": "tvla.ev267.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "268": {
+      "a_scale_id": "tvla.ev268.a",
+      "w_scale_id": "tvla.ev268.w",
+      "out_scale_id": "tvla.ev268.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "269": {
+      "a_scale_id": "tvla.ev269.a",
+      "w_scale_id": "tvla.ev269.w",
+      "out_scale_id": "tvla.ev269.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "270": {
+      "a_scale_id": "tvla.ev270.a",
+      "w_scale_id": "tvla.ev270.w",
+      "out_scale_id": "tvla.ev270.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "271": {
+      "a_scale_id": "tvla.ev271.a",
+      "w_scale_id": "tvla.ev271.w",
+      "out_scale_id": "tvla.ev271.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "272": {
+      "a_scale_id": "tvla.ev272.a",
+      "w_scale_id": "tvla.ev272.w",
+      "out_scale_id": "tvla.ev272.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "273": {
+      "a_scale_id": "tvla.ev273.a",
+      "w_scale_id": "tvla.ev273.w",
+      "out_scale_id": "tvla.ev273.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "274": {
+      "a_scale_id": "tvla.ev274.a",
+      "w_scale_id": "tvla.ev274.w",
+      "out_scale_id": "tvla.ev274.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "275": {
+      "a_scale_id": "tvla.ev275.a",
+      "w_scale_id": "tvla.ev275.w",
+      "out_scale_id": "tvla.ev275.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "276": {
+      "a_scale_id": "tvla.ev276.a",
+      "w_scale_id": "tvla.ev276.w",
+      "out_scale_id": "tvla.ev276.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "277": {
+      "a_scale_id": "tvla.ev277.a",
+      "w_scale_id": "tvla.ev277.w",
+      "out_scale_id": "tvla.ev277.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "278": {
+      "a_scale_id": "tvla.ev278.a",
+      "w_scale_id": "tvla.ev278.w",
+      "out_scale_id": "tvla.ev278.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "279": {
+      "a_scale_id": "tvla.ev279.a",
+      "w_scale_id": "tvla.ev279.w",
+      "out_scale_id": "tvla.ev279.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "280": {
+      "a_scale_id": "tvla.ev280.a",
+      "w_scale_id": "tvla.ev280.w",
+      "out_scale_id": "tvla.ev280.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "281": {
+      "a_scale_id": "tvla.ev281.a",
+      "w_scale_id": "tvla.ev281.w",
+      "out_scale_id": "tvla.ev281.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "282": {
+      "a_scale_id": "tvla.ev282.a",
+      "w_scale_id": "tvla.ev282.w",
+      "out_scale_id": "tvla.ev282.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "283": {
+      "a_scale_id": "tvla.ev283.a",
+      "w_scale_id": "tvla.ev283.w",
+      "out_scale_id": "tvla.ev283.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "284": {
+      "a_scale_id": "tvla.ev284.a",
+      "w_scale_id": "tvla.ev284.w",
+      "out_scale_id": "tvla.ev284.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "285": {
+      "a_scale_id": "tvla.ev285.a",
+      "w_scale_id": "tvla.ev285.w",
+      "out_scale_id": "tvla.ev285.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "286": {
+      "a_scale_id": "tvla.ev286.a",
+      "w_scale_id": "tvla.ev286.w",
+      "out_scale_id": "tvla.ev286.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "287": {
+      "a_scale_id": "tvla.ev287.a",
+      "w_scale_id": "tvla.ev287.w",
+      "out_scale_id": "tvla.ev287.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "288": {
+      "a_scale_id": "tvla.ev288.a",
+      "w_scale_id": "tvla.ev288.w",
+      "out_scale_id": "tvla.ev288.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "289": {
+      "a_scale_id": "tvla.ev289.a",
+      "w_scale_id": "tvla.ev289.w",
+      "out_scale_id": "tvla.ev289.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "290": {
+      "a_scale_id": "tvla.ev290.a",
+      "w_scale_id": "tvla.ev290.w",
+      "out_scale_id": "tvla.ev290.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "291": {
+      "a_scale_id": "tvla.ev291.a",
+      "w_scale_id": "tvla.ev291.w",
+      "out_scale_id": "tvla.ev291.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "292": {
+      "a_scale_id": "tvla.ev292.a",
+      "w_scale_id": "tvla.ev292.w",
+      "out_scale_id": "tvla.ev292.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "293": {
+      "a_scale_id": "tvla.ev293.a",
+      "w_scale_id": "tvla.ev293.w",
+      "out_scale_id": "tvla.ev293.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "294": {
+      "a_scale_id": "tvla.ev294.a",
+      "w_scale_id": "tvla.ev294.w",
+      "out_scale_id": "tvla.ev294.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "295": {
+      "a_scale_id": "tvla.ev295.a",
+      "w_scale_id": "tvla.ev295.w",
+      "out_scale_id": "tvla.ev295.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "296": {
+      "a_scale_id": "tvla.ev296.a",
+      "w_scale_id": "tvla.ev296.w",
+      "out_scale_id": "tvla.ev296.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "297": {
+      "a_scale_id": "tvla.ev297.a",
+      "w_scale_id": "tvla.ev297.w",
+      "out_scale_id": "tvla.ev297.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "298": {
+      "a_scale_id": "tvla.ev298.a",
+      "w_scale_id": "tvla.ev298.w",
+      "out_scale_id": "tvla.ev298.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "299": {
+      "a_scale_id": "tvla.ev299.a",
+      "w_scale_id": "tvla.ev299.w",
+      "out_scale_id": "tvla.ev299.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "300": {
+      "a_scale_id": "tvla.ev300.a",
+      "w_scale_id": "tvla.ev300.w",
+      "out_scale_id": "tvla.ev300.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "301": {
+      "a_scale_id": "tvla.ev301.a",
+      "w_scale_id": "tvla.ev301.w",
+      "out_scale_id": "tvla.ev301.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "302": {
+      "a_scale_id": "tvla.ev302.a",
+      "w_scale_id": "tvla.ev302.w",
+      "out_scale_id": "tvla.ev302.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "303": {
+      "a_scale_id": "tvla.ev303.a",
+      "w_scale_id": "tvla.ev303.w",
+      "out_scale_id": "tvla.ev303.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "304": {
+      "a_scale_id": "tvla.ev304.a",
+      "w_scale_id": "tvla.ev304.w",
+      "out_scale_id": "tvla.ev304.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "305": {
+      "a_scale_id": "tvla.ev305.a",
+      "w_scale_id": "tvla.ev305.w",
+      "out_scale_id": "tvla.ev305.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "306": {
+      "a_scale_id": "tvla.ev306.a",
+      "w_scale_id": "tvla.ev306.w",
+      "out_scale_id": "tvla.ev306.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "307": {
+      "a_scale_id": "tvla.bmm5268.a",
+      "w_scale_id": "tvla.bmm5268.w",
+      "out_scale_id": "tvla.bmm5268.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "308": {
+      "a_scale_id": "tvla.bmm5289.a",
+      "w_scale_id": "tvla.bmm5289.w",
+      "out_scale_id": "tvla.bmm5289.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "309": {
+      "a_scale_id": "tvla.bmm5290.a",
+      "w_scale_id": "tvla.bmm5290.w",
+      "out_scale_id": "tvla.bmm5290.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "310": {
+      "a_scale_id": "tvla.ev307.a",
+      "w_scale_id": "tvla.ev307.w",
+      "out_scale_id": "tvla.ev307.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "311": {
+      "a_scale_id": "tvla.ev308.a",
+      "w_scale_id": "tvla.ev308.w",
+      "out_scale_id": "tvla.ev308.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "312": {
+      "a_scale_id": "tvla.bmm5357.a",
+      "w_scale_id": "tvla.bmm5357.w",
+      "out_scale_id": "tvla.bmm5357.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "313": {
+      "a_scale_id": "tvla.ev309.a",
+      "w_scale_id": "tvla.ev309.w",
+      "out_scale_id": "tvla.ev309.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "314": {
+      "a_scale_id": "tvla.ev310.a",
+      "w_scale_id": "tvla.ev310.w",
+      "out_scale_id": "tvla.ev310.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "315": {
+      "a_scale_id": "tvla.ev311.a",
+      "w_scale_id": "tvla.ev311.w",
+      "out_scale_id": "tvla.ev311.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "316": {
+      "a_scale_id": "tvla.ev312.a",
+      "w_scale_id": "tvla.ev312.w",
+      "out_scale_id": "tvla.ev312.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "317": {
+      "a_scale_id": "tvla.ev313.a",
+      "w_scale_id": "tvla.ev313.w",
+      "out_scale_id": "tvla.ev313.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "318": {
+      "a_scale_id": "tvla.ev314.a",
+      "w_scale_id": "tvla.ev314.w",
+      "out_scale_id": "tvla.ev314.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "319": {
+      "a_scale_id": "tvla.ev315.a",
+      "w_scale_id": "tvla.ev315.w",
+      "out_scale_id": "tvla.ev315.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "320": {
+      "a_scale_id": "tvla.ev316.a",
+      "w_scale_id": "tvla.ev316.w",
+      "out_scale_id": "tvla.ev316.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "321": {
+      "a_scale_id": "tvla.ev317.a",
+      "w_scale_id": "tvla.ev317.w",
+      "out_scale_id": "tvla.ev317.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "322": {
+      "a_scale_id": "tvla.ev318.a",
+      "w_scale_id": "tvla.ev318.w",
+      "out_scale_id": "tvla.ev318.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "323": {
+      "a_scale_id": "tvla.ev319.a",
+      "w_scale_id": "tvla.ev319.w",
+      "out_scale_id": "tvla.ev319.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "324": {
+      "a_scale_id": "tvla.bmm5490.a",
+      "w_scale_id": "tvla.bmm5490.w",
+      "out_scale_id": "tvla.bmm5490.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "325": {
+      "a_scale_id": "tvla.bmm5511.a",
+      "w_scale_id": "tvla.bmm5511.w",
+      "out_scale_id": "tvla.bmm5511.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "326": {
+      "a_scale_id": "tvla.bmm5512.a",
+      "w_scale_id": "tvla.bmm5512.w",
+      "out_scale_id": "tvla.bmm5512.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "327": {
+      "a_scale_id": "tvla.ev320.a",
+      "w_scale_id": "tvla.ev320.w",
+      "out_scale_id": "tvla.ev320.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "328": {
+      "a_scale_id": "tvla.ev321.a",
+      "w_scale_id": "tvla.ev321.w",
+      "out_scale_id": "tvla.ev321.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "329": {
+      "a_scale_id": "tvla.bmm5579.a",
+      "w_scale_id": "tvla.bmm5579.w",
+      "out_scale_id": "tvla.bmm5579.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "330": {
+      "a_scale_id": "tvla.ev322.a",
+      "w_scale_id": "tvla.ev322.w",
+      "out_scale_id": "tvla.ev322.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "331": {
+      "a_scale_id": "tvla.ev323.a",
+      "w_scale_id": "tvla.ev323.w",
+      "out_scale_id": "tvla.ev323.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "332": {
+      "a_scale_id": "tvla.ev324.a",
+      "w_scale_id": "tvla.ev324.w",
+      "out_scale_id": "tvla.ev324.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "333": {
+      "a_scale_id": "tvla.ev325.a",
+      "w_scale_id": "tvla.ev325.w",
+      "out_scale_id": "tvla.ev325.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "334": {
+      "a_scale_id": "tvla.ev326.a",
+      "w_scale_id": "tvla.ev326.w",
+      "out_scale_id": "tvla.ev326.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "335": {
+      "a_scale_id": "tvla.ev327.a",
+      "w_scale_id": "tvla.ev327.w",
+      "out_scale_id": "tvla.ev327.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "336": {
+      "a_scale_id": "tvla.ev328.a",
+      "w_scale_id": "tvla.ev328.w",
+      "out_scale_id": "tvla.ev328.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "337": {
+      "a_scale_id": "tvla.ev329.a",
+      "w_scale_id": "tvla.ev329.w",
+      "out_scale_id": "tvla.ev329.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "338": {
+      "a_scale_id": "tvla.ev330.a",
+      "w_scale_id": "tvla.ev330.w",
+      "out_scale_id": "tvla.ev330.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "339": {
+      "a_scale_id": "tvla.ev331.a",
+      "w_scale_id": "tvla.ev331.w",
+      "out_scale_id": "tvla.ev331.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "340": {
+      "a_scale_id": "tvla.ev332.a",
+      "w_scale_id": "tvla.ev332.w",
+      "out_scale_id": "tvla.ev332.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "341": {
+      "a_scale_id": "tvla.bmm5712.a",
+      "w_scale_id": "tvla.bmm5712.w",
+      "out_scale_id": "tvla.bmm5712.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "342": {
+      "a_scale_id": "tvla.bmm5733.a",
+      "w_scale_id": "tvla.bmm5733.w",
+      "out_scale_id": "tvla.bmm5733.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "343": {
+      "a_scale_id": "tvla.bmm5734.a",
+      "w_scale_id": "tvla.bmm5734.w",
+      "out_scale_id": "tvla.bmm5734.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "344": {
+      "a_scale_id": "tvla.ev333.a",
+      "w_scale_id": "tvla.ev333.w",
+      "out_scale_id": "tvla.ev333.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "345": {
+      "a_scale_id": "tvla.ev334.a",
+      "w_scale_id": "tvla.ev334.w",
+      "out_scale_id": "tvla.ev334.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "346": {
+      "a_scale_id": "tvla.bmm5801.a",
+      "w_scale_id": "tvla.bmm5801.w",
+      "out_scale_id": "tvla.bmm5801.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "347": {
+      "a_scale_id": "tvla.ev335.a",
+      "w_scale_id": "tvla.ev335.w",
+      "out_scale_id": "tvla.ev335.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "348": {
+      "a_scale_id": "tvla.ev336.a",
+      "w_scale_id": "tvla.ev336.w",
+      "out_scale_id": "tvla.ev336.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "349": {
+      "a_scale_id": "tvla.ev337.a",
+      "w_scale_id": "tvla.ev337.w",
+      "out_scale_id": "tvla.ev337.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "350": {
+      "a_scale_id": "tvla.ev338.a",
+      "w_scale_id": "tvla.ev338.w",
+      "out_scale_id": "tvla.ev338.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "351": {
+      "a_scale_id": "tvla.ev339.a",
+      "w_scale_id": "tvla.ev339.w",
+      "out_scale_id": "tvla.ev339.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "352": {
+      "a_scale_id": "tvla.ev340.a",
+      "w_scale_id": "tvla.ev340.w",
+      "out_scale_id": "tvla.ev340.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "353": {
+      "a_scale_id": "tvla.ev341.a",
+      "w_scale_id": "tvla.ev341.w",
+      "out_scale_id": "tvla.ev341.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "354": {
+      "a_scale_id": "tvla.ev342.a",
+      "w_scale_id": "tvla.ev342.w",
+      "out_scale_id": "tvla.ev342.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "355": {
+      "a_scale_id": "tvla.ev343.a",
+      "w_scale_id": "tvla.ev343.w",
+      "out_scale_id": "tvla.ev343.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "356": {
+      "a_scale_id": "tvla.ev344.a",
+      "w_scale_id": "tvla.ev344.w",
+      "out_scale_id": "tvla.ev344.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "357": {
+      "a_scale_id": "tvla.ev345.a",
+      "w_scale_id": "tvla.ev345.w",
+      "out_scale_id": "tvla.ev345.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "358": {
+      "a_scale_id": "tvla.bmm5934.a",
+      "w_scale_id": "tvla.bmm5934.w",
+      "out_scale_id": "tvla.bmm5934.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "359": {
+      "a_scale_id": "tvla.bmm5955.a",
+      "w_scale_id": "tvla.bmm5955.w",
+      "out_scale_id": "tvla.bmm5955.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "360": {
+      "a_scale_id": "tvla.bmm5956.a",
+      "w_scale_id": "tvla.bmm5956.w",
+      "out_scale_id": "tvla.bmm5956.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "361": {
+      "a_scale_id": "tvla.ev346.a",
+      "w_scale_id": "tvla.ev346.w",
+      "out_scale_id": "tvla.ev346.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "362": {
+      "a_scale_id": "tvla.ev347.a",
+      "w_scale_id": "tvla.ev347.w",
+      "out_scale_id": "tvla.ev347.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "363": {
+      "a_scale_id": "tvla.bmm6023.a",
+      "w_scale_id": "tvla.bmm6023.w",
+      "out_scale_id": "tvla.bmm6023.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "364": {
+      "a_scale_id": "tvla.ev348.a",
+      "w_scale_id": "tvla.ev348.w",
+      "out_scale_id": "tvla.ev348.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "365": {
+      "a_scale_id": "tvla.ev349.a",
+      "w_scale_id": "tvla.ev349.w",
+      "out_scale_id": "tvla.ev349.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "366": {
+      "a_scale_id": "tvla.ev350.a",
+      "w_scale_id": "tvla.ev350.w",
+      "out_scale_id": "tvla.ev350.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "367": {
+      "a_scale_id": "tvla.ev351.a",
+      "w_scale_id": "tvla.ev351.w",
+      "out_scale_id": "tvla.ev351.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "368": {
+      "a_scale_id": "tvla.ev352.a",
+      "w_scale_id": "tvla.ev352.w",
+      "out_scale_id": "tvla.ev352.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "369": {
+      "a_scale_id": "tvla.ev353.a",
+      "w_scale_id": "tvla.ev353.w",
+      "out_scale_id": "tvla.ev353.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "370": {
+      "a_scale_id": "tvla.ev354.a",
+      "w_scale_id": "tvla.ev354.w",
+      "out_scale_id": "tvla.ev354.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "371": {
+      "a_scale_id": "tvla.ev355.a",
+      "w_scale_id": "tvla.ev355.w",
+      "out_scale_id": "tvla.ev355.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "372": {
+      "a_scale_id": "tvla.ev356.a",
+      "w_scale_id": "tvla.ev356.w",
+      "out_scale_id": "tvla.ev356.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "373": {
+      "a_scale_id": "tvla.ev357.a",
+      "w_scale_id": "tvla.ev357.w",
+      "out_scale_id": "tvla.ev357.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "374": {
+      "a_scale_id": "tvla.ev358.a",
+      "w_scale_id": "tvla.ev358.w",
+      "out_scale_id": "tvla.ev358.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "375": {
+      "a_scale_id": "tvla.bmm6156.a",
+      "w_scale_id": "tvla.bmm6156.w",
+      "out_scale_id": "tvla.bmm6156.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "376": {
+      "a_scale_id": "tvla.bmm6177.a",
+      "w_scale_id": "tvla.bmm6177.w",
+      "out_scale_id": "tvla.bmm6177.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "377": {
+      "a_scale_id": "tvla.bmm6178.a",
+      "w_scale_id": "tvla.bmm6178.w",
+      "out_scale_id": "tvla.bmm6178.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "378": {
+      "a_scale_id": "tvla.ev359.a",
+      "w_scale_id": "tvla.ev359.w",
+      "out_scale_id": "tvla.ev359.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "379": {
+      "a_scale_id": "tvla.ev360.a",
+      "w_scale_id": "tvla.ev360.w",
+      "out_scale_id": "tvla.ev360.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "380": {
+      "a_scale_id": "tvla.bmm6245.a",
+      "w_scale_id": "tvla.bmm6245.w",
+      "out_scale_id": "tvla.bmm6245.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "381": {
+      "a_scale_id": "tvla.ev361.a",
+      "w_scale_id": "tvla.ev361.w",
+      "out_scale_id": "tvla.ev361.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "382": {
+      "a_scale_id": "tvla.ev362.a",
+      "w_scale_id": "tvla.ev362.w",
+      "out_scale_id": "tvla.ev362.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "383": {
+      "a_scale_id": "tvla.ev363.a",
+      "w_scale_id": "tvla.ev363.w",
+      "out_scale_id": "tvla.ev363.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "384": {
+      "a_scale_id": "tvla.ev364.a",
+      "w_scale_id": "tvla.ev364.w",
+      "out_scale_id": "tvla.ev364.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "385": {
+      "a_scale_id": "tvla.ev365.a",
+      "w_scale_id": "tvla.ev365.w",
+      "out_scale_id": "tvla.ev365.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "386": {
+      "a_scale_id": "tvla.ev366.a",
+      "w_scale_id": "tvla.ev366.w",
+      "out_scale_id": "tvla.ev366.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "387": {
+      "a_scale_id": "tvla.ev367.a",
+      "w_scale_id": "tvla.ev367.w",
+      "out_scale_id": "tvla.ev367.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "388": {
+      "a_scale_id": "tvla.ev368.a",
+      "w_scale_id": "tvla.ev368.w",
+      "out_scale_id": "tvla.ev368.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "389": {
+      "a_scale_id": "tvla.ev369.a",
+      "w_scale_id": "tvla.ev369.w",
+      "out_scale_id": "tvla.ev369.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "390": {
+      "a_scale_id": "tvla.ev370.a",
+      "w_scale_id": "tvla.ev370.w",
+      "out_scale_id": "tvla.ev370.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "391": {
+      "a_scale_id": "tvla.ev371.a",
+      "w_scale_id": "tvla.ev371.w",
+      "out_scale_id": "tvla.ev371.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "392": {
+      "a_scale_id": "tvla.bmm6378.a",
+      "w_scale_id": "tvla.bmm6378.w",
+      "out_scale_id": "tvla.bmm6378.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "393": {
+      "a_scale_id": "tvla.bmm6399.a",
+      "w_scale_id": "tvla.bmm6399.w",
+      "out_scale_id": "tvla.bmm6399.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "394": {
+      "a_scale_id": "tvla.bmm6400.a",
+      "w_scale_id": "tvla.bmm6400.w",
+      "out_scale_id": "tvla.bmm6400.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "395": {
+      "a_scale_id": "tvla.ev372.a",
+      "w_scale_id": "tvla.ev372.w",
+      "out_scale_id": "tvla.ev372.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "396": {
+      "a_scale_id": "tvla.ev373.a",
+      "w_scale_id": "tvla.ev373.w",
+      "out_scale_id": "tvla.ev373.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "397": {
+      "a_scale_id": "tvla.bmm6467.a",
+      "w_scale_id": "tvla.bmm6467.w",
+      "out_scale_id": "tvla.bmm6467.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "398": {
+      "a_scale_id": "tvla.ev374.a",
+      "w_scale_id": "tvla.ev374.w",
+      "out_scale_id": "tvla.ev374.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "399": {
+      "a_scale_id": "tvla.ev375.a",
+      "w_scale_id": "tvla.ev375.w",
+      "out_scale_id": "tvla.ev375.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "400": {
+      "a_scale_id": "tvla.ev376.a",
+      "w_scale_id": "tvla.ev376.w",
+      "out_scale_id": "tvla.ev376.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "401": {
+      "a_scale_id": "tvla.ev377.a",
+      "w_scale_id": "tvla.ev377.w",
+      "out_scale_id": "tvla.ev377.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "402": {
+      "a_scale_id": "tvla.ev378.a",
+      "w_scale_id": "tvla.ev378.w",
+      "out_scale_id": "tvla.ev378.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "403": {
+      "a_scale_id": "tvla.ev379.a",
+      "w_scale_id": "tvla.ev379.w",
+      "out_scale_id": "tvla.ev379.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "404": {
+      "a_scale_id": "tvla.ev380.a",
+      "w_scale_id": "tvla.ev380.w",
+      "out_scale_id": "tvla.ev380.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "405": {
+      "a_scale_id": "tvla.ev381.a",
+      "w_scale_id": "tvla.ev381.w",
+      "out_scale_id": "tvla.ev381.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "406": {
+      "a_scale_id": "tvla.ev382.a",
+      "w_scale_id": "tvla.ev382.w",
+      "out_scale_id": "tvla.ev382.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "407": {
+      "a_scale_id": "tvla.ev383.a",
+      "w_scale_id": "tvla.ev383.w",
+      "out_scale_id": "tvla.ev383.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "408": {
+      "a_scale_id": "tvla.ev384.a",
+      "w_scale_id": "tvla.ev384.w",
+      "out_scale_id": "tvla.ev384.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "409": {
+      "a_scale_id": "tvla.ev385.a",
+      "w_scale_id": "tvla.ev385.w",
+      "out_scale_id": "tvla.ev385.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "410": {
+      "a_scale_id": "tvla.ev386.a",
+      "w_scale_id": "tvla.ev386.w",
+      "out_scale_id": "tvla.ev386.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "411": {
+      "a_scale_id": "tvla.ev387.a",
+      "w_scale_id": "tvla.ev387.w",
+      "out_scale_id": "tvla.ev387.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "412": {
+      "a_scale_id": "tvla.ev388.a",
+      "w_scale_id": "tvla.ev388.w",
+      "out_scale_id": "tvla.ev388.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "413": {
+      "a_scale_id": "tvla.ev389.a",
+      "w_scale_id": "tvla.ev389.w",
+      "out_scale_id": "tvla.ev389.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "414": {
+      "a_scale_id": "tvla.ev390.a",
+      "w_scale_id": "tvla.ev390.w",
+      "out_scale_id": "tvla.ev390.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "415": {
+      "a_scale_id": "tvla.ev391.a",
+      "w_scale_id": "tvla.ev391.w",
+      "out_scale_id": "tvla.ev391.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "416": {
+      "a_scale_id": "tvla.ev392.a",
+      "w_scale_id": "tvla.ev392.w",
+      "out_scale_id": "tvla.ev392.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "417": {
+      "a_scale_id": "tvla.ev393.a",
+      "w_scale_id": "tvla.ev393.w",
+      "out_scale_id": "tvla.ev393.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "418": {
+      "a_scale_id": "tvla.ev394.a",
+      "w_scale_id": "tvla.ev394.w",
+      "out_scale_id": "tvla.ev394.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "419": {
+      "a_scale_id": "tvla.ev395.a",
+      "w_scale_id": "tvla.ev395.w",
+      "out_scale_id": "tvla.ev395.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "420": {
+      "a_scale_id": "tvla.ev396.a",
+      "w_scale_id": "tvla.ev396.w",
+      "out_scale_id": "tvla.ev396.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "421": {
+      "a_scale_id": "tvla.ev397.a",
+      "w_scale_id": "tvla.ev397.w",
+      "out_scale_id": "tvla.ev397.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "422": {
+      "a_scale_id": "tvla.ev398.a",
+      "w_scale_id": "tvla.ev398.w",
+      "out_scale_id": "tvla.ev398.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "423": {
+      "a_scale_id": "tvla.ev399.a",
+      "w_scale_id": "tvla.ev399.w",
+      "out_scale_id": "tvla.ev399.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "424": {
+      "a_scale_id": "tvla.ev400.a",
+      "w_scale_id": "tvla.ev400.w",
+      "out_scale_id": "tvla.ev400.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "425": {
+      "a_scale_id": "tvla.ev401.a",
+      "w_scale_id": "tvla.ev401.w",
+      "out_scale_id": "tvla.ev401.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "426": {
+      "a_scale_id": "tvla.ev402.a",
+      "w_scale_id": "tvla.ev402.w",
+      "out_scale_id": "tvla.ev402.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "427": {
+      "a_scale_id": "tvla.ev403.a",
+      "w_scale_id": "tvla.ev403.w",
+      "out_scale_id": "tvla.ev403.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "428": {
+      "a_scale_id": "tvla.ev404.a",
+      "w_scale_id": "tvla.ev404.w",
+      "out_scale_id": "tvla.ev404.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "429": {
+      "a_scale_id": "tvla.ev405.a",
+      "w_scale_id": "tvla.ev405.w",
+      "out_scale_id": "tvla.ev405.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "430": {
+      "a_scale_id": "tvla.ev406.a",
+      "w_scale_id": "tvla.ev406.w",
+      "out_scale_id": "tvla.ev406.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    },
+    "431": {
+      "a_scale_id": "tvla.ev407.a",
+      "w_scale_id": "tvla.ev407.w",
+      "out_scale_id": "tvla.ev407.out",
+      "dynamic_reference": null,
+      "static_hardware": null,
+      "status": "pending_calibration"
+    }
+  }
+}

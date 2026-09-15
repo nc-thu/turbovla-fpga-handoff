@@ -1,0 +1,38 @@
+﻿[
+    {
+        "name":  "pack2_mult_padd",
+        "status":  "passed",
+        "start":  "2026-09-15 16:32:13",
+        "end":  "2026-09-15 16:32:13",
+        "elapsed_seconds":  0.1,
+        "log":  "turbovla_w8a8_pack2\\hw\\v2_2026-09-15_155202_timing_pipeline\\data\\functional\\pack2_mult_padd.log",
+        "message":  ""
+    },
+    {
+        "name":  "timing_array",
+        "status":  "passed",
+        "start":  "2026-09-15 16:32:13",
+        "end":  "2026-09-15 16:32:13",
+        "elapsed_seconds":  0.094,
+        "log":  "turbovla_w8a8_pack2\\hw\\v2_2026-09-15_155202_timing_pipeline\\data\\functional\\timing_array.log",
+        "message":  ""
+    },
+    {
+        "name":  "timing_replay",
+        "status":  "passed",
+        "start":  "2026-09-15 16:32:13",
+        "end":  "2026-09-15 16:32:13",
+        "elapsed_seconds":  0.065,
+        "log":  "turbovla_w8a8_pack2\\hw\\v2_2026-09-15_155202_timing_pipeline\\data\\functional\\timing_replay.log",
+        "message":  ""
+    },
+    {
+        "name":  "system_top_elaboration",
+        "status":  "passed",
+        "start":  "2026-09-15 16:32:13",
+        "end":  "2026-09-15 16:32:15",
+        "elapsed_seconds":  1.328,
+        "log":  "turbovla_w8a8_pack2\\hw\\v2_2026-09-15_155202_timing_pipeline\\data\\functional\\system_top_elaboration.log",
+        "message":  ""
+    }
+]

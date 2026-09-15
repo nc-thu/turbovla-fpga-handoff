@@ -1,0 +1,113 @@
+{
+  "schema_version": "tvla_w8a16.rtl_results.v3",
+  "generated_at": "2026-09-13T06:55:29+00:00",
+  "server_experiment": "/home/nc23/experiments/turbovla_w8a16/v3_retest_20260913_1401",
+  "verilator": {
+    "status": "passed",
+    "tool": "verilator",
+    "version_file": "logs/verilator_version.txt",
+    "started": "2026-09-13T05:03:59Z",
+    "finished": "2026-09-13T05:06:23Z",
+    "elapsed_seconds": 144,
+    "tests": [
+      "tb_w8a16_pe",
+      "tb_w8a16_array",
+      "tb_w8a16_full",
+      "tb_w8a16_requant",
+      "tb_w8a16_gemm",
+      "tb_w8a16_activations",
+      "tb_w8a16_vector_ops",
+      "tb_w8a16_dma",
+      "tb_w8a16_isa_ctrl",
+      "tb_w8a16_runtime",
+      "tb_w8a16_system"
+    ],
+    "dsp_full_array": 768
+  },
+  "iverilog": {
+    "status": "passed",
+    "tool": "iverilog",
+    "started": "2026-09-13T04:51:30Z",
+    "finished": "2026-09-13T04:51:30Z",
+    "elapsed_seconds": 0,
+    "tests": [
+      "tb_w8a16_pe",
+      "tb_w8a16_array",
+      "tb_w8a16_activations",
+      "tb_w8a16_isa_ctrl",
+      "tb_w8a16_runtime"
+    ]
+  },
+  "unisim": {
+    "status": "unavailable",
+    "tool": "xvlog",
+    "started": "2026-09-13T05:07:12Z",
+    "finished": "2026-09-13T05:07:12Z",
+    "elapsed_seconds": 0,
+    "reason": "Vivado/UNISIM executable not found on server"
+  },
+  "tests": {
+    "tb_w8a16_pe": true,
+    "tb_w8a16_array": true,
+    "tb_w8a16_full": true,
+    "tb_w8a16_requant": true,
+    "tb_w8a16_gemm": true,
+    "tb_w8a16_activations": true,
+    "tb_w8a16_vector_ops": true,
+    "tb_w8a16_dma": true,
+    "tb_w8a16_isa_ctrl": true,
+    "tb_w8a16_runtime": true,
+    "tb_w8a16_system": true,
+    "iverilog_pe": true,
+    "iverilog_array": true,
+    "iverilog_activations": true,
+    "iverilog_isa_ctrl": true
+  },
+  "compiler_to_rtl_action": {
+    "status": "PASS",
+    "testbench": "tb_w8a16_runtime.sv",
+    "trace": true,
+    "action_lanes": 7
+  },
+  "dsp_mapping_expected": {
+    "1_pe": 1,
+    "4x4": 16,
+    "16x48": 768
+  },
+  "ooc": {
+    "status": "completed",
+    "part": "xczu7ev-ffvc1156-2-e",
+    "clock_ns": 3.298,
+    "reason": "Vivado 2021.2 synthesis completed locally; post-route is separate and not run",
+    "levels": [
+      "1x1",
+      "4x4",
+      "16x48"
+    ]
+  },
+  "rtl_sha256": {
+    "w8a16_action_path.sv": "b502783ba35bc06e41372da9dffafca14b935c8cb7a4f8f5a0625894941072d6",
+    "w8a16_dma.sv": "47c66545b6dc5f467ece30e321374042ab6bf86fff2a3acf01b8193eef0aed73",
+    "w8a16_gelu.sv": "6d40d974b8fb119da5529dfb56e47843f385c3618da45733b3d2ca75c7c5f6f3",
+    "w8a16_gemm.sv": "7ad3a6eeb3235e3377395cda23edf33c4072a412ae9d1ab76f0b2248d1e68c7b",
+    "w8a16_isa_ctrl.sv": "eb61baa168e3acc558531fb92d3282073f5ad058136c80949e3555d174e04185",
+    "w8a16_layernorm.sv": "1a3a283957882e4ad0588531cb312e864e1acc30caa47cc17ef82ac62aaa019d",
+    "w8a16_mult.sv": "8e089d311c1ead08ec7174e39c0d110d1c99f024f640c1a1b799cc9812cfab9b",
+    "w8a16_pe.sv": "0647de2be80bf3bfa4c38702efa760d392072fbeda268cc28c43fb07c5c6eb6c",
+    "w8a16_relu.sv": "2944e87c7dde99d26aa8cebf71dac0b6d3f0708c1920d96cee032a64358708de",
+    "w8a16_requant.sv": "7c0c36a3b75fbe05be3dad1b3729b2446ac7e57759210ac2cd980ab4eeb5e01e",
+    "w8a16_runtime.sv": "71d5bfe55a2069dfda4c786a459bf43d6057e2f13c219dce87229da21008082d",
+    "w8a16_softmax.sv": "e2518afb1784acf0c4f8d644d60fc5f4c81d9ba67bf386a5744f00fbb619416d",
+    "w8a16_sysarr.sv": "9d6d246b3618b444f86f3a36192b0f8b9e4e7677f20f5d2abc294deae93ce957",
+    "w8a16_tanh.sv": "512836c412ae41759aaf5f2e682c817af5769687f4f00b915ca59054e355e065",
+    "w8a16_tanh_pipe.sv": "24974a3fa03f9bfe1b6fe48d9d02b922842e078714d0f33c482905bc02eae6bb",
+    "w8a16_vector_add.sv": "2ef2b5439d7f7174b6911d35650a2267abce1708ee90a27cc23f14af1bbf52c6",
+    "w8a16_vector_mul.sv": "18b767512e7f4c202117cfcafb146611e39352311170b73245e2ae24a7977865",
+    "w8a16_vector_ops.sv": "81292afb080604c87b99f2cfc17a2192b419634de40024fd5f07865fef8a1023"
+  },
+  "limitations": [
+    "UNISIM/DSP48E2 smoke was not run because xvlog was unavailable on the server",
+    "Vivado result is synth_design timing/resource data; place/route and post-route timing are not included",
+    "simulation uses the behavioral multiplier branch; it does not replace a vendor primitive check"
+  ]
+}

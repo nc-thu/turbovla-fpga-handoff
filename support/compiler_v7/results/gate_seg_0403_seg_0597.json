@@ -1,0 +1,80 @@
+[
+ {
+  "name": "seg_0403",
+  "ops": {
+   "seq_words": 1157,
+   "n_descs": 1157,
+   "est": 108476,
+   "gemm": 96,
+   "attn_s": 0,
+   "copy": 96,
+   "load": 4,
+   "store": 96,
+   "pcw": 0,
+   "uni": 96,
+   "rtn": 96,
+   "max_m": 49,
+   "max_mt": 4,
+   "ops_hist": {
+    "4": 4,
+    "3": 96,
+    "0": 96,
+    "5": 96,
+    "DONE": 1
+   }
+  },
+  "cycles": 197721,
+  "gemm_cyc": 65471,
+  "dma_cyc": 197920,
+  "macs": 2359296,
+  "bytes_cmp": 415744,
+  "bad_bytes": 0,
+  "bad_rate": 0.0,
+  "first_mismatch": null,
+  "PASS": true,
+  "msg": "",
+  "t_gold": 0.8,
+  "t_rtl": 31.7,
+  "mem_wr": 49152,
+  "dump_tail": "- Verilator: cpu 31.581 s on 1 threads; allocated 20 MB"
+ },
+ {
+  "name": "seg_0597",
+  "ops": {
+   "seq_words": 1157,
+   "n_descs": 1157,
+   "est": 119276,
+   "gemm": 96,
+   "attn_s": 0,
+   "copy": 96,
+   "load": 4,
+   "store": 96,
+   "pcw": 0,
+   "uni": 96,
+   "rtn": 96,
+   "max_m": 49,
+   "max_mt": 4,
+   "ops_hist": {
+    "4": 4,
+    "3": 96,
+    "0": 96,
+    "5": 96,
+    "DONE": 1
+   }
+  },
+  "cycles": 216437,
+  "gemm_cyc": 65854,
+  "dma_cyc": 216585,
+  "macs": 4718592,
+  "bytes_cmp": 464896,
+  "bad_bytes": 0,
+  "bad_rate": 0.0,
+  "first_mismatch": null,
+  "PASS": true,
+  "msg": "",
+  "t_gold": 1.2,
+  "t_rtl": 34.2,
+  "mem_wr": 98304,
+  "dump_tail": "- Verilator: cpu 34.065 s on 1 threads; allocated 20 MB"
+ }
+]

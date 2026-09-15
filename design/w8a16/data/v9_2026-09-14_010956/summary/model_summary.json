@@ -1,0 +1,285 @@
+{
+  "generated_at": "2026-09-14 01:56:54",
+  "baseline": {
+    "schema_version": "tvla_w8a16.history_optimization.v1",
+    "generated_at": "2026-09-14 01:16:29",
+    "source_module_events": 408,
+    "source_dispatch_events": 6836,
+    "instruction_count": 433,
+    "descriptor_count": 432,
+    "bmm_descriptor_count": 24,
+    "unknown_event_count": 0,
+    "coverage": {
+      "module_events_covered": 408,
+      "module_events_total": 408,
+      "dispatch_bmm_covered": 24,
+      "dispatch_bmm_total": 24,
+      "parent_children_not_double_counted": true,
+      "bmm_attached_to_parent": 0
+    },
+    "compiler_order": "module_then_bmm",
+    "fusion_group_count": 0,
+    "optimization_options": [],
+    "optimization_option_bits": {},
+    "clock_mhz": 250.0,
+    "array": {
+      "rows": 16,
+      "physical_cols": 48,
+      "dsp": 768,
+      "mac_per_dsp_per_cycle": 1
+    },
+    "cycles": {
+      "total_cycles": 155780495,
+      "fallback_cycles": 6421152,
+      "mapped_cycles": 149359343,
+      "base_total_cycles": 155780495,
+      "optimized_total_cycles": 155780495,
+      "cycle_savings": 0,
+      "cycle_savings_pct": 0.0,
+      "dma_read_cycles": 32859055,
+      "dma_write_cycles": 14935934,
+      "scheduler_wait_cycles": 5974373,
+      "snapshot_cycles": 319228,
+      "requant_cycles": 3563862,
+      "vector_cycles": 6094560
+    },
+    "traffic_bytes": {
+      "activation_bytes": 161740000,
+      "weight_bytes": 276530176,
+      "output_bytes": 164575944
+    },
+    "tile_count": 79807,
+    "valid_mac_count": 49584342528,
+    "pe_active_pe_cycles": 49584342528,
+    "pe_busy_cycles": 114707975424,
+    "pe_time_utilization": 0.41444820161856594,
+    "gemm_utilization": 0.43226586769332537,
+    "effective_gmac_per_s": 79.57405471076467,
+    "effective_gops": 159.14810942152934,
+    "physical_peak_gmac_per_s": 192.0,
+    "physical_peak_gops": 384.0,
+    "fallback_is_behavior_level": true,
+    "model_boundary": "cycle model; reuse/overlap/coalescing are conditional until activity is measured"
+  },
+  "optimized": {
+    "schema_version": "tvla_w8a16.history_optimization.v1",
+    "generated_at": "2026-09-14 01:16:29",
+    "source_module_events": 408,
+    "source_dispatch_events": 6836,
+    "instruction_count": 433,
+    "descriptor_count": 432,
+    "bmm_descriptor_count": 24,
+    "unknown_event_count": 0,
+    "coverage": {
+      "module_events_covered": 408,
+      "module_events_total": 408,
+      "dispatch_bmm_covered": 24,
+      "dispatch_bmm_total": 24,
+      "parent_children_not_double_counted": true,
+      "bmm_attached_to_parent": 24
+    },
+    "compiler_order": "parent_interleaved",
+    "fusion_group_count": 0,
+    "optimization_options": [
+      "act_reuse",
+      "fanout",
+      "fusion",
+      "order",
+      "overlap",
+      "pipeline",
+      "tile_mask",
+      "vector_pipeline",
+      "weight_reuse",
+      "write_coalesce"
+    ],
+    "optimization_option_bits": {
+      "act_reuse": 16,
+      "fanout": 2,
+      "fusion": 256,
+      "order": 8,
+      "overlap": 64,
+      "pipeline": 1,
+      "tile_mask": 4,
+      "vector_pipeline": 512,
+      "weight_reuse": 32,
+      "write_coalesce": 128
+    },
+    "clock_mhz": 250.0,
+    "array": {
+      "rows": 16,
+      "physical_cols": 48,
+      "dsp": 768,
+      "mac_per_dsp_per_cycle": 1
+    },
+    "cycles": {
+      "total_cycles": 75254992,
+      "fallback_cycles": 4905712,
+      "mapped_cycles": 70349280,
+      "base_total_cycles": 155780495,
+      "optimized_total_cycles": 75254992,
+      "cycle_savings": 80525503,
+      "cycle_savings_pct": 51.69164663393835,
+      "dma_read_cycles": 15476841,
+      "dma_write_cycles": 7034928,
+      "scheduler_wait_cycles": 2813971,
+      "snapshot_cycles": 319228,
+      "requant_cycles": 3563862,
+      "vector_cycles": 4579120
+    },
+    "traffic_bytes": {
+      "activation_bytes": 161740000,
+      "weight_bytes": 276530176,
+      "output_bytes": 164575944
+    },
+    "tile_count": 79807,
+    "valid_mac_count": 49584342528,
+    "pe_active_pe_cycles": 49584342528,
+    "pe_busy_cycles": 54028247040,
+    "pe_time_utilization": 0.8579224352319378,
+    "gemm_utilization": 0.9177484972127646,
+    "effective_gmac_per_s": 164.72110756453205,
+    "effective_gops": 329.4422151290641,
+    "physical_peak_gmac_per_s": 192.0,
+    "physical_peak_gops": 384.0,
+    "fallback_is_behavior_level": true,
+    "model_boundary": "cycle model; reuse/overlap/coalescing are conditional until activity is measured"
+  },
+  "baseline_seconds_at_clock": 0.62312198,
+  "optimized_seconds_at_clock": 0.301019968,
+  "conditional_speedup": 2.0700353672218847,
+  "effective_gops_gain_pct": 107.00353672218843,
+  "pe_util_gain_pct": 107.00353672218847,
+  "gemm_util_gain_pct": 112.31111818059829,
+  "peak_fraction_baseline_pct": 41.4448201618566,
+  "peak_fraction_optimized_pct": 85.79224352319376,
+  "validation_passed": true,
+  "effects": [
+    {
+      "id": 1,
+      "name": "DSP input/output pipeline",
+      "state": "inherited",
+      "config": "pipeline",
+      "before_cycles": 155780495,
+      "after_cycles": 155780495,
+      "cycle_savings": 0,
+      "cycle_savings_pct": 0.0,
+      "evidence": "historical hw v6: DSP AREG/BREG/MREG/PREG; no DSP increase; timing target 250 MHz"
+    },
+    {
+      "id": 2,
+      "name": "Local clr/CE fanout partition",
+      "state": "inherited",
+      "config": "fanout",
+      "before_cycles": 155780495,
+      "after_cycles": 155780495,
+      "cycle_savings": 0,
+      "cycle_savings_pct": 0.0,
+      "evidence": "historical hw v7: post-route Fmax 246.9 to 250.4 MHz (+1.402%), DSP unchanged"
+    },
+    {
+      "id": 3,
+      "name": "16x48 shape-aware tiling and tail mask",
+      "state": "inherited",
+      "config": "tile_mask",
+      "before_cycles": 155780495,
+      "after_cycles": 155780495,
+      "cycle_savings": 0,
+      "cycle_savings_pct": 0.0,
+      "evidence": "current v8 compiler and 16x48 W8A16 array; invalid tail MACs excluded"
+    },
+    {
+      "id": 4,
+      "name": "Dependency-aware BMM/GEMM ordering",
+      "state": "new_compiler",
+      "config": "order",
+      "before_cycles": 155780495,
+      "after_cycles": 155780495,
+      "cycle_savings": 0,
+      "cycle_savings_pct": 0.0,
+      "evidence": "BMM descriptors are inserted after their parent event; 24/24 remain covered"
+    },
+    {
+      "id": 5,
+      "name": "Activation tile reuse",
+      "state": "new_model",
+      "config": "act_reuse",
+      "before_cycles": 155780495,
+      "after_cycles": 155518927,
+      "cycle_savings": 261568,
+      "cycle_savings_pct": 0.16790805549821883,
+      "evidence": "same activation can serve multiple N tiles; guarded by layout/shape compatibility"
+    },
+    {
+      "id": 6,
+      "name": "Weight tile reuse/broadcast",
+      "state": "new_model",
+      "config": "weight_reuse",
+      "before_cycles": 155780495,
+      "after_cycles": 151996599,
+      "cycle_savings": 3783896,
+      "cycle_savings_pct": 2.4289921533501353,
+      "evidence": "same weight tile can serve multiple M tiles when residency is possible"
+    },
+    {
+      "id": 7,
+      "name": "Row-group streaming and double buffering",
+      "state": "new_model_rtl_control",
+      "config": "overlap",
+      "before_cycles": 155780495,
+      "after_cycles": 76764416,
+      "cycle_savings": 79016079,
+      "cycle_savings_pct": 50.72270376339477,
+      "evidence": "overlap read, compute and post stages with a startup guard; no DSP change"
+    },
+    {
+      "id": 8,
+      "name": "Contiguous write coalescing",
+      "state": "new_model_descriptor",
+      "config": "write_coalesce",
+      "before_cycles": 155780495,
+      "after_cycles": 155780495,
+      "cycle_savings": 0,
+      "cycle_savings_pct": 0.0,
+      "evidence": "full contiguous tiles share a modeled burst; no zero-skip assumption"
+    },
+    {
+      "id": 9,
+      "name": "Adjacent compatible task merge",
+      "state": "new_compiler",
+      "config": "fusion",
+      "before_cycles": 155780495,
+      "after_cycles": 155780495,
+      "cycle_savings": 0,
+      "cycle_savings_pct": 0.0,
+      "evidence": "fusion metadata is emitted only for identical compatible descriptors"
+    },
+    {
+      "id": 10,
+      "name": "Requant/bias/vector stage pipeline and control locality",
+      "state": "inherited_plus_model",
+      "config": "vector_pipeline",
+      "before_cycles": 155780495,
+      "after_cycles": 154265055,
+      "cycle_savings": 1515440,
+      "cycle_savings_pct": 0.9728047147365914,
+      "evidence": "vector_pipeline reduces only behavior-level vector cycles; no PE arithmetic change"
+    }
+  ],
+  "boundaries": {
+    "measured": [
+      "compiler baseline/optimized summaries",
+      "Verilator representative array tile",
+      "Verilator full virtual replay counters",
+      "Vivado synthesis-estimated OOC"
+    ],
+    "conditional": [
+      "reuse, overlap and write coalescing cycle model",
+      "optimized full-trace throughput"
+    ],
+    "unknown": [
+      "post-route timing for this round",
+      "SAIF/VCD activity power",
+      "board DDR and end-to-end LIBERO"
+    ]
+  }
+}

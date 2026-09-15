@@ -1,0 +1,1158 @@
+{
+  "started_at": "2026-09-12T13:54:27.485119",
+  "finished_at": "2026-09-12T13:55:08.747730",
+  "gpu": "Tesla V100-SXM2-32GB",
+  "physical_index": 1,
+  "torch": "2.6.0+cu124",
+  "precision": "FP32, TF32 disabled; no fake quantization",
+  "denoising_steps": 10,
+  "output_shape": [
+    1,
+    64,
+    14,
+    8
+  ],
+  "input_description": "episode_0000000.hdf5 t=40 instr=scalar ('Lift the rounded base blue cup up and drop it on the light g')",
+  "input_path": "/tmp/ae_hostdrv/batch_s000.pt",
+  "input_sha256": "d251194471fbbbc2f5b690d1ea1713387c13e96748294b7ae746257e659f7e10",
+  "checkpoint_sha256": "c8704a889b54d15123facd837cd8604e077829d79f92874c7cddf431d11fbbef",
+  "model_config_sha256": "c46b67be265f9c6ccbfb295d886156249f13dd2f38ec96e31ad5a59414f5639d",
+  "configuration": {
+    "__config_type__": "robo_orchard_lab.models.bip3d.structure:BIP3DConfig",
+    "class_type": "robo_orchard_lab.models.bip3d.structure:BIP3D",
+    "backbone": {
+      "type": "robo_orchard_lab.models.modules.swin_transformer:SwinTransformer",
+      "embed_dims": 96,
+      "depths": [
+        2,
+        2,
+        6,
+        2
+      ],
+      "num_heads": [
+        3,
+        6,
+        12,
+        24
+      ],
+      "window_size": 7,
+      "mlp_ratio": 4,
+      "qkv_bias": true,
+      "qk_scale": null,
+      "drop_rate": 0.0,
+      "attn_drop_rate": 0.0,
+      "out_indices": [
+        1,
+        2,
+        3
+      ],
+      "with_cp": true,
+      "convert_weights": false
+    },
+    "decoder": {
+      "type": "robo_orchard_lab.models.holobrain.action_decoder:HoloBrainActionDecoder",
+      "head": {
+        "type": "robo_orchard_lab.models.holobrain.layers:UpsampleHead",
+        "upsample_sizes": [
+          32,
+          64
+        ],
+        "input_dim": 256,
+        "dims": [
+          128,
+          64
+        ],
+        "norm": {
+          "type": "torch.nn.modules.normalization:RMSNorm",
+          "normalized_shape": 256
+        },
+        "act": {
+          "type": "torch.nn.modules.activation:SiLU",
+          "inplace": true
+        },
+        "norm_act_idx": [
+          0,
+          1
+        ],
+        "num_output_layers": 2,
+        "out_dim": 8
+      },
+      "mobile_head": null,
+      "transformer_cfg": {
+        "__config_type__": "robo_orchard_lab.models.holobrain.action_decoder:HoloBrainDecoderTransformerConfig",
+        "img_cross_attn": {
+          "type": "robo_orchard_lab.models.holobrain.layers:RotaryAttention",
+          "embed_dims": 256,
+          "num_heads": 8,
+          "max_position_embeddings": 32
+        },
+        "norm_layer": {
+          "type": "torch.nn.modules.normalization:RMSNorm",
+          "normalized_shape": 256
+        },
+        "ffn": {
+          "type": "robo_orchard_lab.models.layers.transformer_layers:FFN",
+          "embed_dims": 256,
+          "feedforward_channels": 2048,
+          "act_cfg": {
+            "type": "torch.nn.modules.activation:SiLU",
+            "inplace": true
+          }
+        },
+        "operation_order": [
+          "t_norm",
+          "temp_joint_attn",
+          "gate_msa",
+          "norm",
+          "img_cross_attn",
+          "norm",
+          "text_cross_attn",
+          "norm",
+          "scale_shift",
+          "ffn",
+          "gate_mlp",
+          "t_norm",
+          "temp_joint_attn",
+          "gate_msa",
+          "norm",
+          "img_cross_attn",
+          "norm",
+          "text_cross_attn",
+          "norm",
+          "scale_shift",
+          "ffn",
+          "gate_mlp",
+          "t_norm",
+          "temp_joint_attn",
+          "gate_msa",
+          "norm",
+          "img_cross_attn",
+          "norm",
+          "text_cross_attn",
+          "norm",
+          "scale_shift",
+          "ffn",
+          "gate_mlp",
+          "t_norm",
+          "temp_joint_attn",
+          "gate_msa",
+          "norm",
+          "img_cross_attn",
+          "norm",
+          "text_cross_attn",
+          "norm",
+          "scale_shift",
+          "ffn",
+          "gate_mlp",
+          "t_norm",
+          "temp_joint_attn",
+          "gate_msa",
+          "norm",
+          "img_cross_attn",
+          "norm",
+          "text_cross_attn",
+          "norm",
+          "scale_shift",
+          "ffn",
+          "gate_mlp",
+          "t_norm",
+          "temp_joint_attn",
+          "gate_msa",
+          "norm",
+          "img_cross_attn",
+          "norm",
+          "text_cross_attn",
+          "norm",
+          "scale_shift",
+          "ffn",
+          "gate_mlp"
+        ],
+        "joint_self_attn": {
+          "type": "robo_orchard_lab.models.holobrain.layers:JointGraphAttention",
+          "embed_dims": 256,
+          "num_heads": 8
+        },
+        "temp_cross_attn": {
+          "type": "robo_orchard_lab.models.holobrain.layers:RotaryAttention",
+          "embed_dims": 256,
+          "num_heads": 8,
+          "max_position_embeddings": 32
+        },
+        "text_cross_attn": {
+          "type": "robo_orchard_lab.models.holobrain.layers:RotaryAttention",
+          "embed_dims": 256,
+          "num_heads": 8,
+          "max_position_embeddings": 512
+        },
+        "temp_joint_attn": {
+          "type": "robo_orchard_lab.models.holobrain.layers:TemporalJointGraphAttention",
+          "embed_dims": 256,
+          "num_heads": 8,
+          "max_position_embeddings": 32
+        },
+        "timestep_norm_layer": {
+          "type": "robo_orchard_lab.models.holobrain.layers:AdaRMSNorm",
+          "normalized_shape": 256,
+          "condition_dims": 256,
+          "zero": true
+        },
+        "pre_norm": true
+      },
+      "base_cfg": {
+        "__config_type__": "robo_orchard_lab.models.holobrain.action_decoder:HoloBrainDecoderBaseConfig",
+        "training_noise_scheduler": {
+          "type": "diffusers.schedulers.scheduling_ddpm:DDPMScheduler",
+          "num_train_timesteps": 1000,
+          "beta_schedule": "squaredcos_cap_v2",
+          "prediction_type": "sample",
+          "clip_sample": false
+        },
+        "test_noise_scheduler": {
+          "type": "diffusers.schedulers.scheduling_dpmsolver_multistep:DPMSolverMultistepScheduler",
+          "num_train_timesteps": 1000,
+          "beta_schedule": "squaredcos_cap_v2",
+          "prediction_type": "sample"
+        },
+        "num_inference_timesteps": 10,
+        "feature_level": [
+          1,
+          2
+        ],
+        "state_dims": 8,
+        "embed_dims": 256,
+        "pred_steps": 64,
+        "act_cfg": {
+          "type": "torch.nn.modules.activation:SiLU",
+          "inplace": true
+        },
+        "num_test_traj": 1,
+        "chunk_size": 4,
+        "force_kinematics": false,
+        "with_mobile": false,
+        "mobile_traj_state_dims": 2,
+        "use_joint_mask": true,
+        "noise_type": "local_joint",
+        "pred_scaled_joint": false,
+        "prediction_type": "relative_joint_relative_pose"
+      },
+      "training_cfg": {
+        "__config_type__": "robo_orchard_lab.models.holobrain.action_decoder:HoloBrainTrainingConfig",
+        "loss": {
+          "type": "robo_orchard_lab.models.holobrain.loss:HoloBrainActionLoss",
+          "timestep_loss_weight": 1000,
+          "parallel_loss_weight": 0.1,
+          "smooth_l1_beta": 0.04,
+          "loss_mode": "smooth_l1"
+        },
+        "temporal_attn_drop": 0.05,
+        "num_parallel_training_sample": 4,
+        "teacher_forcing_rate": 0.02,
+        "teacher_forcing_mean_steps": null
+      },
+      "robot_encoder": {
+        "type": "robo_orchard_lab.models.holobrain.robot_state_encoder:HoloBrainRobotStateEncoder",
+        "transformer_cfg": {
+          "__config_type__": "robo_orchard_lab.models.holobrain.robot_state_encoder:HoloBrainEncoderTransformerConfig",
+          "joint_self_attn": {
+            "type": "robo_orchard_lab.models.holobrain.layers:JointGraphAttention",
+            "embed_dims": 256,
+            "num_heads": 8
+          },
+          "norm_layer": {
+            "type": "torch.nn.modules.normalization:RMSNorm",
+            "normalized_shape": 256
+          },
+          "ffn": {
+            "type": "robo_orchard_lab.models.layers.transformer_layers:FFN",
+            "embed_dims": 256,
+            "feedforward_channels": 2048,
+            "act_cfg": {
+              "type": "torch.nn.modules.activation:SiLU",
+              "inplace": true
+            }
+          },
+          "operation_order": [
+            "norm",
+            "joint_self_attn",
+            null,
+            null,
+            "norm",
+            "ffn",
+            "norm",
+            "joint_self_attn",
+            null,
+            null,
+            "norm",
+            "ffn",
+            "norm",
+            "joint_self_attn",
+            null,
+            null,
+            "norm",
+            "ffn",
+            "norm",
+            "joint_self_attn",
+            null,
+            null,
+            "norm",
+            "ffn",
+            "norm"
+          ],
+          "temp_self_attn": {
+            "type": "robo_orchard_lab.models.holobrain.layers:RotaryAttention",
+            "embed_dims": 256,
+            "num_heads": 8,
+            "max_position_embeddings": 32
+          },
+          "pre_norm": true
+        },
+        "base_cfg": {
+          "__config_type__": "robo_orchard_lab.models.holobrain.robot_state_encoder:HoloBrainEncoderBaseConfig",
+          "embed_dims": 256,
+          "state_dims": 8,
+          "act_cfg": {
+            "type": "torch.nn.modules.activation:SiLU",
+            "inplace": true
+          },
+          "chunk_size": 1
+        }
+      }
+    },
+    "neck": {
+      "type": "robo_orchard_lab.models.modules.channel_mapper:ChannelMapper",
+      "in_channels": [
+        192,
+        384,
+        768
+      ],
+      "kernel_size": 1,
+      "out_channels": 256,
+      "act_cfg": null,
+      "bias": true,
+      "norm_cfg": {
+        "type": "torch.nn.modules.normalization:GroupNorm",
+        "num_groups": 32
+      },
+      "num_outs": 4
+    },
+    "text_encoder": {
+      "type": "robo_orchard_lab.models.bip3d.bert:BertModel",
+      "special_tokens_list": [
+        "[CLS]",
+        "[SEP]"
+      ],
+      "name": "./ckpt/bert-base-uncased",
+      "pad_to_max": false,
+      "use_sub_sentence_represent": true,
+      "add_pooling_layer": false,
+      "max_tokens": 768,
+      "use_checkpoint": true,
+      "return_tokenized": true
+    },
+    "feature_enhancer": {
+      "type": "robo_orchard_lab.models.bip3d.feature_enhancer:TextImageDeformable2DEnhancer",
+      "embed_dims": 256,
+      "num_layers": 6,
+      "text_img_attn_block": {
+        "v_dim": 256,
+        "l_dim": 256,
+        "embed_dim": 1024,
+        "num_heads": 4,
+        "init_values": 0.0001
+      },
+      "img_attn_block": {
+        "self_attn_cfg": {
+          "embed_dims": 256,
+          "num_levels": 4,
+          "im2col_step": 1
+        },
+        "ffn_cfg": {
+          "embed_dims": 256,
+          "feedforward_channels": 2048,
+          "ffn_drop": 0.0
+        }
+      },
+      "text_attn_block": {
+        "self_attn_cfg": {
+          "num_heads": 4,
+          "embed_dims": 256
+        },
+        "ffn_cfg": {
+          "embed_dims": 256,
+          "feedforward_channels": 1024,
+          "ffn_drop": 0.0
+        }
+      },
+      "num_feature_levels": 4,
+      "positional_encoding": {
+        "num_feats": 128,
+        "normalize": true,
+        "offset": 0.0,
+        "temperature": 20
+      }
+    },
+    "spatial_enhancer": {
+      "type": "robo_orchard_lab.models.bip3d.spatial_enhancer:DepthFusionSpatialEnhancer",
+      "embed_dims": 256,
+      "feature_3d_dim": 128,
+      "num_depth_layers": 2,
+      "min_depth": 0.01,
+      "max_depth": 1.2,
+      "num_depth": 128,
+      "with_feature_3d": true,
+      "loss_depth_weight": 1.0
+    },
+    "data_preprocessor": {
+      "type": "robo_orchard_lab.models.layers.data_preprocessors:BaseDataPreprocessor",
+      "channel_flip": true,
+      "unsqueeze_depth_channel": true,
+      "mean": [
+        123.675,
+        116.28,
+        103.53
+      ],
+      "std": [
+        58.395,
+        57.12,
+        57.375
+      ],
+      "batch_transforms": [
+        {
+          "type": "robo_orchard_lab.models.bip3d.spatial_enhancer:BatchDepthProbGTGenerator",
+          "min_depth": 0.01,
+          "max_depth": 1.2,
+          "num_depth": 128,
+          "origin_stride": 2,
+          "valid_threshold": 0.5,
+          "stride": [
+            8,
+            16,
+            32,
+            64
+          ]
+        }
+      ]
+    },
+    "backbone_3d": {
+      "type": "robo_orchard_lab.models.modules.swin_transformer:SwinTransformer",
+      "in_channels": 1,
+      "embed_dims": 16,
+      "depths": [
+        2,
+        2,
+        6,
+        2
+      ],
+      "num_heads": [
+        4,
+        8,
+        8,
+        16
+      ],
+      "window_size": 7,
+      "mlp_ratio": 4,
+      "qkv_bias": true,
+      "qk_scale": null,
+      "drop_rate": 0.0,
+      "attn_drop_rate": 0.0,
+      "out_indices": [
+        1,
+        2,
+        3
+      ],
+      "with_cp": true,
+      "convert_weights": false
+    },
+    "neck_3d": {
+      "type": "robo_orchard_lab.models.modules.channel_mapper:ChannelMapper",
+      "in_channels": [
+        32,
+        64,
+        128
+      ],
+      "kernel_size": 1,
+      "out_channels": 128,
+      "act_cfg": null,
+      "bias": true,
+      "norm_cfg": {
+        "type": "torch.nn.modules.normalization:GroupNorm",
+        "num_groups": 4
+      },
+      "num_outs": 4
+    },
+    "input_2d": "imgs",
+    "input_3d": "depths",
+    "embed_dims": 256,
+    "pre_spatial_enhancer": false
+  },
+  "timed_scope": "model(batch), includes internal data_preprocessor and complete denoising; excludes external processor/token scene conversion and action post_process",
+  "environment": "shared GPU rough measurement, explicitly authorized by user; resident foreign processes retained",
+  "power_scope": "total GPU board sensor including other processes; not model-attributable energy or full host platform",
+  "occupants_before": "GPU-bd778e9c-d2c4-8dfe-5bd4-71a25ad59a48, 4142189, 6594 MiB\nGPU-bd778e9c-d2c4-8dfe-5bd4-71a25ad59a48, 1713636, 3686 MiB\nGPU-8739cf30-7e56-947d-0d44-21a0bb0ea807, 4142263, 6594 MiB\nGPU-48a7125a-ea9f-fd2b-5f63-b37fa86b473c, 4142338, 6594 MiB\nGPU-4044d9d5-a49b-6827-464c-58e74995c004, 4142412, 6594 MiB\n",
+  "occupants_after": "GPU-bd778e9c-d2c4-8dfe-5bd4-71a25ad59a48, 4142189, 6594 MiB\nGPU-bd778e9c-d2c4-8dfe-5bd4-71a25ad59a48, 1713636, 1078 MiB\nGPU-8739cf30-7e56-947d-0d44-21a0bb0ea807, 4142263, 6594 MiB\nGPU-8739cf30-7e56-947d-0d44-21a0bb0ea807, 1931773, 2430 MiB\nGPU-48a7125a-ea9f-fd2b-5f63-b37fa86b473c, 4142338, 6594 MiB\nGPU-4044d9d5-a49b-6827-464c-58e74995c004, 4142412, 6594 MiB\n",
+  "samples": [
+    [
+      8632147.810545316,
+      67.29,
+      19.0,
+      9027.0
+    ],
+    [
+      8632147.861703074,
+      67.29,
+      19.0,
+      9027.0
+    ],
+    [
+      8632147.912912231,
+      67.29,
+      19.0,
+      9027.0
+    ],
+    [
+      8632147.964116435,
+      67.78,
+      19.0,
+      9027.0
+    ],
+    [
+      8632148.015329054,
+      96.36,
+      3.0,
+      9027.0
+    ],
+    [
+      8632148.066543031,
+      175.62,
+      3.0,
+      9027.0
+    ],
+    [
+      8632148.11774846,
+      84.27,
+      3.0,
+      9027.0
+    ],
+    [
+      8632148.168999577,
+      85.24,
+      42.0,
+      9027.0
+    ],
+    [
+      8632148.220193157,
+      86.7,
+      42.0,
+      9027.0
+    ],
+    [
+      8632148.2715687,
+      84.32,
+      42.0,
+      9027.0
+    ],
+    [
+      8632148.32329985,
+      81.89,
+      26.0,
+      9027.0
+    ],
+    [
+      8632148.374608532,
+      88.22,
+      26.0,
+      9027.0
+    ],
+    [
+      8632148.425855765,
+      96.36,
+      26.0,
+      9027.0
+    ],
+    [
+      8632148.477127373,
+      184.47,
+      46.0,
+      9027.0
+    ],
+    [
+      8632148.528371407,
+      89.56,
+      46.0,
+      9027.0
+    ],
+    [
+      8632148.580721164,
+      80.92,
+      46.0,
+      9027.0
+    ],
+    [
+      8632148.631894652,
+      90.11,
+      46.0,
+      9027.0
+    ],
+    [
+      8632148.683110049,
+      85.73,
+      25.0,
+      9027.0
+    ],
+    [
+      8632148.73440308,
+      84.75,
+      25.0,
+      9027.0
+    ],
+    [
+      8632148.785621118,
+      87.19,
+      25.0,
+      9027.0
+    ],
+    [
+      8632148.83679988,
+      102.2,
+      32.0,
+      9027.0
+    ],
+    [
+      8632148.888044108,
+      145.27,
+      32.0,
+      9027.0
+    ],
+    [
+      8632148.939238692,
+      91.08,
+      32.0,
+      9027.0
+    ],
+    [
+      8632148.990414852,
+      86.7,
+      39.0,
+      9027.0
+    ],
+    [
+      8632149.041591676,
+      84.75,
+      39.0,
+      9027.0
+    ],
+    [
+      8632149.092823291,
+      91.62,
+      39.0,
+      9027.0
+    ],
+    [
+      8632149.143979589,
+      85.73,
+      26.0,
+      9027.0
+    ],
+    [
+      8632149.19523153,
+      111.85,
+      26.0,
+      9027.0
+    ],
+    [
+      8632149.246410564,
+      126.82,
+      26.0,
+      9027.0
+    ],
+    [
+      8632149.29757629,
+      120.59,
+      26.0,
+      9027.0
+    ],
+    [
+      8632149.348862758,
+      93.02,
+      45.0,
+      9027.0
+    ],
+    [
+      8632149.400154786,
+      87.73,
+      45.0,
+      9027.0
+    ],
+    [
+      8632149.451335672,
+      83.3,
+      45.0,
+      9027.0
+    ],
+    [
+      8632149.502512412,
+      91.5,
+      26.0,
+      9027.0
+    ],
+    [
+      8632149.553764226,
+      87.73,
+      26.0,
+      9027.0
+    ],
+    [
+      8632149.604967974,
+      136.62,
+      26.0,
+      9027.0
+    ],
+    [
+      8632149.656136349,
+      157.3,
+      31.0,
+      9027.0
+    ],
+    [
+      8632149.707316214,
+      112.82,
+      31.0,
+      9027.0
+    ],
+    [
+      8632149.758552197,
+      88.59,
+      31.0,
+      9027.0
+    ],
+    [
+      8632149.80970144,
+      89.07,
+      31.0,
+      9027.0
+    ],
+    [
+      8632149.860851899,
+      87.67,
+      40.0,
+      9027.0
+    ],
+    [
+      8632149.912036655,
+      84.7,
+      40.0,
+      9027.0
+    ],
+    [
+      8632149.963201035,
+      91.5,
+      40.0,
+      9027.0
+    ],
+    [
+      8632150.014383806,
+      173.31,
+      26.0,
+      9027.0
+    ],
+    [
+      8632150.065560378,
+      172.34,
+      26.0,
+      9027.0
+    ],
+    [
+      8632150.116713181,
+      104.63,
+      26.0,
+      9027.0
+    ],
+    [
+      8632150.16845324,
+      87.67,
+      46.0,
+      9027.0
+    ],
+    [
+      8632150.219615543,
+      89.56,
+      46.0,
+      9027.0
+    ],
+    [
+      8632150.270862797,
+      91.14,
+      46.0,
+      9027.0
+    ],
+    [
+      8632150.322026836,
+      86.64,
+      26.0,
+      9027.0
+    ],
+    [
+      8632150.373285482,
+      86.27,
+      26.0,
+      9027.0
+    ],
+    [
+      8632150.424589686,
+      162.37,
+      26.0,
+      9027.0
+    ],
+    [
+      8632150.475833839,
+      173.2,
+      26.0,
+      9027.0
+    ],
+    [
+      8632150.527200751,
+      100.19,
+      42.0,
+      9027.0
+    ],
+    [
+      8632150.578433111,
+      89.07,
+      42.0,
+      9027.0
+    ],
+    [
+      8632150.629586026,
+      83.3,
+      42.0,
+      9027.0
+    ],
+    [
+      8632150.680810643,
+      92.96,
+      30.0,
+      9027.0
+    ],
+    [
+      8632150.732022654,
+      88.71,
+      30.0,
+      9027.0
+    ],
+    [
+      8632150.783234313,
+      85.19,
+      30.0,
+      9027.0
+    ],
+    [
+      8632150.834397692,
+      127.39,
+      30.0,
+      9027.0
+    ],
+    [
+      8632150.885595215,
+      178.16,
+      30.0,
+      9027.0
+    ],
+    [
+      8632150.937646098,
+      90.59,
+      30.0,
+      9027.0
+    ],
+    [
+      8632150.988794275,
+      88.22,
+      42.0,
+      9027.0
+    ],
+    [
+      8632151.039966848,
+      83.73,
+      42.0,
+      9027.0
+    ],
+    [
+      8632151.091197873,
+      81.35,
+      42.0,
+      9027.0
+    ],
+    [
+      8632151.142371897,
+      87.25,
+      42.0,
+      9027.0
+    ],
+    [
+      8632151.19358099,
+      84.7,
+      26.0,
+      9027.0
+    ],
+    [
+      8632151.244759267,
+      116.29,
+      26.0,
+      9027.0
+    ],
+    [
+      8632151.295974009,
+      180.22,
+      26.0,
+      9027.0
+    ],
+    [
+      8632151.347592792,
+      86.76,
+      45.0,
+      9027.0
+    ],
+    [
+      8632151.398833526,
+      88.65,
+      45.0,
+      9027.0
+    ],
+    [
+      8632151.450050024,
+      85.24,
+      45.0,
+      9027.0
+    ],
+    [
+      8632151.501240661,
+      81.35,
+      26.0,
+      9027.0
+    ],
+    [
+      8632151.55242695,
+      89.13,
+      26.0,
+      9027.0
+    ],
+    [
+      8632151.603645675,
+      85.24,
+      26.0,
+      9027.0
+    ],
+    [
+      8632151.65482393,
+      104.28,
+      31.0,
+      9027.0
+    ],
+    [
+      8632151.706058867,
+      175.5,
+      31.0,
+      9027.0
+    ],
+    [
+      8632151.757282965,
+      86.76,
+      31.0,
+      9027.0
+    ],
+    [
+      8632151.808722446,
+      85.24,
+      31.0,
+      9027.0
+    ],
+    [
+      8632151.859931301,
+      88.16,
+      40.0,
+      9027.0
+    ],
+    [
+      8632151.91106595,
+      85.78,
+      40.0,
+      9027.0
+    ],
+    [
+      8632151.962247852,
+      83.3,
+      40.0,
+      9027.0
+    ],
+    [
+      8632152.013405649,
+      88.1,
+      26.0,
+      9027.0
+    ],
+    [
+      8632152.064590352,
+      96.85,
+      26.0,
+      9027.0
+    ],
+    [
+      8632152.115752239,
+      165.06,
+      26.0,
+      9027.0
+    ],
+    [
+      8632152.166928785,
+      89.13,
+      45.0,
+      9027.0
+    ],
+    [
+      8632152.218147798,
+      82.32,
+      45.0,
+      9027.0
+    ],
+    [
+      8632152.269431483,
+      87.73,
+      45.0,
+      9027.0
+    ],
+    [
+      8632152.320620595,
+      89.56,
+      45.0,
+      9027.0
+    ],
+    [
+      8632152.371769724,
+      86.27,
+      26.0,
+      9027.0
+    ],
+    [
+      8632152.422953987,
+      85.24,
+      26.0,
+      9027.0
+    ],
+    [
+      8632152.475449415,
+      134.19,
+      26.0,
+      9027.0
+    ],
+    [
+      8632152.526675027,
+      120.67,
+      38.0,
+      9027.0
+    ],
+    [
+      8632152.57789031,
+      89.68,
+      38.0,
+      9027.0
+    ],
+    [
+      8632152.630648017,
+      86.7,
+      38.0,
+      9027.0
+    ],
+    [
+      8632152.681883788,
+      82.32,
+      33.0,
+      9027.0
+    ],
+    [
+      8632152.733108388,
+      87.25,
+      33.0,
+      9027.0
+    ],
+    [
+      8632152.784296649,
+      89.62,
+      33.0,
+      9027.0
+    ],
+    [
+      8632152.835472818,
+      76.49,
+      26.0,
+      9027.0
+    ],
+    [
+      8632152.886682844,
+      68.75,
+      26.0,
+      9027.0
+    ],
+    [
+      8632152.937939024,
+      68.75,
+      26.0,
+      9027.0
+    ]
+  ],
+  "calls": [
+    {
+      "latency_s": 0.4190208464860916,
+      "shared_gpu_total_energy_j": 40.296806684300336
+    },
+    {
+      "latency_s": 0.4057321734726429,
+      "shared_gpu_total_energy_j": 40.59935957781663
+    },
+    {
+      "latency_s": 0.4035645741969347,
+      "shared_gpu_total_energy_j": 39.6240067711864
+    },
+    {
+      "latency_s": 0.4054838977754116,
+      "shared_gpu_total_energy_j": 41.052900201442775
+    },
+    {
+      "latency_s": 0.4023193046450615,
+      "shared_gpu_total_energy_j": 42.946842498811485
+    },
+    {
+      "latency_s": 0.4023636821657419,
+      "shared_gpu_total_energy_j": 44.55323033702278
+    },
+    {
+      "latency_s": 0.4024375770241022,
+      "shared_gpu_total_energy_j": 43.81311050244105
+    },
+    {
+      "latency_s": 0.40629448369145393,
+      "shared_gpu_total_energy_j": 41.73189853780053
+    },
+    {
+      "latency_s": 0.40504451654851437,
+      "shared_gpu_total_energy_j": 41.188111189967486
+    },
+    {
+      "latency_s": 0.40226811543107033,
+      "shared_gpu_total_energy_j": 40.105319790924206
+    },
+    {
+      "latency_s": 0.4020599350333214,
+      "shared_gpu_total_energy_j": 39.45934571453262
+    },
+    {
+      "latency_s": 0.40252141281962395,
+      "shared_gpu_total_energy_j": 39.014983391933946
+    }
+  ],
+  "mean_latency_s": 0.4049258766074975,
+  "median_latency_s": 0.4030429935082793,
+  "min_latency_s": 0.4020599350333214,
+  "max_latency_s": 0.4190208464860916,
+  "mean_shared_gpu_power_w": 99.74297029702971,
+  "mean_shared_gpu_energy_j": 41.19882626651502,
+  "seed": 20260830
+}

@@ -1,0 +1,11 @@
+{
+  "generated_at": "2026-09-14 01:17:12",
+  "capture": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\data\\v8_2026-09-13_231621\\raw_capture",
+  "options": [
+    "act_reuse"
+  ],
+  "descriptor_id_bits": 16,
+  "command_word_layout": "op[63:56],flags[55:48],descriptor_id[47:32],length[15:0]",
+  "source_module_events": 408,
+  "source_dispatch_events": 6836
+}

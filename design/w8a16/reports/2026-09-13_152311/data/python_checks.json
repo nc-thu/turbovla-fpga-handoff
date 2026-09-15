@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "seed": 20260830,
+  "checks": [
+    "integer_matmul",
+    "dequantized_path_finite",
+    "40bit_bound_at_k4096",
+    "int16_saturation"
+  ],
+  "contract": {
+    "weights": {
+      "bits": 8,
+      "signed_range": [
+        -128,
+        127
+      ],
+      "per": "output_channel"
+    },
+    "activations": {
+      "bits": 16,
+      "signed_range": [
+        -32768,
+        32767
+      ],
+      "per": "tensor"
+    },
+    "accumulator_bits": 40,
+    "output_bits": 16,
+    "bias": "separate integer or FP32 fallback; never silently dropped",
+    "old_fake_quant_note": "historical wrapper uses symmetric [-qmax,qmax] and FP32 F.linear"
+  }
+}

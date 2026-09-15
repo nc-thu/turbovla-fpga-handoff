@@ -1,0 +1,18 @@
+\begin{table*}[t]\centering
+\caption{Architecture capabilities, grouped by target scope. S: supported; P: partial; NR: not reported in the checked source; N/A: not applicable. NR* indicates unavailable full text, not a negative judgment. Detailed source locations are provided with the artifact.}\label{tab:related}
+\fontsize{7}{8.5}\selectfont\setlength{\tabcolsep}{2pt}\renewcommand{\arraystretch}{1.22}
+\begin{tabularx}{\textwidth}{@{}p{.095\textwidth}p{.105\textwidth}p{.05\textwidth}XXXX X@{}}\toprule
+Architecture & Target / scope & Device & Full model / host & Iteration reuse & Shape / overlap & Arithmetic / packing & Public artifacts\\\midrule
+\multicolumn{8}{l}{\textit{Embodied / diffusion}}\\
+DiTPA~\cite{ditpa} & DiT action planner & ASIC & P: planner only; upstream VLM external & S: features + actions & S: reconfigurable PE; modality scheduler & P: low precision; DSP N/A & NR: compiler / simulator / RTL release\\
+Cambricon-D~\cite{camd} & Diffusion; sign-mask dataflow & Custom; NR* & NR*: host boundary & S: temporal differences & NR*: detailed schedule & NR*: numeric datapath & NR*: official release\\
+Ditto~\cite{ditto} & Diffusion linear + special functions & ASIC & P: model engine; host boundary NR & S: temporal difference & S: Defo + unit pipeline & S: 4/8-bit; DSP N/A & NR: official source release\\
+EXION~\cite{exion} & Multimodal diffusion & ASIC & P: diffusion core; host boundary NR & S: FFN reuse & S: ConMerge; overlap NR & P: mixed domains; DSP N/A & NR: release; simulator described\\
+Diff-DiT~\cite{diffdit} & Low-bit DiT inference & FPGA & P: DiT kernel; host boundary NR & S: differential attention & S: cross-cast + pipelining & S: low-bit; packing code & P: HLS + tests; compiler NR\\
+\multicolumn{8}{l}{\textit{Transformer / general FPGA}}\\
+FlightLLM~\cite{flight} & LLM prefill + decode & FPGA & S: LLM operators; host orchestration & N/A: diffusion reuse & S: MM/MV + fused dataflow & S: mixed precision; DSP chain & P: profiling + board demo\\
+Quasar-ViT~\cite{quasar} & ViT GEMM + SLS & FPGA & P: ARM norm / GELU / Softmax & N/A: diffusion reuse & S: tiling + double buffers & S: hybrid signed DSP packing & NR: official source release\\
+FINN~\cite{finn} & Binarized neural networks & FPGA & S: supported BNN; host I/O & N/A: diffusion reuse & S: folding + streaming & S: binary; DSP packing N/A & S: compiler + tests + RTL library*\\
+\multicolumn{8}{l}{\textit{This work}}\\
+VLA-FPGA & Traced HoloBrain-0 segments & FPGA & P: explicit HostOp boundaries & NR: no new reuse method & P: overlap; merge pending & S: exact INT8 Pack2 preadder & P: local compiler / simulator / RTL; release planned\\
+\bottomrule\end{tabularx}\end{table*}

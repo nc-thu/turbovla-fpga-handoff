@@ -1,0 +1,37 @@
+{
+  "generated_at": "2026-09-15 19:44:48",
+  "sample_count": 100343,
+  "failure_count": 0,
+  "failures": [],
+  "max_packed_product_abs_seen": 1073758208,
+  "pack_formula": "Q=(w1+128)*2^16+(w0+128); R=Q-128*(2^16+1); P=a*R; prod0=P[15:0]; prod1=P[31:16]+P[15]",
+  "k_bounds": {
+    "1": {
+      "worst_abs_int32": 16384,
+      "fits_int32": true,
+      "fits_signed27": true
+    },
+    "32": {
+      "worst_abs_int32": 524288,
+      "fits_int32": true,
+      "fits_signed27": true
+    },
+    "256": {
+      "worst_abs_int32": 4194304,
+      "fits_int32": true,
+      "fits_signed27": true
+    },
+    "3072": {
+      "worst_abs_int32": 50331648,
+      "fits_int32": true,
+      "fits_signed27": true
+    },
+    "4096": {
+      "worst_abs_int32": 67108864,
+      "fits_int32": true,
+      "fits_signed27": false
+    }
+  },
+  "status": "PASS",
+  "elapsed_seconds": 0.17221546173095703
+}

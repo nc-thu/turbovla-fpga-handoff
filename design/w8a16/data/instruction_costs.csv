@@ -1,0 +1,91 @@
+program,pc,op,status,cycles_lower_bound,input_bytes,output_bytes,m,n,k,note
+smoke,0,LOAD_CTX,mapped,1,0,16,0,0,0,256-bit CTX activation read
+smoke,1,LOAD_WEIGHT,mapped,2,0,56,0,0,0,384-bit WRAM weight read
+smoke,2,GEMM_W8A16,mapped,73,72,14,1,7,8,16×48 array capacity model
+smoke,3,BIAS_ADD,mapped,1,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+smoke,4,TANH,mapped,1,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+smoke,5,STORE_ACTION,mapped,1,14,0,0,0,0,256-bit INT16 write; action adapter is downstream
+smoke,6,END,mapped,1,0,0,0,0,0,control event
+full,0,LOAD_CTX,fallback,24576,0,786432,0,0,0,256-bit CTX activation read
+full,1,LOAD_WEIGHT,mapped,16384,0,786432,0,0,0,384-bit WRAM weight read
+full,2,GEMM_W8A16,mapped,330560,21626880,524288,256,1024,768,16×48 array capacity model
+full,3,LAYER_NORM,mapped_candidate,49152,0,0,0,0,0,mean/deviation/scale; current bounded integer RTL primitive
+full,4,ADD,mapped,16384,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,5,LAYER_NORM,mapped,49152,0,0,0,0,0,mean/deviation/scale; current bounded integer RTL primitive
+full,6,GEMM_W8A16,mapped,150336,7208960,524288,256,1024,256,16×48 array capacity model
+full,7,BMM_W8A16,mapped_candidate,3968,108544,10752,256,21,128,BMM only when layouts/dependencies are compatible
+full,8,SOFTMAX,mapped,1344,0,0,0,0,0,"max, LUT exp, sum and normalize"
+full,9,BMM_W8A16,mapped_candidate,8848,80640,65536,256,128,21,BMM only when layouts/dependencies are compatible
+full,10,ADD,mapped,4096,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,11,GELU,mapped,16384,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,12,BIAS_ADD,fallback_or_integer,16384,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,13,LAYER_NORM,mapped,49152,0,0,0,0,0,mean/deviation/scale; current bounded integer RTL primitive
+full,14,GEMM_W8A16,mapped,150336,7208960,524288,256,1024,256,16×48 array capacity model
+full,15,BMM_W8A16,mapped_candidate,3968,108544,10752,256,21,128,BMM only when layouts/dependencies are compatible
+full,16,SOFTMAX,mapped,1344,0,0,0,0,0,"max, LUT exp, sum and normalize"
+full,17,BMM_W8A16,mapped_candidate,8848,80640,65536,256,128,21,BMM only when layouts/dependencies are compatible
+full,18,ADD,mapped,4096,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,19,GELU,mapped,16384,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,20,BIAS_ADD,fallback_or_integer,16384,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,21,LAYER_NORM,mapped,49152,0,0,0,0,0,mean/deviation/scale; current bounded integer RTL primitive
+full,22,GEMM_W8A16,mapped,150336,7208960,524288,256,1024,256,16×48 array capacity model
+full,23,BMM_W8A16,mapped_candidate,3968,108544,10752,256,21,128,BMM only when layouts/dependencies are compatible
+full,24,SOFTMAX,mapped,1344,0,0,0,0,0,"max, LUT exp, sum and normalize"
+full,25,BMM_W8A16,mapped_candidate,8848,80640,65536,256,128,21,BMM only when layouts/dependencies are compatible
+full,26,ADD,mapped,4096,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,27,GELU,mapped,16384,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,28,BIAS_ADD,fallback_or_integer,16384,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,29,LAYER_NORM,mapped,49152,0,0,0,0,0,mean/deviation/scale; current bounded integer RTL primitive
+full,30,GEMM_W8A16,mapped,150336,7208960,524288,256,1024,256,16×48 array capacity model
+full,31,BMM_W8A16,mapped_candidate,3968,108544,10752,256,21,128,BMM only when layouts/dependencies are compatible
+full,32,SOFTMAX,mapped,1344,0,0,0,0,0,"max, LUT exp, sum and normalize"
+full,33,BMM_W8A16,mapped_candidate,8848,80640,65536,256,128,21,BMM only when layouts/dependencies are compatible
+full,34,ADD,mapped,4096,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,35,GELU,mapped,16384,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,36,BIAS_ADD,fallback_or_integer,16384,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,37,LAYER_NORM,mapped,49152,0,0,0,0,0,mean/deviation/scale; current bounded integer RTL primitive
+full,38,GEMM_W8A16,mapped,150336,7208960,524288,256,1024,256,16×48 array capacity model
+full,39,BMM_W8A16,mapped_candidate,3968,108544,10752,256,21,128,BMM only when layouts/dependencies are compatible
+full,40,SOFTMAX,mapped,1344,0,0,0,0,0,"max, LUT exp, sum and normalize"
+full,41,BMM_W8A16,mapped_candidate,8848,80640,65536,256,128,21,BMM only when layouts/dependencies are compatible
+full,42,ADD,mapped,4096,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,43,GELU,mapped,16384,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,44,BIAS_ADD,fallback_or_integer,16384,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,45,LAYER_NORM,mapped,49152,0,0,0,0,0,mean/deviation/scale; current bounded integer RTL primitive
+full,46,GEMM_W8A16,mapped,150336,7208960,524288,256,1024,256,16×48 array capacity model
+full,47,BMM_W8A16,mapped_candidate,3968,108544,10752,256,21,128,BMM only when layouts/dependencies are compatible
+full,48,SOFTMAX,mapped,1344,0,0,0,0,0,"max, LUT exp, sum and normalize"
+full,49,BMM_W8A16,mapped_candidate,8848,80640,65536,256,128,21,BMM only when layouts/dependencies are compatible
+full,50,ADD,mapped,4096,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,51,GELU,mapped,16384,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,52,BIAS_ADD,fallback_or_integer,16384,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,53,LOAD_CTX,mapped,1,0,16,0,0,0,256-bit CTX activation read
+full,54,LAYER_NORM,mapped,3,0,0,0,0,0,mean/deviation/scale; current bounded integer RTL primitive
+full,55,GEMM_W8A16,mapped,845,4400,1024,1,512,8,16×48 array capacity model
+full,56,GELU,mapped,32,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,57,LAYER_NORM,mapped,12288,0,0,0,0,0,mean/deviation/scale; current bounded integer RTL primitive
+full,58,BMM_W8A16,mapped_candidate,348,9216,288,12,12,256,BMM only when layouts/dependencies are compatible
+full,59,SOFTMAX,mapped,36,0,0,0,0,0,"max, LUT exp, sum and normalize"
+full,60,ADD,mapped,192,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,61,GEMM_W8A16,mapped,17262,792576,49152,12,2048,256,16×48 array capacity model
+full,62,RELU,mapped,1536,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,63,GEMM_W8A16,mapped,13116,884736,6144,12,256,2048,16×48 array capacity model
+full,64,LAYER_NORM,mapped,12288,0,0,0,0,0,mean/deviation/scale; current bounded integer RTL primitive
+full,65,BMM_W8A16,mapped_candidate,348,9216,288,12,12,256,BMM only when layouts/dependencies are compatible
+full,66,SOFTMAX,mapped,36,0,0,0,0,0,"max, LUT exp, sum and normalize"
+full,67,ADD,mapped,192,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,68,GEMM_W8A16,mapped,17262,792576,49152,12,2048,256,16×48 array capacity model
+full,69,RELU,mapped,1536,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,70,GEMM_W8A16,mapped,13116,884736,6144,12,256,2048,16×48 array capacity model
+full,71,LAYER_NORM,mapped,12288,0,0,0,0,0,mean/deviation/scale; current bounded integer RTL primitive
+full,72,BMM_W8A16,mapped_candidate,348,9216,288,12,12,256,BMM only when layouts/dependencies are compatible
+full,73,SOFTMAX,mapped,36,0,0,0,0,0,"max, LUT exp, sum and normalize"
+full,74,ADD,mapped,192,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,75,GEMM_W8A16,mapped,17262,792576,49152,12,2048,256,16×48 array capacity model
+full,76,RELU,mapped,1536,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,77,GEMM_W8A16,mapped,13116,884736,6144,12,256,2048,16×48 array capacity model
+full,78,GEMM_W8A16,mapped,342,7936,168,12,7,256,16×48 array capacity model
+full,79,TANH,mapped,6,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,80,REQUANT,mapped,6,0,0,0,0,0,vector primitive; exact latency requires unit implementation
+full,81,STORE_ACTION,mapped,6,168,0,0,0,0,256-bit INT16 write; action adapter is downstream
+full,82,END,mapped,1,0,0,0,0,0,control event

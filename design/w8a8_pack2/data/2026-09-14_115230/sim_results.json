@@ -1,0 +1,10 @@
+{
+  "generated_at": "2026-09-14 12:20:00",
+  "python_golden": {"status": "PASS", "samples": 100343, "failures": 0},
+  "verilator_pack2_mult_padd": {"status": "PASS", "scope": "single Pack2 multiplier/borrow correction", "note": "server vsim environment"},
+  "verilator_replay_lint": {"status": "PASS", "scope": "replay top, ENABLE_ARRAY=0", "note": "warnings only"},
+  "verilator_16x48_elaboration": {"status": "PASS", "scope": "parameterized 768-DSP array lint/elaboration", "note": "not a full numeric trace replay"},
+  "icarus_replay_smoke": {"status": "PASS", "scope": "command, FIFO drain, end event"},
+  "icarus_array_smoke": {"status": "PASS", "scope": "2x3 representative array"},
+  "vivado_ooc": {"status": "PASS", "scope": "1x1, 4x4 and 16x48 synthesis", "implementation": "not run"}
+}

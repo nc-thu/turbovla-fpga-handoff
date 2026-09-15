@@ -1,0 +1,3 @@
+benchmark,task,seed_list,episodes,reference_success,integer_success,delta_percentage_points,confidence_interval,checkpoint_sha256,quantization_sha256
+LIBERO (suite TBD),,,,,,,,,
+RoboTwin (tasks TBD),,,,,,,,,

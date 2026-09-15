@@ -1,0 +1,2 @@
+top,part,status,elapsed_s,total_luts,logic_luts,ffs,dsp,ramb36,ramb18,uram,wns_ns,tns_ns,timing_met,fmax_estimate_mhz,data_path_delay_ns,logic_delay_percent,route_delay_percent,total_on_chip_w,dynamic_w,static_w,power_confidence,power_evidence,fully_routed_nets,unrouted_nets,routing_errors,drc_violations,drc_errors,drc_warnings,drc_advisories
+w8a16_system_top,xczu7ev-ffvc1156-2-e,passed,3299.0,66368,65016,117105,785,0,0,0,-0.05,-4.464,False,246.9135802469136,3.946,7.628,92.372,4.478,3.865,0.613,Medium,vectorless_estimate,184306,0,0,821,0,4,1

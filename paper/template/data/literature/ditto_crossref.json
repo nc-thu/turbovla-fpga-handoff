@@ -1,0 +1,815 @@
+{
+  "indexed": {
+    "date-parts": [
+      [
+        2026,
+        8,
+        23
+      ]
+    ],
+    "date-time": "2026-08-23T17:09:34Z",
+    "timestamp": 1787504974308,
+    "version": "build-2736575974"
+  },
+  "reference-count": 97,
+  "publisher": "IEEE",
+  "license": [
+    {
+      "start": {
+        "date-parts": [
+          [
+            2025,
+            3,
+            1
+          ]
+        ],
+        "date-time": "2025-03-01T00:00:00Z",
+        "timestamp": 1740787200000
+      },
+      "content-version": "stm-asf",
+      "delay-in-days": 0,
+      "URL": "https://doi.org/10.15223/policy-029"
+    },
+    {
+      "start": {
+        "date-parts": [
+          [
+            2025,
+            3,
+            1
+          ]
+        ],
+        "date-time": "2025-03-01T00:00:00Z",
+        "timestamp": 1740787200000
+      },
+      "content-version": "stm-asf",
+      "delay-in-days": 0,
+      "URL": "https://doi.org/10.15223/policy-037"
+    }
+  ],
+  "content-domain": {
+    "domain": [],
+    "crossmark-restriction": false
+  },
+  "short-container-title": [],
+  "published-print": {
+    "date-parts": [
+      [
+        2025,
+        3,
+        1
+      ]
+    ]
+  },
+  "DOI": "10.1109/hpca61900.2025.00035",
+  "type": "proceedings-article",
+  "created": {
+    "date-parts": [
+      [
+        2025,
+        4,
+        8
+      ]
+    ],
+    "date-time": "2025-04-08T13:05:40Z",
+    "timestamp": 1744117540000
+  },
+  "page": "338-352",
+  "source": "Crossref",
+  "is-referenced-by-count": 11,
+  "title": [
+    "Ditto: Accelerating Diffusion Model via Temporal Value Similarity"
+  ],
+  "prefix": "10.1109",
+  "author": [
+    {
+      "given": "Sungbin",
+      "family": "Kim",
+      "sequence": "first",
+      "affiliation": [
+        {
+          "name": "Yonsei University,School of Electrical and Electronic Engineering,Seoul,Republic of Korea"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Hyunwuk",
+      "family": "Lee",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "Yonsei University,School of Electrical and Electronic Engineering,Seoul,Republic of Korea"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Wonho",
+      "family": "Cho",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "Yonsei University,School of Electrical and Electronic Engineering,Seoul,Republic of Korea"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Mincheol",
+      "family": "Park",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "Yonsei University,School of Electrical and Electronic Engineering,Seoul,Republic of Korea"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Won Woo",
+      "family": "Ro",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "Yonsei University,School of Electrical and Electronic Engineering,Seoul,Republic of Korea"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    }
+  ],
+  "member": "263",
+  "reference": [
+    {
+      "key": "ref1",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ACCESS.2021.3071409"
+    },
+    {
+      "key": "ref2",
+      "first-page": "382",
+      "article-title": "Bit-pragmatic deep neural network computing",
+      "volume-title": "Proceedings of the 50th annual IEEE/ACM international symposium on microarchitecture",
+      "author": "Albericio"
+    },
+    {
+      "key": "ref3",
+      "article-title": "Learning multiple layers of features from tiny images",
+      "author": "Alex",
+      "year": "2009"
+    },
+    {
+      "key": "ref4",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ISCA45697.2020.00081"
+    },
+    {
+      "key": "ref5",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3444943"
+    },
+    {
+      "key": "ref6",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/TKDE.2024.3361474"
+    },
+    {
+      "key": "ref7",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/HPCA51647.2021.00027"
+    },
+    {
+      "key": "ref8",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3613424.3614290"
+    },
+    {
+      "key": "ref9",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/LCA.2024.3466118"
+    },
+    {
+      "key": "ref10",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/TPAMI.2023.3261988"
+    },
+    {
+      "key": "ref11",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3297858.3304041"
+    },
+    {
+      "key": "ref12",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/CVPR.2009.5206848"
+    },
+    {
+      "key": "ref13",
+      "first-page": "8780",
+      "article-title": "Diffusion models beat gans on image synthesis",
+      "volume": "34",
+      "author": "Dhariwal",
+      "year": "2021",
+      "journal-title": "Advances in neural information processing systems"
+    },
+    {
+      "key": "ref14",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3613424.3614263"
+    },
+    {
+      "key": "ref15",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3174243.3174261"
+    },
+    {
+      "key": "ref16",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/JETCAS.2020.3040300"
+    },
+    {
+      "key": "ref17",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ISPASS61541.2024.00032"
+    },
+    {
+      "key": "ref18",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3352460.3358291"
+    },
+    {
+      "key": "ref19",
+      "first-page": "324",
+      "article-title": "Eureka: Efficient tensor cores for one-sided unstructured sparsity in dnn inference",
+      "volume-title": "Proceedings of the 56th Annual IEEE/ACM International Symposium on Microarchitecture",
+      "author": "Gondimalla"
+    },
+    {
+      "key": "ref20",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3422622"
+    },
+    {
+      "key": "ref21",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3579371.3589038"
+    },
+    {
+      "key": "ref22",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/MICRO56248.2022.00095"
+    },
+    {
+      "key": "ref23",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ISSCC49657.2024.10454308"
+    },
+    {
+      "key": "ref24",
+      "article-title": "Deep compression: Compressing deep neural networks with pruning, trained quantization and huffman coding",
+      "author": "Han",
+      "year": "2015",
+      "journal-title": "arXiv preprint arXiv:1510.00149"
+    },
+    {
+      "key": "ref25",
+      "first-page": "27953",
+      "article-title": "Flexible diffusion modeling of long videos",
+      "volume": "35",
+      "author": "Harvey",
+      "year": "2022",
+      "journal-title": "Advances in Neural Information Processing Systems"
+    },
+    {
+      "key": "ref26",
+      "article-title": "Ptqd: Accurate post-training quantization for diffusion models",
+      "volume": "36",
+      "author": "He",
+      "year": "2024",
+      "journal-title": "Advances in Neural Information Processing Systems"
+    },
+    {
+      "key": "ref27",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.18653/v1/2021.emnlp-main.595"
+    },
+    {
+      "key": "ref28",
+      "article-title": "Gans trained by a two time-scale update rule converge to a local nash equilibrium",
+      "volume": "30",
+      "author": "Heusel",
+      "year": "2017",
+      "journal-title": "Advances in neural information processing systems"
+    },
+    {
+      "key": "ref29",
+      "first-page": "68406851",
+      "article-title": "Denoising diffusion probabilistic models",
+      "volume": "33",
+      "author": "Ho",
+      "year": "2020",
+      "journal-title": "Advances in neural information processing systems"
+    },
+    {
+      "issue": "47",
+      "key": "ref30",
+      "first-page": "1",
+      "article-title": "Cascaded diffusion models for high fidelity image generation",
+      "volume": "23",
+      "author": "Ho",
+      "year": "2022",
+      "journal-title": "Journal of Machine Learning Research"
+    },
+    {
+      "key": "ref31",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ISPASS55109.2022.00041"
+    },
+    {
+      "key": "ref32",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/CVPR52733.2024.00703"
+    },
+    {
+      "key": "ref33",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/HPCA56546.2023.10071031"
+    },
+    {
+      "key": "ref34",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/HPCA56546.2023.10071051"
+    },
+    {
+      "key": "ref35",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ISCA52012.2021.00011"
+    },
+    {
+      "key": "ref36",
+      "article-title": "Dissecting the nvidia volta gpu architecture via microbenchmarking",
+      "author": "Jia",
+      "year": "2018",
+      "journal-title": "arXiv preprint arXiv:1804.06826"
+    },
+    {
+      "key": "ref37",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3579371.3589350"
+    },
+    {
+      "key": "ref38",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/MICRO.2016.7783722"
+    },
+    {
+      "key": "ref39",
+      "article-title": "Bk-sdm: Architecturally compressed stable diffusion for efficient text-to-image generation",
+      "volume-title": "Workshop on Efficient Systems for Foundation Models@ ICML2023",
+      "author": "Kim"
+    },
+    {
+      "key": "ref40",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/JSSC.2021.3094469"
+    },
+    {
+      "key": "ref41",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ICCD63220.2024.00103"
+    },
+    {
+      "key": "ref42",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.48550/arXiv.1312.6114"
+    },
+    {
+      "key": "ref43",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ISCA59077.2024.00070"
+    },
+    {
+      "key": "ref44",
+      "article-title": "On fast sampling of diffusion probabilistic models",
+      "author": "Kong",
+      "year": "2021",
+      "journal-title": "arXiv preprint arXiv:2106.00132"
+    },
+    {
+      "key": "ref45",
+      "article-title": "Introduction to linear algebra",
+      "author": "Lang",
+      "year": "2012"
+    },
+    {
+      "key": "ref46",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3352460.3358295"
+    },
+    {
+      "key": "ref47",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3352460.3358295"
+    },
+    {
+      "key": "ref48",
+      "first-page": "1121",
+      "article-title": "Exploiting inherent properties of complex numbers for accelerating complex valued neural networks",
+      "volume-title": "Proceedings of the 56th Annual IEEE/ACM International Symposium on Microarchitecture",
+      "author": "Lee"
+    },
+    {
+      "key": "ref49",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/CVPR.2018.00572"
+    },
+    {
+      "key": "ref50",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ICCV51070.2023.01608"
+    },
+    {
+      "key": "ref51",
+      "article-title": "Snapfusion: Text-to-image diffusion model on mobile devices within two seconds",
+      "volume": "36",
+      "author": "Li",
+      "year": "2024",
+      "journal-title": "Advances in Neural Information Processing Systems"
+    },
+    {
+      "key": "ref52",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/HPCA.2019.00028"
+    },
+    {
+      "key": "ref53",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1007/978-3-319-10602-1_48"
+    },
+    {
+      "key": "ref54",
+      "article-title": "Pseudo numerical methods for diffusion models on manifolds",
+      "author": "Liu",
+      "year": "2022",
+      "journal-title": "arXiv preprint arXiv:2202.09778"
+    },
+    {
+      "key": "ref55",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/HPCA53966.2022.00049"
+    },
+    {
+      "key": "ref56",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/CVPR52688.2022.01117"
+    },
+    {
+      "key": "ref57",
+      "article-title": "Latte: Latent diffusion transformer for video generation",
+      "author": "Ma",
+      "year": "2024",
+      "journal-title": "arXiv preprint arXiv:2401.03048"
+    },
+    {
+      "key": "ref58",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/MICRO.2018.00020"
+    },
+    {
+      "key": "ref59",
+      "first-page": "28",
+      "article-title": "Cacti 6.0: A tool to model large caches",
+      "volume": "27",
+      "author": "Muralimanohar",
+      "year": "2009",
+      "journal-title": "HP laboratories"
+    },
+    {
+      "key": "ref60",
+      "first-page": "8162",
+      "article-title": "Improved denoising diffusion probabilistic models",
+      "volume-title": "International conference on machine learning",
+      "author": "Nichol"
+    },
+    {
+      "key": "ref61",
+      "first-page": "16784",
+      "article-title": "Glide: Towards photorealistic image generation and editing with text-guided diffusion models",
+      "volume-title": "International Conference on Machine Learning",
+      "author": "Nichol"
+    },
+    {
+      "key": "ref62",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3330345.3330384"
+    },
+    {
+      "key": "ref63",
+      "article-title": "Nvidia a100 tensor core gpu architecture",
+      "year": "2020"
+    },
+    {
+      "key": "ref64",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3140659.3080254"
+    },
+    {
+      "key": "ref65",
+      "article-title": "Pytorch: An imperative style, high-performance deep learning library",
+      "volume": "32",
+      "author": "Paszke",
+      "year": "2019",
+      "journal-title": "Advances in neural information processing systems"
+    },
+    {
+      "key": "ref66",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ICCV51070.2023.00387"
+    },
+    {
+      "key": "ref67",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ISCA.2018.00016"
+    },
+    {
+      "key": "ref68",
+      "first-page": "10684",
+      "article-title": "Highresolution image synthesis with latent diffusion models",
+      "volume-title": "Proceedings of the IEEE/CVF conference on computer vision and pattern recognition",
+      "author": "Rombach"
+    },
+    {
+      "key": "ref69",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/CVPR52729.2023.02155"
+    },
+    {
+      "key": "ref70",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3316781.3317784"
+    },
+    {
+      "key": "ref71",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/TCAD.2021.3136815"
+    },
+    {
+      "key": "ref72",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3528233.3530757"
+    },
+    {
+      "key": "ref73",
+      "first-page": "36479",
+      "article-title": "Photorealistic text-to-image diffusion models with deep language understanding",
+      "volume": "35",
+      "author": "Saharia",
+      "year": "2022",
+      "journal-title": "Advances in neural information processing systems"
+    },
+    {
+      "key": "ref74",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/TPAMI.2022.3204461"
+    },
+    {
+      "key": "ref75",
+      "article-title": "Improved techniques for training gans",
+      "volume": "29",
+      "author": "Salimans",
+      "year": "2016",
+      "journal-title": "Advances in neural information processing systems"
+    },
+    {
+      "key": "ref76",
+      "article-title": "Noise estimation for generative diffusion models",
+      "author": "San-Roman",
+      "year": "2021",
+      "journal-title": "arXiv preprint arXiv:2104.02600"
+    },
+    {
+      "key": "ref77",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/CVPR52729.2023.00196"
+    },
+    {
+      "key": "ref78",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ISCA.2018.00069"
+    },
+    {
+      "key": "ref79",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3352460.3358309"
+    },
+    {
+      "key": "ref80",
+      "article-title": "Temporal dynamic quantization for diffusion models",
+      "volume": "36",
+      "author": "So",
+      "year": "2024",
+      "journal-title": "Advances in Neural Information Processing Systems"
+    },
+    {
+      "key": "ref81",
+      "article-title": "Denoising diffusion implicit models",
+      "author": "Song",
+      "year": "2020",
+      "journal-title": "arXiv:2010.02502"
+    },
+    {
+      "key": "ref82",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ISCA45697.2020.00086"
+    },
+    {
+      "key": "ref83",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.48550/ARXIV.1212.0402"
+    },
+    {
+      "key": "ref84",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/MSE.2007.44"
+    },
+    {
+      "key": "ref85",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1016/s0024-3795(09)90001-5"
+    },
+    {
+      "key": "ref86",
+      "first-page": "13714",
+      "article-title": "Convolutional tensor-train lstm for spatio-temporal learning",
+      "volume": "33",
+      "author": "Su",
+      "year": "2020",
+      "journal-title": "Advances in Neural Information Processing Systems"
+    },
+    {
+      "key": "ref87",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/HPCA51647.2021.00018"
+    },
+    {
+      "key": "ref88",
+      "first-page": "10831095",
+      "article-title": "Dualside sparse tensor core",
+      "volume-title": "2021 ACM/IEEE 48th Annual International Symposium on Computer Architecture (ISCA)",
+      "author": "Wang"
+    },
+    {
+      "key": "ref89",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3626235"
+    },
+    {
+      "key": "ref90",
+      "article-title": "Lsun: Construction of a large-scale image dataset using deep learning with humans in the loop",
+      "author": "Yu",
+      "year": "2015",
+      "journal-title": "arXiv preprint arXiv:1506.03365"
+    },
+    {
+      "key": "ref91",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3470496.3527438"
+    },
+    {
+      "key": "ref92",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ICCV51070.2023.00355"
+    },
+    {
+      "key": "ref93",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/TPAMI.2024.3355414"
+    },
+    {
+      "key": "ref94",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3445814.3446741"
+    },
+    {
+      "key": "ref95",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ISCA52012.2021.00051"
+    },
+    {
+      "issue": "3",
+      "key": "ref96",
+      "first-page": "2",
+      "article-title": "Truncated diffusion probabilistic models",
+      "volume": "1",
+      "author": "Zheng",
+      "year": "2022",
+      "journal-title": "arXiv preprint arXiv:2202.09671"
+    },
+    {
+      "key": "ref97",
+      "article-title": "Open-sora: Democratizing efficient video production for all",
+      "author": "Zheng",
+      "year": "2024"
+    }
+  ],
+  "event": {
+    "name": "2025 IEEE International Symposium on High Performance Computer Architecture (HPCA)",
+    "location": "Las Vegas, NV, USA",
+    "start": {
+      "date-parts": [
+        [
+          2025,
+          3,
+          1
+        ]
+      ]
+    },
+    "end": {
+      "date-parts": [
+        [
+          2025,
+          3,
+          5
+        ]
+      ]
+    }
+  },
+  "container-title": [
+    "2025 IEEE International Symposium on High Performance Computer Architecture (HPCA)"
+  ],
+  "original-title": [],
+  "link": [
+    {
+      "URL": "http://xplorestaging.ieee.org/ielx8/10946287/10946288/10946815.pdf?arnumber=10946815",
+      "content-type": "unspecified",
+      "content-version": "vor",
+      "intended-application": "similarity-checking"
+    }
+  ],
+  "deposited": {
+    "date-parts": [
+      [
+        2025,
+        4,
+        9
+      ]
+    ],
+    "date-time": "2025-04-09T01:36:18Z",
+    "timestamp": 1744162578000
+  },
+  "score": 1,
+  "resource": {
+    "primary": {
+      "URL": "https://ieeexplore.ieee.org/document/10946815/"
+    }
+  },
+  "subtitle": [],
+  "short-title": [],
+  "issued": {
+    "date-parts": [
+      [
+        2025,
+        3,
+        1
+      ]
+    ]
+  },
+  "references-count": 97,
+  "URL": "https://doi.org/10.1109/hpca61900.2025.00035",
+  "relation": {},
+  "subject": [],
+  "published": {
+    "date-parts": [
+      [
+        2025,
+        3,
+        1
+      ]
+    ]
+  }
+}

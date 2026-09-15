@@ -1,0 +1,173 @@
+{
+  "generated_at": "2026-09-13T01:35:06+08:00",
+  "report_directory": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\reports\\2026-09-13_013506",
+  "inventory": {
+    "parameter_records": 672,
+    "mapped_matrix_records": 233,
+    "fallback_or_non_gemm_records": 439,
+    "max_k": 3072,
+    "required_acc_bits_at_max_k": 35,
+    "configured_acc_bits": 40
+  },
+  "cycle_model": {
+    "dsp": 768,
+    "clock_ns": 3.298,
+    "clock_mhz": 303.21406913280777,
+    "peak_gmac_per_s": 232.8684050939964,
+    "total_macs": 285788672.0,
+    "total_cycles": 496648.0,
+    "weighted_engine_utilization": 0.8493850042379394,
+    "weighted_completion_rate": 0.7492644018835607,
+    "largest_macs_shape": "vision_projection"
+  },
+  "isa": {
+    "full_instruction_count": 83,
+    "smoke_instruction_count": 7,
+    "opcode_count": 18,
+    "opcode_catalog_count": 18,
+    "instruction_cost_full_cycles_lower_bound": 2075704.0,
+    "isa_sim_status": "PASS",
+    "action_probe_status": "command_path_passed",
+    "compiler_to_rtl_action": {
+      "status": "PASS",
+      "task": "pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate",
+      "initial_state_index": 0,
+      "packed_action_hex": "0x11980549f8faef98009411910541",
+      "lanes": 7
+    }
+  },
+  "figures": {
+    "datapath": {
+      "svg": "fig_w8a16_datapath.svg",
+      "pdf": "fig_w8a16_datapath.pdf",
+      "png": "fig_w8a16_datapath.png"
+    },
+    "coverage": {
+      "svg": "fig_operator_coverage.svg",
+      "pdf": "fig_operator_coverage.pdf",
+      "png": "fig_operator_coverage.png"
+    },
+    "cycles": {
+      "svg": "fig_cycles_utilization.svg",
+      "pdf": "fig_cycles_utilization.pdf",
+      "png": "fig_cycles_utilization.png"
+    },
+    "quant": {
+      "svg": "fig_quant_error.svg",
+      "pdf": "fig_quant_error.pdf",
+      "png": "fig_quant_error.png"
+    }
+  },
+  "source_commit": "b29ab1420baa5c663ec935df513f2012430beb67",
+  "checkpoint_sha256": "d031ad7be05a2f5d04afb3194ed26b0cb46083685edee7a5e145078a37d26bab",
+  "rtl": {
+    "schema_version": "tvla_w8a16.rtl_results.v1",
+    "generated_at": "2026-09-12T17:35:06+00:00",
+    "server_experiment": "/home/nc23/experiments/turbovla_w8a16/2026-09-13_010117",
+    "verilator": {
+      "status": "passed",
+      "tool": "verilator",
+      "version_file": "logs/verilator_version.txt",
+      "started": "2026-09-12T17:19:18Z",
+      "finished": "2026-09-12T17:21:17Z",
+      "elapsed_seconds": 119,
+      "tests": [
+        "tb_w8a16_pe",
+        "tb_w8a16_array",
+        "tb_w8a16_full",
+        "tb_w8a16_requant",
+        "tb_w8a16_gemm",
+        "tb_w8a16_activations",
+        "tb_w8a16_vector_ops",
+        "tb_w8a16_dma",
+        "tb_w8a16_isa_ctrl",
+        "tb_w8a16_runtime"
+      ],
+      "dsp_full_array": 768
+    },
+    "iverilog": {
+      "status": "passed",
+      "tool": "iverilog",
+      "started": "2026-09-12T17:22:18Z",
+      "finished": "2026-09-12T17:22:18Z",
+      "elapsed_seconds": 0,
+      "tests": [
+        "tb_w8a16_pe",
+        "tb_w8a16_array",
+        "tb_w8a16_activations",
+        "tb_w8a16_isa_ctrl"
+      ]
+    },
+    "unisim": {
+      "status": "unavailable",
+      "tool": "xvlog",
+      "started": "2026-09-12T16:32:54Z",
+      "finished": "2026-09-12T16:32:54Z",
+      "elapsed_seconds": 0,
+      "reason": "Vivado/UNISIM executable not found on server"
+    },
+    "tests": {
+      "tb_w8a16_pe": true,
+      "tb_w8a16_array": true,
+      "tb_w8a16_full": true,
+      "tb_w8a16_requant": true,
+      "tb_w8a16_gemm": true,
+      "tb_w8a16_activations": true,
+      "tb_w8a16_vector_ops": true,
+      "tb_w8a16_dma": true,
+      "tb_w8a16_isa_ctrl": true,
+      "tb_w8a16_runtime": true,
+      "iverilog_pe": true,
+      "iverilog_array": true,
+      "iverilog_activations": true,
+      "iverilog_isa_ctrl": true
+    },
+    "compiler_to_rtl_action": {
+      "status": "PASS",
+      "task": "pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate",
+      "initial_state_index": 0,
+      "packed_action_hex": "0x11980549f8faef98009411910541",
+      "lanes": 7
+    },
+    "dsp_mapping_expected": {
+      "1_pe": 1,
+      "4x4": 16,
+      "16x48": 768
+    },
+    "ooc": {
+      "status": "not_run",
+      "part": "xczu7ev-ffvc1156-2-e",
+      "clock_ns": 3.298,
+      "reason": "Vivado/vivado OOC executable was not available on the server or local host",
+      "levels": [
+        "1x1",
+        "4x4",
+        "16x48"
+      ]
+    },
+    "rtl_sha256": {
+      "w8a16_action_path.sv": "a77675887729d290672466f935a02f1950d8d377c833ed273d496d82c167499d",
+      "w8a16_dma.sv": "47c66545b6dc5f467ece30e321374042ab6bf86fff2a3acf01b8193eef0aed73",
+      "w8a16_gelu.sv": "6d40d974b8fb119da5529dfb56e47843f385c3618da45733b3d2ca75c7c5f6f3",
+      "w8a16_gemm.sv": "7ad3a6eeb3235e3377395cda23edf33c4072a412ae9d1ab76f0b2248d1e68c7b",
+      "w8a16_isa_ctrl.sv": "92b8f1ce3362728645fa3a72b06d995913ee778d7067f0a98ecf35ba28f17374",
+      "w8a16_layernorm.sv": "1d317c9177aa126a4932b81d99ca50d30692d4473a69682f54fa2ee9c24a75a9",
+      "w8a16_mult.sv": "8e089d311c1ead08ec7174e39c0d110d1c99f024f640c1a1b799cc9812cfab9b",
+      "w8a16_pe.sv": "0647de2be80bf3bfa4c38702efa760d392072fbeda268cc28c43fb07c5c6eb6c",
+      "w8a16_relu.sv": "2944e87c7dde99d26aa8cebf71dac0b6d3f0708c1920d96cee032a64358708de",
+      "w8a16_requant.sv": "54f9bde8987c8bdaf559f5480c4c6e97ec690b82149e8f5472e7d058754c3ecd",
+      "w8a16_runtime.sv": "4db182dc607f44603b628111f9b560971b5d7180dcff0aeb3171546e6142cf73",
+      "w8a16_softmax.sv": "70f69b3265cca537c71093b9f8245d9a9390f4b067aab6742b3c016d75aa8ef1",
+      "w8a16_sysarr.sv": "9d6d246b3618b444f86f3a36192b0f8b9e4e7677f20f5d2abc294deae93ce957",
+      "w8a16_tanh.sv": "6b5a97a9a587942d37f94c144ce0a2591ddcfb6df4d1537fed6b1200bea71dc7",
+      "w8a16_vector_add.sv": "2ef2b5439d7f7174b6911d35650a2267abce1708ee90a27cc23f14af1bbf52c6",
+      "w8a16_vector_mul.sv": "293ccb3638dd6a0e1fbdc78c11f3cc7aab4d5fc95bb979991ea992d2975d5efa",
+      "w8a16_vector_ops.sv": "06261b4c23f1758aa6c0c75cbd8946edecd26b54efafbd583226d86461a9ccc5"
+    },
+    "limitations": [
+      "UNISIM/DSP48E2 smoke was not run because xvlog was unavailable",
+      "Vivado OOC resource/timing reports were not run because Vivado was unavailable",
+      "simulation uses the behavioral multiplier branch; it does not replace a vendor primitive check"
+    ]
+  }
+}

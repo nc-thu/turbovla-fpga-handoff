@@ -1,0 +1,102 @@
+{
+  "generated_at": "2026-09-13T22:08:12+08:00",
+  "current_version": "v7",
+  "timing": {
+    "target_period_ns": 4.0,
+    "target_frequency_mhz": 250.0,
+    "clock_frequency_mhz": 250.0,
+    "wns_ns": 0.006,
+    "tns_ns": 0.0,
+    "whs_ns": 1.468,
+    "ths_ns": 0.0,
+    "timing_met": true,
+    "data_path_delay_ns": 3.889,
+    "logic_delay_ns": 0.472,
+    "logic_delay_percent": 12.137,
+    "route_delay_ns": 3.417,
+    "route_delay_percent": 87.863,
+    "fmax_estimate_mhz": 250.37556334501753,
+    "critical_source": "u_runtime/u_ctrl/word_r_reg[58]/C",
+    "critical_destination": "u_gemm/u_arr/g_row[9].g_col[47].u_pe/acc_r_reg[15]/CE",
+    "failing_endpoints": 0
+  },
+  "resources": {
+    "total_luts": 66375,
+    "logic_luts": 65033,
+    "lutram": 0,
+    "srl": 1342,
+    "ffs": 117104,
+    "ramb36": 0,
+    "ramb18": 0,
+    "uram": 0,
+    "dsp": 785
+  },
+  "power": {
+    "total_on_chip_w": 4.67,
+    "dynamic_w": 4.056,
+    "static_w": 0.614,
+    "confidence": "Medium",
+    "activity_file": "---",
+    "is_vectorless": true,
+    "evidence": "vectorless_estimate"
+  },
+  "route": {
+    "logical_nets": 873767,
+    "routable_nets": 184322,
+    "fully_routed_nets": 184322,
+    "unrouted_nets": 0,
+    "routing_errors": 0,
+    "status": "passed"
+  },
+  "drc": {
+    "violations": 821,
+    "errors": 0,
+    "warnings": 4,
+    "advisories": 1,
+    "status": "pass_with_warnings",
+    "rules": {
+      "DPIP-2": {
+        "severity": "Warning",
+        "count": 34
+      },
+      "DPOP-3": {
+        "severity": "Warning",
+        "count": 1
+      },
+      "DPOP-4": {
+        "severity": "Warning",
+        "count": 17
+      },
+      "RTSTAT-10": {
+        "severity": "Warning",
+        "count": 1
+      },
+      "AVAL-155": {
+        "severity": "Advisory",
+        "count": 768
+      }
+    }
+  },
+  "derived": {
+    "array_dsp": 768,
+    "total_dsp": 785,
+    "dsp_occupancy_pct": 97.8343949044586,
+    "peak_gmac_at_fmax": 192.28843264897344,
+    "peak_gmac_at_250": 192.0,
+    "timing_met": true,
+    "fmax": 250.37556334501753,
+    "wns": 0.006
+  },
+  "comparison": {
+    "v5_dpip2": 1571,
+    "current_dpip2": 34,
+    "dpip2_reduction_pct": 97.83577339274348
+  },
+  "v6_to_v7_change_pct": {
+    "fmax": 1.402103154732091,
+    "data_path_delay": -1.4445007602635678,
+    "route_delay": -6.255144032921816,
+    "lut": 0.01054725168756027,
+    "power": 4.28762840553819
+  }
+}

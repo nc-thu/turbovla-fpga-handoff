@@ -1,0 +1,28 @@
+{
+  "schema_version": "tvla_w8a16.libero_action_probe.v1",
+  "status": "command_path_passed",
+  "task": "pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate",
+  "initial_state_index": 0,
+  "observation_source": "algo/libero_transfer/2026-09-12_133034/env_smoke.json",
+  "input_provenance": "deterministic INT16 state vector exercising the LIBERO-compatible seven-lane action format; not the captured RGB-D tensor",
+  "action_q15": [
+    1345,
+    4497,
+    148,
+    -4200,
+    -1798,
+    1353,
+    4504
+  ],
+  "action_normalized": [
+    0.0410474,
+    0.1372417,
+    0.0045167,
+    -0.1281777,
+    -0.0548723,
+    0.0412915,
+    0.1374554
+  ],
+  "compiler_program": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\data\\v4_2026-09-13_150700\\turbovla_w8a16_program.json",
+  "rtl_scope": "one W8A16 action projection command path; no DINO/text inference, no captured RGB-D tensor and no environment step"
+}

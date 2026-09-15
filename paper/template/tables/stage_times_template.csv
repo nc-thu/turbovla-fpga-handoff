@@ -1,0 +1,4 @@
+platform,vision_s,language_interaction_s,action_s,full_call_s,overlap_note
+HoloBrain-0 GPU,,,,,
+FPGA baseline,,,,,
+FPGA optimized,,,,,

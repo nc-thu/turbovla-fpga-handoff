@@ -1,0 +1,31 @@
+{
+ "seg": "seg_0003",
+ "n_iter": 96,
+ "n_loads": 4,
+ "y_base": 24576,
+ "y_words": 196,
+ "vcd_mb": 3378,
+ "t_run_parse": 289.5,
+ "A_min": 90000,
+ "A_neg": 0,
+ "B_min": 6190000,
+ "B_neg": 0,
+ "race_true": 47,
+ "race_total": 94,
+ "A_sample": [
+  90000,
+  90000,
+  90000,
+  90000,
+  90000
+ ],
+ "B_sample": [
+  6190000,
+  28950000,
+  6190000,
+  28950000,
+  6190000
+ ],
+ "stdout_tail": "- Verilator: cpu 97.483 s on 1 threads; allocated 24 MB",
+ "verdict": "PASS: 末读<下一发射<隔代首写 全部成立且非空"
+}

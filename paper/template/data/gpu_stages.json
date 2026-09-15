@@ -1,0 +1,75 @@
+{
+  "scope": "s000 HoloBrain-0 FP32 shared V100 GPU1; top-level module wall times with CUDA synchronization at boundaries; separate instrumented run, not the primary latency samples",
+  "rows": [
+    {
+      "model_forward_s": 0.4100903607904911,
+      "top_level_modules_s": {
+        "data_preprocessor": 0.0020073112100362778,
+        "backbone": 0.016842469573020935,
+        "neck": 0.0010072849690914154,
+        "backbone_3d": 0.01518252119421959,
+        "neck_3d": 0.0006441567093133926,
+        "text_encoder": 0.009673045948147774,
+        "text_feat_map": 7.898546755313873e-05,
+        "feature_enhancer": 0.04192629083991051,
+        "spatial_enhancer": 0.008281484246253967,
+        "decoder": 0.3136293925344944
+      }
+    },
+    {
+      "model_forward_s": 0.40672174096107483,
+      "top_level_modules_s": {
+        "data_preprocessor": 0.002011829987168312,
+        "backbone": 0.01644299551844597,
+        "neck": 0.0009453408420085907,
+        "backbone_3d": 0.014884183183312416,
+        "neck_3d": 0.0006511397659778595,
+        "text_encoder": 0.00970405898988247,
+        "text_feat_map": 7.962808012962341e-05,
+        "feature_enhancer": 0.04289653338491917,
+        "spatial_enhancer": 0.007959350943565369,
+        "decoder": 0.310353048145771
+      }
+    },
+    {
+      "model_forward_s": 0.41021219082176685,
+      "top_level_modules_s": {
+        "data_preprocessor": 0.0019851960241794586,
+        "backbone": 0.016122769564390182,
+        "neck": 0.0009333156049251556,
+        "backbone_3d": 0.014672353863716125,
+        "neck_3d": 0.0006344206631183624,
+        "text_encoder": 0.009471338242292404,
+        "text_feat_map": 8.003972470760345e-05,
+        "feature_enhancer": 0.04302864335477352,
+        "spatial_enhancer": 0.007959702983498573,
+        "decoder": 0.3145199790596962
+      }
+    }
+  ],
+  "stage_mean_s": {
+    "visual": 0.032987650483846664,
+    "language_interaction": 0.06030014964441458,
+    "action": 0.31283413991332054,
+    "internal_preprocess": 0.0020014457404613495
+  },
+  "groups": {
+    "visual": [
+      "backbone",
+      "backbone_3d",
+      "neck",
+      "neck_3d"
+    ],
+    "language_interaction": [
+      "text_encoder",
+      "feature_enhancer",
+      "spatial_enhancer"
+    ],
+    "action": [
+      "decoder"
+    ],
+    "internal_preprocess": [
+      "data_preprocessor"
+    ]
+  }
+}

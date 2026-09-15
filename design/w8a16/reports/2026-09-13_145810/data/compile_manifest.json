@@ -1,0 +1,11 @@
+{
+  "schema_version": "tvla_w8a16.camera_ready.v3.manifest",
+  "generated_at": "2026-09-13T14:51:47+08:00",
+  "program": "turbovla_w8a16_program.json",
+  "program_sha256": "c79e6290c971989e1da921fb9f29678bfa349dfc50da8362e5e30ff7dc114b58",
+  "output_dir": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\compiler\\v3_2026-09-13_140118_w8a16_camera_ready_compiler\\data",
+  "validation": {
+    "status": "PASS",
+    "errors": []
+  }
+}

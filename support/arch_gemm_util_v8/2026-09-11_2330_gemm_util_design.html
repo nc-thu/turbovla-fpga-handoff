@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>架构设计（不动电路）：阵列利用率 26.5% 拆三层、四件修复设计、写通道翻修设计 2026-09-11</title>
+<style>
+  body{font-family:"Microsoft YaHei",SimSun,serif;max-width:1000px;margin:24px auto;padding:0 16px;color:#111;background:#fff;line-height:1.75}
+  h1{font-size:22px;border-bottom:2px solid #000;padding-bottom:6px}
+  h2{font-size:18px;border-left:5px solid #000;padding-left:8px;margin-top:32px}
+  h3{font-size:15px;margin-top:22px}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14px}
+  th,td{border:1px solid #444;padding:5px 8px;text-align:left;vertical-align:top}
+  th{background:#eee}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  .mono{font-family:Consolas,monospace;font-size:13px;background:#f4f4f4;padding:1px 4px}
+  .meta{color:#555;font-size:13px}
+  .box{border:1px dashed #888;padding:10px 14px;margin:12px 0;background:#fafafa}
+  .hint{color:#555;font-size:13px;margin:4px 0}
+  svg text{font-family:"Microsoft YaHei",SimSun,serif}
+</style>
+</head>
+<body>
+<h1>架构设计（不动电路）：阵列利用率 26.5% 拆三层、四件修复设计、写通道翻修设计</h1>
+<p class="meta">
+生成时刻：2026-09-11 23:30:00　|　架构线 v8（设计轮：只做账本与设计，电路一行没动）<br>
+数据：<span class="mono">util_decomp.json</span>（本目录，脚本 <span class="mono">util_decomp.py</span> 一遍跑出全部数字）　|
+任务书：<a href="../../plans/2026-09-11_1806_next_plan_util_r5.html">09-11 18:06 规划页</a>　|
+论文交接包：<a href="handoff/HANDOFF.md">handoff/HANDOFF.md</a>（照它写论文）<br>
+工作条目：拆账脚本正式入库 23:20:00　|　写通道连续分布 + 16 位激活情景 23:25:00　|　本报告 23:30:00
+</p>
+
+<h2>〇、这页讲什么</h2>
+<p>芯片里的乘法阵列（专门算乘法加法的方阵）现在只有 <b>26.5%</b> 的时间在干活。这轮工作把浪费拆干净、
+把修法设计出来，全部在"账本"（周期模型，按拍数记账的仿真）层面完成——<b>电路一行没动</b>。</p>
+<p>三个产出：</p>
+<p><b>一、拆账定版</b>：136.1M 拍的浪费拆成三层，每层约占三分之一，并归因到具体的任务形状（第二节、第三节）。</p>
+<p><b>二、修复设计</b>：四件修法（三件改电路、一件改编译器），逐件算出台阶：26.5% → 72.8%；
+配上写通道翻修后，一帧从 0.909 秒降到 <b>0.520 秒（省 43%）</b>（第四节）。</p>
+<p><b>三、两笔新账</b>：写通道翻修的可行性数据（写回地址到底连不连续——结论是 99.5% 的字节都能拼成长段，
+翻修设计成立）和算法线新方案的硬件代价（激活值从 8 位改 16 位，一帧要回吐 0.17 秒，记在账上）（第五、六节）。</p>
+<p>这轮和 18:06 规划页的关系：规划页是任务书，这页是执行报告——规划页里"第 1 步不动电路"的内容全部做完，
+动电路的部分（第 3、4 步）留成设计文档和验证实验设计，等下一轮开工。</p>
+
+<h2>一、背景：芯片在干什么，一帧的时间花在哪</h2>
+<p>我们把一个 0.2B 参数的机器人控制模型（HoloBrain-0）装进 ZCU104 FPGA 芯片。芯片里干活的主力是一个
+乘法阵列：768 个 DSP（芯片里专门算乘法加法的硬块）排成 16 行 × 96 列。满负荷时每个时钟拍（芯片时钟一拍
+3.3 纳秒，3.03 亿拍 = 1 秒）整个阵列做 3072 次乘加。</p>
+<p>芯片处理一帧（做一次推理）时同时干三件事，<b>最慢的那件决定总时间</b>：算（做乘法累加）0.78 秒、
+写回（把中间结果搬回内存）0.72 秒、读取（把输入搬进芯片）0.07 秒，另有段间切换固定开销 0.13 秒。
+现状一帧 0.909 秒，瓶颈在"算"——但慢的原因不是乘法器不够，是喂不满。这就是本页要拆的账。</p>
+<p class="hint">下文表格里拍数用"百万拍（M 拍）"记，换算：100M 拍 ≈ 0.33 秒。</p>
+
+<h2>二、浪费拆三层：各占约三分之一</h2>
+<p>一帧的乘加总量除以阵列满负荷能力，理想只需 49.1M 拍（0.16 秒）；实际花了 185.2M 拍（0.61 秒）。
+多出来的 136.1M 拍，拆成三层：</p>
+<svg width="720" height="270" viewBox="0 0 720 270">
+  <text x="20" y="24" font-size="14">185.2M 拍的浪费怎么拆（单位：百万拍，1M 拍 ≈ 3.3 毫秒）</text>
+  <line x1="70" y1="230" x2="700" y2="230" stroke="#111" stroke-width="1.5"/>
+  <rect x="100" y="35"  width="110" height="195" fill="#555"/>
+  <rect x="280" y="35"  width="110" height="47"  fill="#999"/>
+  <rect x="460" y="82"  width="110" height="48"  fill="#999"/>
+  <rect x="640" y="131" width="110" height="48"  fill="#999"/>
+  <text x="155" y="30"  font-size="13" text-anchor="middle">185.2（0.61 秒）</text>
+  <text x="335" y="30"  font-size="13" text-anchor="middle">−45.0</text>
+  <text x="515" y="77"  font-size="13" text-anchor="middle">−45.8</text>
+  <text x="695" y="126" font-size="13" text-anchor="middle">−45.3</text>
+  <text x="155" y="250" font-size="13" text-anchor="middle">现状</text>
+  <text x="335" y="250" font-size="13" text-anchor="middle">排队等待</text>
+  <text x="515" y="250" font-size="13" text-anchor="middle">凑不满列</text>
+  <text x="695" y="250" font-size="13" text-anchor="middle">喂数不够快</text>
+  <text x="20" y="172" font-size="12" fill="#555">理想 49.1M 拍（0.16 秒）在这条虚线上</text>
+  <line x1="20" y1="178" x2="700" y2="178" stroke="#888" stroke-dasharray="5,4"/>
+</svg>
+<p class="hint">怎么看这张图：黑柱是现状 185.2M 拍；右边三根灰柱是逐层扣掉的浪费，扣完落到虚线（理想 49.1M 拍）。
+三层几乎一样高——各占缺口约三分之一，意味着只修任何一层都只省六分之一左右。</p>
+<table>
+<tr><th>浪费层</th><th>具体怎么回事</th><th class="num">浪费拍数</th><th class="num">占缺口</th></tr>
+<tr><td>排队等待</td><td>每算完一小批（一个"行组块"），要等结果清空、写回内存做完，才开始给下一批喂数——三件事串行</td><td class="num">45.0M</td><td class="num">33%</td></tr>
+<tr><td>凑不满列</td><td>阵列 96 列宽，任务的输出宽度常不是 96 的整数倍，最后一块 96 列里只有零头几列有活，其余列白转</td><td class="num">45.8M</td><td class="num">34%</td></tr>
+<tr><td>喂数不够快</td><td>每个乘法单元满负荷每拍要吃 4 个输入数，喂数通路每拍只送得出 2 个——任务再饱满利用率也封顶 50%</td><td class="num">45.3M</td><td class="num">33%</td></tr>
+</table>
+
+<h2>三、时间花在哪类任务上：形状归因</h2>
+<p>每个乘法任务的"深度"（k，要做乘加的项数）差别很大。把一帧 49,569 个任务按深度分桶，看每桶占多少时间、
+干多少活：</p>
+<svg width="780" height="260" viewBox="0 0 780 260">
+  <text x="20" y="22" font-size="14">各深度段占的时间 vs 干的活（占全帧百分比，黑=时间，灰=活）</text>
+  <line x1="70" y1="220" x2="700" y2="220" stroke="#111" stroke-width="1.5"/>
+  <rect x="90"  y="180" width="34" height="40"  fill="#555"/>
+  <rect x="128" y="218" width="34" height="2"   fill="#999"/>
+  <rect x="205" y="155" width="34" height="65"  fill="#555"/>
+  <rect x="243" y="200" width="34" height="20"  fill="#999"/>
+  <rect x="320" y="203" width="34" height="17"  fill="#555"/>
+  <rect x="358" y="200" width="34" height="20"  fill="#999"/>
+  <rect x="435" y="67"  width="34" height="152" fill="#555"/>
+  <rect x="473" y="40"  width="34" height="180" fill="#999"/>
+  <rect x="550" y="201" width="34" height="19"  fill="#555"/>
+  <rect x="588" y="188" width="34" height="32"  fill="#999"/>
+  <rect x="665" y="154" width="34" height="66"  fill="#555"/>
+  <rect x="703" y="113" width="34" height="107" fill="#999"/>
+  <text x="107" y="175" font-size="12" text-anchor="middle">11.1</text>
+  <text x="145" y="213" font-size="12" text-anchor="middle">0.4</text>
+  <text x="222" y="150" font-size="12" text-anchor="middle">18.0</text>
+  <text x="260" y="195" font-size="12" text-anchor="middle">5.5</text>
+  <text x="337" y="198" font-size="12" text-anchor="middle">4.6</text>
+  <text x="375" y="195" font-size="12" text-anchor="middle">5.7</text>
+  <text x="452" y="62"  font-size="12" text-anchor="middle">42.3</text>
+  <text x="490" y="35"  font-size="12" text-anchor="middle">50.0</text>
+  <text x="567" y="196" font-size="12" text-anchor="middle">5.2</text>
+  <text x="605" y="183" font-size="12" text-anchor="middle">8.8</text>
+  <text x="682" y="149" font-size="12" text-anchor="middle">18.3</text>
+  <text x="720" y="108" font-size="12" text-anchor="middle">29.6</text>
+  <text x="107" y="238" font-size="12" text-anchor="middle">深度≤32</text>
+  <text x="222" y="238" font-size="12" text-anchor="middle">33~64</text>
+  <text x="337" y="238" font-size="12" text-anchor="middle">65~256</text>
+  <text x="452" y="238" font-size="12" text-anchor="middle">257~512</text>
+  <text x="567" y="238" font-size="12" text-anchor="middle">513~1024</text>
+  <text x="682" y="238" font-size="12" text-anchor="middle">≥1025</text>
+  <text x="20" y="258" font-size="12" fill="#555">深度分布是双峰的：一半任务深度 257，一成任务深度 2049，中间地带很少</text>
+</svg>
+<p class="hint">怎么看这张图：黑柱比灰柱高很多的地方，就是"花时间多、干活少"的深度段。深度 ≤64 的任务合计花
+29% 的时间，只干 5.9% 的活；深度 257~512 是主力（42% 时间、50% 活）；深度 ≥1025 的任务干活效率最高但也被
+喂数封顶压着。深度 2049 那族利用率上限恰好 50.0%——就是"嘴太小"那层的直接证据。</p>
+<p>把浪费归因到具体形状（按时间排前五的任务族）：</p>
+<table>
+<tr><th>任务形状</th><th class="num">占全帧时间</th><th class="num">该形状利用率上限</th><th>卡在哪</th></tr>
+<tr><td>深度 257、输出宽 32</td><td class="num">20.3%</td><td class="num">16.5%</td><td>两样都卡：输出只有 32 列（96 列里 64 列白转），深度又不够深、摊薄不了排队开销</td></tr>
+<tr><td>深度 257、输出宽 96</td><td class="num">15.0%</td><td class="num">49.6%</td><td>列满但嘴小：喂数封顶 50%</td></tr>
+<tr><td>深度 32、输出宽 96</td><td class="num">11.3%</td><td class="num">9.8%</td><td>太浅：刚喂数据就要停下来清空结果，排队开销占大头</td></tr>
+<tr><td>深度 2049、输出宽 96</td><td class="num">7.9%</td><td class="num">50.0%</td><td>理想形状，纯粹被喂数封顶</td></tr>
+<tr><td>深度 4、输出宽 96</td><td class="num">5.1%</td><td class="num">1.2%</td><td>极浅：几乎全程在排队和清空</td></tr>
+</table>
+<div class="box"><b>满负荷口径怎么报（规划页决定 1 的落点）</b>：按"每拍 4 个数"记，阵列满负荷是每秒 9310 亿次乘加；
+但喂数通路只撑得起一半（465）。本轮设计把"喂数加宽"（四件套第 3 件）定为必做件——让 931 变成可达的真话，
+而不是改口径把数字说小。最终确认留待下一轮电路实测（见第七节验证实验）。</div>
+
+<h2>四、修复设计：四件套，台阶 26.5% → 72.8%</h2>
+<p>四件修法，前三件改电路、第四件改编译器（把模型翻译成芯片指令的程序）。逐件白话讲：</p>
+<table>
+<tr><th>件</th><th>白话名</th><th>改哪</th><th>道理</th></tr>
+<tr><td>第 1 件</td><td>双份存结果的地方</td><td>电路</td><td>放两份累加器（存中间结果的地方），一份在算、一份在清空，轮流倒手——排队消掉大半</td></tr>
+<tr><td>第 2 件</td><td>清空结果的通路加宽一倍</td><td>电路</td><td>结果搬出去的速度翻倍，倒手等待更短</td></tr>
+<tr><td>第 3 件</td><td><b>喂数通路加宽一倍</b></td><td>电路</td><td>用两块存储交错着读，每拍送 4 个数——嘴张大了，这步收益最大</td></tr>
+<tr><td>第 4 件</td><td>相邻小任务拼宽</td><td>编译器</td><td>把挨着的、形状一样的小任务先拼成宽任务再切块，零头块变少。只拼调度上真正相邻（间隔 ≤8 条指令）的，跨段不拼</td></tr>
+</table>
+<p>逐件加上去的台阶（利用率 / 一帧时间。帧时间按"四件全做完 + 写通道翻修"口径）：</p>
+<svg width="760" height="290" viewBox="0 0 760 290">
+  <text x="20" y="22" font-size="14">修一件进一步：利用率台阶（%）与修完写通道后的一帧时间（秒）</text>
+  <line x1="70" y1="230" x2="730" y2="230" stroke="#111" stroke-width="1.5"/>
+  <rect x="90"  y="164" width="70" height="66"  fill="#555"/>
+  <rect x="205" y="155" width="70" height="75"  fill="#555"/>
+  <rect x="320" y="149" width="70" height="81"  fill="#555"/>
+  <rect x="435" y="86"  width="70" height="144" fill="#555"/>
+  <rect x="550" y="58"  width="70" height="172" fill="#555"/>
+  <rect x="665" y="48"  width="70" height="182" fill="#555"/>
+  <line x1="80" y1="30" x2="730" y2="30" stroke="#888" stroke-dasharray="5,4"/>
+  <text x="735" y="34" font-size="12" fill="#555">80%</text>
+  <text x="125" y="159" font-size="13" text-anchor="middle">26.5</text>
+  <text x="240" y="150" font-size="13" text-anchor="middle">30.2</text>
+  <text x="355" y="144" font-size="13" text-anchor="middle">32.5</text>
+  <text x="470" y="81"  font-size="13" text-anchor="middle">57.5</text>
+  <text x="585" y="53"  font-size="13" text-anchor="middle">68.7</text>
+  <text x="700" y="43"  font-size="13" text-anchor="middle">72.8</text>
+  <text x="125" y="250" font-size="12" text-anchor="middle">现状</text>
+  <text x="240" y="250" font-size="12" text-anchor="middle">+第1件</text>
+  <text x="355" y="250" font-size="12" text-anchor="middle">+第2件</text>
+  <text x="470" y="250" font-size="12" text-anchor="middle">+第3件</text>
+  <text x="585" y="250" font-size="12" text-anchor="middle">+第4件</text>
+  <text x="700" y="250" font-size="12" text-anchor="middle">+拼浅段</text>
+  <text x="125" y="268" font-size="12" text-anchor="middle" fill="#555">0.909s</text>
+  <text x="240" y="268" font-size="12" text-anchor="middle" fill="#555">0.834s</text>
+  <text x="355" y="268" font-size="12" text-anchor="middle" fill="#555">0.796s</text>
+  <text x="470" y="268" font-size="12" text-anchor="middle" fill="#555">0.579s</text>
+  <text x="585" y="268" font-size="12" text-anchor="middle" fill="#555">0.533s</text>
+  <text x="700" y="268" font-size="12" text-anchor="middle" fill="#555">0.520s</text>
+  <text x="20" y="288" font-size="12" fill="#555">最后一档"拼浅段"是上界（见第五节末尾的物理限制）；80% 虚线是规划里的远期目标，需要第五件（跨任务拼列），本轮不做</text>
+</svg>
+<p class="hint">怎么看这张图：柱子是利用率，柱子下面的灰字是"该步修完后、写通道也翻修完"的一帧时间。
+第 3 件（喂数加宽）是最大的一跳：32.5% → 57.5%，帧 0.80 → 0.58 秒。</p>
+<p><b>和写通道翻修必须成对做</b>——这是规划页的核心结论，用修完后的数字再说一遍：</p>
+<svg width="720" height="280" viewBox="0 0 720 280">
+  <text x="20" y="24" font-size="14">四种做法下的一帧时间（秒），越矮越好</text>
+  <line x1="80" y1="230" x2="680" y2="230" stroke="#111" stroke-width="1.5"/>
+  <line x1="80" y1="35" x2="680" y2="35" stroke="#888" stroke-dasharray="6,4"/>
+  <text x="685" y="39" font-size="12" fill="#555">0.852</text>
+  <rect x="120" y="23"  width="70" height="207" fill="#555"/>
+  <rect x="280" y="36"  width="70" height="194" fill="#999"/>
+  <rect x="440" y="23"  width="70" height="207" fill="#999"/>
+  <rect x="580" y="112" width="70" height="118" fill="#555"/>
+  <text x="155" y="18"  font-size="13" text-anchor="middle">0.909</text>
+  <text x="315" y="31"  font-size="13" text-anchor="middle">0.852</text>
+  <text x="475" y="18"  font-size="13" text-anchor="middle">0.909</text>
+  <text x="615" y="107" font-size="13" text-anchor="middle">0.520</text>
+  <text x="155" y="250" font-size="12" text-anchor="middle">现状</text>
+  <text x="315" y="250" font-size="12" text-anchor="middle">只修计算</text>
+  <text x="475" y="250" font-size="12" text-anchor="middle">只修写回</text>
+  <text x="615" y="250" font-size="12" text-anchor="middle">两件一起修</text>
+  <text x="360" y="272" font-size="12" fill="#555">虚线是"只修计算"的天花板：计算修到满分也卡在 0.852 秒——写回（0.72 秒）顶上来了</text>
+</svg>
+<p class="hint">怎么看这张图：只修计算（第二根），帧从 0.909 只降到 0.852 就封死；只修写回（第三根），一毫秒不掉；
+两件一起（第四根）0.909 → <b>0.520 秒，省 43%</b>。承诺口径：修到第 3 件 + 写通道翻修 = 0.579 秒（省 36%）。</p>
+<p class="hint">与 09-11 下午讨论版数字的差异：正式版把"相邻才拼"的判定写严了（每个合并组内部逐对相邻），
+第 4 件后利用率 68.1% → 68.7%、上界 72.1% → 72.8%。以本页正式版为准。</p>
+
+<h2>五、写通道翻修设计：地址连续性核数完毕，设计成立</h2>
+<p>现在写结果的规矩：每 16 字节打包成一行发出去，每行固定 6 拍（2 拍打招呼——告诉内存"我要写了、写在哪"，
+4 拍传数据）。一帧 37.1M 行 × 6 拍 ≈ 2.2 亿拍 = 0.72 秒。修法两招：<b>合并</b>（地址挨着的行拼成一大段再发，
+打招呼的钱摊到很多行头上）和<b>跳零</b>（整行都是 0 的不发）。</p>
+<p>规划页留了个风险项："地址不连续的话，合并拼不长"。这轮把账核完了——扫全部 32,939 条写回指令
+（一条指令就是一次连续写），量地址连续段有多长：</p>
+<svg width="720" height="260" viewBox="0 0 720 260">
+  <text x="20" y="22" font-size="14">写回字节按"连续段长度"的分布 + 修完三档耗时</text>
+  <line x1="70" y1="150" x2="420" y2="150" stroke="#111" stroke-width="1.5"/>
+  <rect x="100" y="148" width="50" height="2"  fill="#999"/>
+  <rect x="200" y="148" width="50" height="2"  fill="#999"/>
+  <rect x="300" y="30"  width="50" height="120" fill="#555"/>
+  <text x="125" y="140" font-size="12" text-anchor="middle">0.1%</text>
+  <text x="225" y="140" font-size="12" text-anchor="middle">0.4%</text>
+  <text x="325" y="25"  font-size="13" text-anchor="middle">99.5%</text>
+  <text x="125" y="168" font-size="12" text-anchor="middle">&lt;512B</text>
+  <text x="225" y="168" font-size="12" text-anchor="middle">512~2048B</text>
+  <text x="325" y="168" font-size="12" text-anchor="middle">≥2048B</text>
+  <text x="20" y="192" font-size="12" fill="#555">← 连续段长度（左图）：几乎全部字节都能拼成长段</text>
+  <line x1="470" y1="150" x2="700" y2="150" stroke="#111" stroke-width="1.5"/>
+  <rect x="490" y="30"  width="44" height="120" fill="#555"/>
+  <rect x="570" y="110" width="44" height="40"  fill="#999"/>
+  <rect x="650" y="146" width="44" height="4"   fill="#999"/>
+  <text x="512" y="25"  font-size="13" text-anchor="middle">0.72s</text>
+  <text x="592" y="105" font-size="13" text-anchor="middle">0.247s</text>
+  <text x="672" y="141" font-size="13" text-anchor="middle">0.031s</text>
+  <text x="512" y="168" font-size="12" text-anchor="middle">现状逐行</text>
+  <text x="592" y="168" font-size="12" text-anchor="middle">合并后</text>
+  <text x="672" y="168" font-size="12" text-anchor="middle">理论极限</text>
+  <text x="470" y="192" font-size="12" fill="#555">写回耗时（右图）：合并后降 66%；极限需加宽写口，本轮不必</text>
+  <text x="20" y="225" font-size="12" fill="#555">账本自校验：总写回字节 594.29MB，与账本记录分毫不差；逐行模型 222.9M 拍 vs 实测锚点 218.4M 拍，差 −2%</text>
+</svg>
+<p class="hint">怎么看这张图：左图——99.5% 的字节落在 ≥2048B 的连续段里（91.3% 的指令），合并能把突发拼到硬件
+允许的最长（2048 字节一段）；拼完的协议开销只有 0.81%（0.60M 拍），可以忽略。右图——写回从 0.72 秒降到
+<b>0.247 秒（−66%）</b>，比修完后的计算腿（0.39 秒）短，不再拖后腿。跳零的收益还没算进去（需要运行期的实际
+数值，见第七节），所以 0.247 秒是保守值。</p>
+<p><b>为什么利用率上不了 80%</b>（设计的物理边界）：极浅的任务（深度 4）理想只要 2 拍，却要搬出 1536 个结果
+——每秒 7.68 亿个结果的写回速度，现写链的 1600 万/秒做不到，加宽 4 倍也只 6400 万/秒。所以浅任务想撑满大
+阵列物理上不可能，只能把浅任务拼成深的再上阵列（第 4 件做的事），或者干脆不让它们上大阵列。这就是四件套
+天花板 72.8% 的来历，也是"拼浅段"只标上界的原因。</p>
+
+<h2>六、16 位激活的代价：算法线修复方案的硬件账（待办关闭）</h2>
+<p>算法线 09-11 定版的修复方案（把网络里流动的中间数值从 8 位网格换成 16 位网格，换回 100% 闭环成功率）
+对硬件不是免费的：激活数据位宽翻倍，喂数、写回、中间搬运的字节都要翻倍。这笔账当初登记为待办，这轮补上：</p>
+<table>
+<tr><th>情景</th><th class="num">计算腿</th><th class="num">写回腿</th><th class="num">一帧</th><th>说明</th></tr>
+<tr><td>8 位激活 + 四件套 + 写翻修（基准）</td><td class="num">0.388s</td><td class="num">0.245s</td><td class="num"><b>0.520s</b></td><td>第四节的承诺口径</td></tr>
+<tr><td>16 位激活 + 同样修法</td><td class="num">0.554s</td><td class="num">0.490s</td><td class="num">0.686s</td><td>回吐 0.166 秒（+32%）；绑定的是计算腿</td></tr>
+<tr><td>16 位激活 + 写口再加宽一倍</td><td class="num">0.554s</td><td class="num">0.245s</td><td class="num">0.686s</td><td>帧一点不掉——写口加宽不是首要矛盾</td></tr>
+</table>
+<p class="hint">表里数字的含义：16 位激活时，非乘法的搬运类计算（复制、激活函数）翻倍成 0.33 秒，成为最大单项；
+乘法本体（0.22 秒）反而退居第二。所以 16 位激活的代价主要在搬运侧，而不在乘法阵列。修法方向是给搬运通道
+加倍，而不是给写口加倍。</p>
+<div class="box"><b>两个开放问题（记进交接包，需要硬件线专项评估）</b>：①乘法单元现在一颗 DSP 打包算 4 个
+8×8 乘法；16 位激活 × 8 位权重是 16×8 乘法，能不能还是 4 个一颗——不确定，若不行 16 位情景的乘法腿还要翻倍，
+上表按乐观（能）记。②修复方案保留一小段网络用 32 位浮点（decoder），这一小截怎么上芯片要单独设计。
+</div>
+
+<h2>七、这轮没做什么、下一轮怎么验（验证实验设计）</h2>
+<p><b>这轮全是账本，没碰电路，也没有任何 RTL 实测</b>。账本本身有三处和现实对过锚：帧级读/写/访存三个实测
+锚点校准（09-08 前的工作），写腿模型 222.9M vs 实测 218.4M 差 −2%（本页第五节），内存档位实验两档同值
+（09-09 arch v7）。但<b>利用率三层拆账和四件套台阶还没有任何一段实测背书</b>。下一轮第一件事就是这个，
+实验设计如下（每步 ≤10 分钟，仿真用服务器上快十倍的 Verilator）：</p>
+<table>
+<tr><th>#</th><th>实验</th><th>怎么选段</th><th>判据</th></tr>
+<tr><td>1</td><td>深任务满喂验证</td><td>挑一个深度 ≈2049、输出宽 96 的段（占全帧 7.9% 时间的形状族）</td><td>实测利用率 ≈50%（模型说 50.0%）——确认"嘴小"层真实，同时给 931 满负荷口径定案</td></tr>
+<tr><td>2</td><td>浅任务排队验证</td><td>挑一个深度 32、输出宽 96 的段（11.3% 时间的形状族）</td><td>实测段拍数与模型差 ±5% 以内</td></tr>
+<tr><td>3</td><td>零头块验证</td><td>挑一个深度 257、输出宽 32 的段（20.3% 时间的形状族）</td><td>同上 ±5%；顺带量空转列的实际占比</td></tr>
+</table>
+<p class="hint">选段方法：从编译产物的段清单里按"该段包含的目标形状"过滤（账本脚本 <span class="mono">util_decomp.py</span>
+的形状归因表就是过滤依据），跑法沿用 hw/v6 的段级批跑脚本，对照 <span class="mono">gem_cycles_tier.py</span> 的模型档。
+判据不过 5% 先修账本再动电路——这是规划页定的纪律。</p>
+<p><b>电路改动的时序风险</b>（规划页决定 2，维持原议）：当前时序余量只有 0.009 纳秒（压着及格线过），加电路
+可能让主频降一点。默认接受最多降 2%（0.520 秒变 0.53 秒），超过就停工重算账。</p>
+<p><b>跳零收益还没数</b>：整行为零的占比需要运行期数据值才能统计（跑一次段级仿真 dump 写回数据即可补上，
+已列入交接包后续实验）。</p>
+
+<h2>八、论文素材：交接包怎么用</h2>
+<p>本轮全部素材整理在 <a href="handoff/HANDOFF.md">handoff/HANDOFF.md</a>（论文向交接包），包含：</p>
+<p>①<b>主张-证据-边界表</b>：每条可写进论文的主张，对应到 <span class="mono">util_decomp.json</span> 的哪个字段、
+哪个实测锚点，以及它的诚实边界；②<b>五步方法论的映射</b>（观察现象 → 统计图 → 层级定位 → 手段映射 →
+实验组），每一步对应本轮哪个产物；③<b>七张图的数据索引</b>；④<b>开放问题与后续实验清单</b>（含上面的
+RTL 验证设计）；⑤<b>术语表</b>（白话定义可直接搬进论文）；⑥<b>相关前作的引用路径</b>（B8-48 选型、写墙确诊、
+算法修复方案三轮）。</p>
+
+<h2>九、复现命令</h2>
+<p class="mono"># 全部数字一遍跑出（约 1 分钟，含 3442 段重编译扫描；输出控制台表 + util_decomp.json）<br>
+cd arch/v8_2026-09-11_2315_gemm_util_design &amp;&amp; python util_decomp.py<br><br>
+# 依赖锚点来自 arch v5（b8_scan.py：读/写/访存三实测锚点、字节账、校准系数），零改动引用<br>
+# 写回三档耗时与成对杠杆的另一本账（arch v7，已入库）<br>
+cd ../v7_2026-09-09_1246_mem_caliber &amp;&amp; python mem_caliber.py</p>
+
+<h2>十、诚实边界</h2>
+<p><b>全部利用率与台阶数字来自周期模型</b>，锚定三个帧级实测锚点，但没有段级 RTL 实测背书——第七节的三个
+验证实验就是为此设计的，跑完才算数。</p>
+<p><b>"拼浅段"那档（72.8%）标的是上界</b>：模型假设 8 个浅段拼完能像深段一样跑，实际受写回地板限制
+（第五节末尾），落地会低一些。承诺口径按 68.7%（第 4 件后）记更稳。</p>
+<p><b>写回 0.247 秒不含跳零收益</b>（保守），但含 0.81% 的突发协议开销修正（乐观方向的修正已做）。</p>
+<p><b>16 位激活情景是一阶外推</b>：按"字节翻倍、节奏不变"记，乘法单元打包兼容性按乐观假设（仍 4 个/颗 DSP），
+若不成立该情景还要更差；decoder 浮点部分没单独拆。</p>
+<p><b>主频、功耗没有数</b>：电路还没动，综合后的时序/功耗要等硬件线下一轮。</p>
+</body>
+</html>

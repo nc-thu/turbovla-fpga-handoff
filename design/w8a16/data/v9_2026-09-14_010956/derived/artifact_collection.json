@@ -1,0 +1,33 @@
+{
+  "generated_at": "2026-09-14 01:56:41",
+  "baseline": "turbovla_w8a16\\data\\v9_2026-09-14_010956\\compiler_baseline",
+  "optimized": "turbovla_w8a16\\data\\v9_2026-09-14_010956\\compiler_optimized",
+  "source_capture": "turbovla_w8a16/data/v8_2026-09-13_231621/raw_capture",
+  "activity_event_count": 432,
+  "files": {
+    "activity_events.jsonl": {
+      "bytes": 224225,
+      "sha256": "7d89acd62f967e0f8369c564162bdc372535703b7800d912754aaf91106cf14d"
+    },
+    "fallback_payload.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "rtl_activity.json": {
+      "bytes": 552,
+      "sha256": "53c0f7c8ea70657b62e9dbb480b892bc5bc0b2fcc8f70b4f7a1bb45458459dd9"
+    },
+    "traffic_breakdown.csv": {
+      "bytes": 248,
+      "sha256": "aba5ee268191632fd13fad176fa48e61f0fd68d1c0e5580df237be491bf2b234"
+    },
+    "traffic_breakdown.json": {
+      "bytes": 99,
+      "sha256": "4b402d3441fef8b746275ad47aaee34c1f78eb06656cbe608f087469e99cce90"
+    },
+    "vivado_results.json": {
+      "bytes": 5696,
+      "sha256": "50edbf3a2361181f986afe48457fe9583314bc4011a5aad6186aba3444325c2b"
+    }
+  }
+}

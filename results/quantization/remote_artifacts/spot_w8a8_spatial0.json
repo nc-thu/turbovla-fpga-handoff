@@ -1,0 +1,58 @@
+{
+  "script": "turbovla_libero_evaluation",
+  "ckpt_path": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/pretrained/TurboVLA/checkpoints/libero/turbovla_libero.pth",
+  "task_suite_name": "libero_spatial",
+  "requested_task_ids": [
+    0
+  ],
+  "num_trials_per_task": 1,
+  "num_open_loop_steps": 12,
+  "seed": 7,
+  "precision": "fp32",
+  "dinov3_output_hidden_states": true,
+  "tasks": [
+    {
+      "task_id": 0,
+      "task_description": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+      "episodes": 1,
+      "successes": 0,
+      "success_rate": 0.0
+    }
+  ],
+  "total_episodes": 1,
+  "total_successes": 0,
+  "overall_success_rate": 0.0,
+  "quantization_mode": "w8a8",
+  "quantization": {
+    "stats": {
+      "mode": "w8a8",
+      "weight_bits": 8,
+      "activation_format": "INT8",
+      "activation_bits": 8,
+      "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+      "quantized_linear": 208,
+      "quantized_conv": 1,
+      "quantized_mha": 12,
+      "quantized_embedding": 4,
+      "quantized_weight_values": 215733760,
+      "quantized_weight_bytes": 215733761,
+      "fp32_bias_values": 60424,
+      "unsupported_weight_modules": []
+    },
+    "parameter_count_after_wrapping": 3281424,
+    "buffer_count_after_wrapping": 430321950,
+    "logical_int8_weight_bytes": 215733761,
+    "logical_int8_weight_mib": 205.73974704742432,
+    "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+  },
+  "experiment_started": "2026-09-12T22:05:16",
+  "experiment_finished": "2026-09-12T22:05:43",
+  "experiment_elapsed_seconds": 27.1651034001261,
+  "policy_call_timing_ms": {
+    "count": 19,
+    "median": 164.33641500771046,
+    "p90": 172.4084708839655,
+    "min": 144.47644166648388,
+    "max": 449.7543405741453
+  }
+}

@@ -1,0 +1,271 @@
+\documentclass[10pt,conference,letterpaper]{IEEEtran}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,booktabs,array,multirow,graphicx,xcolor,cite,url}
+\usepackage[hidelinks]{hyperref}
+\usepackage{balance}
+\usepackage{xurl}
+\newcommand{\sys}{VLA-FPGA}
+\newcommand{\pending}[1]{\textcolor{red!65!black}{\textsf{[TBD:#1]}}}
+\newcommand{\blank}{\rule{0pt}{2.2ex}\hspace{1.1em}}
+\newcommand{\fig}[4]{\begin{figure*}[t]\centering\includegraphics[width=#3\textwidth]{#1}\caption{#4}\label{#2}\end{figure*}}
+\setlength{\tabcolsep}{4pt}
+\title{VLA-FPGA: Shape-Aware Execution and Area-Efficient Packed Arithmetic\protect\\for Vision--Language--Action Inference}
+\author{\IEEEauthorblockN{Author information to be added}\IEEEauthorblockA{Working manuscript --- September 12, 2026}}
+\begin{document}
+\maketitle
+\begin{abstract}
+Vision--language--action inference combines visual processing, language conditioning, and action prediction within one execution graph. Mapping its matrix operations onto an FPGA exposes a mismatch between arithmetic work and execution time: short reductions pay substantial readout overhead, long reductions depend on operand delivery, and fine-grained stores can limit the benefit of faster computation. VLA-FPGA couples a model-to-instruction workflow with overlapping computation and readout, dual-slice operand delivery to a phase-aligned double-rate core, and contiguous burst writeback. An exact Pack2 processing element uses the DSP48E2 preadder to remove external packing-bias correction while retaining two products per physical multiplier. In the archived workload model, reductions shorter than 64 account for 5.9\% of MACs but 29.1\% of modeled GEMM cycles. Representative RTL tests reduce amortized interface cycles per row group from 140.3 to 89.3 for $K=64$ and from 2096.3 to 1053.3 for $K=2049$. A matched 48-PE implementation reduces LUTs from 6988 to 6124, a 12.4\% reduction, with 48 DSPs and unchanged pipeline latency. The manuscript connects these local results to full-model scheduling and defines the remaining system and task-quality evaluation.
+\end{abstract}
+
+\section{Introduction}
+Robotic policies increasingly connect visual observations and language instructions directly to actions. RT-2 and OpenVLA demonstrate the value of transferring vision--language representations to robot control~\cite{rt2,openvla}, while Octo studies generalist policies across robot settings~\cite{octo}. Diffusion Policy generates actions through iterative denoising~\cite{diffpolicy}; diffusion Transformers provide a scalable computational backbone~\cite{dit}. These developments expand the scope of an inference accelerator from a repeated neural-network layer to a sequence of heterogeneous computations with distinct shapes, dependencies, and output schedules.
+
+An FPGA offers a practical substrate for studying this execution problem: arithmetic width, local memory organization, and control can be specialized together. Yet packing more low-precision operations into DSP blocks does not by itself keep an array busy. A product must receive operands, reach an accumulator, leave a completed output tile, and eventually become available to a dependent operator. Delays along this path can dominate useful multiplication, especially when the workload alternates between deep projections and short reductions.
+
+The project trace exposes three connected observations. First, the reduction-length distribution is broad: its 10th, 50th, and 90th percentiles are 8, 257, and 2049. In the archived architecture model, $K<64$ operations consume only 5.9\% of MACs but 29.1\% of GEMM cycles. Second, extending operand delivery changes the dominant cost of deep reductions. A wide-array RTL test at $K=2049$ requires 2096.3 amortized interface cycles per row group in the baseline, but 1053.3 with overlapped readout and a double-rate core fed by paired operand slices. Third, faster array execution need not accelerate a complete segment: in one measured segment, burst writeback reduces write activity by 59.6\% while leaving total segment cycles unchanged. These observations motivate changes at the execution boundary as well as inside the array.
+
+The additional buffering and control have a physical cost. In the archived out-of-context engine reports, the baseline uses 118303 LUTs and the combined dual-rate engine uses 143161 LUTs, both with 768 DSPs. Thus, execution efficiency and fabric area must be addressed together. VLA-FPGA moves a constant packing-bias correction into the DSP48E2 preadder. This change preserves the existing multiplication and accumulation semantics while reducing the logic repeated across processing elements (PEs).
+
+Prior work provides essential building blocks but addresses different parts of this problem. DiTPA specializes action-planner execution around action, denoising, and multimodality redundancy~\cite{ditpa}. FlightLLM provides a complete mapping flow for language-model inference on FPGAs~\cite{flight}. FINN and Quasar-ViT connect low-precision models to FPGA implementations~\cite{finn,quasar}. VLA-FPGA studies how a traced VLA graph interacts with operand delivery, readout, and writeback, and how a smaller exact PE can offset the logic cost of improving these interactions.
+
+The paper makes three contributions. (1) A model-oriented compilation and execution framework connects traced operators, quantization parameters, instructions, architectural modeling, and RTL segment execution. It exposes operator placement and segment boundaries explicitly. (2) Shape-aware execution combines snapshot-based overlap, dual readout, paired operand delivery, and burst writeback; a compatible-column merging rule extends the same reasoning into compilation. (3) An exact preadder-based Pack2 PE removes repeated external bias correction without adding DSPs or pipeline stages. The existing evidence establishes component and representative-segment behavior; full implementation, calibrated end-to-end evaluation, and operator-coverage completion are recorded in Section~\ref{sec:status}.
+
+\section{Background and Motivation}
+\subsection{From a VLA Graph to Matrix Work}
+The target project follows the HoloBrain-0 workload recorded in the local model trace. Visual processing, language conditioning, feature interaction, and action prediction contribute different operator families. The trace includes weighted linear and convolutional operations, attention matrix products, tensor rearrangements, and nonlinear operations. The compilation interface preserves their order and data dependencies rather than replacing the graph with one representative square GEMM.
+
+Attention exposes a useful example. Its projections and $QK^{T}$ and $PV$ products map naturally to matrix arithmetic, but normalization, positional transformations, and Softmax introduce different execution requirements~\cite{attention}. Visual token processing introduces additional matrix shapes~\cite{vit}. Consequently, reporting accelerated MAC coverage alone cannot establish complete operator coverage: a small arithmetic fraction may still require transfers or host execution at many segment boundaries.
+
+The current compiler emits both FPGA segments and explicit host operations. Weighted GEMMs and attention products form the accelerated path. Selected attention uses hardware Softmax; other attention families retain host Softmax. Normalization, activation, rotary and window transformations, deformable operations, and designated fallback layers appear in the host plan. This explicit partition is the starting point for the operator-by-operator coverage audit, rather than an assumption that every graph operation already executes in programmable logic.
+
+\subsection{Observation 1: Short Reductions Pay a Large Fixed Cost}
+Figure~\ref{fig:shapes} separates MAC share from modeled cycle share. The archived trace contains 49569 GEMM records across 2580 modeled segments and 150.83 billion MACs. Its short reductions are inexpensive arithmetically, but array fill, completion signaling, result capture, and readout do not shrink in proportion to $K$. A design optimized only for large $K$ therefore spends a disproportionate amount of time on these shapes.
+
+This distinction also affects what should be plotted. A shape histogram weighted by operator count makes numerous small operations visible, but cannot establish their latency impact. A histogram weighted only by MACs hides their fixed overhead. The paired distribution in Figure~\ref{fig:shapes} uses the same archived workload for both views. The cycle weights are architecture-model estimates, not direct hardware stall counters.
+
+\fig{figures/shape_distribution.pdf}{fig:shapes}{1.0}{Workload shape evidence from arch v8. Left: MAC share and modeled GEMM cycle share over identical records; $K<64$ has a much larger cycle share than arithmetic share. Right: costly $(K,N)$ classes, where $N$ is the local output-column extent. Bins are lower-inclusive and upper-exclusive; the final displayed endpoint follows the source's clipped label. These distributions characterize the archived trace, not the newer compiler build.}
+
+\subsection{Observation 2: Delivery and Readout Need Different Remedies}
+For a tile with reduction length $K$, a useful schedule model is
+\begin{equation}
+T_{\mathrm{serial}}=T_{\mathrm{fill}}+T_{\mathrm{feed}}+T_{\mathrm{capture}}+T_{\mathrm{drain}}.
+\end{equation}
+When independent groups can overlap, the steady-state interval approaches the largest service interval rather than their sum:
+\begin{equation}
+I_{\mathrm{group}}\gtrsim\max(I_{\mathrm{feed}},I_{\mathrm{capture}},I_{\mathrm{drain}},I_{\mathrm{write}}).
+\label{eq:interval}
+\end{equation}
+These expressions describe the scheduling objective, not an exact cycle predictor. Startup, output shape, bank availability, and tail masks remain relevant. In particular, doubling operand delivery is useful for deep reductions, whereas short reductions can remain limited by capture or drain. Their separate treatment follows the broader principle that a dataflow must match reuse and communication constraints~\cite{eyeriss,maestro}.
+
+The distinction between physical clocks matters here. A Pack2 multiplier forms two logical products per \emph{core} cycle. A single-rate engine containing 768 DSPs therefore has a peak of 1536 MACs per interface cycle. Only when the core runs at twice the interface frequency and receives two valid slices per interface cycle does this peak become 3072. The old model's 26.5\% baseline uses the latter denominator; relative to the single-rate physical peak it is 53.0\%. These two percentages describe the same modeled execution time. They cannot be used as before-and-after physical utilization without correcting the denominator.
+
+\subsection{Observation 3: Fine-Grained Writes Limit System Benefit}
+The archived write trace contains 32939 stores and 594.29 MB of output traffic, expressed as 16-byte rows. More than 99.5\% of the bytes belong to contiguous runs longer than 2048 bytes. Transaction granularity is therefore an opportunity: many short transfers can be emitted as bursts without treating unrelated addresses as contiguous.
+
+A faster compute engine moves the bottleneck only if the output service rate also improves. The historical model predicts a plateau when the original write service remains unchanged, even as GEMM time decreases. This is the same kind of distinction between arithmetic work and data movement that motivates IO-aware exact attention~\cite{flash}, but the mechanism here is an FPGA write-channel schedule rather than an attention-kernel transformation.
+
+\begin{figure*}[t]\centering
+\includegraphics[width=\textwidth]{figures/concepts/system_isca_reference_v4.png}
+\caption{VLA-FPGA organization: (a) the execution system with explicit host boundary operations, (b) paired operand delivery, the Pack2 array, and buffered readout, and (c) the exact preadder PE. This original concept uses the visual grammar of a research architecture figure; detailed bank placement and control wires require RTL-aligned Visio redrawing. Snapshot capture is in the core domain; stable snapshot readout crosses into the interface domain. The diagram is not evidence of completed top-level integration.}
+\label{fig:overview}\label{fig:system}\label{fig:pe}\end{figure*}
+
+\section{Compilation and Execution Framework}
+\label{sec:compiler}
+\subsection{A Shared Representation Across the Workflow}
+VLA-FPGA compiles a traced execution graph together with exported integer weights, tensor metadata, and per-channel quantization parameters. Its outputs include a weight image, per-segment instruction streams, tensor placement metadata, and a host execution plan. Figure~\ref{fig:system} shows how these artifacts connect model preparation to the FPGA segment engine. The functional path checks values and tensor identity; the architecture model estimates cycles; RTL checks the instruction-level realization. These roles are complementary and use explicit version identifiers.
+
+Graph and tensor compilers such as TVM separate model descriptions from target schedules~\cite{tvm}, and Ansor searches the tensor schedule space~\cite{ansor}. The additional requirement here is executable agreement on a compact instruction format, local memory addresses, quantization tails, and segment handoff. A schedule is useful only if all consumers interpret the same bytes in the same way.
+
+The current format uses a 256-bit command header. GEMM-family commands append per-column quantization words; each column contributes an 8-bit shift and a signed 16-bit multiplier. For $C$ logical columns, the tail length is $\lceil24C/256\rceil$ words, or nine words for 96 columns. The format records rounding behavior explicitly. Non-GEMM commands retain a single header. The instruction set includes weighted GEMM, attention-related matrix operations, data movement, and completion.
+
+After accumulation, per-column requantization conceptually computes
+\begin{equation}
+y_c=\operatorname{clip}_{\mathrm{int8}}\!\left((s_c m_c+r_c)\mathbin{\gg}q_c\right),
+\end{equation}
+where $s_c$ is the accumulator, $m_c$ and $q_c$ are the encoded multiplier and shift, and $r_c$ is the mode-dependent rounding term. The exact signed widths and rounding cases follow the shared encoder and RTL implementation. Weight-only quantization methods such as GPTQ and AWQ~\cite{gptq,awq} do not define this integer-activation execution path; SmoothQuant provides a complementary motivation for treating activation ranges during quantization~\cite{smooth}.
+
+\subsection{Layout, Lifetimes, and Compatible-Column Merging}
+The scheduler must preserve tensor lifetimes as it overlaps producers and consumers. The compiler's current output-buffer revision addresses a destination-base reuse hazard using alternating output placement. Such changes belong in the semantic validation path: matching dimensions or aggregate MAC counts does not establish correct tensor identities.
+
+Compatible-column merging targets multiple narrow products that share an activation tile. Instead of repeating the same activation traversal, the compiler may place independent output-column groups into a wider logical operation. The legality conditions are that the activation identity and reduction order agree, weight and quantization entries retain their column association, destination ranges remain disjoint, and no intervening consumer requires an earlier result. A merge must also respect local weight capacity and the output layout required by the next operator.
+
+These conditions distinguish legal merging from merely increasing a testbench's $N$ parameter. The wide-array RTL results establish that larger output extents can add little time in a deep-$K$ case, but do not independently prove the compiler transformation. The archived trace groups 49569 records into 33892 candidate groups. Its projected benefit motivates an implementation and byte-level equivalence experiment, with dispatch count and memory traffic reported separately.
+
+\subsection{Versioned Evaluation and Release}
+The paper artifact snapshots the JSON inputs used by each statistical plot and records their SHA-256 digests and original paths. It keeps arch v8, compiler v7, the utilization RTL experiments, the preadder strip, and the full-engine integration as separate evidence sets. The compiler's newer segment counts are not substituted into the older architecture model without regenerating its inputs.
+
+The compiler, instruction generator, architectural simulator, RTL, and evaluation scripts are planned for release at \url{https://github.com/nc-thu/vector-core-r3c}. The URL identifies the intended project repository; the manuscript does not presume that a public artifact release or an artifact-evaluation package is already available.
+
+
+\section{Hardware Architecture}
+\subsection{Snapshot-Based Computation and Drain Overlap}
+The wide engine contains 16 rows and 48 physical Pack2 columns, corresponding to 96 logical output columns and 768 DSPs. A PE accumulates two products using one physical multiplier. At a group boundary, result snapshots preserve completed sums while the active accumulators begin subsequent work. Alternating snapshot storage and tile buffers decouple capture from readout, subject to bank availability.
+
+The central invariant is ownership: a bank cannot be reused for a new snapshot until its previous contents have been consumed. Completion signaling therefore accompanies data lifetime, rather than simply indicating that the multiplier has finished. A stalled consumer must stop bank reuse, and a partial final tile must preserve lane masks. This turns a serialized feed--drain schedule into a pipeline across groups without changing the mathematical reduction within a group.
+
+The second readout path increases the rate at which completed values enter output storage. This is most useful when readout is a substantial fraction of the group interval. It does not guarantee a proportional improvement for every shape: an already feed-limited group can see little benefit from a faster drain, as Equation~\ref{eq:interval} predicts.
+
+\subsection{Paired Operand Delivery and the Double-Rate Core}
+The latest \texttt{ae\_gemm\_p2d} interface supplies two activation slices and two weight slices per interface cycle. Its address generator advances by a pair of reduction indices, and the core consumes one slice on each of two phase-aligned core steps. When $K$ is odd, the final second slice is invalidated so that padding does not contribute a product. The feed component consequently changes from approximately $K$ interface steps to $\lceil K/2\rceil$, with control and pipeline overhead added around it.
+
+This implementation uses a real second clock input. The core clock and interface clock are related, phase-aligned clocks, not independent asynchronous sources. Interface-side registers hold values through the transfer window; snapshot data is stable while it is consumed. This organization needs generated-clock constraints and path analysis for both directions. A successful behavioral simulation of ideal clock phases is not evidence that a routed design meets the half-cycle transfers.
+
+For $N_{\mathrm{DSP}}$ DSPs, two products per core step, and clock ratio $\rho=f_{\mathrm{core}}/f_{\mathrm{iface}}$, utilization is
+\begin{equation}
+U=\frac{N_{\mathrm{MAC}}}{T_{\mathrm{iface}}\,N_{\mathrm{DSP}}\,2\rho}.
+\label{eq:util}
+\end{equation}
+Here $T_{\mathrm{iface}}$ is elapsed interface cycles and $N_{\mathrm{MAC}}$ counts useful, unmasked MACs. Reports must give $\rho$ and the timing window alongside $U$. At the nominal 303.215 MHz interface frequency, a ratio of two would require a 606.430 MHz core; this is a timing target, not a demonstrated full-engine operating point in the present results.
+
+\subsection{Contiguous Burst Writeback}
+The write optimization changes transaction formation while preserving destination addresses and valid bytes. Consecutive rows in a contiguous output run are gathered into a burst, reducing repeated address and response overhead. A burst ends at a discontinuity, a maximum supported length, or a protocol boundary. The final partial transfer retains byte enables. The writer must hold address, data, and control stable under backpressure and report completion only after the corresponding response.
+
+This mechanism does not combine arbitrary scattered stores. Nor does it require the compute array to produce all outputs simultaneously: tile buffers provide the decoupling needed to assemble and drain runs. The relevant experiment measures both write-channel cycles and complete segment cycles, because the latter includes overlapping computation and other work.
+
+\subsection{Exact Pack2 Arithmetic with an Internal Bias Correction}
+\label{sec:pe}
+DSP48E2 provides a 27-bit preadder before a 27-by-18-bit multiplier~\cite{ug579}. VLA-FPGA uses it to remove the offset introduced when two signed 8-bit weights are packed into separated fields. Let activation $a$ and weights $w_0,w_1$ be signed 8-bit integers. Define
+\begin{align}
+Q&=(w_1+128)2^{16}+(w_0+128),\\
+B_0&=128(2^{16}+1)=8388736,\\
+R&=Q-B_0=w_1 2^{16}+w_0.
+\end{align}
+The candidate connects $D=Q$, $A=-B_0$, and $B=a$. The preadder forms $R$, and the same physical multiplier produces $P=aR$. The range of $R$ is $[-8388736,8323199]$, which fits the signed 27-bit preadder result. No modular overflow is required to make the identity hold.
+
+Because $aw_0$ fits in signed 16 bits, the two products are recovered as
+\begin{align}
+p_0&=\operatorname{signed}(P[15:0]),\\
+p_1&=\operatorname{signed}(P[31:16])+P[15].
+\label{eq:extract}
+\end{align}
+The upper field requires a one-bit borrow correction when the low product is negative. Moving the packing offset into the preadder removes the external $128a$ corrections; it does not remove this high-field correction or either existing accumulator. Figure~\ref{fig:pe} illustrates the difference.
+
+Packing multiple operations into a wider DSP is established practice, and exact field extraction must account for carry and sign interactions~\cite{packing}. Bit Fusion addresses precision-dependent composition in a different hardware substrate~\cite{bitfusion}. The contribution here is the concrete preadder mapping, unchanged pipeline contract, and its measured area effect within a matched Pack2 implementation, rather than a claim that packing itself is new.
+
+The unchanged pipeline contract is essential for integration. The unit tests observe five entry-to-accumulator edges in both versions, and each physical DSP still delivers two logical products per core cycle. The preadder modification is independent of the double-rate engine: it can be evaluated under one clock without claiming an increased issue rate. Existing 32-bit accumulators and 27-bit snapshots retain their previous semantics.
+
+
+\section{Evaluation}
+\subsection{Experimental Setup and Evidence Levels}
+Table~\ref{tab:setup} identifies the experimental units. Comparisons use matching widths and harnesses wherever a causal area claim is made. Workload projections use the frozen arch v8 trace. RTL cycle results use the archived wide-array and write-channel tests. The preadder comparison uses a 48-PE strip synthesized and routed out of context for \texttt{xczu7ev-ffvc1156-2-e} at a 3.298 ns constraint.
+
+\begin{table}[t]\centering\caption{Experimental configuration and scope.}\label{tab:setup}
+\begin{tabular}{p{.30\columnwidth}p{.62\columnwidth}}\toprule
+Item & Configuration / evidence \\\midrule
+Target platform & ZCU104 project; XCZU7EV device \\
+Archived workload & arch v8: 49569 GEMM records, 2580 modeled segments \\
+Wide engine & 16 rows, 48 physical columns, 96 logical columns; 768 DSPs \\
+Clock variants & Single-rate baseline; phase-aligned 2x core candidate \\
+Arithmetic & INT8 activation and weight products; existing accumulator/snapshot widths \\
+PE comparison & Same 48-PE strip; 3.298 ns; out-of-context synthesis and routing \\
+Cycle evidence & Behavioral RTL; interface-cycle counters \\
+System completion & \pending{E2E}, \pending{FULLROUTE}, \pending{COVERAGE} \\\bottomrule
+\end{tabular}\end{table}
+
+Evidence is distinguished at five levels: mathematical enumeration, unit RTL simulation, segment RTL execution, architecture modeling, and routed implementation. Board-level latency and energy form a separate level. In particular, a routed strip is an FPGA implementation result but not a board-level policy execution. This separation follows the need for system context emphasized by full-stack evaluation frameworks~\cite{gemmini}.
+
+\subsection{Mechanism Ablation Across Representative Shapes}
+Figure~\ref{fig:rtl} compares the baseline, overlap with one readout path, overlap with two readout paths, and the dual-rate candidate. For $K=64$, the corresponding amortized interface-cycle counts per row group are 140.3, 105.3, 104.3, and 89.3. Overlap removes much of the fixed drain penalty; adding a second readout path has a smaller effect for this specific narrow output case. Paired delivery then reduces the remaining feed component. The combined reduction is 36.4\% relative to the baseline.
+
+For $K=2049$, the same sequence is 2096.3, 2085.3, 2084.3, and 1053.3 interface cycles per group. Overlap alone changes little because feeding dominates. Paired delivery and the double-rate core reduce the combined count by 49.8\%. This shape-dependent response is the intended causal result: the mechanism that helps a short reduction need not be the dominant mechanism for a deep one.
+
+These values divide total test cycles by the number of row groups and therefore include startup and tail work; they are not steady-state initiation intervals. The baseline test uses three row groups and the compared pipelined tests use four. A controlled equal-group-count experiment is specified in the accompanying experiment plan. The current numbers characterize the archived tests and establish the direction of the mechanism effects without treating differing startup amortization as a pure ablation.
+
+In the dual-rate deep-$K$ test, increasing the logical output extent from 8 to 96 changes total cycles from 4213 to 4257, a 1.0\% increase. This provides a hardware-side motivation for compatible-column merging. It does not substitute for a compiler equivalence test or establish an end-to-end model speedup.
+
+\fig{figures/rtl_ablation.pdf}{fig:rtl}{1.0}{Representative RTL cycle comparisons. Values are recomputed from integer cycle totals and row-group counts, rather than copied from rounded archival fields. The baseline has three groups and the pipelined variants four; all values include startup. The result illustrates shape dependence, while matched-count causal ablation remains \pending{ABLATION}.}
+
+\subsection{Writeback Improvement and the Critical Path}
+Figure~\ref{fig:write} reports both the write activity and complete latency for three archived segments. Segment 0645 decreases from 165239 to 100091 interface cycles, a 39.4\% reduction, while write activity decreases by 66.3\%. Segment 0636 improves total cycles by only 2.3\% even though its write activity decreases by 27.2\%. Segment 0529 retains the same 4221-cycle total after a 59.6\% decrease in write activity. All three output dumps match their respective baselines.
+
+The difference is meaningful: reducing one overlapping component does not subtract the same number of cycles from the whole segment. It also limits generalization from the current memory model. These tests use a fast slave model and do not establish the benefit under realistic DDR service variation. The next experiment sweeps address acceptance, data backpressure, response delay, partial bursts, and boundaries while preserving byte-level comparison.
+
+\fig{figures/write_results.pdf}{fig:write}{1.0}{Burst-write results from three segment RTL tests. Left: total segment cycles. Right: write-channel cycles. Percentage annotations are reductions relative to each segment's own baseline. Matching output dumps establish functional agreement for these tests; the fast slave model does not represent measured board DDR behavior.}
+
+\subsection{PE Correctness, Resources, and Timing}
+Exhaustive arithmetic enumeration covers all $256^3=16777216$ combinations of $a,w_0,w_1$. Both extracted products agree with direct multiplication, the borrow predicate is correct, and baseline and candidate products match. Verilator checks 42190 observations, including random streams, bubbles, pulse and clear behavior, and boundary conditions. A separate simulation with the vendor DSP primitive checks 42189 observations. Both report zero errors.
+
+Figure~\ref{fig:area} shows the matched implementation comparison. Hierarchical LUT cost decreases from 121 to 103 per PE, or 14.9\%. The complete 48-PE strip decreases from 6988 to 6124 LUTs, or 12.4\%, and from 11409 to 10641 flip-flops, or 6.7\%. Both versions use 48 DSPs and no BRAM in this strip harness. Netlist attributes confirm preadder selection in all 48 candidate DSPs.
+
+Both strips meet the 3.298 ns routing constraint. Worst setup slack changes from $+0.952$ ns to $+0.689$ ns; the candidate retains positive slack but does not improve timing margin. The unit test's five-edge entry-to-accumulator latency is unchanged. Thus the supported result is lower LUT cost at the tested throughput and constraint, not a higher maximum clock frequency.
+
+The full-engine saving must be measured in the engine's own synthesis context. The strip's per-PE cost cannot simply be multiplied by the engine's PE count and presented as an implementation result. Likewise, a shared pre-existing corner case remains: a 27-bit snapshot represents a sum of $2^{26}$ as $-2^{26}$, although the 32-bit accumulator itself holds the value. The preadder preserves this behavior; the full workload must show that its admitted ranges avoid unintended overflow, or define the required handling.
+
+\fig{figures/pe_resources.pdf}{fig:area}{1.0}{Matched preadder implementation results: per-PE LUTs, whole-strip resources, and routed timing slack. The strip contains 48 DSPs in both versions. Positive slack at the same constraint supports throughput preservation for this harness; it does not establish full-engine timing or board operating frequency.}
+
+\subsection{Resource Cost of Execution Efficiency}
+Table~\ref{tab:resources} reports the combined engine's archived resource hierarchy before preadder replacement. The array and snapshot subsystem occupies 107763 of 143161 LUTs, while requantization occupies 14160. The residual accounts for other engine logic after these non-overlapping subtrees are removed. The nested DSP-wrapper subtotal is excluded to avoid double counting.
+
+\begin{table}[t]\centering\caption{Archived p2d48\_v2 out-of-context resources, before preadder replacement. Time is an overlapping activity metric, pending counters; it is not inferred from area.}\label{tab:resources}
+\scriptsize\setlength{\tabcolsep}{2pt}\begin{tabular}{lrrrr}\toprule
+Module & LUT & DSP & BRAM & Time \\\midrule
+Array + snapshots & 107763 & 768 & 0 & \pending{TIME} \\
+Requantization & 14160 & 0 & 0 & \pending{TIME} \\
+Other engine logic & 21238 & 0 & 0 & \pending{TIME} \\
+Engine total & 143161 & 768 & 0 & --- \\
+Top-level DMA/memory & \pending{RES} & \pending{RES} & \pending{RES} & \pending{TIME} \\\bottomrule
+\end{tabular}\end{table}
+
+This scope matters because the engine harness does not include a complete board memory subsystem. A zero BRAM count in the harness is not a zero-BRAM claim for the system. The final resource breakdown will include LUT, DSP, and BRAM for each top-level module alongside its active-time fraction. Overlapping module fractions need not sum to 100\%; an additional mutually exclusive stall partition is needed to explain elapsed time.
+
+\subsection{From Local Cycles to Full-Model Latency}
+Figure~\ref{fig:model} uses the historical arch v8 projection to test interaction between compute and write service. With the original write model, faster compute variants approach a latency floor. With burst-write service enabled, the model predicts further improvement. The figure's role is to motivate combined optimization and identify the measurements needed for calibration; its points are not measured policy latencies.
+
+The model combines overlapping component estimates with serial overhead. It uses a calibrated write budget of 218.4 million cycles, while the separate raw row-service estimate is 222.86 million cycles. These values are not interchangeable. A current calibration must rebuild both from the same trace, interface clock, service model, and execution window before claiming an end-to-end speedup. Timeloop and MAESTRO motivate making mapping and architecture assumptions explicit~\cite{timeloop,maestro}; VLA-FPGA additionally needs segment-boundary and bus-service terms.
+
+For each held-out segment, the final evaluation will report absolute and signed relative cycle error, followed by cycle-weighted aggregate error and worst-case error. Calibration segments must be separated from held-out shapes. Complete-frame results will include host boundary operations, transfers, and synchronization from observation availability to action availability, with cold initialization reported separately. Performance per DSP and per LUT will use measured useful throughput and the resources of the same implementation.
+
+\fig{figures/model_interaction.pdf}{fig:model}{1.0}{Historical architecture-model interaction between compute optimizations and writeback. A compute-only improvement can encounter the original write-service floor. The dashed series changes the write-service assumption as well. Neither series is a board measurement or a calibrated result for the latest compiler/RTL combination.}
+
+\subsection{Task-Quality Evaluation Template}
+LIBERO and RoboTwin provide task-level evaluation settings~\cite{libero,robotwin}. Table~\ref{tab:quality} deliberately leaves all numerical fields empty. The final protocol will identify checkpoint and calibration-data hashes, task lists, observation preprocessing, action horizon, simulator versions, and episode seeds. Reference and integer policies will use paired tasks and seeds, the same sensor inputs, and the same action termination rules.
+
+\begin{table}[t]\centering\caption{Quantized policy quality template. Empty cells are unmeasured; no historical success values are inserted.}\label{tab:quality}
+\begin{tabular}{lccccc}\toprule
+Suite & Episodes & Ref. & INT8 & $\Delta$ (pp) & CI \\\midrule
+LIBERO & \blank & \blank & \blank & \blank & \blank \\
+RoboTwin & \blank & \blank & \blank & \blank & \blank \\\bottomrule
+\end{tabular}\end{table}
+
+Analysis will report per-task success, the macro-average, and uncertainty over episodes or seeds, with the aggregation unit stated. A success change will be written in percentage points. The comparison must keep the policy architecture fixed to isolate quantization, then compare baseline and optimized integer execution to isolate hardware transformations. Bit-exact products establish a property of the PE, not policy quality. Dataset-level success measurements and a new high-precision circuit are outside the required experiments for this draft.
+
+\section{Related Work}
+\begin{table*}[t]\centering\caption{Scope comparison with representative prior work. A scope statement is not a performance ranking.}\label{tab:related}
+\begin{tabular}{p{.18\textwidth}p{.23\textwidth}p{.24\textwidth}p{.25\textwidth}}\toprule
+Work & Main scope & Layer of optimization & Relation to VLA-FPGA \\\midrule
+RT-2 / OpenVLA / Octo~\cite{rt2,openvla,octo} & Robot policy models & Representation, training, adaptation & Define policy context; not FPGA system results \\
+DiTPA~\cite{ditpa} & DiT action planner & Action/denoising/modal redundancy and hardware & Closest planner accelerator; distinguish full graph from planner \\
+FlightLLM~\cite{flight} & Language-model inference on FPGA & Mapping, DSP chains, memory & LLM scope rather than visual-language-action graph \\
+FINN / Quasar-ViT~\cite{finn,quasar} & Low-precision networks / ViTs & Streaming mapping / hardware-aware search & Establish FPGA model-hardware co-design \\
+TVM / Ansor~\cite{tvm,ansor} & Tensor compilation & Lowering and schedule generation & Complement fixed instruction and RTL semantics \\
+Gemmini~\cite{gemmini} & Full-stack DNN accelerator generator & Architecture and SoC evaluation & Motivates full-system rather than isolated-kernel measurement \\
+VLA-FPGA & Traced VLA execution workflow & Shape scheduling, write service, exact Pack2 PE & Current FPGA segments with explicit host boundaries; complete coverage audit pending \\\bottomrule
+\end{tabular}\end{table*}
+
+\subsection{Robot Policies and Planner Accelerators}
+Table~\ref{tab:related} separates robot-model papers from hardware studies. The model families establish why vision, language, and actions appear in one workload, but do not establish FPGA coverage. DiTPA is the closest architectural reference in this set: it converts planner-specific redundancy into software mechanisms and supporting hardware~\cite{ditpa}. VLA-FPGA instead focuses on matrix-shape and transfer effects in the traced execution workflow. Its mechanisms may complement redundancy reduction, but their composition requires a new experiment because skipped work changes shape and traffic distributions.
+
+\subsection{Dataflow, Mapping, and Low-Precision Arithmetic}
+Spatial accelerators and dense matrix engines make data reuse and operand delivery central design choices~\cite{eyeriss,tpu}. EIE and SCNN exploit compressed or sparse computation with matching delivery and accumulation organizations~\cite{eie,scnn}. VLA-FPGA's present exact dense arithmetic does not assume their sparsity opportunities. Its observation concerns overhead around useful products, even when no products are skipped.
+
+FPGA frameworks such as FINN and FlightLLM demonstrate the importance of mapping software together with the target hardware~\cite{finn,flight}. Quasar-ViT searches model and quantization choices with FPGA costs in view~\cite{quasar}. VLA-FPGA holds the PE arithmetic contract fixed while changing the placement of correction logic. This makes area reduction separable from model-quality changes. The preadder optimization must still be compared against established DSP-packing corrections~\cite{packing}, not presented as a new low-precision multiplication principle.
+
+\section{Discussion and Result Completion}
+\label{sec:status}
+The current evidence supports three concrete conclusions: shape-dependent overhead requires more than one execution remedy; write-channel improvements have critical-path-dependent segment benefit; and moving Pack2 bias correction into the preadder reduces LUTs in a matched strip without adding DSPs or PE latency. It does not yet establish a fully routed double-rate system or all-operator FPGA execution.
+
+The remaining results are managed by named placeholders. \pending{COVERAGE} is the per-operator execution-location audit and completion of any claimed all-FPGA path. \pending{CLOCK} is the generated-clock and useful-MAC audit. \pending{FULLROUTE} receives the already running full-engine implementation, including per-clock timing and report hashes. \pending{ABLATION} is the matched-workload individual and combined mechanism experiment. \pending{MODEL} is held-out cycle calibration, and \pending{E2E} covers full-path latency and any measurable energy. \pending{RES} and \pending{TIME} complete top-level resource/activity attribution. \pending{QUALITY} denotes only the empty evaluation template in this draft.
+
+One integration regression also needs resolution: the four-column deep baseline test reports unknown-value failures in both the old and new PE versions under its existing test configuration. Reproducing the same failure is useful for locating its origin, but is not a passing correctness result. It remains in the experiment issue list rather than being counted as validated coverage.
+
+Generality depends on workload distribution. Larger $K$ makes paired delivery attractive; smaller $K$ increases the importance of capture and drain; shorter non-contiguous writes reduce burst opportunities. Increasing array width can improve compatible-column occupancy while increasing readout and routing cost. A compact sensitivity study therefore varies representative shape classes, array width, and memory-service delay, rather than extrapolating one favorable GEMM to every policy.
+
+The manuscript does not use ``first complete VLA FPGA'' as an established priority claim. That wording requires both a broader recent-work audit and evidence that the claimed execution scope is actually implemented. The three technical contributions remain assessable without relying on priority language.
+
+\section{Conclusion}
+VLA-FPGA connects model-level execution structure to FPGA scheduling and replicated arithmetic cost. The traced workload motivates separate treatment of short-reduction readout, deep-reduction operand supply, and output service. Representative RTL results show why these mechanisms have shape-dependent effects, while a matched preadder implementation reduces strip LUTs by 12.4\% with unchanged DSP count and PE latency. The accompanying artifact preserves the evidence behind these results and specifies the experiments needed to complete full-system evaluation.
+
+\bibliographystyle{IEEEtran}
+\bibliography{references}
+\end{document}

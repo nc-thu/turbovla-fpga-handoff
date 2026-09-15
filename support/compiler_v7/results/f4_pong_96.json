@@ -1,0 +1,84 @@
+{
+ "build": "build_s000_v6_96",
+ "cols": 96,
+ "n_seg": 3400,
+ "segs_with_y_chain": 3388,
+ "segs_swin_phase1": 648,
+ "segs_violation": 0,
+ "violations": [],
+ "actv_touch_segs": 0,
+ "chain_shapes": {
+  "m=49,n=49,k=32,len=3136,nb=96": 76,
+  "m=49,n=49,k=32,len=3136,nb=48": 8,
+  "m=49,n=49,k=4,len=3136,nb=96": 60,
+  "m=49,n=49,k=8,len=3136,nb=96": 22,
+  "m=49,n=49,k=8,len=3136,nb=64": 2,
+  "m=224,n=21,k=32,len=4704,nb=1": 480
+ },
+ "strict5_pairs": 6884,
+ "strict5_segs": 361,
+ "examples": [
+  {
+   "seg": "seg_0003",
+   "nb": 96,
+   "len": 3136,
+   "shape": [
+    49,
+    49,
+    32
+   ]
+  },
+  {
+   "seg": "seg_0004",
+   "nb": 96,
+   "len": 3136,
+   "shape": [
+    49,
+    49,
+    32
+   ]
+  },
+  {
+   "seg": "seg_0005",
+   "nb": 96,
+   "len": 3136,
+   "shape": [
+    49,
+    49,
+    32
+   ]
+  },
+  {
+   "seg": "seg_0006",
+   "nb": 96,
+   "len": 3136,
+   "shape": [
+    49,
+    49,
+    32
+   ]
+  },
+  {
+   "seg": "seg_0007",
+   "nb": 96,
+   "len": 3136,
+   "shape": [
+    49,
+    49,
+    32
+   ]
+  },
+  {
+   "seg": "seg_0008",
+   "nb": 96,
+   "len": 3136,
+   "shape": [
+    49,
+    49,
+    32
+   ]
+  }
+ ],
+ "load_errors": [],
+ "verdict": "PASS: S3 holds on all segments"
+}

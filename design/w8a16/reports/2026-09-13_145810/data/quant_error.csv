@@ -1,0 +1,3 @@
+case,source,shape,max_abs_error,mean_abs_error,rmse
+random_matrix_sanity,run_python_checks.py,5x37x11,0.012402911260669114,0.0037442534406459905,0.004728019922519041
+historical_libero_spot,data/quant_screening_summary.json,TurboVLA output (recorded),0.013931810855865479,0.003540256293490529,

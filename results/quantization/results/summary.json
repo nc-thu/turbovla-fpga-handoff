@@ -1,0 +1,1205 @@
+{
+  "generated_at": "2026-09-12T22:51:38+08:00",
+  "experiment_directory": "E:\\GPU ARCH\\vector_core_sim\\algo\\turbovla_quant\\2026-09-12_215112",
+  "server": "nc23@101.6.64.77",
+  "gpu_policy": "CUDA_VISIBLE_DEVICES=3; one process at a time; existing services were not stopped",
+  "source_commit": "b29ab1420baa5c663ec935df513f2012430beb67",
+  "checkpoint": {
+    "path": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/pretrained/TurboVLA/checkpoints/libero/turbovla_libero.pth",
+    "sha256": "d031ad7be05a2f5d04afb3194ed26b0cb46083685edee7a5e145078a37d26bab"
+  },
+  "environment": {
+    "python": "3.10.20",
+    "torch": "2.6.0+cu124",
+    "gpu": "Tesla V100-SXM2-32GB"
+  },
+  "screening": {
+    "suites": [
+      "libero_spatial",
+      "libero_object",
+      "libero_goal",
+      "libero_10"
+    ],
+    "task_ids": [
+      0,
+      1
+    ],
+    "episodes_per_task": 3,
+    "seed": 7,
+    "num_open_loop_steps": 12,
+    "chunk_size": 12,
+    "total_episodes_per_mode": 24,
+    "total_episodes_all_modes": 96,
+    "note": "This is a screening sample, not the official 50-episode-per-task benchmark."
+  },
+  "quantization_definitions": {
+    "fp32": "Released FP32 policy path; official DINO autocast setting retained.",
+    "w8a8": "Per-output-channel symmetric INT8 weight fake quant + dynamic per-tensor INT8 activation fake quant; FP32 bias/norm.",
+    "w8a16": "Per-output-channel symmetric INT8 weight fake quant + dynamic per-tensor INT16 activation fake quant; FP32 bias/norm.",
+    "w8afp16": "Logical INT8 weight fake quant with FP16 model/activation execution; no INT8 CUDA kernel.",
+    "common_boundary": "Software reference fake quantization. Dequantized weights are used for GPU execution; logical INT8 bytes are accounting only and are not FPGA latency evidence."
+  },
+  "records": [
+    {
+      "file": "screen_fp32_libero_10.json",
+      "sha256": "8cfb3e9bd5c21b4629990e99fd1b477547455d9786226593be17233f13d51199",
+      "mode": "fp32",
+      "suite": "libero_10",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "put both the alphabet soup and the tomato sauce in the basket",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        },
+        {
+          "task_id": 1,
+          "task_description": "put both the cream cheese box and the butter in the basket",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 6,
+      "overall_success_rate": 1.0,
+      "elapsed_seconds": 113.12804433889687,
+      "policy_timing_ms": {
+        "count": 147,
+        "median": 137.27112859487534,
+        "p90": 145.57323791086674,
+        "min": 70.00424340367317,
+        "max": 440.7127145677805
+      },
+      "quantization": {
+        "stats": {
+          "mode": "fp32",
+          "weight_bits": 32,
+          "activation_format": "FP32",
+          "activation_bits": null,
+          "weight_scheme": "none",
+          "quantized_linear": 0,
+          "quantized_conv": 0,
+          "quantized_mha": 0,
+          "quantized_embedding": 0,
+          "quantized_weight_values": 0,
+          "quantized_weight_bytes": 0,
+          "fp32_bias_values": 0,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 216073239,
+        "buffer_count_after_wrapping": 1040,
+        "logical_int8_weight_bytes": 0,
+        "logical_int8_weight_mib": 0.0,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:11:50",
+      "experiment_finished": "2026-09-12T22:13:44"
+    },
+    {
+      "file": "screen_fp32_libero_goal.json",
+      "sha256": "2158b2cebb8daf124225743419d9a5199d929027ce4cb584b00d770dd5085ce5",
+      "mode": "fp32",
+      "suite": "libero_goal",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "open the middle drawer of the cabinet",
+          "episodes": 3,
+          "successes": 2,
+          "success_rate": 0.6666666666666666
+        },
+        {
+          "task_id": 1,
+          "task_description": "put the bowl on the stove",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 5,
+      "overall_success_rate": 0.8333333333333334,
+      "elapsed_seconds": 61.42239757440984,
+      "policy_timing_ms": {
+        "count": 71,
+        "median": 137.7414371818304,
+        "p90": 143.68516765534878,
+        "min": 77.2522110491991,
+        "max": 453.18928733468056
+      },
+      "quantization": {
+        "stats": {
+          "mode": "fp32",
+          "weight_bits": 32,
+          "activation_format": "FP32",
+          "activation_bits": null,
+          "weight_scheme": "none",
+          "quantized_linear": 0,
+          "quantized_conv": 0,
+          "quantized_mha": 0,
+          "quantized_embedding": 0,
+          "quantized_weight_values": 0,
+          "quantized_weight_bytes": 0,
+          "fp32_bias_values": 0,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 216073239,
+        "buffer_count_after_wrapping": 1040,
+        "logical_int8_weight_bytes": 0,
+        "logical_int8_weight_mib": 0.0,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:10:46",
+      "experiment_finished": "2026-09-12T22:11:47"
+    },
+    {
+      "file": "screen_fp32_libero_object.json",
+      "sha256": "6c56ddbe9e9aa83e073c2915bb1c5ec68ec7515c1d7ff0eaa557898b6ee5aaf3",
+      "mode": "fp32",
+      "suite": "libero_object",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "pick up the alphabet soup and place it in the basket",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        },
+        {
+          "task_id": 1,
+          "task_description": "pick up the cream cheese and place it in the basket",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 6,
+      "overall_success_rate": 1.0,
+      "elapsed_seconds": 62.40378459356725,
+      "policy_timing_ms": {
+        "count": 68,
+        "median": 134.26168635487556,
+        "p90": 143.0100854486227,
+        "min": 85.6150183826685,
+        "max": 487.69134283065796
+      },
+      "quantization": {
+        "stats": {
+          "mode": "fp32",
+          "weight_bits": 32,
+          "activation_format": "FP32",
+          "activation_bits": null,
+          "weight_scheme": "none",
+          "quantized_linear": 0,
+          "quantized_conv": 0,
+          "quantized_mha": 0,
+          "quantized_embedding": 0,
+          "quantized_weight_values": 0,
+          "quantized_weight_bytes": 0,
+          "fp32_bias_values": 0,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 216073239,
+        "buffer_count_after_wrapping": 1040,
+        "logical_int8_weight_bytes": 0,
+        "logical_int8_weight_mib": 0.0,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:09:40",
+      "experiment_finished": "2026-09-12T22:10:43"
+    },
+    {
+      "file": "screen_fp32_libero_spatial.json",
+      "sha256": "caeb9e6adae31f46c84fb2dda1b9909bfa0cf606660671aeff6d7234babbf3b5",
+      "mode": "fp32",
+      "suite": "libero_spatial",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        },
+        {
+          "task_id": 1,
+          "task_description": "pick up the black bowl next to the ramekin and place it on the plate",
+          "episodes": 3,
+          "successes": 2,
+          "success_rate": 0.6666666666666666
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 5,
+      "overall_success_rate": 0.8333333333333334,
+      "elapsed_seconds": 66.60787784866989,
+      "policy_timing_ms": {
+        "count": 60,
+        "median": 139.2994038760662,
+        "p90": 145.6430535763502,
+        "min": 57.36945569515228,
+        "max": 450.1199871301651
+      },
+      "quantization": {
+        "stats": {
+          "mode": "fp32",
+          "weight_bits": 32,
+          "activation_format": "FP32",
+          "activation_bits": null,
+          "weight_scheme": "none",
+          "quantized_linear": 0,
+          "quantized_conv": 0,
+          "quantized_mha": 0,
+          "quantized_embedding": 0,
+          "quantized_weight_values": 0,
+          "quantized_weight_bytes": 0,
+          "fp32_bias_values": 0,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 216073239,
+        "buffer_count_after_wrapping": 1040,
+        "logical_int8_weight_bytes": 0,
+        "logical_int8_weight_mib": 0.0,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:08:31",
+      "experiment_finished": "2026-09-12T22:09:37"
+    },
+    {
+      "file": "screen_w8a16_libero_10.json",
+      "sha256": "f15ef41b197c6b679d9afa0d8f2f0d83fe562184484121230a035dbf4aead0b9",
+      "mode": "w8a16",
+      "suite": "libero_10",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "put both the alphabet soup and the tomato sauce in the basket",
+          "episodes": 3,
+          "successes": 2,
+          "success_rate": 0.6666666666666666
+        },
+        {
+          "task_id": 1,
+          "task_description": "put both the cream cheese box and the butter in the basket",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 5,
+      "overall_success_rate": 0.8333333333333334,
+      "elapsed_seconds": 121.240544045344,
+      "policy_timing_ms": {
+        "count": 155,
+        "median": 162.95980848371983,
+        "p90": 171.48985527455807,
+        "min": 112.96221986413002,
+        "max": 466.4119631052017
+      },
+      "quantization": {
+        "stats": {
+          "mode": "w8a16",
+          "weight_bits": 8,
+          "activation_format": "INT16",
+          "activation_bits": 16,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:25:44",
+      "experiment_finished": "2026-09-12T22:27:45"
+    },
+    {
+      "file": "screen_w8a16_libero_goal.json",
+      "sha256": "e40d7624a717c3c35730648adf03858cb53001581ba1beac102bc6d0e3c68d4f",
+      "mode": "w8a16",
+      "suite": "libero_goal",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "open the middle drawer of the cabinet",
+          "episodes": 3,
+          "successes": 2,
+          "success_rate": 0.6666666666666666
+        },
+        {
+          "task_id": 1,
+          "task_description": "put the bowl on the stove",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 5,
+      "overall_success_rate": 0.8333333333333334,
+      "elapsed_seconds": 63.90759059973061,
+      "policy_timing_ms": {
+        "count": 70,
+        "median": 166.21653828769922,
+        "p90": 184.59361791610718,
+        "min": 116.03504419326782,
+        "max": 442.6921997219324
+      },
+      "quantization": {
+        "stats": {
+          "mode": "w8a16",
+          "weight_bits": 8,
+          "activation_format": "INT16",
+          "activation_bits": 16,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:24:37",
+      "experiment_finished": "2026-09-12T22:25:41"
+    },
+    {
+      "file": "screen_w8a16_libero_object.json",
+      "sha256": "7be73cdf0f97ba9e5398868ec142b1d1789802dfaa99d1bbdc7829a9dc2175d4",
+      "mode": "w8a16",
+      "suite": "libero_object",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "pick up the alphabet soup and place it in the basket",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        },
+        {
+          "task_id": 1,
+          "task_description": "pick up the cream cheese and place it in the basket",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 6,
+      "overall_success_rate": 1.0,
+      "elapsed_seconds": 63.4613399207592,
+      "policy_timing_ms": {
+        "count": 67,
+        "median": 161.2869556993246,
+        "p90": 170.51834240555763,
+        "min": 103.20125706493855,
+        "max": 414.83550518751144
+      },
+      "quantization": {
+        "stats": {
+          "mode": "w8a16",
+          "weight_bits": 8,
+          "activation_format": "INT16",
+          "activation_bits": 16,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:23:30",
+      "experiment_finished": "2026-09-12T22:24:34"
+    },
+    {
+      "file": "screen_w8a16_libero_spatial.json",
+      "sha256": "2cd1488d09760f389551b6ccfd7b56ebb930bb5723218611a5d6212989c9c385",
+      "mode": "w8a16",
+      "suite": "libero_spatial",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        },
+        {
+          "task_id": 1,
+          "task_description": "pick up the black bowl next to the ramekin and place it on the plate",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 6,
+      "overall_success_rate": 1.0,
+      "elapsed_seconds": 63.99528552033007,
+      "policy_timing_ms": {
+        "count": 56,
+        "median": 165.51116667687893,
+        "p90": 174.82640221714973,
+        "min": 124.65134263038635,
+        "max": 449.14484582841396
+      },
+      "quantization": {
+        "stats": {
+          "mode": "w8a16",
+          "weight_bits": 8,
+          "activation_format": "INT16",
+          "activation_bits": 16,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:22:23",
+      "experiment_finished": "2026-09-12T22:23:27"
+    },
+    {
+      "file": "screen_w8a8_libero_10.json",
+      "sha256": "5595204d6eb4772739594c06de30ef5544beb4a1ef0de83cbca1b255e19b182e",
+      "mode": "w8a8",
+      "suite": "libero_10",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "put both the alphabet soup and the tomato sauce in the basket",
+          "episodes": 3,
+          "successes": 0,
+          "success_rate": 0.0
+        },
+        {
+          "task_id": 1,
+          "task_description": "put both the cream cheese box and the butter in the basket",
+          "episodes": 3,
+          "successes": 2,
+          "success_rate": 0.6666666666666666
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 2,
+      "overall_success_rate": 0.3333333333333333,
+      "elapsed_seconds": 168.75948926061392,
+      "policy_timing_ms": {
+        "count": 239,
+        "median": 161.91194020211697,
+        "p90": 171.72366194427013,
+        "min": 100.45235604047775,
+        "max": 406.1572030186653
+      },
+      "quantization": {
+        "stats": {
+          "mode": "w8a8",
+          "weight_bits": 8,
+          "activation_format": "INT8",
+          "activation_bits": 8,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:19:31",
+      "experiment_finished": "2026-09-12T22:22:20"
+    },
+    {
+      "file": "screen_w8a8_libero_goal.json",
+      "sha256": "36132bf1c0ab97714e2ad210d51a39143f7efa903fbd4768f94871fc2e7779c4",
+      "mode": "w8a8",
+      "suite": "libero_goal",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "open the middle drawer of the cabinet",
+          "episodes": 3,
+          "successes": 0,
+          "success_rate": 0.0
+        },
+        {
+          "task_id": 1,
+          "task_description": "put the bowl on the stove",
+          "episodes": 3,
+          "successes": 0,
+          "success_rate": 0.0
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 0,
+      "overall_success_rate": 0.0,
+      "elapsed_seconds": 108.96009503863752,
+      "policy_timing_ms": {
+        "count": 150,
+        "median": 162.32947167009115,
+        "p90": 170.81130482256413,
+        "min": 101.35436058044434,
+        "max": 442.62830913066864
+      },
+      "quantization": {
+        "stats": {
+          "mode": "w8a8",
+          "weight_bits": 8,
+          "activation_format": "INT8",
+          "activation_bits": 8,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:17:39",
+      "experiment_finished": "2026-09-12T22:19:28"
+    },
+    {
+      "file": "screen_w8a8_libero_object.json",
+      "sha256": "0ef66cb6f63a698a8922fdb3f011010b7883700fa6354d62cf014d99b39520d4",
+      "mode": "w8a8",
+      "suite": "libero_object",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "pick up the alphabet soup and place it in the basket",
+          "episodes": 3,
+          "successes": 2,
+          "success_rate": 0.6666666666666666
+        },
+        {
+          "task_id": 1,
+          "task_description": "pick up the cream cheese and place it in the basket",
+          "episodes": 3,
+          "successes": 2,
+          "success_rate": 0.6666666666666666
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 4,
+      "overall_success_rate": 0.6666666666666666,
+      "elapsed_seconds": 122.12240677699447,
+      "policy_timing_ms": {
+        "count": 123,
+        "median": 162.13583759963512,
+        "p90": 173.75823482871056,
+        "min": 102.0525936037302,
+        "max": 445.93800976872444
+      },
+      "quantization": {
+        "stats": {
+          "mode": "w8a8",
+          "weight_bits": 8,
+          "activation_format": "INT8",
+          "activation_bits": 8,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:15:34",
+      "experiment_finished": "2026-09-12T22:17:36"
+    },
+    {
+      "file": "screen_w8a8_libero_spatial.json",
+      "sha256": "ef58ad5fb2d2c86d3865310f1ab3c7131f01a4215c1803522a169227b8bc5d29",
+      "mode": "w8a8",
+      "suite": "libero_spatial",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+          "episodes": 3,
+          "successes": 0,
+          "success_rate": 0.0
+        },
+        {
+          "task_id": 1,
+          "task_description": "pick up the black bowl next to the ramekin and place it on the plate",
+          "episodes": 3,
+          "successes": 1,
+          "success_rate": 0.3333333333333333
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 1,
+      "overall_success_rate": 0.16666666666666666,
+      "elapsed_seconds": 96.67739471234381,
+      "policy_timing_ms": {
+        "count": 105,
+        "median": 165.93395359814167,
+        "p90": 174.73236098885536,
+        "min": 120.85367925465107,
+        "max": 438.9453995972872
+      },
+      "quantization": {
+        "stats": {
+          "mode": "w8a8",
+          "weight_bits": 8,
+          "activation_format": "INT8",
+          "activation_bits": 8,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:13:47",
+      "experiment_finished": "2026-09-12T22:15:23"
+    },
+    {
+      "file": "screen_w8afp16_libero_10.json",
+      "sha256": "5fd8722c0ac5377824ee37d35bff21201eb08ddf752954f5c7f1d6f78dabd809",
+      "mode": "w8afp16",
+      "suite": "libero_10",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "put both the alphabet soup and the tomato sauce in the basket",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        },
+        {
+          "task_id": 1,
+          "task_description": "put both the cream cheese box and the butter in the basket",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 6,
+      "overall_success_rate": 1.0,
+      "elapsed_seconds": 105.28136668913066,
+      "policy_timing_ms": {
+        "count": 142,
+        "median": 85.27403604239225,
+        "p90": 94.89046782255173,
+        "min": 52.13364399969578,
+        "max": 487.2418977320194
+      },
+      "quantization": {
+        "stats": {
+          "mode": "w8afp16",
+          "weight_bits": 8,
+          "activation_format": "FP16",
+          "activation_bits": null,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:31:11",
+      "experiment_finished": "2026-09-12T22:32:56"
+    },
+    {
+      "file": "screen_w8afp16_libero_goal.json",
+      "sha256": "e16b3b2e460bf5828f03375133593b338807b4ee083189e12855fcc974c34410",
+      "mode": "w8afp16",
+      "suite": "libero_goal",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "open the middle drawer of the cabinet",
+          "episodes": 3,
+          "successes": 2,
+          "success_rate": 0.6666666666666666
+        },
+        {
+          "task_id": 1,
+          "task_description": "put the bowl on the stove",
+          "episodes": 3,
+          "successes": 2,
+          "success_rate": 0.6666666666666666
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 4,
+      "overall_success_rate": 0.6666666666666666,
+      "elapsed_seconds": 68.46434538066387,
+      "policy_timing_ms": {
+        "count": 88,
+        "median": 96.10751457512379,
+        "p90": 102.1059863269329,
+        "min": 63.66691738367081,
+        "max": 544.8325909674168
+      },
+      "quantization": {
+        "stats": {
+          "mode": "w8afp16",
+          "weight_bits": 8,
+          "activation_format": "FP16",
+          "activation_bits": null,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:29:59",
+      "experiment_finished": "2026-09-12T22:31:07"
+    },
+    {
+      "file": "screen_w8afp16_libero_object.json",
+      "sha256": "7263333b3107ad45bbe87fd221152e34653c9c75b53d1ac496d6d26aa8869833",
+      "mode": "w8afp16",
+      "suite": "libero_object",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "pick up the alphabet soup and place it in the basket",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        },
+        {
+          "task_id": 1,
+          "task_description": "pick up the cream cheese and place it in the basket",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 6,
+      "overall_success_rate": 1.0,
+      "elapsed_seconds": 60.70051367022097,
+      "policy_timing_ms": {
+        "count": 68,
+        "median": 85.44948790222406,
+        "p90": 92.90479123592377,
+        "min": 50.51101744174957,
+        "max": 540.8900547772646
+      },
+      "quantization": {
+        "stats": {
+          "mode": "w8afp16",
+          "weight_bits": 8,
+          "activation_format": "FP16",
+          "activation_bits": null,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:28:55",
+      "experiment_finished": "2026-09-12T22:29:56"
+    },
+    {
+      "file": "screen_w8afp16_libero_spatial.json",
+      "sha256": "560365e98a26d75b78e20b3985e12e8811cd08e5d187a22b159bf489311a453a",
+      "mode": "w8afp16",
+      "suite": "libero_spatial",
+      "requested_task_ids": [
+        0,
+        1
+      ],
+      "num_trials_per_task": 3,
+      "tasks": [
+        {
+          "task_id": 0,
+          "task_description": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+          "episodes": 3,
+          "successes": 3,
+          "success_rate": 1.0
+        },
+        {
+          "task_id": 1,
+          "task_description": "pick up the black bowl next to the ramekin and place it on the plate",
+          "episodes": 3,
+          "successes": 2,
+          "success_rate": 0.6666666666666666
+        }
+      ],
+      "total_episodes": 6,
+      "total_successes": 5,
+      "overall_success_rate": 0.8333333333333334,
+      "elapsed_seconds": 63.115291671827435,
+      "policy_timing_ms": {
+        "count": 62,
+        "median": 83.43569654971361,
+        "p90": 88.22212927043438,
+        "min": 52.910907194018364,
+        "max": 847.7960657328367
+      },
+      "quantization": {
+        "stats": {
+          "mode": "w8afp16",
+          "weight_bits": 8,
+          "activation_format": "FP16",
+          "activation_bits": null,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "experiment_started": "2026-09-12T22:27:49",
+      "experiment_finished": "2026-09-12T22:28:52"
+    }
+  ],
+  "aggregate": {
+    "fp32": {
+      "successes": 22,
+      "episodes": 24,
+      "success_rate_percent": 91.66666666666667,
+      "suite_median_of_medians_ms": 137.50628288835287,
+      "suite_median_of_p90_ms": 144.62920278310776,
+      "sum_process_elapsed_seconds": 303.56210435554385
+    },
+    "w8a8": {
+      "successes": 7,
+      "episodes": 24,
+      "success_rate_percent": 29.166666666666668,
+      "suite_median_of_medians_ms": 162.23265463486314,
+      "suite_median_of_p90_ms": 172.74094838649035,
+      "sum_process_elapsed_seconds": 496.5193857885897
+    },
+    "w8a16": {
+      "successes": 22,
+      "episodes": 24,
+      "success_rate_percent": 91.66666666666667,
+      "suite_median_of_medians_ms": 164.23548758029938,
+      "suite_median_of_p90_ms": 173.1581287458539,
+      "sum_process_elapsed_seconds": 312.6047600861639
+    },
+    "w8afp16": {
+      "successes": 21,
+      "episodes": 24,
+      "success_rate_percent": 87.5,
+      "suite_median_of_medians_ms": 85.36176197230816,
+      "suite_median_of_p90_ms": 93.89762952923775,
+      "sum_process_elapsed_seconds": 297.56151741184294
+    }
+  },
+  "spot": {
+    "file": "quant_smoke.json",
+    "sha256": "95cf55cb2e2aca9d177303aa68a7dc44081a831ea0a3dbd3f1c15f41f1b27b98",
+    "status": "passed",
+    "suite": "libero_spatial",
+    "task_id": 0,
+    "seed": 7,
+    "modes": {
+      "fp32": {
+        "status": "passed",
+        "elapsed_s": 7.436347760260105,
+        "output_dtype": "torch.float32",
+        "max_abs_vs_fp32": 0.0,
+        "mean_abs_vs_fp32": 0.0,
+        "quantization": {
+          "stats": {
+            "mode": "fp32",
+            "weight_bits": 32,
+            "activation_format": "FP32",
+            "activation_bits": null,
+            "weight_scheme": "none",
+            "quantized_linear": 0,
+            "quantized_conv": 0,
+            "quantized_mha": 0,
+            "quantized_embedding": 0,
+            "quantized_weight_values": 0,
+            "quantized_weight_bytes": 0,
+            "fp32_bias_values": 0,
+            "unsupported_weight_modules": []
+          },
+          "parameter_count_after_wrapping": 216073239,
+          "buffer_count_after_wrapping": 1040,
+          "logical_int8_weight_bytes": 0,
+          "logical_int8_weight_mib": 0.0,
+          "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+        }
+      },
+      "w8a8": {
+        "status": "passed",
+        "elapsed_s": 2.268595051020384,
+        "output_dtype": "torch.float32",
+        "max_abs_vs_fp32": 0.44453322887420654,
+        "mean_abs_vs_fp32": 0.0862240195274353,
+        "quantization": {
+          "stats": {
+            "mode": "w8a8",
+            "weight_bits": 8,
+            "activation_format": "INT8",
+            "activation_bits": 8,
+            "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+            "quantized_linear": 208,
+            "quantized_conv": 1,
+            "quantized_mha": 12,
+            "quantized_embedding": 4,
+            "quantized_weight_values": 215733760,
+            "quantized_weight_bytes": 215733761,
+            "fp32_bias_values": 60424,
+            "unsupported_weight_modules": []
+          },
+          "parameter_count_after_wrapping": 3281424,
+          "buffer_count_after_wrapping": 430321950,
+          "logical_int8_weight_bytes": 215733761,
+          "logical_int8_weight_mib": 205.73974704742432,
+          "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+        }
+      },
+      "w8a16": {
+        "status": "passed",
+        "elapsed_s": 2.6141304168850183,
+        "output_dtype": "torch.float32",
+        "max_abs_vs_fp32": 0.013931810855865479,
+        "mean_abs_vs_fp32": 0.003540256293490529,
+        "quantization": {
+          "stats": {
+            "mode": "w8a16",
+            "weight_bits": 8,
+            "activation_format": "INT16",
+            "activation_bits": 16,
+            "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+            "quantized_linear": 208,
+            "quantized_conv": 1,
+            "quantized_mha": 12,
+            "quantized_embedding": 4,
+            "quantized_weight_values": 215733760,
+            "quantized_weight_bytes": 215733761,
+            "fp32_bias_values": 60424,
+            "unsupported_weight_modules": []
+          },
+          "parameter_count_after_wrapping": 3281424,
+          "buffer_count_after_wrapping": 430321950,
+          "logical_int8_weight_bytes": 215733761,
+          "logical_int8_weight_mib": 205.73974704742432,
+          "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+        }
+      },
+      "w8afp16": {
+        "status": "passed",
+        "elapsed_s": 2.101566245779395,
+        "output_dtype": "torch.float16",
+        "max_abs_vs_fp32": 0.015839308500289917,
+        "mean_abs_vs_fp32": 0.003658770816400647,
+        "quantization": {
+          "stats": {
+            "mode": "w8afp16",
+            "weight_bits": 8,
+            "activation_format": "FP16",
+            "activation_bits": null,
+            "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+            "quantized_linear": 208,
+            "quantized_conv": 1,
+            "quantized_mha": 12,
+            "quantized_embedding": 4,
+            "quantized_weight_values": 215733760,
+            "quantized_weight_bytes": 215733761,
+            "fp32_bias_values": 60424,
+            "unsupported_weight_modules": []
+          },
+          "parameter_count_after_wrapping": 3281424,
+          "buffer_count_after_wrapping": 430321950,
+          "logical_int8_weight_bytes": 215733761,
+          "logical_int8_weight_mib": 205.73974704742432,
+          "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+        }
+      }
+    }
+  },
+  "checks": {
+    "screening_files": 16,
+    "expected_screening_files": 16,
+    "all_screening_files_present": true,
+    "each_file_has_tasks_0_1": true,
+    "each_task_has_three_episodes": true,
+    "quant_smoke_passed": true,
+    "screening_processes_completed": true
+  }
+}

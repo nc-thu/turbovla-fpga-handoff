@@ -1,0 +1,40 @@
+[
+ {
+  "name": "seg_1163",
+  "ops": {
+   "seq_words": 37,
+   "n_descs": 37,
+   "est": 2539,
+   "gemm": 3,
+   "attn_s": 0,
+   "copy": 0,
+   "load": 5,
+   "store": 1,
+   "pcw": 3,
+   "uni": 0,
+   "rtn": 3,
+   "max_m": 14,
+   "max_mt": 1,
+   "ops_hist": {
+    "4": 5,
+    "0": 3,
+    "5": 1,
+    "DONE": 1
+   }
+  },
+  "cycles": 2353,
+  "gemm_cyc": 805,
+  "dma_cyc": 3461,
+  "macs": 41472,
+  "bytes_cmp": 72368,
+  "bad_bytes": 0,
+  "bad_rate": 0.0,
+  "first_mismatch": null,
+  "PASS": true,
+  "msg": "",
+  "t_gold": 0.2,
+  "t_rtl": 3.4,
+  "mem_wr": 2416,
+  "dump_tail": "- Verilator: cpu 3.273 s on 1 threads; allocated 20 MB"
+ }
+]

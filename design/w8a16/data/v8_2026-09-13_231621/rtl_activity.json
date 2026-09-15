@@ -1,0 +1,105 @@
+{
+  "schema_version": "tvla_w8a16.replay_validation.v1",
+  "generated_at": "2026-09-14 00:50:25",
+  "input_sha256": {
+    "capture_result.json": "a196bf567e1168a7f61bd4602a01f3deead8fcf3dae7780a3b826b283f6b0f62",
+    "compiled/replay_summary.json": "7b340778cd8bc5385af007e2eb79b683b53ac44a34e2ba0499529afdc7c98499",
+    "replay_stream/descriptor_words.hex": "0cf65a9afc578be9d8be596834197546f5d38f07f3c20645998c3c4887fa3735"
+  },
+  "checks": {
+    "descriptor_ids_contiguous": true,
+    "instruction_has_end": true,
+    "descriptor_instruction_count": true,
+    "cycle_rows_match_descriptors": true,
+    "unknown_zero": true,
+    "module_coverage_complete": true,
+    "bmm_coverage_complete": true,
+    "no_parent_child_double_count": true,
+    "total_is_mapped_plus_fallback": true,
+    "utilization_bounded": true,
+    "dsp_count_fixed": true,
+    "mapped_rows_reconcile": true,
+    "fallback_rows_reconcile": true,
+    "mac_rows_reconcile": true,
+    "tile_rows_reconcile": true,
+    "golden_vectors_finite": true,
+    "endpoint_products_present": true,
+    "verilator_full_replay_pass": true,
+    "verilator_array_tile_pass": true,
+    "rtl_activity_matches_summary": true,
+    "rtl_output_bytes_matches_summary": true
+  },
+  "passed": true,
+  "golden_vectors": [
+    {
+      "k": 1,
+      "exact_int64": 4194304,
+      "int40": 4194304,
+      "int16_saturated": 32767,
+      "finite": true
+    },
+    {
+      "k": 32,
+      "exact_int64": 12838431,
+      "int40": 12838431,
+      "int16_saturated": 32767,
+      "finite": true
+    },
+    {
+      "k": 256,
+      "exact_int64": 60236975,
+      "int40": 60236975,
+      "int16_saturated": 32767,
+      "finite": true
+    },
+    {
+      "k": 768,
+      "exact_int64": 51109137,
+      "int40": 51109137,
+      "int16_saturated": 32767,
+      "finite": true
+    },
+    {
+      "k": 2048,
+      "exact_int64": -11226750,
+      "int40": -11226750,
+      "int16_saturated": -32768,
+      "finite": true
+    },
+    {
+      "k": 3072,
+      "exact_int64": -70158050,
+      "int40": -70158050,
+      "int16_saturated": -32768,
+      "finite": true
+    },
+    {
+      "k": 4096,
+      "exact_int64": 20319038,
+      "int40": 20319038,
+      "int16_saturated": 32767,
+      "finite": true
+    }
+  ],
+  "rtl": {
+    "full_replay": true,
+    "array_tile": true,
+    "logs": "turbovla_w8a16\\data\\v8_2026-09-13_231621\\rtl_logs",
+    "activity_counters": {
+      "total_cycles": 155780495,
+      "mapped_cycles": 149359343,
+      "fallback_cycles": 6421152,
+      "pe_active_pe_cycles": 49584342528,
+      "valid_mac_count": 49584342528,
+      "tile_count": 75487,
+      "output_bytes": 159228360,
+      "queue_max_occupancy": 1
+    },
+    "activity_matches_summary": true,
+    "output_bytes_matches_summary": true
+  },
+  "notes": [
+    "INT40 is evaluated as signed two's-complement wrap; INT16 is saturating output reference.",
+    "The full replay top consumes one descriptor per control clock and reports virtual event cycles; the array tile test is the cycle-by-cycle arithmetic check."
+  ]
+}

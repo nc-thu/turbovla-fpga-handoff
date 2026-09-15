@@ -1,0 +1,20 @@
+{
+  "checked_at": "2026-09-12T14:20:12.707849",
+  "pages": 14,
+  "references": 33,
+  "core_formal_references": 26,
+  "snapshots_verified": 23,
+  "unresolved_references": 0,
+  "overfull_boxes": 0,
+  "quality_numbers_inserted": false,
+  "hardware_experiments_launched": true,
+  "figure_count": 11,
+  "note": "Figure labels system/PE/overview alias one composite. This checks artifact integrity, not experimental correctness.",
+  "matched_rtl_pairs": 48,
+  "missing_results": [
+    "matched full-policy GPU/FPGA latency",
+    "fixed-trajectory replay",
+    "matched cumulative burst/preadd",
+    "workload-specific per-variant energy"
+  ]
+}

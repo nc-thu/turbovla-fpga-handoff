@@ -1,0 +1,5 @@
+[
+ {"seg": "seg_0636", "base_cyc": 76192, "r5_cyc": 74416, "d_cyc_pct": -2.3, "base_wr": 45679, "r5_wr": 33247, "d_wr_pct": -27.2, "dump_eq": true},
+ {"seg": "seg_0645", "base_cyc": 165239, "r5_cyc": 100091, "d_cyc_pct": -39.4, "base_wr": 98300, "r5_wr": 33152, "d_wr_pct": -66.3, "dump_eq": true},
+ {"seg": "seg_0529", "base_cyc": 4221, "r5_cyc": 4221, "d_cyc_pct": 0.0, "base_wr": 146, "r5_wr": 59, "d_wr_pct": -59.6, "dump_eq": true}
+]

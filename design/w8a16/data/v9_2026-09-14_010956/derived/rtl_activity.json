@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-09-14 01:56:41",
+  "activity": {
+    "total_cycles": 75254992,
+    "mapped_cycles": 70349280,
+    "fallback_cycles": 4905712,
+    "pe_active_pe_cycles": 49584342528,
+    "valid_mac_count": 49584342528,
+    "tile_count": 79807,
+    "output_bytes": 164575944,
+    "queue_max_occupancy": 1,
+    "optimization_hits": 432,
+    "write_burst_count": 432
+  },
+  "array_tile_pass": true,
+  "fifo_overlap_pass": true,
+  "full_replay_log": "turbovla_w8a16\\data\\v9_2026-09-14_010956\\rtl_logs\\replay_top_final.log"
+}

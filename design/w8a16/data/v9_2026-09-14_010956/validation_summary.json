@@ -1,0 +1,136 @@
+{
+  "schema_version": "tvla_w8a16.history_optimization.validation.v1",
+  "generated_at": "2026-09-14 01:56:48",
+  "passed": true,
+  "checks": {
+    "baseline_descriptor_ids_contiguous": true,
+    "baseline_instruction_has_end": true,
+    "baseline_descriptor_instruction_count": true,
+    "baseline_cycle_rows_match_descriptors": true,
+    "baseline_unknown_zero": true,
+    "baseline_module_coverage_complete": true,
+    "baseline_bmm_coverage_complete": true,
+    "baseline_no_parent_child_double_count": true,
+    "baseline_total_is_mapped_plus_fallback": true,
+    "baseline_utilization_bounded": true,
+    "baseline_dsp_count_fixed": true,
+    "baseline_mapped_rows_reconcile": true,
+    "baseline_fallback_rows_reconcile": true,
+    "baseline_mac_rows_reconcile": true,
+    "baseline_tile_rows_reconcile": true,
+    "optimized_descriptor_ids_contiguous": true,
+    "optimized_instruction_has_end": true,
+    "optimized_descriptor_instruction_count": true,
+    "optimized_cycle_rows_match_descriptors": true,
+    "optimized_unknown_zero": true,
+    "optimized_module_coverage_complete": true,
+    "optimized_bmm_coverage_complete": true,
+    "optimized_no_parent_child_double_count": true,
+    "optimized_total_is_mapped_plus_fallback": true,
+    "optimized_utilization_bounded": true,
+    "optimized_dsp_count_fixed": true,
+    "optimized_mapped_rows_reconcile": true,
+    "optimized_fallback_rows_reconcile": true,
+    "optimized_mac_rows_reconcile": true,
+    "optimized_tile_rows_reconcile": true,
+    "cycle_savings_matches": true,
+    "optimized_flags_present": true,
+    "corrected_bmm_tile_count": true,
+    "baseline_command_word_count": true,
+    "baseline_command_ids_decode": true,
+    "baseline_end_word": true,
+    "optimized_command_word_count": true,
+    "optimized_command_ids_decode": true,
+    "optimized_end_word": true,
+    "golden_vectors_finite": true,
+    "endpoint_products_present": true,
+    "verilator_full_replay_pass": true,
+    "rtl_total_cycles_matches": true,
+    "rtl_mapped_cycles_matches": true,
+    "rtl_fallback_cycles_matches": true,
+    "rtl_valid_mac_count_matches": true,
+    "rtl_tile_count_matches": true,
+    "rtl_output_bytes_matches": true,
+    "verilator_array_tile_pass": true,
+    "verilator_fifo_overlap_pass": true,
+    "vivado_runs_present": true,
+    "vivado_all_passed": true,
+    "vivado_array_dsp_768": true,
+    "vivado_trace_resource_neutral": true,
+    "vivado_timing_positive": true
+  },
+  "golden_vectors": [
+    {
+      "k": 1,
+      "exact_int64": 4194304,
+      "int40": 4194304,
+      "int16": 32767,
+      "finite": true
+    },
+    {
+      "k": 32,
+      "exact_int64": -10057878,
+      "int40": -10057878,
+      "int16": -32768,
+      "finite": true
+    },
+    {
+      "k": 256,
+      "exact_int64": 9623601,
+      "int40": 9623601,
+      "int16": 32767,
+      "finite": true
+    },
+    {
+      "k": 768,
+      "exact_int64": -11468459,
+      "int40": -11468459,
+      "int16": -32768,
+      "finite": true
+    },
+    {
+      "k": 2048,
+      "exact_int64": -6372748,
+      "int40": -6372748,
+      "int16": -32768,
+      "finite": true
+    },
+    {
+      "k": 3072,
+      "exact_int64": -13838980,
+      "int40": -13838980,
+      "int16": -32768,
+      "finite": true
+    },
+    {
+      "k": 4096,
+      "exact_int64": 187249511,
+      "int40": 187249511,
+      "int16": 32767,
+      "finite": true
+    }
+  ],
+  "rtl_activity": {
+    "total_cycles": 75254992,
+    "mapped_cycles": 70349280,
+    "fallback_cycles": 4905712,
+    "pe_active_pe_cycles": 49584342528,
+    "valid_mac_count": 49584342528,
+    "tile_count": 79807,
+    "output_bytes": 164575944,
+    "queue_max_occupancy": 1,
+    "optimization_hits": 432,
+    "write_burst_count": 432
+  },
+  "vivado_run_count": 3,
+  "input_sha256": {
+    "turbovla_w8a16\\data\\v9_2026-09-14_010956\\compiler_baseline\\replay_summary.json": "55ace277883a8e15c915451eb61c234517e8fd63d6215aba7bbcdfd7775ef081",
+    "turbovla_w8a16\\data\\v9_2026-09-14_010956\\compiler_optimized\\replay_summary.json": "911b2a548f0a4ea1a252230fcd308a6528446388b0565a831a4fdf5b2d29c0c7",
+    "turbovla_w8a16\\data\\v9_2026-09-14_010956\\compiler_optimized\\instructions.hex": "31e115c1d49903c3bf1e1726a8f8b629a5058ecd8bdefdac25f66a82f9b98eac",
+    "turbovla_w8a16\\data\\v9_2026-09-14_010956\\rtl_logs\\replay_top_final.log": "86a0697ed2ab39cd12beeea03afe242d54ec2ead99e8d028eb1a4779cc19ddab"
+  },
+  "notes": [
+    "Full replay is a virtual event-cycle counter; representative tile and FIFO overlap tests are cycle-accurate Verilator checks.",
+    "Vivado is synthesis-estimated OOC at 4.000 ns; no post-route or SAIF/VCD power claim is made."
+  ]
+}

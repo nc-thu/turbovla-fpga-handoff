@@ -1,0 +1,86 @@
+{
+  "round": "hw v9 — DSP48E2 预加器消除 Pack2 打包偏置（小范围 RTL 电路实验）",
+  "generated": "2026-09-12 11:29:41",
+  "question": "用 DSP48E2 内部预加器吃掉 -128*(2^16+1) 打包偏置，能否 DSP 不增、LUT 下降、吞吐不变？",
+  "verdict": "成立（条带级证据链完整）：建议采用，但换装前必须跑引擎级 OOC+布线+位精确回归",
+  "candidate_math": {
+    "A_port": "27'h77FFF80 = -8388736 = -128*(2^16+1)（常数）",
+    "D_port": "Q = (w1+128)*2^16 + (w0+128)（打包权重）",
+    "preadder": "AD = D + A = w1*2^16 + w0 = R（mod 2^27，R 落 signed27 无回绕）",
+    "P": "a * R（两侧有符号）",
+    "extract": "prod0 = signed(P[15:0])；prod1 = signed(P[31:16]) + P[15]",
+    "borrow_law": "P[15]==1 当且仅当 a*w0<0（a*w0 落 signed16）"
+  },
+  "R1_math_exhaustive": {
+    "script": "notes/math_exhaustive.py",
+    "combinations": 16777216,
+    "errors": {"base_prod0": 0, "base_prod1": 0, "cand_prod0": 0, "cand_prod1": 0,
+                "borrow_law": 0, "R_range": 0, "base_eq_cand": 0},
+    "verdict": "PASS",
+    "boundary_27b_snapshot": {
+      "case": "K=4096 全 (-128)*(-128)",
+      "true_sum": 67108864,
+      "snap27_reads_as": -67108864,
+      "note": "既有边界（基线同语义），acc32 无损；本轮不改"
+    }
+  },
+  "R2_verilator": {
+    "server": "<SERVER>:/tmp/hw_v9",
+    "log": "results/run_pe_pair_verilator.log",
+    "checks": 42190, "pulses": 118, "errors": 0, "verdict": "PASS",
+    "latency_entry_to_acc_edges": {"ref": 5, "dut": 5},
+    "coverage": ["端点7^3背靠背", "两路区分 snap0=2100/snap1=-3500", "30k随机流+气泡+随机pulse/clr",
+                 "隔离组x40独立直和对账", "背靠背组x20引擎口径", "2^26边界回绕", "流中复位(排空后)"],
+    "side_finding": "DSP内部流水(S0/MREG/PREG,RST*=0)不被rst_n清零，在途积穿复位——基线既有属性，两版相同"
+  },
+  "R3_xsim_real_primitive": {
+    "workdir": "E:/ae_syn/hb_h9_pe/xsim",
+    "log": "results/run_pe_pair_xsim.log",
+    "checks": 42189, "pulses": 118, "errors": 0, "verdict": "PASS",
+    "note": "同一TB不带VERILATOR宏，两PE都走unisims_ver真DSP48E2"
+  },
+  "R4R5_ooc_synth": {
+    "workdir": "E:/ae_syn/hb_h9_pe",
+    "part": "xczu7ev-ffvc1156-2-e", "constraint_ns": 3.298, "mode": "OOC",
+    "harness": "48-PE单行条带，双版仅module名+PE类型2行不同（diff存证）",
+    "strip_total": {"LUT": [6988, 6124], "LUT_delta_pct": -12.4,
+                     "FF": [11409, 10641], "FF_delta_pct": -6.7,
+                     "DSP": [48, 48], "BRAM": [0, 0]},
+    "per_PE_hier": {"LUT": [121, 103], "LUT_delta_pct": -14.9,
+                     "FF": [219, 203],
+                     "u_mul_LUT": [3, 3], "u_mul_FF": [41, 25]},
+    "dsp_attrs": {"count": 48, "AMULTSEL": ["A", "AD（预加器启用，48/48颗）"],
+                   "A_port": "候选接常数（A[26]->const1, A[0]->const0）",
+                   "D_port": "候选接打包权重（D[0]->w0_s0[0]）",
+                   "INMODE": ["00000", "00100（INMODE[2]=const1）"]},
+    "synth_wns_ns": {"base": 2.054, "cand": 1.433},
+    "synth_worst_path": ["w0_s0->DSP V[10]（B侧Booth）", "w1_s0->DSP U[24]（预加器侧Booth）"]
+  },
+  "R6_route": {
+    "flow": "opt/place/phys_opt/route 同流程",
+    "wns_ns": {"base": 0.952, "cand": 0.689},
+    "whs_ns": {"base": 0.033, "cand": 0.035},
+    "both_met_303_215MHz": true,
+    "routed_worst_path": "两版都是pulse链控制路径；DSP数据腿不再是关键路径"
+  },
+  "engine_level_estimate": {
+    "per_PE_delta_lut": -18,
+    "x768_PE": -13824,
+    "vs_engine_143161_pct": -9.7,
+    "caveat": "估算：条带语境121 LUT/PE≠引擎语境105 LUT/PE，引擎级需整体重跑综合才能定数"
+  },
+  "user_criteria_check": {
+    "数值及控制时序验证": "过（R1+R2+R3三层）",
+    "每PE_DSP_1": "过（48/48，AMULTSEL=AD）",
+    "每拍两路积": "过（延迟5=5，无新增流水级）",
+    "净LUT下降": "过（每PE -18/-14.9%，条带 -12.4%）",
+    "303MHz证据": "条带级过（布线WNS +0.689）；引擎级未重跑（待定）"
+  },
+  "repro": {
+    "math": "cd hw/v9.../notes && python math_exhaustive.py",
+    "verilator": "scp rtl+sim 到 <SERVER>:/tmp/hw_v9 后 bash vlbuild_v9.sh",
+    "xsim": "xvlog -sv 6文件 && xelab tb_pe_pair glbl -s tbx -L unisims_ver && xsim tbx -R",
+    "synth": "vivado -mode batch -source syn.tcl -tclargs top48_base|top48_cand <rundir> E:/ae_syn/hb_h9_pe/src",
+    "route": "vivado -mode batch -source route.tcl -tclargs <rundir>"
+  }
+}

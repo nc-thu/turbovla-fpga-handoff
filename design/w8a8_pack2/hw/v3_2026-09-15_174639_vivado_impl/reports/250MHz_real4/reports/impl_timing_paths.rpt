@@ -1,0 +1,1437 @@
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version      : Vivado v.2021.2 (win64) Build 3367213 Tue Oct 19 02:48:09 MDT 2021
+| Date              : Tue Sep 15 18:40:37 2026
+| Host              : nc23 running 64-bit major release  (build 9200)
+| Command           : report_timing -max_paths 20 -sort_by group -file {E:/GPU ARCH/vector_core_sim/turbovla_w8a8_pack2/hw/v3_2026-09-15_174639_vivado_impl/reports/250MHz_real4/reports/impl_timing_paths.rpt}
+| Design            : tvla_w8a8_pack2_impl_top
+| Device            : xczu7ev-ffvc1156
+| Speed File        : -2  PRODUCTION 1.29 08-03-2020
+| Temperature Grade : E
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Timing Report
+
+Slack (MET) :             0.241ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__21/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[183]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.959ns  (logic 0.153ns (3.865%)  route 3.806ns (96.135%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.260ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.138ns = ( 6.138 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.183ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.254ns (routing 0.171ns, distribution 1.083ns)
+  Clock Net Delay (Destination): 1.498ns (routing 0.155ns, distribution 1.343ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.254     2.183    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X66Y151        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__21/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X66Y151        FDCE (Prop_HFF_SLICEL_C_Q)
+                                                      0.079     2.262 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__21/Q
+                         net (fo=96, routed)          3.767     6.029    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[183]
+    SLICE_X15Y347        MUXF8 (Prop_F8MUX_BOT_SLICEM_S_O)
+                                                      0.074     6.103 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[183]_i_1/O
+                         net (fo=1, routed)           0.039     6.142    u_system/u_replay/g_array.u_array/acc_row_i[183]
+    SLICE_X15Y347        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[183]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.498     6.138    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X15Y347        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[183]/C
+                         clock pessimism              0.305     6.443    
+                         clock uncertainty           -0.085     6.358    
+    SLICE_X15Y347        FDCE (Setup_CFF_SLICEM_C_D)
+                                                      0.025     6.383    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[183]
+  -------------------------------------------------------------------
+                         required time                          6.383    
+                         arrival time                          -6.142    
+  -------------------------------------------------------------------
+                         slack                                  0.241    
+
+Slack (MET) :             0.285ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__23/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[185]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.875ns  (logic 0.150ns (3.871%)  route 3.725ns (96.129%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.220ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.146ns = ( 6.146 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.231ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.302ns (routing 0.171ns, distribution 1.131ns)
+  Clock Net Delay (Destination): 1.506ns (routing 0.155ns, distribution 1.351ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.302     2.231    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X67Y174        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__23/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X67Y174        FDCE (Prop_EFF_SLICEM_C_Q)
+                                                      0.076     2.307 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__23/Q
+                         net (fo=96, routed)          3.685     5.992    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[185]
+    SLICE_X11Y349        MUXF8 (Prop_F8MUX_TOP_SLICEM_S_O)
+                                                      0.074     6.066 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[185]_i_1/O
+                         net (fo=1, routed)           0.040     6.106    u_system/u_replay/g_array.u_array/acc_row_i[185]
+    SLICE_X11Y349        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[185]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.506     6.146    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X11Y349        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[185]/C
+                         clock pessimism              0.305     6.451    
+                         clock uncertainty           -0.085     6.366    
+    SLICE_X11Y349        FDCE (Setup_GFF_SLICEM_C_D)
+                                                      0.025     6.391    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[185]
+  -------------------------------------------------------------------
+                         required time                          6.391    
+                         arrival time                          -6.106    
+  -------------------------------------------------------------------
+                         slack                                  0.285    
+
+Slack (MET) :             0.306ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[161]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.861ns  (logic 0.153ns (3.963%)  route 3.708ns (96.037%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.227ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.122ns = ( 6.122 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.200ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.271ns (routing 0.171ns, distribution 1.100ns)
+  Clock Net Delay (Destination): 1.482ns (routing 0.155ns, distribution 1.327ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.271     2.200    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X69Y153        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X69Y153        FDCE (Prop_AFF_SLICEL_C_Q)
+                                                      0.079     2.279 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep/Q
+                         net (fo=96, routed)          3.669     5.948    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[161]
+    SLICE_X13Y335        MUXF8 (Prop_F8MUX_BOT_SLICEM_S_O)
+                                                      0.074     6.022 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[161]_i_1/O
+                         net (fo=1, routed)           0.039     6.061    u_system/u_replay/g_array.u_array/acc_row_i[161]
+    SLICE_X13Y335        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[161]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.482     6.122    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X13Y335        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[161]/C
+                         clock pessimism              0.305     6.427    
+                         clock uncertainty           -0.085     6.342    
+    SLICE_X13Y335        FDCE (Setup_CFF_SLICEM_C_D)
+                                                      0.025     6.367    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[161]
+  -------------------------------------------------------------------
+                         required time                          6.367    
+                         arrival time                          -6.061    
+  -------------------------------------------------------------------
+                         slack                                  0.306    
+
+Slack (MET) :             0.322ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__21/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[151]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.872ns  (logic 0.148ns (3.822%)  route 3.724ns (96.178%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.254ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.132ns = ( 6.132 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.183ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.254ns (routing 0.171ns, distribution 1.083ns)
+  Clock Net Delay (Destination): 1.492ns (routing 0.155ns, distribution 1.337ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.254     2.183    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X66Y151        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__21/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X66Y151        FDCE (Prop_HFF_SLICEL_C_Q)
+                                                      0.079     2.262 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__21/Q
+                         net (fo=96, routed)          3.690     5.952    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[183]
+    SLICE_X16Y343        MUXF8 (Prop_F8MUX_BOT_SLICEL_S_O)
+                                                      0.069     6.021 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[151]_i_1/O
+                         net (fo=1, routed)           0.034     6.055    u_system/u_replay/g_array.u_array/acc_row_i[151]
+    SLICE_X16Y343        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[151]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.492     6.132    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X16Y343        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[151]/C
+                         clock pessimism              0.305     6.437    
+                         clock uncertainty           -0.085     6.352    
+    SLICE_X16Y343        FDCE (Setup_CFF_SLICEL_C_D)
+                                                      0.025     6.377    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[151]
+  -------------------------------------------------------------------
+                         required time                          6.377    
+                         arrival time                          -6.055    
+  -------------------------------------------------------------------
+                         slack                                  0.322    
+
+Slack (MET) :             0.342ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[129]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.832ns  (logic 0.148ns (3.862%)  route 3.684ns (96.138%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.234ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.129ns = ( 6.129 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.200ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.271ns (routing 0.171ns, distribution 1.100ns)
+  Clock Net Delay (Destination): 1.489ns (routing 0.155ns, distribution 1.334ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.271     2.200    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X69Y153        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X69Y153        FDCE (Prop_AFF_SLICEL_C_Q)
+                                                      0.079     2.279 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep/Q
+                         net (fo=96, routed)          3.650     5.929    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[161]
+    SLICE_X12Y334        MUXF8 (Prop_F8MUX_BOT_SLICEL_S_O)
+                                                      0.069     5.998 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[129]_i_1/O
+                         net (fo=1, routed)           0.034     6.032    u_system/u_replay/g_array.u_array/acc_row_i[129]
+    SLICE_X12Y334        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[129]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.489     6.129    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X12Y334        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[129]/C
+                         clock pessimism              0.305     6.434    
+                         clock uncertainty           -0.085     6.349    
+    SLICE_X12Y334        FDCE (Setup_CFF_SLICEL_C_D)
+                                                      0.025     6.374    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[129]
+  -------------------------------------------------------------------
+                         required time                          6.374    
+                         arrival time                          -6.032    
+  -------------------------------------------------------------------
+                         slack                                  0.342    
+
+Slack (MET) :             0.343ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__9/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[395]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.508ns  (logic 0.153ns (4.361%)  route 3.355ns (95.639%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        -0.089ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.968ns = ( 5.968 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.362ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.433ns (routing 0.171ns, distribution 1.262ns)
+  Clock Net Delay (Destination): 1.328ns (routing 0.155ns, distribution 1.173ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.433     2.362    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X65Y219        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__9/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X65Y219        FDCE (Prop_DFF_SLICEL_C_Q)
+                                                      0.079     2.441 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__9/Q
+                         net (fo=96, routed)          3.316     5.757    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[6].u_pe/g_output_pipe.acc_row_reg[395]
+    SLICE_X56Y349        MUXF8 (Prop_F8MUX_BOT_SLICEM_S_O)
+                                                      0.074     5.831 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[6].u_pe/g_output_pipe.acc_row_reg[395]_i_1/O
+                         net (fo=1, routed)           0.039     5.870    u_system/u_replay/g_array.u_array/acc_row_i[395]
+    SLICE_X56Y349        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[395]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.328     5.968    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X56Y349        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[395]/C
+                         clock pessimism              0.305     6.273    
+                         clock uncertainty           -0.085     6.188    
+    SLICE_X56Y349        FDCE (Setup_CFF_SLICEM_C_D)
+                                                      0.025     6.213    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[395]
+  -------------------------------------------------------------------
+                         required time                          6.213    
+                         arrival time                          -5.870    
+  -------------------------------------------------------------------
+                         slack                                  0.343    
+
+Slack (MET) :             0.357ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__23/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[89]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.720ns  (logic 0.145ns (3.898%)  route 3.575ns (96.102%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.137ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.063ns = ( 6.063 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.231ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.302ns (routing 0.171ns, distribution 1.131ns)
+  Clock Net Delay (Destination): 1.423ns (routing 0.155ns, distribution 1.268ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.302     2.231    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X67Y174        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__23/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X67Y174        FDCE (Prop_EFF_SLICEM_C_Q)
+                                                      0.076     2.307 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__23/Q
+                         net (fo=96, routed)          3.541     5.848    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[1].u_pe/g_output_pipe.acc_row_reg[121]
+    SLICE_X32Y349        MUXF8 (Prop_F8MUX_BOT_SLICEL_S_O)
+                                                      0.069     5.917 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[1].u_pe/g_output_pipe.acc_row_reg[89]_i_1/O
+                         net (fo=1, routed)           0.034     5.951    u_system/u_replay/g_array.u_array/acc_row_i[89]
+    SLICE_X32Y349        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[89]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.423     6.063    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X32Y349        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[89]/C
+                         clock pessimism              0.305     6.368    
+                         clock uncertainty           -0.085     6.283    
+    SLICE_X32Y349        FDCE (Setup_CFF_SLICEL_C_D)
+                                                      0.025     6.308    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[89]
+  -------------------------------------------------------------------
+                         required time                          6.308    
+                         arrival time                          -5.951    
+  -------------------------------------------------------------------
+                         slack                                  0.357    
+
+Slack (MET) :             0.364ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__9/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[363]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.671ns  (logic 0.153ns (4.168%)  route 3.518ns (95.832%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.095ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.152ns = ( 6.152 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.362ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.433ns (routing 0.171ns, distribution 1.262ns)
+  Clock Net Delay (Destination): 1.512ns (routing 0.155ns, distribution 1.357ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.433     2.362    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X65Y219        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__9/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X65Y219        FDCE (Prop_DFF_SLICEL_C_Q)
+                                                      0.079     2.441 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__9/Q
+                         net (fo=96, routed)          3.478     5.919    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[5].u_pe/g_output_pipe.acc_row_reg[363]
+    SLICE_X13Y301        MUXF8 (Prop_F8MUX_TOP_SLICEM_S_O)
+                                                      0.074     5.993 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[5].u_pe/g_output_pipe.acc_row_reg[363]_i_1/O
+                         net (fo=1, routed)           0.040     6.033    u_system/u_replay/g_array.u_array/acc_row_i[363]
+    SLICE_X13Y301        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[363]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.512     6.152    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X13Y301        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[363]/C
+                         clock pessimism              0.305     6.457    
+                         clock uncertainty           -0.085     6.372    
+    SLICE_X13Y301        FDCE (Setup_GFF_SLICEM_C_D)
+                                                      0.025     6.397    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[363]
+  -------------------------------------------------------------------
+                         required time                          6.397    
+                         arrival time                          -6.033    
+  -------------------------------------------------------------------
+                         slack                                  0.364    
+
+Slack (MET) :             0.375ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__5/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[135]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.782ns  (logic 0.150ns (3.966%)  route 3.632ns (96.034%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.217ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.144ns = ( 6.144 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.232ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.303ns (routing 0.171ns, distribution 1.132ns)
+  Clock Net Delay (Destination): 1.504ns (routing 0.155ns, distribution 1.349ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.303     2.232    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X68Y179        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__5/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X68Y179        FDCE (Prop_EFF2_SLICEL_C_Q)
+                                                      0.081     2.313 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__5/Q
+                         net (fo=96, routed)          3.598     5.911    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[167]
+    SLICE_X8Y342         MUXF8 (Prop_F8MUX_BOT_SLICEL_S_O)
+                                                      0.069     5.980 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[135]_i_1/O
+                         net (fo=1, routed)           0.034     6.014    u_system/u_replay/g_array.u_array/acc_row_i[135]
+    SLICE_X8Y342         FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[135]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.504     6.144    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X8Y342         FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[135]/C
+                         clock pessimism              0.305     6.449    
+                         clock uncertainty           -0.085     6.364    
+    SLICE_X8Y342         FDCE (Setup_CFF_SLICEL_C_D)
+                                                      0.025     6.389    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[135]
+  -------------------------------------------------------------------
+                         required time                          6.389    
+                         arrival time                          -6.014    
+  -------------------------------------------------------------------
+                         slack                                  0.375    
+
+Slack (MET) :             0.380ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__7/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[41]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.508ns  (logic 0.153ns (4.361%)  route 3.355ns (95.639%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        -0.052ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.864ns = ( 5.864 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.221ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.292ns (routing 0.171ns, distribution 1.121ns)
+  Clock Net Delay (Destination): 1.224ns (routing 0.155ns, distribution 1.069ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.292     2.221    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X68Y159        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__7/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X68Y159        FDCE (Prop_HFF_SLICEL_C_Q)
+                                                      0.079     2.300 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__7/Q
+                         net (fo=96, routed)          3.316     5.616    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[0].u_pe/g_output_pipe.acc_row_reg[9]
+    SLICE_X86Y351        MUXF8 (Prop_F8MUX_BOT_SLICEM_S_O)
+                                                      0.074     5.690 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[0].u_pe/g_output_pipe.acc_row_reg[41]_i_1/O
+                         net (fo=1, routed)           0.039     5.729    u_system/u_replay/g_array.u_array/acc_row_i[41]
+    SLICE_X86Y351        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[41]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.224     5.864    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X86Y351        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[41]/C
+                         clock pessimism              0.305     6.169    
+                         clock uncertainty           -0.085     6.084    
+    SLICE_X86Y351        FDCE (Setup_CFF_SLICEM_C_D)
+                                                      0.025     6.109    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[41]
+  -------------------------------------------------------------------
+                         required time                          6.109    
+                         arrival time                          -5.729    
+  -------------------------------------------------------------------
+                         slack                                  0.380    
+
+Slack (MET) :             0.382ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__7/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[9]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.497ns  (logic 0.148ns (4.232%)  route 3.349ns (95.768%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        -0.061ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.855ns = ( 5.855 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.221ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.292ns (routing 0.171ns, distribution 1.121ns)
+  Clock Net Delay (Destination): 1.215ns (routing 0.155ns, distribution 1.060ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.292     2.221    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X68Y159        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__7/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X68Y159        FDCE (Prop_HFF_SLICEL_C_Q)
+                                                      0.079     2.300 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__7/Q
+                         net (fo=96, routed)          3.315     5.615    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[0].u_pe/g_output_pipe.acc_row_reg[9]
+    SLICE_X82Y347        MUXF8 (Prop_F8MUX_TOP_SLICEL_S_O)
+                                                      0.069     5.684 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[0].u_pe/g_output_pipe.acc_row_reg[9]_i_1/O
+                         net (fo=1, routed)           0.034     5.718    u_system/u_replay/g_array.u_array/acc_row_i[9]
+    SLICE_X82Y347        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[9]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.215     5.855    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X82Y347        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[9]/C
+                         clock pessimism              0.305     6.160    
+                         clock uncertainty           -0.085     6.075    
+    SLICE_X82Y347        FDCE (Setup_GFF_SLICEL_C_D)
+                                                      0.025     6.100    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[9]
+  -------------------------------------------------------------------
+                         required time                          6.100    
+                         arrival time                          -5.718    
+  -------------------------------------------------------------------
+                         slack                                  0.382    
+
+Slack (MET) :             0.389ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__21/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[407]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.643ns  (logic 0.153ns (4.200%)  route 3.490ns (95.800%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.092ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.970ns = ( 5.970 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.183ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.254ns (routing 0.171ns, distribution 1.083ns)
+  Clock Net Delay (Destination): 1.330ns (routing 0.155ns, distribution 1.175ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.254     2.183    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X66Y151        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__21/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X66Y151        FDCE (Prop_HFF_SLICEL_C_Q)
+                                                      0.079     2.262 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__21/Q
+                         net (fo=96, routed)          3.451     5.713    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[6].u_pe/g_output_pipe.acc_row_reg[407]
+    SLICE_X56Y355        MUXF8 (Prop_F8MUX_BOT_SLICEM_S_O)
+                                                      0.074     5.787 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[6].u_pe/g_output_pipe.acc_row_reg[407]_i_1/O
+                         net (fo=1, routed)           0.039     5.826    u_system/u_replay/g_array.u_array/acc_row_i[407]
+    SLICE_X56Y355        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[407]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.330     5.970    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X56Y355        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[407]/C
+                         clock pessimism              0.305     6.275    
+                         clock uncertainty           -0.085     6.190    
+    SLICE_X56Y355        FDCE (Setup_CFF_SLICEM_C_D)
+                                                      0.025     6.215    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[407]
+  -------------------------------------------------------------------
+                         required time                          6.215    
+                         arrival time                          -5.826    
+  -------------------------------------------------------------------
+                         slack                                  0.389    
+
+Slack (MET) :             0.398ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__5/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[455]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.684ns  (logic 0.150ns (4.072%)  route 3.534ns (95.928%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.142ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.069ns = ( 6.069 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.232ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.303ns (routing 0.171ns, distribution 1.132ns)
+  Clock Net Delay (Destination): 1.429ns (routing 0.155ns, distribution 1.274ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.303     2.232    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X68Y179        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__5/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X68Y179        FDCE (Prop_EFF2_SLICEL_C_Q)
+                                                      0.081     2.313 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__5/Q
+                         net (fo=96, routed)          3.500     5.813    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[7].u_pe/g_output_pipe.acc_row_reg[487]
+    SLICE_X24Y333        MUXF8 (Prop_F8MUX_BOT_SLICEL_S_O)
+                                                      0.069     5.882 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[7].u_pe/g_output_pipe.acc_row_reg[455]_i_1/O
+                         net (fo=1, routed)           0.034     5.916    u_system/u_replay/g_array.u_array/acc_row_i[455]
+    SLICE_X24Y333        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[455]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.429     6.069    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X24Y333        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[455]/C
+                         clock pessimism              0.305     6.374    
+                         clock uncertainty           -0.085     6.289    
+    SLICE_X24Y333        FDCE (Setup_CFF_SLICEL_C_D)
+                                                      0.025     6.314    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[455]
+  -------------------------------------------------------------------
+                         required time                          6.314    
+                         arrival time                          -5.916    
+  -------------------------------------------------------------------
+                         slack                                  0.398    
+
+Slack (MET) :             0.398ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__9/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[331]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.619ns  (logic 0.148ns (4.090%)  route 3.471ns (95.910%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.077ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.134ns = ( 6.134 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.362ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.433ns (routing 0.171ns, distribution 1.262ns)
+  Clock Net Delay (Destination): 1.494ns (routing 0.155ns, distribution 1.339ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.433     2.362    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X65Y219        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__9/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X65Y219        FDCE (Prop_DFF_SLICEL_C_Q)
+                                                      0.079     2.441 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__9/Q
+                         net (fo=96, routed)          3.437     5.878    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[5].u_pe/g_output_pipe.acc_row_reg[363]
+    SLICE_X12Y289        MUXF8 (Prop_F8MUX_TOP_SLICEL_S_O)
+                                                      0.069     5.947 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[5].u_pe/g_output_pipe.acc_row_reg[331]_i_1/O
+                         net (fo=1, routed)           0.034     5.981    u_system/u_replay/g_array.u_array/acc_row_i[331]
+    SLICE_X12Y289        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[331]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.494     6.134    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X12Y289        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[331]/C
+                         clock pessimism              0.305     6.439    
+                         clock uncertainty           -0.085     6.354    
+    SLICE_X12Y289        FDCE (Setup_GFF_SLICEL_C_D)
+                                                      0.025     6.379    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[331]
+  -------------------------------------------------------------------
+                         required time                          6.379    
+                         arrival time                          -5.981    
+  -------------------------------------------------------------------
+                         slack                                  0.398    
+
+Slack (MET) :             0.400ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__2/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[164]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.701ns  (logic 0.145ns (3.918%)  route 3.556ns (96.082%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.161ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.130ns = ( 6.130 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.274ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.345ns (routing 0.171ns, distribution 1.174ns)
+  Clock Net Delay (Destination): 1.490ns (routing 0.155ns, distribution 1.335ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.345     2.274    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X67Y196        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__2/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X67Y196        FDCE (Prop_EFF_SLICEM_C_Q)
+                                                      0.076     2.350 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__2/Q
+                         net (fo=96, routed)          3.522     5.872    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[164]
+    SLICE_X10Y333        MUXF8 (Prop_F8MUX_BOT_SLICEL_S_O)
+                                                      0.069     5.941 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[164]_i_1/O
+                         net (fo=1, routed)           0.034     5.975    u_system/u_replay/g_array.u_array/acc_row_i[164]
+    SLICE_X10Y333        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[164]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.490     6.130    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X10Y333        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[164]/C
+                         clock pessimism              0.305     6.435    
+                         clock uncertainty           -0.085     6.350    
+    SLICE_X10Y333        FDCE (Setup_CFF_SLICEL_C_D)
+                                                      0.025     6.375    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[164]
+  -------------------------------------------------------------------
+                         required time                          6.375    
+                         arrival time                          -5.975    
+  -------------------------------------------------------------------
+                         slack                                  0.400    
+
+Slack (MET) :             0.402ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__23/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[249]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.743ns  (logic 0.150ns (4.007%)  route 3.593ns (95.993%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.205ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.131ns = ( 6.131 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.231ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.302ns (routing 0.171ns, distribution 1.131ns)
+  Clock Net Delay (Destination): 1.491ns (routing 0.155ns, distribution 1.336ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.302     2.231    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X67Y174        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__23/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X67Y174        FDCE (Prop_EFF_SLICEM_C_Q)
+                                                      0.076     2.307 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__23/Q
+                         net (fo=96, routed)          3.553     5.860    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[3].u_pe/g_output_pipe.acc_row_reg[249]
+    SLICE_X13Y322        MUXF8 (Prop_F8MUX_TOP_SLICEM_S_O)
+                                                      0.074     5.934 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[3].u_pe/g_output_pipe.acc_row_reg[249]_i_1/O
+                         net (fo=1, routed)           0.040     5.974    u_system/u_replay/g_array.u_array/acc_row_i[249]
+    SLICE_X13Y322        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[249]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.491     6.131    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X13Y322        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[249]/C
+                         clock pessimism              0.305     6.436    
+                         clock uncertainty           -0.085     6.351    
+    SLICE_X13Y322        FDCE (Setup_GFF_SLICEM_C_D)
+                                                      0.025     6.376    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[249]
+  -------------------------------------------------------------------
+                         required time                          6.376    
+                         arrival time                          -5.974    
+  -------------------------------------------------------------------
+                         slack                                  0.402    
+
+Slack (MET) :             0.416ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__8/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[170]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.764ns  (logic 0.153ns (4.065%)  route 3.611ns (95.935%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.240ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.145ns = ( 6.145 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.210ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.281ns (routing 0.171ns, distribution 1.110ns)
+  Clock Net Delay (Destination): 1.505ns (routing 0.155ns, distribution 1.350ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.281     2.210    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X67Y151        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__8/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X67Y151        FDCE (Prop_HFF_SLICEM_C_Q)
+                                                      0.079     2.289 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__8/Q
+                         net (fo=96, routed)          3.572     5.861    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[170]
+    SLICE_X9Y342         MUXF8 (Prop_F8MUX_BOT_SLICEM_S_O)
+                                                      0.074     5.935 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[2].u_pe/g_output_pipe.acc_row_reg[170]_i_1/O
+                         net (fo=1, routed)           0.039     5.974    u_system/u_replay/g_array.u_array/acc_row_i[170]
+    SLICE_X9Y342         FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[170]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.505     6.145    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X9Y342         FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[170]/C
+                         clock pessimism              0.305     6.450    
+                         clock uncertainty           -0.085     6.365    
+    SLICE_X9Y342         FDCE (Setup_CFF_SLICEM_C_D)
+                                                      0.025     6.390    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[170]
+  -------------------------------------------------------------------
+                         required time                          6.390    
+                         arrival time                          -5.974    
+  -------------------------------------------------------------------
+                         slack                                  0.416    
+
+Slack (MET) :             0.418ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__17/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[19]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.469ns  (logic 0.153ns (4.410%)  route 3.316ns (95.590%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        -0.053ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    1.861ns = ( 5.861 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.219ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.290ns (routing 0.171ns, distribution 1.119ns)
+  Clock Net Delay (Destination): 1.221ns (routing 0.155ns, distribution 1.066ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.290     2.219    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X69Y166        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__17/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X69Y166        FDCE (Prop_EFF_SLICEL_C_Q)
+                                                      0.079     2.298 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__17/Q
+                         net (fo=96, routed)          3.277     5.575    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[0].u_pe/g_output_pipe.acc_row_reg[19]
+    SLICE_X81Y357        MUXF8 (Prop_F8MUX_BOT_SLICEM_S_O)
+                                                      0.074     5.649 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[0].u_pe/g_output_pipe.acc_row_reg[19]_i_1/O
+                         net (fo=1, routed)           0.039     5.688    u_system/u_replay/g_array.u_array/acc_row_i[19]
+    SLICE_X81Y357        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[19]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.221     5.861    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X81Y357        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[19]/C
+                         clock pessimism              0.305     6.166    
+                         clock uncertainty           -0.085     6.081    
+    SLICE_X81Y357        FDCE (Setup_CFF_SLICEM_C_D)
+                                                      0.025     6.106    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[19]
+  -------------------------------------------------------------------
+                         required time                          6.106    
+                         arrival time                          -5.688    
+  -------------------------------------------------------------------
+                         slack                                  0.418    
+
+Slack (MET) :             0.421ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__1/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[227]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.762ns  (logic 0.153ns (4.067%)  route 3.609ns (95.933%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.243ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.148ns = ( 6.148 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.210ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.281ns (routing 0.171ns, distribution 1.110ns)
+  Clock Net Delay (Destination): 1.508ns (routing 0.155ns, distribution 1.353ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.281     2.210    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X68Y151        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__1/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X68Y151        FDCE (Prop_EFF_SLICEL_C_Q)
+                                                      0.079     2.289 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__1/Q
+                         net (fo=96, routed)          3.569     5.858    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[3].u_pe/g_output_pipe.acc_row_reg[227]
+    SLICE_X13Y313        MUXF8 (Prop_F8MUX_TOP_SLICEM_S_O)
+                                                      0.074     5.932 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[3].u_pe/g_output_pipe.acc_row_reg[227]_i_1/O
+                         net (fo=1, routed)           0.040     5.972    u_system/u_replay/g_array.u_array/acc_row_i[227]
+    SLICE_X13Y313        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[227]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.508     6.148    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X13Y313        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[227]/C
+                         clock pessimism              0.305     6.453    
+                         clock uncertainty           -0.085     6.368    
+    SLICE_X13Y313        FDCE (Setup_GFF_SLICEM_C_D)
+                                                      0.025     6.393    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[227]
+  -------------------------------------------------------------------
+                         required time                          6.393    
+                         arrival time                          -5.972    
+  -------------------------------------------------------------------
+                         slack                                  0.421    
+
+Slack (MET) :             0.440ns  (required time - arrival time)
+  Source:                 u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__20/C
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Destination:            u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[534]/D
+                            (rising edge-triggered cell FDCE clocked by clk  {rise@0.000ns fall@2.000ns period=4.000ns})
+  Path Group:             clk
+  Path Type:              Setup (Max at Slow Process Corner)
+  Requirement:            4.000ns  (clk rise@4.000ns - clk rise@0.000ns)
+  Data Path Delay:        3.546ns  (logic 0.146ns (4.117%)  route 3.400ns (95.883%))
+  Logic Levels:           1  (MUXF8=1)
+  Clock Path Skew:        0.046ns (DCD - SCD + CPR)
+    Destination Clock Delay (DCD):    2.047ns = ( 6.047 - 4.000 ) 
+    Source Clock Delay      (SCD):    2.306ns
+    Clock Pessimism Removal (CPR):    0.305ns
+  Clock Uncertainty:      0.085ns  ((TSJ^2 + TIJ^2)^1/2 + DJ) / 2 + PE + UU
+    Total System Jitter     (TSJ):    0.071ns
+    Total Input Jitter      (TIJ):    0.000ns
+    Discrete Jitter          (DJ):    0.000ns
+    Phase Error              (PE):    0.000ns
+    User Uncertainty         (UU):    0.050ns
+  Clock Net Delay (Source):      1.377ns (routing 0.171ns, distribution 1.206ns)
+  Clock Net Delay (Destination): 1.407ns (routing 0.155ns, distribution 1.252ns)
+
+    Location             Delay type                Incr(ns)  Path(ns)    Netlist Resource(s)
+  -------------------------------------------------------------------    -------------------
+                         (clock clk rise edge)        0.000     0.000 r  
+    AJ20                                              0.000     0.000 r  clk (IN)
+                         net (fo=0)                   0.000     0.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.565     0.565 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     0.565    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     0.565 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.336     0.901    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.028     0.929 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.377     2.306    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X71Y183        FDCE                                         r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__20/C
+  -------------------------------------------------------------------    -------------------
+    SLICE_X71Y183        FDCE (Prop_AFF_SLICEM_C_Q)
+                                                      0.077     2.383 r  u_system/u_replay/g_array.u_array/drain_row_rep_r_reg[47]_rep__20/Q
+                         net (fo=96, routed)          3.366     5.749    u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[8].u_pe/g_output_pipe.acc_row_reg[566]
+    SLICE_X30Y332        MUXF8 (Prop_F8MUX_BOT_SLICEL_S_O)
+                                                      0.069     5.818 r  u_system/u_replay/g_array.u_array/u_array/u_ref/g_row[3].g_col[8].u_pe/g_output_pipe.acc_row_reg[534]_i_1/O
+                         net (fo=1, routed)           0.034     5.852    u_system/u_replay/g_array.u_array/acc_row_i[534]
+    SLICE_X30Y332        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[534]/D
+  -------------------------------------------------------------------    -------------------
+
+                         (clock clk rise edge)        4.000     4.000 r  
+    AJ20                                              0.000     4.000 r  clk (IN)
+                         net (fo=0)                   0.000     4.000    clk_IBUF_inst/I
+    AJ20                 INBUF (Prop_INBUF_HPIOB_M_PAD_O)
+                                                      0.315     4.315 r  clk_IBUF_inst/INBUF_INST/O
+                         net (fo=1, routed)           0.000     4.315    clk_IBUF_inst/OUT
+    AJ20                 IBUFCTRL (Prop_IBUFCTRL_HPIOB_M_I_O)
+                                                      0.000     4.315 r  clk_IBUF_inst/IBUFCTRL_INST/O
+                         net (fo=1, routed)           0.301     4.616    clk_IBUF
+    BUFGCE_X1Y71         BUFGCE (Prop_BUFCE_BUFGCE_I_O)
+                                                      0.024     4.640 r  clk_IBUF_BUFG_inst/O
+    X2Y2 (CLOCK_ROOT)    net (fo=185587, routed)      1.407     6.047    u_system/u_replay/g_array.u_array/clk_IBUF_BUFG
+    SLICE_X30Y332        FDCE                                         r  u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[534]/C
+                         clock pessimism              0.305     6.352    
+                         clock uncertainty           -0.085     6.267    
+    SLICE_X30Y332        FDCE (Setup_CFF_SLICEL_C_D)
+                                                      0.025     6.292    u_system/u_replay/g_array.u_array/g_output_pipe.acc_row_reg[534]
+  -------------------------------------------------------------------
+                         required time                          6.292    
+                         arrival time                          -5.852    
+  -------------------------------------------------------------------
+                         slack                                  0.440    
+
+
+
+

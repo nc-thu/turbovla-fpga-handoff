@@ -1,0 +1,4 @@
+configuration,array_enabled,trace_enabled,status,lut,logic_lut,ff,dsp,bram36,bram18,wns_ns,fmax_mhz,data_path_ns,logic_delay_ns,route_delay_ns,power_w,dynamic_w,static_w,drc_violations,drc_critical_or_error,stage
+array_off_trace_off,False,False,passed,2229,2229,7412,0,0,0,1.936,484.49612403100775,2.054,1.029,1.025,0.665,0.073,0.592,0,0,synthesis_estimated
+array_on_trace_off,True,False,passed,60419,58971,119214,768,0,0,1.884,472.58979206049145,2.106,0.888,1.218,3.507,2.9,0.607,768,0,synthesis_estimated
+array_on_trace_on,True,True,passed,60419,58971,119214,768,0,0,1.884,472.58979206049145,2.106,0.888,1.218,3.507,2.9,0.607,768,0,synthesis_estimated

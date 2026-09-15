@@ -1,0 +1,124 @@
+{
+  "generated_at": "2026-09-13T00:41:01+08:00",
+  "report_directory": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\reports\\2026-09-13_004101",
+  "inventory": {
+    "parameter_records": 672,
+    "mapped_matrix_records": 233,
+    "fallback_or_non_gemm_records": 439,
+    "max_k": 3072,
+    "required_acc_bits_at_max_k": 35,
+    "configured_acc_bits": 40
+  },
+  "cycle_model": {
+    "dsp": 768,
+    "clock_ns": 3.298,
+    "clock_mhz": 303.21406913280777,
+    "peak_gmac_per_s": 232.8684050939964,
+    "total_macs": 285788672.0,
+    "total_cycles": 496648.0,
+    "weighted_engine_utilization": 0.8493850042379394,
+    "weighted_completion_rate": 0.7492644018835607,
+    "largest_macs_shape": "vision_projection"
+  },
+  "figures": {
+    "datapath": {
+      "svg": "fig_w8a16_datapath.svg",
+      "pdf": "fig_w8a16_datapath.pdf",
+      "png": "fig_w8a16_datapath.png"
+    },
+    "coverage": {
+      "svg": "fig_operator_coverage.svg",
+      "pdf": "fig_operator_coverage.pdf",
+      "png": "fig_operator_coverage.png"
+    },
+    "cycles": {
+      "svg": "fig_cycles_utilization.svg",
+      "pdf": "fig_cycles_utilization.pdf",
+      "png": "fig_cycles_utilization.png"
+    },
+    "quant": {
+      "svg": "fig_quant_error.svg",
+      "pdf": "fig_quant_error.pdf",
+      "png": "fig_quant_error.png"
+    }
+  },
+  "source_commit": "b29ab1420baa5c663ec935df513f2012430beb67",
+  "checkpoint_sha256": "d031ad7be05a2f5d04afb3194ed26b0cb46083685edee7a5e145078a37d26bab",
+  "rtl": {
+    "schema_version": "tvla_w8a16.rtl_results.v1",
+    "generated_at": "2026-09-12T16:34:06+00:00",
+    "server_experiment": "/home/nc23/experiments/turbovla_w8a16/2026-09-13_000857",
+    "verilator": {
+      "status": "passed",
+      "tool": "verilator",
+      "version_file": "logs/verilator_version.txt",
+      "started": "2026-09-12T16:30:18Z",
+      "finished": "2026-09-12T16:31:37Z",
+      "elapsed_seconds": 79,
+      "tests": [
+        "tb_w8a16_pe",
+        "tb_w8a16_array",
+        "tb_w8a16_full",
+        "tb_w8a16_requant",
+        "tb_w8a16_gemm"
+      ],
+      "dsp_full_array": 768
+    },
+    "iverilog": {
+      "status": "passed",
+      "tool": "iverilog",
+      "started": "2026-09-12T16:32:54Z",
+      "finished": "2026-09-12T16:32:54Z",
+      "elapsed_seconds": 0,
+      "tests": [
+        "tb_w8a16_pe",
+        "tb_w8a16_array"
+      ]
+    },
+    "unisim": {
+      "status": "unavailable",
+      "tool": "xvlog",
+      "started": "2026-09-12T16:32:54Z",
+      "finished": "2026-09-12T16:32:54Z",
+      "elapsed_seconds": 0,
+      "reason": "Vivado/UNISIM executable not found on server"
+    },
+    "tests": {
+      "tb_w8a16_pe": true,
+      "tb_w8a16_array": true,
+      "tb_w8a16_full": true,
+      "tb_w8a16_requant": true,
+      "tb_w8a16_gemm": true,
+      "iverilog_pe": true,
+      "iverilog_array": true
+    },
+    "dsp_mapping_expected": {
+      "1_pe": 1,
+      "4x4": 16,
+      "16x48": 768
+    },
+    "ooc": {
+      "status": "not_run",
+      "part": "xczu7ev-ffvc1156-2-e",
+      "clock_ns": 3.298,
+      "reason": "Vivado/vivado OOC executable was not available on the server or local host",
+      "levels": [
+        "1x1",
+        "4x4",
+        "16x48"
+      ]
+    },
+    "rtl_sha256": {
+      "w8a16_gemm.sv": "ee55fab3ff64647c3a72847e90abc5f5d76e4f2caf1fc1e413f7259cc8aaef7d",
+      "w8a16_mult.sv": "8e089d311c1ead08ec7174e39c0d110d1c99f024f640c1a1b799cc9812cfab9b",
+      "w8a16_pe.sv": "0647de2be80bf3bfa4c38702efa760d392072fbeda268cc28c43fb07c5c6eb6c",
+      "w8a16_requant.sv": "54f9bde8987c8bdaf559f5480c4c6e97ec690b82149e8f5472e7d058754c3ecd",
+      "w8a16_sysarr.sv": "94e90f888300311715c8f83c47e7de6ca2f551d2cb99ff7d38985afb8c86aa8c"
+    },
+    "limitations": [
+      "UNISIM/DSP48E2 smoke was not run because xvlog was unavailable",
+      "Vivado OOC resource/timing reports were not run because Vivado was unavailable",
+      "simulation uses the behavioral multiplier branch; it does not replace a vendor primitive check"
+    ]
+  }
+}

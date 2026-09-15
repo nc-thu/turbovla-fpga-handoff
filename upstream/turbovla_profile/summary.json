@@ -1,0 +1,257 @@
+{
+  "generated_at": "2026-09-12_200536",
+  "experiment_root": "E:\\GPU ARCH\\vector_core_sim\\algo\\turbovla_profile\\2026-09-12_192541",
+  "source_commit": "b29ab1420baa5c663ec935df513f2012430beb67",
+  "source_commit_time": "2026-09-02T14:15:30+08:00",
+  "checkpoint_sha256": "d031ad7be05a2f5d04afb3194ed26b0cb46083685edee7a5e145078a37d26bab",
+  "checkpoint_top_level": [
+    "model_state_dict",
+    "model_config"
+  ],
+  "parameters": 216073239,
+  "runtime": {
+    "fp32": {
+      "status": "passed",
+      "precision": "fp32",
+      "device": "cuda:0",
+      "seed": 7,
+      "task_suite": "libero_spatial",
+      "task_id": 0,
+      "initial_state_index": 0,
+      "warmup": 5,
+      "repeat": 10,
+      "observation_resolution": [
+        256,
+        256
+      ],
+      "source": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/source",
+      "checkpoint": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/pretrained/TurboVLA/checkpoints/libero/turbovla_libero.pth",
+      "instruction": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+      "image_shapes": [
+        [
+          256,
+          256,
+          3
+        ],
+        [
+          256,
+          256,
+          3
+        ]
+      ],
+      "parameters": 216073239,
+      "parameter_dtypes": [
+        "torch.float32"
+      ],
+      "trace_status": "passed",
+      "wall_ms": [
+        71.47613354027271,
+        67.73868575692177,
+        67.65066646039486,
+        68.98744404315948,
+        70.90449705719948,
+        66.22770242393017,
+        66.0783238708973,
+        66.07098877429962,
+        65.8334344625473,
+        66.36545993387699
+      ],
+      "gpu_ms": [
+        71.30850982666016,
+        67.6612777709961,
+        67.57657623291016,
+        68.91161346435547,
+        70.82854461669922,
+        66.15312194824219,
+        66.00601959228516,
+        65.99913787841797,
+        65.76060485839844,
+        66.29459381103516
+      ],
+      "wall_ms_median": 67.00806319713593,
+      "wall_ms_p90": 70.9616607055068,
+      "wall_ms_min": 65.8334344625473,
+      "wall_ms_max": 71.47613354027271,
+      "gpu_ms_median": 66.93558502197266,
+      "gpu_ms_p90": 70.87654113769531,
+      "gpu_ms_min": 65.76060485839844,
+      "gpu_ms_max": 71.30850982666016,
+      "output_shape": [
+        12,
+        7
+      ],
+      "output_finite": true,
+      "repeat_max_abs_delta": 0.0,
+      "peak_cuda_allocated_bytes": 901209088,
+      "peak_cuda_reserved_bytes": 983564288,
+      "elapsed_seconds": 16.737208971753716
+    },
+    "bf16": {
+      "status": "passed",
+      "precision": "bf16",
+      "device": "cuda:0",
+      "seed": 7,
+      "task_suite": "libero_spatial",
+      "task_id": 0,
+      "initial_state_index": 0,
+      "warmup": 5,
+      "repeat": 10,
+      "observation_resolution": [
+        256,
+        256
+      ],
+      "source": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/source",
+      "checkpoint": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/pretrained/TurboVLA/checkpoints/libero/turbovla_libero.pth",
+      "instruction": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+      "image_shapes": [
+        [
+          256,
+          256,
+          3
+        ],
+        [
+          256,
+          256,
+          3
+        ]
+      ],
+      "parameters": 216073239,
+      "parameter_dtypes": [
+        "torch.bfloat16"
+      ],
+      "trace_status": "passed",
+      "wall_ms": [
+        72.32489250600338,
+        67.8692739456892,
+        66.90597906708717,
+        66.6467547416687,
+        67.3197265714407,
+        67.74298846721649,
+        67.60297901928425,
+        66.7375884950161,
+        65.88816829025745,
+        65.8864751458168
+      ],
+      "gpu_ms": [
+        72.15977478027344,
+        67.78934478759766,
+        66.8304672241211,
+        66.57186889648438,
+        67.24054718017578,
+        67.66223907470703,
+        67.52291107177734,
+        66.65885162353516,
+        65.81263732910156,
+        65.80982208251953
+      ],
+      "wall_ms_median": 67.11285281926394,
+      "wall_ms_p90": 68.31483580172062,
+      "wall_ms_min": 65.8864751458168,
+      "wall_ms_max": 72.32489250600338,
+      "gpu_ms_median": 67.03550720214844,
+      "gpu_ms_p90": 68.22638778686523,
+      "gpu_ms_min": 65.80982208251953,
+      "gpu_ms_max": 72.15977478027344,
+      "output_shape": [
+        12,
+        7
+      ],
+      "output_finite": true,
+      "repeat_max_abs_delta": 0.0,
+      "peak_cuda_allocated_bytes": 474697728,
+      "peak_cuda_reserved_bytes": 484442112,
+      "elapsed_seconds": 16.565715143457055
+    },
+    "bf16_vs_fp32_median_delta": 0.001563836009104147
+  },
+  "memory_reduction_fraction": 0.4732657112308215,
+  "spot_check": {
+    "fp32": {
+      "episodes": 20,
+      "successes": 19,
+      "rate": 0.95
+    },
+    "bf16": {
+      "episodes": 20,
+      "successes": 18,
+      "rate": 0.9
+    },
+    "records": [
+      {
+        "precision": "fp32",
+        "suite": "libero_spatial",
+        "description": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+        "episodes": 5,
+        "successes": 5,
+        "success_rate": 1.0
+      },
+      {
+        "precision": "fp32",
+        "suite": "libero_object",
+        "description": "pick up the alphabet soup and place it in the basket",
+        "episodes": 5,
+        "successes": 5,
+        "success_rate": 1.0
+      },
+      {
+        "precision": "fp32",
+        "suite": "libero_goal",
+        "description": "open the middle drawer of the cabinet",
+        "episodes": 5,
+        "successes": 4,
+        "success_rate": 0.8
+      },
+      {
+        "precision": "fp32",
+        "suite": "libero_10",
+        "description": "put both the alphabet soup and the tomato sauce in the basket",
+        "episodes": 5,
+        "successes": 5,
+        "success_rate": 1.0
+      },
+      {
+        "precision": "bf16",
+        "suite": "libero_spatial",
+        "description": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+        "episodes": 5,
+        "successes": 5,
+        "success_rate": 1.0
+      },
+      {
+        "precision": "bf16",
+        "suite": "libero_object",
+        "description": "pick up the alphabet soup and place it in the basket",
+        "episodes": 5,
+        "successes": 5,
+        "success_rate": 1.0
+      },
+      {
+        "precision": "bf16",
+        "suite": "libero_goal",
+        "description": "open the middle drawer of the cabinet",
+        "episodes": 5,
+        "successes": 4,
+        "success_rate": 0.8
+      },
+      {
+        "precision": "bf16",
+        "suite": "libero_10",
+        "description": "put both the alphabet soup and the tomato sauce in the basket",
+        "episodes": 5,
+        "successes": 4,
+        "success_rate": 0.8
+      }
+    ]
+  },
+  "official_reference": {
+    "reported_libero_avg": 0.977,
+    "reported_runtime_ms": 31.2,
+    "reported_vram_gb": 0.9,
+    "hardware": "RTX 4090"
+  },
+  "not_run": [
+    "完整四套 50 trials/task 正式 benchmark",
+    "W8A16 量化",
+    "FPGA 周期映射"
+  ]
+}

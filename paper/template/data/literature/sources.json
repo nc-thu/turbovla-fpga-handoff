@@ -1,0 +1,38 @@
+[
+  {
+    "key": "ditto",
+    "url": "https://arxiv.org/pdf/2501.11211",
+    "file": "E:\\GPU ARCH\\vector_core_sim\\paper\\2026-09-12_vla_fpga_r2\\data\\literature\\ditto.pdf",
+    "status": "downloaded"
+  },
+  {
+    "key": "exion",
+    "url": "https://arxiv.org/pdf/2501.05680",
+    "file": "E:\\GPU ARCH\\vector_core_sim\\paper\\2026-09-12_vla_fpga_r2\\data\\literature\\exion.pdf",
+    "status": "downloaded"
+  },
+  {
+    "key": "flight",
+    "url": "https://arxiv.org/pdf/2401.03868",
+    "file": "E:\\GPU ARCH\\vector_core_sim\\paper\\2026-09-12_vla_fpga_r2\\data\\literature\\flight.pdf",
+    "status": "downloaded"
+  },
+  {
+    "key": "quasar",
+    "url": "https://arxiv.org/pdf/2407.18175",
+    "file": "E:\\GPU ARCH\\vector_core_sim\\paper\\2026-09-12_vla_fpga_r2\\data\\literature\\quasar.pdf",
+    "status": "downloaded"
+  },
+  {
+    "key": "finn",
+    "url": "https://arxiv.org/pdf/1612.07119",
+    "file": "E:\\GPU ARCH\\vector_core_sim\\paper\\2026-09-12_vla_fpga_r2\\data\\literature\\finn.pdf",
+    "status": "downloaded"
+  },
+  {
+    "key": "diffdit_code",
+    "url": "https://raw.githubusercontent.com/Glinttsd/Diff-DiT/master/README.md",
+    "file": "E:\\GPU ARCH\\vector_core_sim\\paper\\2026-09-12_vla_fpga_r2\\data\\literature\\diffdit_code.md",
+    "status": "downloaded"
+  }
+]

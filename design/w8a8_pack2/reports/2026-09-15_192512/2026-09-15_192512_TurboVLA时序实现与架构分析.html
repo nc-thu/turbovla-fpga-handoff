@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TurboVLA Pack2 Vivado 时序实现与架构分析 2026-09-15_192512</title>
+<style>
+body{margin:0;background:#f3f3f0;color:#202020;font-family:"Microsoft YaHei",Arial,sans-serif;line-height:1.68}
+main{max-width:1220px;margin:0 auto;background:#fff;padding:28px 42px 58px;box-sizing:border-box}
+h1{font-size:30px;line-height:1.25;margin:0 0 8px} h2{font-size:22px;border-left:5px solid #2d6cdf;padding-left:10px;margin:32px 0 10px} h3{font-size:17px;margin:20px 0 6px}
+.meta{font-size:13px;color:#555;border-bottom:1px solid #aaa;padding-bottom:13px} .lead{font-size:17px;background:#eef5ff;border:1px solid #9cb9e6;padding:13px 16px;margin:18px 0}
+.note{font-size:13px;color:#555;background:#fafafa;border-left:3px solid #777;padding:9px 13px;margin:11px 0} .warn{background:#fff6e8;border-color:#d28b2c;color:#5b3c12}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px} .card{border:1px solid #b8b8b8;padding:12px;background:#fff} .big{display:block;font-size:28px;font-weight:700}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:11px 0 18px} th,td{border:1px solid #aaa;padding:6px 7px;text-align:left;vertical-align:top} th{background:#ececec}
+.diagram,.chart{width:100%;height:auto;border:1px solid #bbb;background:#fff;margin:10px 0} .caption{font-size:13px;color:#444;margin:2px 0 13px} code{font-size:12px;word-break:break-all}
+.tag{display:inline-block;border:1px solid #777;padding:1px 7px;margin-right:5px;font-size:12px;background:#f4f4f4} .pass{color:#137333;font-weight:700} .fail{color:#a33;font-weight:700}
+.footer{border-top:1px solid #aaa;margin-top:34px;padding-top:12px;color:#555;font-size:13px} li{margin:4px 0}
+@media(max-width:720px){main{padding:18px 15px}h1{font-size:24px}h2{font-size:20px}table{font-size:12px;display:block;overflow-x:auto;white-space:nowrap}}
+</style></head><body><main>
+<h1>TurboVLA W8A8 Pack2：Vivado 实现结果与架构分析</h1>
+<div class="meta">生成时间：2026-09-15 19:25:12　|　版本：hw/v3_2026-09-15_174639_vivado_impl　|　Vivado：2021.2　|　器件：xczu7ev-ffvc1156-2-e　|　顶层：tvla_w8a8_pack2_impl_top</div>
+<div class="lead"><b>先看结论：</b>250 MHz 和 303.215 MHz 两个目标都完成了 Vivado 2021.2 的综合、布局和布线。post-route WNS 分别为 0.241 ns 和 0.103 ns，说明这两个目标在当前 top 上都通过了 setup 和 pulse-width 检查；该 generic top 的 hold 项在 Vivado 汇总中显示为 NA。 250 MHz 档的 post-route 推导 Fmax 约 266.0 MHz，303.215 MHz 档约 313.0 MHz。两档都保留 768 个 DSP，当前实现没有因为加寄存器而减少阵列规模。</div>
+
+<h2>1. 这次真的跑了什么</h2>
+<p>这次使用本机真实 Vivado，而不是只做 RTL 展开。Vivado 从综合开始，经过 opt、place、phys_opt、route 和 post-route 报告，最后生成了 routed checkpoint。</p>
+<p>两个独立运行目录分别对应 4.000 ns 和 3.298 ns 时钟约束。250 MHz 运行耗时 1,497 秒，303.215 MHz 运行耗时 2,022 秒。这个时间包含 Vivado 的综合和实现，不是模型推理延迟。</p>
+<div class="grid"><div class="card"><span class="big">2 / 2</span>两个时钟目标都完成综合、布局和布线。</div><div class="card"><span class="big">768 DSP</span>两档实现都保留完整 16×48 Pack2 阵列。</div><div class="card"><span class="big">4 / 4</span>本地 Icarus 功能冒烟检查通过；它是 RTL 级检查，不替代实现结果。</div></div>
+<svg class="chart" viewBox="0 0 930 245" role="img" aria-label="Vivado post-route 推导 Fmax"><text x="18" y="25" font-family="Arial" font-size="16" font-weight="700">Vivado post-route 推导 Fmax</text><rect x="45" y="60.3" width="413" height="131.7" fill="#d17b2c"/><text x="251.5" y="54.3" text-anchor="middle" font-family="Arial" font-size="12">266.0 MHz</text><text x="251.5" y="220" text-anchor="middle" font-family="Arial" font-size="12">250 MHz</text><rect x="482" y="37.0" width="413" height="155.0" fill="#d17b2c"/><text x="688.5" y="42.0" text-anchor="middle" font-family="Arial" font-size="12">313.0 MHz</text><text x="688.5" y="220" text-anchor="middle" font-family="Arial" font-size="12">303.215 MHz</text><line x1="36" y1="192" x2="910" y2="192" stroke="#222"/></svg>
+<div class="caption">这图怎么看：柱子不是“请求频率”，而是由 post-route 的 WNS 反推的可用频率。正 slack 表示目标周期还有余量。</div>
+
+<h2>2. Pack2 设计和新增寄存器</h2>
+<p>Pack2 的一个 DSP 同时承载两个 INT8×INT8 乘积。两个乘积经过高低字段校正后，分别进入两条 INT32 累加反馈。阵列是 16 行 × 48 物理列，因此共有 768 个 DSP 和 96 个逻辑输出列。</p>
+
+<svg class="diagram" viewBox="0 0 1100 285" role="img" aria-label="Pack2 timing path">
+ <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#222"/></marker></defs>
+ <rect x="8" y="10" width="1084" height="260" fill="#fff" stroke="#222" stroke-width="2"/>
+ <text x="26" y="38" font-family="Arial" font-size="18" font-weight="700">16×48 Pack2：把最长组合路径切成几个短段</text>
+ <g font-family="Arial" font-size="13" text-anchor="middle">
+  <rect x="35" y="92" width="142" height="66" fill="#dceeff" stroke="#222" stroke-width="2"/><text x="106" y="118" font-weight="700">输入寄存</text><text x="106" y="140">activation / weight</text>
+  <rect x="205" y="92" width="150" height="66" fill="#fff1c9" stroke="#222" stroke-width="2"/><text x="280" y="118" font-weight="700">DSP48E2 Pack2</text><text x="280" y="140">2× INT8×INT8</text>
+  <rect x="383" y="92" width="132" height="66" fill="#dceeff" stroke="#222" stroke-width="2"/><text x="449" y="118" font-weight="700">P 输出寄存</text><text x="449" y="140">DSP → pipe</text>
+  <rect x="543" y="92" width="150" height="66" fill="#ffe4c6" stroke="#222" stroke-width="2"/><text x="618" y="118" font-weight="700">Pack2 字段校正</text><text x="618" y="140">低场 / 高场借位</text>
+  <rect x="721" y="92" width="132" height="66" fill="#dceeff" stroke="#222" stroke-width="2"/><text x="787" y="118" font-weight="700">INT32 累加</text><text x="787" y="140">两路反馈</text>
+  <rect x="881" y="92" width="174" height="66" fill="#e8e8e8" stroke="#222" stroke-width="2"/><text x="968" y="118" font-weight="700">snapshot / requant</text><text x="968" y="140">INT8 写回</text>
+ </g>
+ <g stroke="#222" stroke-width="2" marker-end="url(#arr)"><line x1="177" y1="125" x2="205" y2="125"/><line x1="355" y1="125" x2="383" y2="125"/><line x1="515" y1="125" x2="543" y2="125"/><line x1="693" y1="125" x2="721" y2="125"/><line x1="853" y1="125" x2="881" y2="125"/></g>
+ <path d="M787 160 V220 H618 V160" fill="none" stroke="#555" stroke-width="2" marker-end="url(#arr)"/>
+ <text x="702" y="242" font-family="Arial" font-size="13" text-anchor="middle">累加反馈不能跨周期直接绕过寄存器</text>
+ <text x="32" y="266" font-family="Arial" font-size="13">内部仍是 768 DSP；外部 wrapper 只把端口压到可布局范围，避免把宽总线当成封装引脚。</text>
+</svg>
+<div class="caption">这图怎么看：蓝色框是数据寄存器，黄色框是 DSP，橙色框是 Pack2 校正与累加。新版本把 DSP 输出单独寄存，再进入校正和反馈路径；它没有改变 Pack2 的数学格式。</div>
+<p>顶层使用了一个窄端口 wrapper。宽的 activation、weight、snapshot 和 output 数据仍在芯片内部连接；wrapper 只把演示用端口压到器件可以放下的数量，防止把 768-bit 总线误当成封装引脚。</p>
+
+<h2>3. 资源、时序和功耗</h2>
+<svg class="chart" viewBox="0 0 930 245" role="img" aria-label="250 MHz 实现资源（LUT/FF 用千为单位）"><text x="18" y="25" font-family="Arial" font-size="16" font-weight="700">250 MHz 实现资源（LUT/FF 用千为单位）</text><rect x="45" y="176.3" width="267" height="15.7" fill="#3c78b4"/><text x="178.5" y="170.3" text-anchor="middle" font-family="Arial" font-size="12">77.8</text><text x="178.5" y="220" text-anchor="middle" font-family="Arial" font-size="12">LUT / 1k</text><rect x="336" y="155.8" width="267" height="36.2" fill="#3c78b4"/><text x="469.5" y="149.8" text-anchor="middle" font-family="Arial" font-size="12">179.4</text><text x="469.5" y="220" text-anchor="middle" font-family="Arial" font-size="12">FF / 1k</text><rect x="627" y="37.0" width="267" height="155.0" fill="#3c78b4"/><text x="760.5" y="42.0" text-anchor="middle" font-family="Arial" font-size="12">768.0</text><text x="760.5" y="220" text-anchor="middle" font-family="Arial" font-size="12">DSP</text><line x1="36" y1="192" x2="910" y2="192" stroke="#222"/></svg>
+<div class="caption">这图怎么看：LUT 和 FF 以千为单位，DSP 按颗数画。资源的精确数值看下面的表。</div>
+<table><thead><tr><th>时钟目标</th><th>实现状态</th><th>WNS</th><th>WPWS</th><th>推导 Fmax</th><th>LUT</th><th>FF</th><th>DSP</th><th>BRAM</th><th>vectorless 功耗</th><th>Vivado 用时</th></tr></thead><tbody><tr><td>250 MHz</td><td>4.000 ns / 250.000 MHz</td><td>通过</td>
+        <td>0.241 ns</td><td>1.468 ns</td><td>266.0 MHz</td>
+        <td>77,770</td><td>179,363</td><td>768</td><td>0</td>
+        <td>5.310 W</td><td>1,497 s</td></tr><tr><td>303.215 MHz</td><td>3.298 ns / 303.214 MHz</td><td>通过</td>
+        <td>0.103 ns</td><td>1.117 ns</td><td>313.0 MHz</td>
+        <td>77,860</td><td>179,320</td><td>768</td><td>0</td>
+        <td>6.924 W</td><td>2,022 s</td></tr></tbody></table>
+<svg class="chart" viewBox="0 0 930 245" role="img" aria-label="vectorless 总片上功耗估计"><text x="18" y="25" font-family="Arial" font-size="16" font-weight="700">vectorless 总片上功耗估计</text><rect x="45" y="73.1" width="413" height="118.9" fill="#777"/><text x="251.5" y="67.1" text-anchor="middle" font-family="Arial" font-size="12">5.3 W</text><text x="251.5" y="220" text-anchor="middle" font-family="Arial" font-size="12">250 MHz</text><rect x="482" y="37.0" width="413" height="155.0" fill="#777"/><text x="688.5" y="42.0" text-anchor="middle" font-family="Arial" font-size="12">6.9 W</text><text x="688.5" y="220" text-anchor="middle" font-family="Arial" font-size="12">303.215 MHz</text><line x1="36" y1="192" x2="910" y2="192" stroke="#222"/></svg>
+<div class="caption">这图怎么看：功耗是 Vivado vectorless 估算，只能用来比较两档约束下的趋势。没有 SAIF/VCD，不能把它换算成 TOPS/W。</div>
+<p>250 MHz 实现使用 77,770 LUT、179,363 个寄存器和 768 个 DSP；303.215 MHz 实现使用 77,860 LUT、179,320 个寄存器和 768 个 DSP。303 MHz 的 LUT 只比 250 MHz 多 0.12%，但总片上 vectorless 功耗从 5.310 W 增至 6.924 W，增加约 30.4%。这个功耗差异来自时钟约束下的活动传播估计，不是板上实测功耗。</p>
+<div class="note warn"><b>实现报告里的两个限制：</b>DRC 没有 Error，所有可布线网络也都已完成。但顶层没有板级 I/O 的 LOC 和 IOSTANDARD，因而出现 NSTD-1/UCIO-1 critical warning；另外 768 个 DSP 都被提示输入侧没有启用 AREG/BREG 等 DSP 输入寄存器。当前结果可以说明这个 generic top 能布局布线并过时序，不能直接当成已经绑定开发板引脚、可以生成 bitstream 的版本。</div>
+
+<h2>4. 时序报告告诉我们什么</h2>
+<table><thead><tr><th>目标</th><th>最长路径数据延迟</th><th>逻辑部分</th><th>布线部分</th><th>怎么看</th></tr></thead><tbody>
+<tr><td>250 MHz</td><td>3.959 ns</td><td>0.153 ns</td><td>3.806 ns</td><td>布线约占最长路径的大部分，继续堆组合逻辑不是主要问题。</td></tr>
+<tr><td>303.215 MHz</td><td>2.993 ns</td><td>0.148 ns</td><td>2.845 ns</td><td>目标仍有 +0.103 ns setup 余量，但阵列的长距离扇出和布线值得继续优化。</td></tr>
+</tbody></table>
+
+<svg class="chart" viewBox="0 0 1050 210" role="img" aria-label="时序拆账示意">
+ <text x="20" y="25" font-family="Arial" font-size="16" font-weight="700">一拍里的数据流：读入、计算、校正和写回各有寄存器</text>
+ <g font-family="Arial" font-size="12"><text x="28" y="57">cycle</text><text x="112" y="57">t0</text><text x="262" y="57">t1</text><text x="412" y="57">t2</text><text x="562" y="57">t3</text><text x="712" y="57">t4</text><text x="862" y="57">t5</text>
+ <text x="28" y="91">读数</text><text x="28" y="125">DSP</text><text x="28" y="159">校正/累加</text><text x="28" y="193">写回</text></g>
+ <g stroke="#222" stroke-width="1"><line x1="96" y1="62" x2="1010" y2="62"/><line x1="96" y1="96" x2="1010" y2="96"/><line x1="96" y1="130" x2="1010" y2="130"/><line x1="96" y1="164" x2="1010" y2="164"/><line x1="96" y1="198" x2="1010" y2="198"/></g>
+ <g fill="#dceeff" stroke="#222"><rect x="102" y="72" width="132" height="18"/><rect x="252" y="72" width="132" height="18"/><rect x="402" y="72" width="132" height="18"/><rect x="552" y="72" width="132" height="18"/><rect x="702" y="72" width="132" height="18"/><rect x="852" y="72" width="132" height="18"/></g>
+ <g fill="#fff1c9" stroke="#222"><rect x="252" y="106" width="132" height="18"/><rect x="402" y="106" width="132" height="18"/><rect x="552" y="106" width="132" height="18"/><rect x="702" y="106" width="132" height="18"/><rect x="852" y="106" width="132" height="18"/></g>
+ <g fill="#ffe4c6" stroke="#222"><rect x="402" y="140" width="132" height="18"/><rect x="552" y="140" width="132" height="18"/><rect x="702" y="140" width="132" height="18"/><rect x="852" y="140" width="132" height="18"/></g>
+ <g fill="#e8e8e8" stroke="#222"><rect x="552" y="174" width="132" height="18"/><rect x="702" y="174" width="132" height="18"/><rect x="852" y="174" width="132" height="18"/></g>
+ <g font-family="Arial" font-size="11" text-anchor="middle"><text x="318" y="119">DSP</text><text x="468" y="153">校正 + ACC</text><text x="618" y="187">snapshot / write</text><text x="88" y="187">气泡/尾块也占周期</text></g>
+</svg>
+<div class="caption">这图怎么看：输入寄存、DSP 输出寄存和校正/累加寄存器把数据排成流水线。尾块、snapshot、读出和写回仍然会占周期，不能只用 DSP 的 MAC 数推算整机吞吐。</div>
+
+<h2>5. RTL 功能检查</h2>
+<table><thead><tr><th>检查</th><th>结果</th><th>耗时</th><th>说明</th></tr></thead><tbody><tr><td>pack2_mult_padd</td><td class='pass'>passed</td><td>0.100 s</td><td>无错误</td></tr><tr><td>timing_array</td><td class='pass'>passed</td><td>0.094 s</td><td>无错误</td></tr><tr><td>timing_replay</td><td class='pass'>passed</td><td>0.065 s</td><td>无错误</td></tr><tr><td>system_top_elaboration</td><td class='pass'>passed</td><td>1.328 s</td><td>无错误</td></tr></tbody></table>
+<p>这四项检查覆盖 Pack2 乘法器、时序阵列、回放顶层和 system_top 展开。它们证明改过的 RTL 可以跑基本协议；完整 TurboVLA 的 DINO、语言编码和未映射辅助算子没有在这个 generic timing top 里伪装成已综合硬件。</p>
+
+<h2>6. 模型周期仍然怎么解释</h2>
+<p>下面两张图来自之前的 TurboVLA trace 驱动周期模型。它们没有被 Vivado 自动测量，所以只用于说明架构调度的方向。当前控制模型总周期为 86,410,126，双缓冲模型为 41,949,544，理论上减少 51.5%。这不是 RTL 仿真或板上延迟。</p>
+<svg class="chart" viewBox="0 0 930 245" role="img" aria-label="历史 trace 周期模型（不是本次 Vivado 实测）"><text x="18" y="25" font-family="Arial" font-size="16" font-weight="700">历史 trace 周期模型（不是本次 Vivado 实测）</text><rect x="45" y="37.0" width="413" height="155.0" fill="#8a5a44"/><text x="251.5" y="42.0" text-anchor="middle" font-family="Arial" font-size="12">86,410,126.0</text><text x="251.5" y="220" text-anchor="middle" font-family="Arial" font-size="12">当前控制</text><rect x="482" y="116.8" width="413" height="75.2" fill="#8a5a44"/><text x="688.5" y="110.8" text-anchor="middle" font-family="Arial" font-size="12">41,949,544.0</text><text x="688.5" y="220" text-anchor="middle" font-family="Arial" font-size="12">双缓冲</text><line x1="36" y1="192" x2="910" y2="192" stroke="#222"/></svg><div class="caption">这图怎么看：双缓冲把读、算、写的等待重叠起来，所以模型周期下降；它需要真实 DMA、缓存和依赖调度继续验证。</div>
+<svg class="chart" viewBox="0 0 930 245" role="img" aria-label="历史模型 PE 利用率"><text x="18" y="25" font-family="Arial" font-size="16" font-weight="700">历史模型 PE 利用率</text><rect x="45" y="116.8" width="413" height="75.2" fill="#4b9b65"/><text x="251.5" y="110.8" text-anchor="middle" font-family="Arial" font-size="12">37.4%</text><text x="251.5" y="220" text-anchor="middle" font-family="Arial" font-size="12">当前 PE 利用率</text><rect x="482" y="37.0" width="413" height="155.0" fill="#4b9b65"/><text x="688.5" y="42.0" text-anchor="middle" font-family="Arial" font-size="12">77.0%</text><text x="688.5" y="220" text-anchor="middle" font-family="Arial" font-size="12">双缓冲 PE 利用率</text><line x1="36" y1="192" x2="910" y2="192" stroke="#222"/></svg><div class="caption">这图怎么看：双缓冲模型把 PE 时间利用率从 37.4% 提到 77.0%，但这不是说 Vivado 实现自动达到了这个利用率。</div>
+<table><thead><tr><th>模型</th><th>总周期</th><th>PE 时间利用率</th><th>GEMM 利用率</th><th>有效 GOPS @250 MHz</th><th>证据类型</th></tr></thead><tbody>
+<tr><td>当前控制</td><td>86,410,126</td><td>37.4%</td><td>40.4%</td><td>286.9</td><td>Python trace 周期模型</td></tr>
+<tr><td>双缓冲</td><td>41,949,544</td><td>77.0%</td><td>90.9%</td><td>591.0</td><td>条件模型</td></tr>
+</tbody></table>
+
+<h2>7. 给架构师的结论</h2>
+<ol>
+<li><b>频率：</b>当前 Pack2 replay top 在 xczu7ev-ffvc1156-2-e 上，250 MHz 和 303.215 MHz 都完成了 post-route 时序。303 MHz 仍有 +0.103 ns setup 余量，说明这版寄存器边界至少把目标频率保住了。</li>
+<li><b>资源：</b>两档都使用 768 DSP，LUT 约 77.8k，FF 约 179k，BRAM 为 0。新增时序 wrapper 没有牺牲 Pack2 阵列规模。</li>
+<li><b>瓶颈：</b>最长路径的路由延迟明显大于逻辑延迟。下一步应优先看阵列跨列扇出、drain-row 网络和 DSP 输入寄存器，而不是继续把校正逻辑塞进同一拍。</li>
+<li><b>工程状态：</b>这是已经实现的 generic top，不是已经绑定开发板的 bitstream。先补板级 I/O 约束，再做真实 DDR、SAIF/VCD 功耗和完整 TurboVLA fallback 回放。</li>
+<li><b>性能口径：</b>历史双缓冲模型的 591 GOPS @250 MHz 仍是条件估算；它不能替代本轮 Vivado 的频率结果，也不能直接当作端到端 TurboVLA 吞吐。</li>
+</ol>
+
+<div class="footer"><b>原始结果目录</b><br><code>E:\GPU ARCH\vector_core_sim\turbovla_w8a8_pack2\hw\v3_2026-09-15_174639_vivado_impl\reports\250MHz_real4</code><br><code>E:\GPU ARCH\vector_core_sim\turbovla_w8a8_pack2\hw\v3_2026-09-15_174639_vivado_impl\reports\303MHz_real4</code><br><br><b>复现命令</b><br><code>&amp; 'D:/software/Vivado/2021.2/bin/vivado.bat' -mode batch -source vivado/run_vivado_impl.tcl -tclargs 4.000 .../reports/250MHz_real4</code><br><code>&amp; 'D:/software/Vivado/2021.2/bin/vivado.bat' -mode batch -source vivado/run_vivado_impl.tcl -tclargs 3.298 .../reports/303MHz_real4</code><br><br>本页生成时间：2026-09-15 19:25:12。数值分为 RTL 冒烟、Vivado post-route 实测、Python 周期模型和 vectorless 功耗估算；没有用未测的端到端或 TOPS/W 填空。</div>
+</main></body></html>

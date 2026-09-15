@@ -1,0 +1,47 @@
+{
+  "schema_version": "tvla_w8a16.camera_ready.v4.isa",
+  "word_bits": 64,
+  "operand_fields": {
+    "dst": "8-bit scratch/context address",
+    "src0": "8-bit source or activation address",
+    "src1": "8-bit weight/source address",
+    "length": "DMA beat count for memory ops; element count otherwise",
+    "flags": "flags[0]=valid, flags[1]=saturate, flags[7]=production 16x48 array",
+    "address_sideband": "32-bit element/beat offsets when address_mode=sideband_32"
+  },
+  "completion": "Every non-END word is acknowledged only after its selected unit reports done. DMA commands hold valid until cmd_ready and then wait for dma_done.",
+  "opcodes": [
+    {"code":"0x01","name":"LOAD_CTX","unit":"DMA_READ","description":"Read 256-bit INT16 activation beats from CTX."},
+    {"code":"0x02","name":"LOAD_WEIGHT","unit":"DMA_READ","description":"Read 384-bit INT8 weight beats from WRAM."},
+    {"code":"0x03","name":"STORE_CTX","unit":"DMA_WRITE","description":"Write 256-bit INT16 tensor beats to CTX."},
+    {"code":"0x04","name":"STORE_ACTION","unit":"DMA_WRITE","description":"Write an action/output activation beat."},
+    {"code":"0x10","name":"GEMM_W8A16","unit":"ACTION_OR_GEMM","description":"INT16 activation by INT8 weight with INT40 accumulation; flags[7] launches the production array."},
+    {"code":"0x11","name":"BMM_W8A16","unit":"ACTION_OR_GEMM","description":"Batched matrix product; compiler selects the production array and retains layout sideband."},
+    {"code":"0x20","name":"BIAS_ADD","unit":"VECTOR_OPS","description":"Saturating INT16 addition with a separately represented bias."},
+    {"code":"0x21","name":"ADD","unit":"VECTOR_OPS","description":"Saturating residual/skip addition."},
+    {"code":"0x22","name":"MUL_SCALE","unit":"VECTOR_OPS","description":"Integer scale or gamma multiplication."},
+    {"code":"0x30","name":"LAYER_NORM","unit":"VECTOR_OPS","description":"Mean/max-deviation fixed-point normalization primitive."},
+    {"code":"0x31","name":"SOFTMAX","unit":"VECTOR_OPS","description":"Max subtraction, exponent LUT and Q1.15 normalization."},
+    {"code":"0x32","name":"RELU","unit":"VECTOR_OPS","description":"Signed INT16 ReLU."},
+    {"code":"0x33","name":"GELU","unit":"VECTOR_OPS","description":"Piecewise fixed-point GELU approximation."},
+    {"code":"0x34","name":"TANH","unit":"VECTOR_OPS","description":"Piecewise fixed-point tanh for normalized actions."},
+    {"code":"0x35","name":"REQUANT","unit":"REQUANT","description":"Registered INT40 to INT16 scale and saturation."},
+    {"code":"0x40","name":"WAIT","unit":"CONTROL","description":"One-cycle explicit scheduling wait."},
+    {"code":"0x41","name":"BARRIER","unit":"CONTROL","description":"One-cycle ordering barrier."},
+    {"code":"0xff","name":"END","unit":"CONTROL","description":"End a command stream and raise done."}
+  ],
+  "memory_spaces": {
+    "CTX": {"read_bits":256,"write_bits":256,"element_bits":16},
+    "WRAM": {"read_bits":384,"write_bits":384,"element_bits":8},
+    "SCRATCH": {"element_bits":16},
+    "ACTION": {"element_bits":16,"elements":7}
+  },
+  "numeric_contract": {
+    "activation_bits":16,
+    "weight_bits":8,
+    "output_bits":16,
+    "accumulator_bits":40,
+    "signed":true,
+    "saturation":"INT16 at vector/requant/action boundaries"
+  }
+}

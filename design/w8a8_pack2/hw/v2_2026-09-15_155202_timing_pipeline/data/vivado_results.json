@@ -1,0 +1,76 @@
+{
+  "generated_at": "2026-09-15 16:29:51",
+  "part": "xczu7ev-ffvc1156-2-e",
+  "top": "tvla_w8a8_pack2_system_top",
+  "runs": [
+    {
+      "label": "250MHz",
+      "period_ns": 4.0,
+      "frequency_mhz": 250.0,
+      "run": {
+        "status": "not_run",
+        "reason": "vivado command not found on this host",
+        "start": "2026-09-15 16:29:50",
+        "end": "2026-09-15 16:29:50",
+        "elapsed_seconds": 0.054,
+        "period_ns": 4,
+        "frequency_mhz": 250,
+        "label": "250MHz"
+      },
+      "resources": {
+        "lut": "not_available",
+        "ff": "not_available",
+        "dsp": "not_available",
+        "bram": "not_available"
+      },
+      "timing": {
+        "wns_ns": "not_available",
+        "tns_ns": "not_available",
+        "whs_ns": "not_available",
+        "ths_ns": "not_available"
+      },
+      "power": {
+        "total_on_chip_w": "not_available",
+        "source": "not_available"
+      },
+      "route_report_present": false,
+      "drc_report_present": false,
+      "report_files": []
+    },
+    {
+      "label": "303MHz",
+      "period_ns": 3.298,
+      "frequency_mhz": 303.21406913280777,
+      "run": {
+        "status": "not_run",
+        "reason": "vivado command not found on this host",
+        "start": "2026-09-15 16:29:50",
+        "end": "2026-09-15 16:29:50",
+        "elapsed_seconds": 0.05,
+        "period_ns": 3.298,
+        "frequency_mhz": 303.214069,
+        "label": "303MHz"
+      },
+      "resources": {
+        "lut": "not_available",
+        "ff": "not_available",
+        "dsp": "not_available",
+        "bram": "not_available"
+      },
+      "timing": {
+        "wns_ns": "not_available",
+        "tns_ns": "not_available",
+        "whs_ns": "not_available",
+        "ths_ns": "not_available"
+      },
+      "power": {
+        "total_on_chip_w": "not_available",
+        "source": "not_available"
+      },
+      "route_report_present": false,
+      "drc_report_present": false,
+      "report_files": []
+    }
+  ],
+  "evidence_boundary": "Vivado values are implementation results only when run.status=passed; missing runs are not estimates."
+}

@@ -1,0 +1,477 @@
+{
+  "indexed": {
+    "date-parts": [
+      [
+        2026,
+        6,
+        3
+      ]
+    ],
+    "date-time": "2026-06-03T15:38:27Z",
+    "timestamp": 1780501107808,
+    "version": "3.54.1"
+  },
+  "reference-count": 35,
+  "publisher": "IEEE",
+  "license": [
+    {
+      "start": {
+        "date-parts": [
+          [
+            2025,
+            10,
+            26
+          ]
+        ],
+        "date-time": "2025-10-26T00:00:00Z",
+        "timestamp": 1761436800000
+      },
+      "content-version": "stm-asf",
+      "delay-in-days": 0,
+      "URL": "https://doi.org/10.15223/policy-029"
+    },
+    {
+      "start": {
+        "date-parts": [
+          [
+            2025,
+            10,
+            26
+          ]
+        ],
+        "date-time": "2025-10-26T00:00:00Z",
+        "timestamp": 1761436800000
+      },
+      "content-version": "stm-asf",
+      "delay-in-days": 0,
+      "URL": "https://doi.org/10.15223/policy-037"
+    }
+  ],
+  "funder": [
+    {
+      "DOI": "10.13039/501100001809",
+      "name": "National Natural Science Foundation of China",
+      "doi-asserted-by": "publisher",
+      "id": [
+        {
+          "id": "10.13039/501100001809",
+          "id-type": "DOI",
+          "asserted-by": "publisher"
+        }
+      ]
+    }
+  ],
+  "content-domain": {
+    "domain": [],
+    "crossmark-restriction": false
+  },
+  "short-container-title": [],
+  "published-print": {
+    "date-parts": [
+      [
+        2025,
+        10,
+        26
+      ]
+    ]
+  },
+  "DOI": "10.1109/iccad66269.2025.11240791",
+  "type": "proceedings-article",
+  "created": {
+    "date-parts": [
+      [
+        2025,
+        11,
+        20
+      ]
+    ],
+    "date-time": "2025-11-20T18:39:34Z",
+    "timestamp": 1763663974000
+  },
+  "page": "1-9",
+  "source": "Crossref",
+  "is-referenced-by-count": 1,
+  "title": [
+    "Diff-DiT: Temporal Differential Accelerator for Low-bit Diffusion Transformers on FPGA"
+  ],
+  "prefix": "10.1109",
+  "author": [
+    {
+      "given": "Shidi",
+      "family": "Tang",
+      "sequence": "first",
+      "affiliation": [
+        {
+          "name": "School of Integrated Circuit, Southeast University"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Pengwei",
+      "family": "Zheng",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "School of Integrated Circuit, Southeast University"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Ruiqi",
+      "family": "Chen",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "ETRO, Vrije Universiteit Brussel"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Yuxuan",
+      "family": "Lv",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "School of Integrated Circuit, Southeast University"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Bruno",
+      "family": "Da Silva",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "ETRO, Vrije Universiteit Brussel"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Ming",
+      "family": "Ling",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "School of Integrated Circuit, Southeast University"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    }
+  ],
+  "member": "263",
+  "reference": [
+    {
+      "key": "ref1",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ICCV51070.2023.00387"
+    },
+    {
+      "key": "ref2",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/CVPR52729.2023.02155"
+    },
+    {
+      "issue": "47",
+      "key": "ref3",
+      "first-page": "1",
+      "article-title": "Cascaded diffusion models for high fidelity image generation",
+      "volume": "23",
+      "author": "Ho",
+      "year": "2022",
+      "journal-title": "Journal of Machine Learning Research"
+    },
+    {
+      "key": "ref4",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/CVPR52688.2022.01117"
+    },
+    {
+      "key": "ref5",
+      "first-page": "27 953",
+      "article-title": "Flexible diffusion modeling of long videos",
+      "volume": "35",
+      "author": "Harvey",
+      "year": "2022",
+      "journal-title": "Advances in Neural Information Processing Systems"
+    },
+    {
+      "key": "ref6",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/CVPR52688.2022.01042"
+    },
+    {
+      "key": "ref7",
+      "first-page": "10 347",
+      "article-title": "Training data-efficient image transformers & distillation through attention",
+      "volume-title": "International Conference on machine learning",
+      "author": "Touvron"
+    },
+    {
+      "key": "ref8",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/iccv51070.2023.02117"
+    },
+    {
+      "key": "ref9",
+      "article-title": "Vidit-q: Efficient and accurate quantization of diffusion transformers for image and video generation",
+      "author": "Zhao",
+      "year": "2024"
+    },
+    {
+      "key": "ref10",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ICCV51070.2023.01608"
+    },
+    {
+      "key": "ref11",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/CVPR52729.2023.00196"
+    },
+    {
+      "key": "ref12",
+      "article-title": "Ptq4dit: Post-training quantization for diffusion transformers",
+      "volume-title": "The Thirty-eighth Annual Conference on Neural Information Processing Systems",
+      "author": "Wu"
+    },
+    {
+      "key": "ref13",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/cvpr52734.2025.02636"
+    },
+    {
+      "key": "ref14",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/HPCA61900.2025.00035"
+    },
+    {
+      "key": "ref15",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ISCA59077.2024.00070"
+    },
+    {
+      "key": "ref16",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3706628.3708864"
+    },
+    {
+      "key": "ref17",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.48550/ARXIV.1706.03762"
+    },
+    {
+      "key": "ref18",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ICCAD57390.2023.10323752"
+    },
+    {
+      "key": "ref19",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3490422.3502364"
+    },
+    {
+      "key": "ref20",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3626202.3637562"
+    },
+    {
+      "key": "ref21",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/FPL64840.2024.00044"
+    },
+    {
+      "key": "ref22",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3676536.3676733"
+    },
+    {
+      "key": "ref23",
+      "article-title": "Post training 4-bit quantization of convolutional networks for rapid-deployment",
+      "volume": "32",
+      "author": "Banner",
+      "year": "2019",
+      "journal-title": "Advances in Neural Information Processing Systems"
+    },
+    {
+      "key": "ref24",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3658617.3697788"
+    },
+    {
+      "key": "ref25",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/HPCA61900.2025.00034"
+    },
+    {
+      "key": "ref26",
+      "first-page": "55 502",
+      "article-title": "Dpm-solver-v3: Improved diffusion ode solver with empirical model statistics",
+      "volume": "36",
+      "author": "Zheng",
+      "year": "2023",
+      "journal-title": "Advances in Neural Information Processing Systems"
+    },
+    {
+      "key": "ref27",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/CVPR52733.2024.01492"
+    },
+    {
+      "key": "ref28",
+      "first-page": "85 203",
+      "article-title": "Faster diffusion: Rethinking the role of the encoder for diffusion model inference",
+      "volume": "37",
+      "author": "Li",
+      "year": "2024",
+      "journal-title": "Advances in Neural Information Processing Systems"
+    },
+    {
+      "key": "ref29",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/FPL57034.2022.00035"
+    },
+    {
+      "key": "ref30",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/TCAD.2022.3197489"
+    },
+    {
+      "key": "ref31",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/CVPR.2009.5206848"
+    },
+    {
+      "key": "ref32",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3656177"
+    },
+    {
+      "key": "ref33",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/HPCA56546.2023.10071015"
+    },
+    {
+      "key": "ref34",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/FCCM51124.2021.00012"
+    },
+    {
+      "key": "ref35",
+      "first-page": "8780",
+      "article-title": "Diffusion models beat gans on image synthesis",
+      "volume": "34",
+      "author": "Dhariwal",
+      "year": "2021",
+      "journal-title": "Advances in neural information processing systems"
+    }
+  ],
+  "event": {
+    "name": "2025 IEEE/ACM International Conference On Computer Aided Design (ICCAD)",
+    "location": "Munich, Germany",
+    "start": {
+      "date-parts": [
+        [
+          2025,
+          10,
+          26
+        ]
+      ]
+    },
+    "end": {
+      "date-parts": [
+        [
+          2025,
+          10,
+          30
+        ]
+      ]
+    }
+  },
+  "container-title": [
+    "2025 IEEE/ACM International Conference On Computer Aided Design (ICCAD)"
+  ],
+  "original-title": [],
+  "link": [
+    {
+      "URL": "http://xplorestaging.ieee.org/ielx8/11240608/11240621/11240791.pdf?arnumber=11240791",
+      "content-type": "unspecified",
+      "content-version": "vor",
+      "intended-application": "similarity-checking"
+    }
+  ],
+  "deposited": {
+    "date-parts": [
+      [
+        2026,
+        1,
+        30
+      ]
+    ],
+    "date-time": "2026-01-30T20:59:12Z",
+    "timestamp": 1769806752000
+  },
+  "score": 1,
+  "resource": {
+    "primary": {
+      "URL": "https://ieeexplore.ieee.org/document/11240791/"
+    }
+  },
+  "subtitle": [],
+  "short-title": [],
+  "issued": {
+    "date-parts": [
+      [
+        2025,
+        10,
+        26
+      ]
+    ]
+  },
+  "references-count": 35,
+  "URL": "https://doi.org/10.1109/iccad66269.2025.11240791",
+  "relation": {},
+  "subject": [],
+  "published": {
+    "date-parts": [
+      [
+        2025,
+        10,
+        26
+      ]
+    ]
+  }
+}

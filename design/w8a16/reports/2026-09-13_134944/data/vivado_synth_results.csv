@@ -1,0 +1,5 @@
+name,top,rows,pcols,status,elapsed_s,total_luts,ffs,dsp,ramb36,ramb18,uram,wns_ns,timing_met,fmax_estimate_mhz,data_path_delay_ns,logic_delay_percent,route_delay_percent,drc_status,drc_errors,drc_warnings
+2026-09-13_130000_array_1x1,w8a16_array_top,1,1,passed,44.0,63,166,1,0,0,0,2.151,True,871.8395815170007,1.126,80.817,19.183,pass,0,1
+2026-09-13_125300_array_4x4,w8a16_array_top,4,4,passed,47.0,1216,2470,16,0,0,0,2.149,True,870.3220191470845,1.128,80.674,19.326,pass,0,1
+2026-09-13_125500_array_16x48,w8a16_array_top,16,48,passed,218.0,57331,110656,768,0,0,0,2.149,True,870.3220191470845,1.128,80.674,19.326,pass,0,1
+2026-09-13_153000_system_v11,w8a16_system_top,16,48,passed,246.0,67086,118088,785,0,0,0,0.0,True,303.21406913280777,3.288,42.245,57.755,pass,0,3

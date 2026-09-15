@@ -1,0 +1,217 @@
+{
+  "generated_at": "2026-09-14 01:56:41",
+  "runs": [
+    {
+      "configuration": "array_off_trace_off",
+      "enable_array": false,
+      "trace_enable": false,
+      "status": "passed",
+      "started": "2026-09-14T01:48:26+0800",
+      "finished": "2026-09-14T01:49:54+0800",
+      "elapsed_s": 87.953,
+      "part": "xczu7ev-ffvc1156-2-e",
+      "target_period_ns": 4.0,
+      "utilization": {
+        "lut": 2229,
+        "logic_lut": 2229,
+        "lutram": 0,
+        "srl": 0,
+        "ff": 7412,
+        "ramb36": 0,
+        "ramb18": 0,
+        "uram": 0,
+        "dsp": 0
+      },
+      "hierarchy": {},
+      "timing": {
+        "target_period_ns": 4.0,
+        "wns_ns": 1.936,
+        "fmax_mhz": 484.49612403100775,
+        "data_path_delay_ns": 2.054,
+        "logic_delay_ns": 1.029,
+        "route_delay_ns": 1.025,
+        "stage": "synthesis_estimated"
+      },
+      "power": {
+        "total_on_chip_w": 0.665,
+        "dynamic_w": 0.073,
+        "static_w": 0.592,
+        "confidence": "Medium",
+        "mode": "vectorless_no_saif_vcd"
+      },
+      "drc": {
+        "violations_found": 0,
+        "critical_or_error": 0,
+        "rules": [
+          "none reported"
+        ],
+        "note": "synthesis-stage DRC"
+      },
+      "source": "turbovla_w8a16\\data\\v9_2026-09-14_010956\\vivado_runs_2026-09-14_0147_fifo_fix\\array_off_trace_off"
+    },
+    {
+      "configuration": "array_on_trace_off",
+      "enable_array": true,
+      "trace_enable": false,
+      "status": "passed",
+      "started": "2026-09-14T01:49:57+0800",
+      "finished": "2026-09-14T01:53:10+0800",
+      "elapsed_s": 193.176,
+      "part": "xczu7ev-ffvc1156-2-e",
+      "target_period_ns": 4.0,
+      "utilization": {
+        "lut": 60419,
+        "logic_lut": 58971,
+        "lutram": 0,
+        "srl": 1448,
+        "ff": 119214,
+        "ramb36": 0,
+        "ramb18": 0,
+        "uram": 0,
+        "dsp": 768
+      },
+      "hierarchy": {
+        "top_logic": {
+          "lut": 2224,
+          "logic_lut": 2224,
+          "lutram": 0,
+          "srl": 0,
+          "ff": 9333,
+          "ramb36": 0,
+          "ramb18": 0,
+          "uram": 0,
+          "dsp": 0
+        },
+        "sysarr": {
+          "lut": 58195,
+          "logic_lut": 56747,
+          "lutram": 0,
+          "srl": 1448,
+          "ff": 109881,
+          "ramb36": 0,
+          "ramb18": 0,
+          "uram": 0,
+          "dsp": 768
+        },
+        "pe_example": {
+          "lut": 63,
+          "logic_lut": 62,
+          "lutram": 0,
+          "srl": 1,
+          "ff": 140,
+          "ramb36": 0,
+          "ramb18": 0,
+          "uram": 0,
+          "dsp": 1
+        }
+      },
+      "timing": {
+        "target_period_ns": 4.0,
+        "wns_ns": 1.884,
+        "fmax_mhz": 472.58979206049145,
+        "data_path_delay_ns": 2.106,
+        "logic_delay_ns": 0.888,
+        "route_delay_ns": 1.218,
+        "stage": "synthesis_estimated"
+      },
+      "power": {
+        "total_on_chip_w": 3.507,
+        "dynamic_w": 2.9,
+        "static_w": 0.607,
+        "confidence": "Medium",
+        "mode": "vectorless_no_saif_vcd"
+      },
+      "drc": {
+        "violations_found": 768,
+        "critical_or_error": 0,
+        "rules": [
+          "AVAL-155"
+        ],
+        "note": "AVAL-155 is advisory"
+      },
+      "source": "turbovla_w8a16\\data\\v9_2026-09-14_010956\\vivado_runs_2026-09-14_0147_fifo_fix\\array_on_trace_off"
+    },
+    {
+      "configuration": "array_on_trace_on",
+      "enable_array": true,
+      "trace_enable": true,
+      "status": "passed",
+      "started": "2026-09-14T01:53:15+0800",
+      "finished": "2026-09-14T01:56:32+0800",
+      "elapsed_s": 197.208,
+      "part": "xczu7ev-ffvc1156-2-e",
+      "target_period_ns": 4.0,
+      "utilization": {
+        "lut": 60419,
+        "logic_lut": 58971,
+        "lutram": 0,
+        "srl": 1448,
+        "ff": 119214,
+        "ramb36": 0,
+        "ramb18": 0,
+        "uram": 0,
+        "dsp": 768
+      },
+      "hierarchy": {
+        "top_logic": {
+          "lut": 2224,
+          "logic_lut": 2224,
+          "lutram": 0,
+          "srl": 0,
+          "ff": 9333,
+          "ramb36": 0,
+          "ramb18": 0,
+          "uram": 0,
+          "dsp": 0
+        },
+        "sysarr": {
+          "lut": 58195,
+          "logic_lut": 56747,
+          "lutram": 0,
+          "srl": 1448,
+          "ff": 109881,
+          "ramb36": 0,
+          "ramb18": 0,
+          "uram": 0,
+          "dsp": 768
+        },
+        "pe_example": {
+          "lut": 63,
+          "logic_lut": 62,
+          "lutram": 0,
+          "srl": 1,
+          "ff": 140,
+          "ramb36": 0,
+          "ramb18": 0,
+          "uram": 0,
+          "dsp": 1
+        }
+      },
+      "timing": {
+        "target_period_ns": 4.0,
+        "wns_ns": 1.884,
+        "fmax_mhz": 472.58979206049145,
+        "data_path_delay_ns": 2.106,
+        "logic_delay_ns": 0.888,
+        "route_delay_ns": 1.218,
+        "stage": "synthesis_estimated"
+      },
+      "power": {
+        "total_on_chip_w": 3.507,
+        "dynamic_w": 2.9,
+        "static_w": 0.607,
+        "confidence": "Medium",
+        "mode": "vectorless_no_saif_vcd"
+      },
+      "drc": {
+        "violations_found": 768,
+        "critical_or_error": 0,
+        "rules": [
+          "AVAL-155"
+        ],
+        "note": "AVAL-155 is advisory"
+      },
+      "source": "turbovla_w8a16\\data\\v9_2026-09-14_010956\\vivado_runs_2026-09-14_0147_fifo_fix\\array_on_trace_on"
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "generated": "2026-09-14T01:56:33.8508112+08:00",
+  "vivado": "D:\\software\\Vivado\\2021.2\\bin\\vivado.bat",
+  "part": "xczu7ev-ffvc1156-2-e",
+  "target_period_ns": 4.0,
+  "run_root": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\data\\v9_2026-09-14_010956\\vivado_runs_2026-09-14_0147_fifo_fix",
+  "records": [
+    {
+      "name": "array_off_trace_off",
+      "enable_array": 0,
+      "trace_enable": 0,
+      "exit_code": 0,
+      "started": "2026-09-14T01:48:22.7685465+08:00",
+      "finished": "2026-09-14T01:49:54.6823564+08:00",
+      "elapsed_s": 91.914,
+      "status": "passed",
+      "output_dir": "turbovla_w8a16\\data\\v9_2026-09-14_010956\\vivado_runs_2026-09-14_0147_fifo_fix\\array_off_trace_off"
+    },
+    {
+      "name": "array_on_trace_off",
+      "enable_array": 1,
+      "trace_enable": 0,
+      "exit_code": 0,
+      "started": "2026-09-14T01:49:54.7084469+08:00",
+      "finished": "2026-09-14T01:53:11.9346392+08:00",
+      "elapsed_s": 197.226,
+      "status": "passed",
+      "output_dir": "turbovla_w8a16\\data\\v9_2026-09-14_010956\\vivado_runs_2026-09-14_0147_fifo_fix\\array_on_trace_off"
+    },
+    {
+      "name": "array_on_trace_on",
+      "enable_array": 1,
+      "trace_enable": 1,
+      "exit_code": 0,
+      "started": "2026-09-14T01:53:11.9371858+08:00",
+      "finished": "2026-09-14T01:56:33.8492899+08:00",
+      "elapsed_s": 201.912,
+      "status": "passed",
+      "output_dir": "turbovla_w8a16\\data\\v9_2026-09-14_010956\\vivado_runs_2026-09-14_0147_fifo_fix\\array_on_trace_on"
+    }
+  ]
+}

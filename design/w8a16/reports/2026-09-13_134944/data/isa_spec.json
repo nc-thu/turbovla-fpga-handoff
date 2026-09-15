@@ -1,0 +1,46 @@
+{
+  "schema_version": "tvla_w8a16.isa.v1",
+  "word_bits": 64,
+  "opcode_bits": 8,
+  "operand_fields": {
+    "dst": "8-bit scratch/context address",
+    "src0": "8-bit source address",
+    "src1": "8-bit source/weight address",
+    "length": "16-bit element count or instruction-specific length",
+    "flags": "8-bit validity, saturation and layout flags"
+  },
+  "opcodes": [
+    {"code": "0x01", "name": "LOAD_CTX", "unit": "DMA_READ", "description": "Read an INT16 activation tile from CTX."},
+    {"code": "0x02", "name": "LOAD_WEIGHT", "unit": "DMA_READ", "description": "Read an INT8 weight tile from WRAM."},
+    {"code": "0x03", "name": "STORE_CTX", "unit": "DMA_WRITE", "description": "Write an INT16 tensor tile to CTX."},
+    {"code": "0x04", "name": "STORE_ACTION", "unit": "DMA_WRITE", "description": "Write the seven-dimensional normalized action."},
+    {"code": "0x10", "name": "GEMM_W8A16", "unit": "GEMM_16X48", "description": "INT16 activation × INT8 weight, INT40 accumulation."},
+    {"code": "0x11", "name": "BMM_W8A16", "unit": "GEMM_16X48", "description": "Dynamic batched matrix product when both layouts are compatible."},
+    {"code": "0x20", "name": "BIAS_ADD", "unit": "VECTOR_ADD", "description": "Add a separately represented bias; never silently fuse it."},
+    {"code": "0x21", "name": "ADD", "unit": "VECTOR_ADD", "description": "Elementwise residual or skip add."},
+    {"code": "0x22", "name": "MUL_SCALE", "unit": "VECTOR_MUL", "description": "Layer scale, gamma or integer multiplier."},
+    {"code": "0x30", "name": "LAYER_NORM", "unit": "NORM", "description": "Mean/variance normalization with an explicit epsilon."},
+    {"code": "0x31", "name": "SOFTMAX", "unit": "SOFTMAX", "description": "Max subtraction, exponent LUT and reciprocal normalization."},
+    {"code": "0x32", "name": "RELU", "unit": "ACTIVATION", "description": "Signed INT16 ReLU."},
+    {"code": "0x33", "name": "GELU", "unit": "ACTIVATION", "description": "Piecewise fixed-point GELU approximation."},
+    {"code": "0x34", "name": "TANH", "unit": "ACTIVATION", "description": "Piecewise fixed-point tanh for normalized actions."},
+    {"code": "0x35", "name": "REQUANT", "unit": "REQUANT", "description": "INT40 to INT16 scale, shift and saturation."},
+    {"code": "0x40", "name": "WAIT", "unit": "CONTROL", "description": "Wait for a DMA, array or fallback unit event."},
+    {"code": "0x41", "name": "BARRIER", "unit": "CONTROL", "description": "Preserve ordering at a residual or non-linear boundary."},
+    {"code": "0xff", "name": "END", "unit": "CONTROL", "description": "End one action program and raise done."}
+  ],
+  "memory_spaces": {
+    "CTX": {"read_bits": 256, "write_bits": 256, "element_bits": 16},
+    "WRAM": {"read_bits": 384, "write_bits": 384, "element_bits": 8},
+    "SCRATCH": {"element_bits": 16},
+    "ACTION": {"element_bits": 16, "elements": 7}
+  },
+  "numeric_contract": {
+    "activation_bits": 16,
+    "weight_bits": 8,
+    "output_bits": 16,
+    "accumulator_bits": 40,
+    "signed": true,
+    "saturation": "INT16 at REQUANT and action output"
+  }
+}

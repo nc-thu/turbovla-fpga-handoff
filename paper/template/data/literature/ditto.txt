@@ -1,0 +1,2634 @@
+
+=== PDF PAGE 1 ===
+2025 IEEE International Symposium on High-Performance Computer Architecture (HPCA)
+Ditto: Accelerating Diffusion Model via Temporal
+Value Similarity
+Sungbin Kim∗, Hyunwuk Lee∗†, Wonho Cho, Mincheol Park, and Won Woo Ro
+School of Electrical and Electronic Engineering, Yonsei University, Seoul, Republic of Korea
+Emails: {sungbin.kim, hyunwuk.lee, wonho.cho, mincheol.park, wro}@yonsei.ac.kr
+Abstract—Diffusion models achieve superior performance in
+image generation tasks. However, it incurs significant com-
+putation overheads due to its iterative structure. To address
+these overheads, we analyze this iterative structure and observe
+that adjacent time steps in diffusion models exhibit high value
+similarity, leading to narrower differences between consecutive
+time steps. We adapt these characteristics to a quantized diffusion
+model and reveal that the majority of these differences can be
+represented with reduced bit-width, and even zero. Based on
+our observations, we propose the Ditto algorithm, a difference
+processing algorithm that leverages temporal similarity with
+quantization to enhance the efficiency of diffusion models. By
+exploiting the narrower differences and the distributive property
+of layer operations, it performs full bit-width operations for the
+initial time step and processes subsequent steps with temporal
+differences. In addition, Ditto execution flow optimization is
+designed to mitigate the memory overhead of temporal difference
+processing, further boosting the efficiency of the Ditto algorithm.
+We also design the Ditto hardware, a specialized hardware
+accelerator, fully exploiting the dynamic characteristics of the
+proposed algorithm. As a result, the Ditto hardware achieves up
+to 1.5× speedup and 17.74% energy saving compared to other
+accelerators.
+I. INTRODUCTION
+Diffusion models have demonstrated high performance
+in various image generation tasks such as image super-
+resolution
+[30],
+[74],
+video
+generation
+[25],
+[93],
+in-
+painting [56], [72], and text-to-image generation [61], [69].
+Inspired by natural diffusion processes, it generates images
+through a reverse diffusion process that recursively denoises
+an image [13], [29], [73], [81]. Through the process, it
+outperforms the previous image generation models (e.g., Gen-
+erative Adversarial Network (GAN) [20], [40] and Variational
+Autoencoders (VAE) [31], [42]) in terms of image quality and
+diversity [6], [10], [89].
+Despite their advanced capabilities, diffusion models en-
+counter significant computational demands [44], [81]. Since
+the current time step of the reverse diffusion process requires
+the output of its former time step, the diffusion model cannot
+parallelize the execution of their time step [76], [96]. More-
+over, diffusion models employ a denoising model [39], [68]
+for each time step, which requires significantly increased com-
+putation compared to previous Deep Neural Network (DNN)
+models (e.g., Recurrent Neural Network (RNN) [49], [52],
+and Long Short-Term Memory (LSTM) [86], [95]) that adopt
+∗Both authors contributed equally to this work.
+†The author is working at Samsung Electronics now.
+recurrent structure. These characteristics lead the diffusion
+models to be compute intensive [17] and have long execution
+time compared to other image generation models.
+Due to the computational demand, quantization has emerged
+as a promising technique for diffusion models [26], [50], [77],
+[80]. Previous software works [50], [77] revealed that the
+activation value range gradually changes across time steps,
+caused by the inherent iterative feature of diffusion models,
+posing a significant challenge. This characteristic makes static
+quantization [21], [91] ineffective, as it leads to discrepancies
+between predefined scaling factors and actual value ranges. To
+address the issue, previous works [50], [77] utilized time step
+clustering technique based on the value range to determine
+more accurate scaling factors.
+However, we consider dynamic change in activation values
+not as a challenge, but as an opportunity. We assume that
+there is a potential value similarity between adjacent time
+steps due to the gradual changes on value range of activa-
+tions in the diffusion models. To verify our assumption, we
+analyzed the temporal value similarity of the reverse process.
+In our analysis, the data elements between adjacent time
+steps exhibit a high value similarity of 0.98. Moreover, the
+temporal similarity is 0.67 higher than the spatial similarity
+inside activations, that is widely explored in vision-based
+neural network applications [58]. Furthermore, this similarity
+results in a narrower value range for differences between
+adjacent time steps compared to the original activations. Our
+experiments show that these temporal differences have a value
+range narrower up to 8.96× than the original activations.
+To maximize the performance of diffusion models, we
+analyze the impact of the narrower value range of temporal dif-
+ferences in quantized models. Our analysis reveals that 96.01%
+of the temporal differences between adjacent time steps require
+half bit-width for representation, with only 3.99% of them ne-
+cessitating full bit-width. Moreover, zero temporal differences,
+indicating no change between time steps, account for 44.48%
+of the total data elements. These results demonstrate that the
+small temporal value differences between adjacent time steps
+enable the majority of them to be represented with reduced
+bit-width and even zero in quantized diffusion models. In
+our analysis, leveraging both reduced bit-width and zero in
+the temporal differences would achieve 53.3% Bit Operations
+(BOPs) [5], [50] reduction, while the state-of-the-art difference
+processing approaches [58] leveraging the spatial similarity
+achieves 38.8% BOPs reduction.
+arXiv:2501.11211v1  [cs.AR]  20 Jan 2025
+
+
+=== PDF PAGE 2 ===
+Reverse Diffusion Process
+Forward Diffusion Process
+Noise
+...
+Noise
+Noise
+Noise
+T1
+T2
+Tt-2
+Tt-1
+Tt
+Original
+Image
+Gaussian
+Noise
+...
+Gaussian
+Noise
+Tt
+Sampler
+Tt-1
+Sampler
+Tt-2
+Sampler
+T2
+Generated 
+Image
+T1
+Denoising 
+Model
+←
+...
+→
+→
+Block
+Block
+Block
+Denoising 
+Model
+←
+...
+→
+→
+Block
+Block
+Block
+Denoising 
+Model
+←
+...
+→
+→
+Block
+Block
+Block
+Denoising 
+Model
+←
+...
+→
+→
+Block
+Block
+Block
+Fig. 1: Image generation process of diffusion models. Dif-
+fusion models generate images through an iterative reverse
+process utilizing a denoising model. The reverse diffusion
+process starts from time step Tt and ends at T1.
+Based on our observations, we propose the Ditto algorithm,
+a temporal difference processing approach that exploits tempo-
+ral value similarity for efficient image generation in diffusion
+models. The algorithm leverages the narrow value range of
+differences between adjacent time steps. It executes the first
+time step with original activations and executes linear layers
+of further time steps with temporal differences. It calculates
+the differences between adjacent time steps and executes linear
+layers only with these differences, using lower bit-width and
+utilizing zero skipping. By leveraging the low computational
+intensity of the temporal differences, the algorithm effectively
+reduces computational overheads in diffusion models.
+Additionally, we design Ditto Execution Flow Optimization
+(Defo) to dynamically optimize the execution flow of diffusion
+models using the Ditto algorithm. Defo statically analyzes the
+dependencies of layers and checks for non-linear functions
+to reduce the memory overhead of loading the input and
+output of previous time steps when using temporal difference
+processing in layers. Additionally, at run-time, it automatically
+determines the optimal execution flow (whether to execute
+with the original activations or differences) for subsequent
+time steps at second time step using the execution information
+from the first and second time steps of each layer. Through
+the optimization, the Ditto algorithm achieves its effectiveness
+regardless of the type of diffusion model.
+To exploit the benefits of the algorithm, we also design
+the Ditto hardware, a specialized hardware accelerator that
+supports dynamic sparsity and bit-width within the difference
+processing approach. The hardware adopts adder tree-based
+Processing Element (PE) with corresponding encoder units to
+handle dynamic sparsity and bit-width simultaneously. It ef-
+fectively calculates differences and supports dynamic sparsity
+within these differences through encoder units, and supports
+dynamic bit-width through PE. Since a single PE design is
+utilized instead of an outlier PE to support mixed precision,
+the hardware fully accommodates the dynamic changes in
+throughput requirements for both lower and full bit-width
+operations introduced by the Ditto algorithm. With this design,
+the proposed hardware effectively leverages the benefits of
+the Ditto algorithm, achieving high performance compared to
+ResNet Block Attention Block Conditional Latent Diffusion
+Transformer Block
+Diffusion Transformer
+Transformer Block
+Conv
+SiLU
+GN
+FC
+SiLU
+emb
+input
+next block input
+Non-linear function
+Linear layer
+Conv
+SiLU
+GN
+Q
+next block input
+GN
+input
+FC
+Q-K
+K
+V
+Softmax
+P-V
+P
+FC
+Q
+LN
+input
+FC
+Q-K
+K
+V
+Softmax
+P-V
+P
+FC
+Q'
+LN
+input'
+FC
+Q'-K'
+K'
+V'
+Softmax
+P'-V'
+P'
+FC
+FC
+context
+input''
+FC
+FC
+GeLU
+next block input
+LN
+input context
+Pooling
+Extra non-linear function 
+for CHUR
+Conv
+Extra linear layer 
+for Some Block
+1
+FC
+Q K V
+Q-K
+Softmax
+P
+P-V
+FC
+SiLU
+FC
+scale-msa
+shift-msa
+gate-msa
+scale-mlp
+shift-mlp
+gate-mlp
+adaLN
+adaLN
+scale-msa
+shift-msa
+gate-msa
+LN
+input'
+1scale-mlp
+shift-mlp
+FC
+GeLU
+FC
+gate-mlp
+input'
+next block input
+Layer
+for DiT & Latte
+input
+Fig. 2: Various block structures of diffusion models in Table.
+I. GN and LN indicate group and layer normalization.
+other accelerators.
+We summarize our contributions as follows:
+• We observe that the high similarity between adjacent time
+steps of the diffusion model results in a narrower value range
+of differences. Extending this into a quantized diffusion
+model and find out that 95.82% can be represented with
+half bit-width including 44.76% of zero values.
+• Based on our observation, we propose the Ditto algorithm,
+a difference processing algorithm, that exploits value sim-
+ilarity in diffusion models with quantization to mitigate
+computational overheads of diffusion models. In addition,
+we design Defo, an optimization technique to maximize the
+performance across various diffusion models.
+• We also design the Ditto hardware, a specialized hardware
+to fully support the dynamic characteristics of the algorithm.
+• In our evaluation, the proposed hardware achieves up to
+1.5× speedup and 17.74% energy savings over the baseline.
+II. DIFFUSION MODEL
+A. Preliminaries of Diffusion Model
+Diffusion models have recently achieved superior perfor-
+mance in various image generation tasks [13], [73], [92].
+Inspired by the natural process of diffusion, diffusion models
+generate images by employing its reverse process [89]. Fig.
+1 shows the image generation method in the diffusion model
+which comprises of forward and reverse diffusion process. It
+first executes the forward diffusion process, which involves
+iteratively injecting noise into the original image. Then, the
+reverse diffusion process generates an image by recurrently
+removing noise from the image.
+Diffusion models utilize a neural network as a denoising
+model composed of sequentially connected blocks (group of
+layers) to reduce noise in reverse process [60], [68], [81]. Orig-
+inally, the denoising model is composed of ResNet Blocks and
+Attention Blocks as shown in Fig. 2. However, recently, var-
+ious types of denoising models have been employed in diffu-
+sion models, each composed of different types of blocks [57],
+[66], [68]. For instance, when using conditional techniques
+(IMG and SDM in Table. I), the Attention Block is replaced by
+a Conditional Latent Diffusion Transformer Block, resulting in
+
+
+=== PDF PAGE 3 ===
+Cosine Similarity: 0.9997
+Cosine Similarity: 0.9972
+conv-in
+up.0.0.skip
+Cosine Similarity: 0.9934
+Cosine Similarity: 0.948
+Time Step 25 Time Step 24 Time Step 2 Time Step 1
+a white vase with yellow tulips
+against a grey background
+2.5
+1.5
+0.5
+-0.5
+-1.5
+Activation Value
+0.4
+0.2
+0.0
+-0.2
+-0.4
+Activation Value
+Prompt:
+(a) Value heatmap and cosine similarity of activations between
+adjacent time steps in two layers of SDM [68].
+Average Temporal 
+Cosine Similarity
+Average Spatial
+ Cosine Similarity
+Spatial Similarity
+Temporal Similarity
+0
+0.2
+0.4
+0.6
+0.8
+1
+0.8
+0.84
+0.88
+0.92
+0.96
+1
+DDPM BED CHUR
+IMG
+SDM
+DiT
+Latte
+AVG.
+(b) Average temporal similarity of activations between adjacent time
+steps and average spatial similarity of activations across various
+diffusion models.
+Fig. 3: Analyses on similarity of activations. Cosine similarity
+is used for the similarity metric, ranging from -1 to 1, with
+the highest value as 1.
+a more complex structure. Moreover, diffusion transformers
+(DiT and Latte in Table. I) that use only transformer blocks
+without ResNet Blocks have also emerged [57], [66]. Since
+there is a wide variety of denoising models with different block
+structures, each model exhibits distinct layer dependencies and
+computation flow. During the reverse process, the diffusion
+model uses the same network and weights for each time step,
+recursively feeding output from the previous time step (Tt)
+as the input for the current step (Tt−1) [29], [60], [68], [81].
+Through the process, diffusion models achieve higher image
+quality and diversity than previous image generation DNNs,
+such as GAN [20], [40] and VAE [31], [42].
+Despite their advantages, diffusion models incur significant
+computational overheads in the reverse diffusion process due
+to their iterative characteristics and the high computational de-
+mands of the denoising model [9], [39], [51], [81]. Moreover,
+the recursive feedback mechanism prevents the parallelization
+of time steps, leading to long execution times [44], [81] and
+high arithmetic intensity [17].
+B. Value Similarity of Diffusion Model
+Since the diffusion models employ an identical denoising
+model and its weight for their entire time steps, a contin-
+uous adjustment to inputs would generate similarity of the
+data in layer operations. Thus, we assume that each data
+element within activations would exhibit a high degree of
+value similarity between consecutive time steps. To validate
+our assumption, we conduct detailed analyses, focusing on
+the similarity between adjacent time steps. In Fig. 3, the
+similarity within input activation of two layers (e.g., conv-
+in and up.0.0.skip) is measured through cosine similarity,
+which is widely used for measuring similarity between multi-
+Activation Value
+Time Step
+Adjacent Time Steps
+Activation Value
+50’~50
+2~1
+11~10
+21~20
+31~30
+41~40
+2
+1
+0
+-1
+-2
+conv-in
+conv-in
+50’
+1
+10
+20
+30
+40
+2
+1
+0
+-1
+-2
+up.0.0.skip
+50’
+1
+10
+20
+30
+40
+10
+5
+0
+-5
+-10
+50’~50
+2~1
+11~10
+21~20
+31~30
+41~40
+10
+5
+0
+-5
+-10
+up.0.0.skip
+Temporal 
+Difference Value
+50': Extra Step of PLMS in SDM
+Temporal 
+Difference Value
+(a) Value range of activations and temporal differences across time
+steps in SDM [68].
+0
+10
+20
+30
+40
+DDPM
+BED
+CHUR
+IMG
+SDM
+DiT
+Latte
+AVG.
+Activation
+Temporal Difference
+Average
+Value Range
+(b) Average value range of activations and temporal differences in
+various diffusion models.
+Fig. 4: Analyses on value range of activations and temporal
+differences in various diffusion models.
+dimensional data. The analysis reveals that the similarity of
+activations exceeds 0.94 across these layers at various time
+steps (e.g., from time step 25 to 24, and 2 to 1).
+We further measure the temporal similarity of all layers for
+every adjacent time step in various diffusion models, as shown
+in Fig. 3b. The details of the diffusion model benchmark in
+the analysis are provided in Table. I. Our analyses demonstrate
+that the average cosine similarity in each model consistently
+surpasses 0.947, with an average similarity of 0.983 across
+various diffusion models. We additionally measure the spatial
+similarity of layers, as previous research [58] leverages the
+spatial similarity inside the layer of computational imaging
+DNNs. The results show that the diffusion models present a
+spatial similarity of 0.31 on average, which is lower than the
+temporal similarity. Since the temporal similarity originates
+from the iterative process, the inherent characteristic of the
+diffusion models, the value similarity would exist in all diffu-
+sion models.
+III. MOTIVATION
+This section explores the design space of diffusion models
+associated with temporal value similarity. We observe high
+temporal similarity results in low value differences between
+consecutive time steps. Based on the observation, our analyses
+reveal that low temporal differences can effectively reduce bit-
+width in quantized diffusion models, potentially improving the
+performance of diffusion models.
+A. Value Differences in Adjacent Time Step
+As high value similarity indicates a minimal difference in
+values, the range of the temporal differences tends to be nar-
+rower compared to the original activations. Note that a reduced
+value range can improve computational efficiency [46], [47],
+
+
+=== PDF PAGE 4 ===
+Bit-width Requirement 
+Zero
+4-bit
+Over 4-bit
+100%
+75%
+50%
+25%
+0%
+Act.
+Spa Diff.
+Temp Diff.
+Act.
+Spa Diff.
+Temp Diff.
+Act.
+Spa Diff.
+Temp Diff.
+Act.
+Spa Diff.
+Temp Diff.
+Act.
+Spa Diff.
+Temp Diff.
+Act.
+Spa Diff.
+Temp Diff.
+Act.
+Spa Diff.
+Temp Diff.
+Act.
+Spa Diff.
+Temp Diff.
+DDPM
+BED
+CHUR
+IMG
+SDM
+DiT
+Latte
+AVG.
+Average 
+Fig. 5: Bit-width requirement of activations and differences in
+diffusion models. Act., Spa Diff., and Temp Diff. denote orig-
+inal activations, spatial differences, and temporal differences.
+[58], we first conduct an experiment to examine the value
+ranges of both the original activations and the differences that
+can be obtained by subtracting each data element between
+consecutive time steps. Fig. 4a presents the experimental
+results on two layers (conv-in and up.0.0.skip) of the diffusion
+model. In the conv-in layer, our analysis reveals that the
+average value range of the original activations is 4.73, while
+the average range of the difference is merely 0.23. Similarly,
+the original activations value range is 21.88, and the difference
+range is 4.83 on average in the up.0.0.skip layer.
+These narrower value ranges occur not only in specific time
+steps but across all time steps, showing the consistency of the
+narrower value range. To verify these characteristics across
+various diffusion models, we conduct further experiments,
+comparing the average value range of the original activations
+and temporal differences in all layers, as shown in Fig. 4b.
+Using the same models as in Fig. 3b, we calculate the average
+value range across all time steps. The experiment results reveal
+that the value range of temporal differences presents an 8.96×
+narrower than the original activations on average. Specifically,
+the value range of differences exposes up to 25.02× narrower
+in the DDPM, and at least 2.44× narrower in CHUR. These
+results suggest that high temporal similarity reduces the range
+of differences between time steps, offering an opportunity
+to improve the computational performance of the diffusion
+models [47], [58].
+B. Advantages of Narrow Value Range
+Based on the above observation, we find out that a narrow
+value range in differences would be advantageous in the
+quantized diffusion model. Since quantization compresses data
+into lower bit-width based on the value range of the data, a nar-
+rower value range in temporal differences could further reduce
+the bit-width required for operations [2], [11], [38]. To explore
+the potential benefit, we define the bit-width requirement as
+the minimum number of bits required to represent the value of
+the data. With this term, we compare the bit-width requirement
+of differences of consecutive time steps with the original data
+in the quantized diffusion model. Moreover, we also compare
+the bit-width requirement in the case of leveraging the spatial
+similarity inside layers. For this case, the method of Diffy [58],
+the state-of-the-art difference processing accelerator exploiting
+high spatial similarity in computational imaging DNNs, is
+adopted. Originally, Diffy targets only the spatial similarity of
+sliding convolution windows in convolution layers. However,
+as the diffusion models consist of various types of layers [60],
+[66], [68], [81], [97], we modify the Diffy method to support
+the similarity across the row dimension of input activation in
+fully connected layers and attention layers.
+Fig. 5 shows our analysis results of the bit-width require-
+ment in various quantized diffusion models. In the analysis,
+the average bit-width requirement is measured for all data
+elements in diffusion models, quantized with simple dynamic
+quantization with 8-bit activation and weight. The results show
+that zero temporal differences, indicating no change in values
+between time steps, constitute 44.48% of the total temporal
+differences on average. Since similar values are quantized
+into the same value [24], our results indicate that most
+values between adjacent time steps are quantized to the same
+value owing to high temporal value similarity, resulting in a
+zero differences. On the other hand, the original activations
+only exhibit zero value in quantization when the values are
+inherently zero or close to zero, thus, temporal differences
+show a 26.12% higher ratio of zero than activations. Moreover,
+due to the relatively low spatial similarity, a method leveraging
+temporal value similarity achieved an 18.04% higher ratio of
+zero values compared to the spatial difference method.
+We also find out that the values with lower bit-width
+requirements take a large portion of the temporal differences.
+In the figure, the temporal differences that require a bit-
+width within 4 bits account for 51.52%, even excluding zero-
+value differences. Including zero temporal differences, those
+requiring 4-bit or fewer account for an average of 96.01% of
+the total data elements in temporal differences. These results
+indicate that only 3.99% of the temporal differences require
+more than 4-bit for representation, which exhibits significant
+contrast to the original activations and spatial differences,
+where 42.28% and 25.58% require more than 4-bit.
+Our analysis reveals that a significant portion of the tem-
+poral differences between consecutive time steps can be
+represented with reduced bit-width compared to the original
+activations in the quantized diffusion model. Note that a lower
+bit-width reduces computational intensity [7], [94], reduced
+bit-width and a high portion of zero in differences can improve
+the computational efficiency of the diffusion model.
+To verify our assumption, we analyze the relative number
+of BOPs [5], [50] for a single time step of diffusion mod-
+els utilizing temporal differences compared to the original
+quantized model and the spatial difference method as shown
+in Fig. 6a. The experiment utilizes our analysis results in
+Fig. 5. In the figure, the temporal difference approach can
+achieve 53.3% and 23.1% fewer BOPs on average compared
+to the original models and the spatial difference method.
+Especially, DDPM and CHUR achieve 68.8% and 71.5% fewer
+BOPs due to a higher proportion of zero temporal differences
+compared to other methods. These models exhibit 41.41% and
+35.53% more zero values than the original activations and
+spatial difference method. We also examine whether this BOPs
+reduction occurs at every time step. As shown in Fig. 6b,
+the last few steps achieved a relatively lower BOPs reduction
+
+
+=== PDF PAGE 5 ===
+Relative BOPs
+0
+0.5
+1
+1.5
+DDPM
+BED
+CHUR
+IMG
+SDM
+DiT
+Latte
+AVG.
+Activation
+Spatial Difference
+Temporal Difference
+(a) Relative BOPs of the various methods across diffusion models.
+Relative BOPs
+Adjacent Time steps
+1.0
+1.0
+0
+0
+50’~50
+41~40
+31~30
+21~20
+11~10
+conv.in
+up.skip.0.0
+2~1
+over Act.
+(b) Relative BOPs of the temporal difference approach compared to
+original activation across all adjacent time steps in SDM [68].
+Fig. 6: Analyses on BOPs in diffusion models.
+because much denoising is required to generate the image in
+the final time steps. However, even in these steps, a lower
+BOPs is obtained compared to the original activations, and
+overall, consistent BOPs reduction is achieved across most of
+the time steps. Consequently, the performance of the diffusion
+model can be boosted through reduced bit-width and zero
+skipping by utilizing temporal differences for all time steps.
+IV. DITTO ALGORITHM
+To exploit our observations, we propose the Ditto algorithm,
+a difference processing method leveraging temporal similarity
+in the diffusion model with execution flow optimization.
+The algorithm consists of two techniques to apply difference
+processing in various types of layers in diffusion models.
+The first part targets linear layers in the diffusion models,
+using the distributive property of linear algebra [45], [85] to
+execute layer operations using temporal differences. It takes
+advantage of the fact that the output of the linear layer at
+time step t + 1 (i.e., previous time step) has already been
+computed, optimizing execution through reduced bit-width and
+zero-skipping. To mitigate the potential overhead of temporal
+difference processing, we design the second technique, Ditto
+execution flow optimization (Defo). With Defo, the proposed
+method automatically determines potential candidate layers
+that benefit from difference processing based on the layer
+information and adjusts the execution flow of each layer.
+A. Linear Layer Optimization
+Convolution and Fully-connected Layers: Fig. 7 presents
+an example of how the linear layer is executed in the Ditto
+algorithm. To exploit the advantages of temporal differences,
+the Ditto algorithm executes layer operations with full bit-
+width for the first time step and then executes layer operations
+with differences between adjacent time steps. For layer opera-
+tions with temporal differences, the proposed algorithm com-
+prises three stages. In the first stage, the temporal differences
+between adjacent time steps are calculated by subtracting
+the input of the current time step from the input of the
+previous time steps. Through the calculation, it can detect
+zero differences and the differences that can be represented in
+Time Stept+1
+Time Stept
+Activationt Weight
+Outputt
+Weight
+Output𝛿, t
+Differencet
+Activationt+1Weight
+120 114 84
+51
+43
+37
+88
+77
+96
+Outputt+1
+12
+4
+8
+-1
+3
+-2
+-5
+-1
+6
+906 738 1236
+384 296 544
+499 487 1126
+Conventional 
+Computation
+120 117 84
+47
+43
+37
+20
+71
+95
+12
+4
+8
+-1
+3
+-2
+-5
+-1
+6
+903 747 1230
+336 280 512
+-306 198 588
+Ditto
+Computation
+0
+3
+0
+-4
+0
+0
+-68
+-6
+-1
+12
+4
+8
+-1
+3
+-2
+-5
+-1
+6
+-3
+9
+-6
+-48 -16 -32
+-805 -289 -538
+Differencet+1
+0
+-3
+65
+0
+1
+0
+0
+0
+2
+12
+4
+8
+-1
+3
+-2
+-5
+-1
+6
+-322 -74 396
+-1
+3
+-2
+-10
+-2
+12
+Weight
+Output𝛿, t+1
+Zero value
+4-bit value
+8-bit value
+From previous step 
+To next step
+Zero skipping: 15
+4bit mul: 9
+8bit mul: 3
+8bit mul: 27
+Zero skipping: 12
+4bit mul: 12
+8bit mul: 3
+8bit mul: 27
+Fig. 7: Process of linear layers in the Ditto algorithm.
+lower bit-width. After calculating the temporal differences, the
+Ditto algorithm executes the layer only with the differences in
+the second stage. In this stage, the algorithm exploits reduced
+bit-widths and zero skipping for the layer operation, reducing
+the computational overheads of diffusion models. In Fig.
+7, for example, it replaces twenty-seven 8-bit multiplication
+with nine 4-bit multiplication and three 8-bit multiplication at
+Time Stept+1. Finally, the Ditto algorithm applies summation
+between the result of difference processing and the previous
+time step output, as the third stage. Since the diffusion models
+require numerous time steps to generate images [29], [81],
+the proposed algorithm maximizes computational efficiency
+by utilizing three stages in whole time steps except the first
+time step.
+Attention Layers: While convolution and fully-connected
+layers can be processed with the default difference processing
+algorithm, diffusion models also consist of attention layers.
+Different from other linear layers, attention layers have oper-
+ations (e.g., Q × K and P × V ) that multiply between two
+input matrices, changing across time steps. If naively applying
+difference processing to attention layer, it requires three sub-
+operations for difference processing, Qt+1∆K, ∆QKt+1,
+∆Q∆K, as QtKt = (Qt+1 + ∆Q)(Kt+1 + ∆K) is equal
+to Qt+1Kt+1 + Qt+1∆K + ∆QKt+1 + ∆Q∆K. However,
+since Qt+1∆K + ∆QKt+1 + ∆Q∆K can be converted into
+Qt∆K + ∆QKt+1, the Ditto algorithm treat Qt and Kt+1
+as weight and apply two sub-operations for attention layers.
+Also, the same mechanism applied to P ×V . In our evaluation,
+the potential speedup of attention layers is always more than
+two of the original activations. Consequently, our optimization
+achieves higher performance than executing the attention layer
+with the original activations.
+Moreover, we observe that in cross attention where context
+is used as input, the values of the context remain unchanged
+across different time steps (second column in conditional latent
+diffusion model transformer block in Fig. 2). Therefore, K
+′
+and V
+′ do not change with varying time steps in the layer.
+With the observation, the Ditto algorithm treats K
+′ and V
+′ as
+weight in Q
+′ ×K
+′ and P
+′ ×V
+′, applying the same difference
+processing approach used in conventional linear layers.
+
+
+=== PDF PAGE 6 ===
+0
+0.51
+1.52
+2.53
+3.54
+DDPM
+BED
+CHUR
+IMG
+SDM
+DiT
+Latte
+AVG.
+Relative 
+Memory Accesses
+Activation Temporal Difference
+Fig. 8: Relative memory accesses of the temporal difference
+processing across diffusion models.
+B. Execution Flow Optimization
+However, there are several challenges in applying the dif-
+ference processing algorithm to the entire process of diffusion
+models. First, since non-linear functions require original data
+to ensure numerical equivalence, the denoising model often
+needs the original data during execution. Second, linear layer
+operations require additional memory accesses to obtain the
+linear layer input from the previous time step in order to
+calculate differences. Therefore, some layers would be con-
+verted into memory-intensive operations due to the increased
+memory accesses and reduced computational intensity, even
+though diffusion models are compute-intensive networks [17].
+In our analyses, temporal difference processing incurs 2.75×
+more memory accesses on average than original activation
+processing, as shown in Fig. 8. Previous work, Cambricon-
+D [43], also addressed this issue by modifying non-linear
+functions such as SiLU and Group Normalization to reduce
+memory overhead. However, as shown in Fig. 2, various
+diffusion models utilize a range of non-linear functions such
+as GeLU, Softmax, and Layer Normalization, limiting the
+effectiveness of their mechanism, particularly in models that
+do not use ResNet blocks, such as diffusion transformers.
+To mitigate memory overheads in various diffusion models,
+we propose the Ditto execution flow optimization (Defo). It
+automatically determines whether to perform each linear layer
+operation using difference processing, adjusting the execution
+flow for layers. Fig. 9 shows a detailed execution process of
+the diffusion model with the difference processing and Defo.
+In static time, Defo applies a computing graph analysis to find
+all non-linear functions and check the dependency of layers.
+Based on the information, it modifies the difference processing
+algorithm by applying difference calculation and summation
+only before and after non-linear functions.
+Even with the bypassing method, the issue of increased
+memory access may not be fully resolved. Therefore, it
+performs execution flow optimization at runtime to maximize
+the performance of the diffusion models. Defo stores the cycle
+count of each layer during the first time step (Cycleact.),
+which operates with the original activations. In the second
+time step, it dynamically determines the efficient execution
+type of each layer by comparing the cycle stored from the first
+step with the cycle using the difference processing algorithm
+(Cyclediff.) which is determined by the number of zero and
+lower bit-width temporal differences. If CycleLi
+act. is larger
+than CycleLi
+diff., Defo set ExeLi
+diff. as True, enabling the layer
+to be executed using the difference processing method.
+As we observed in Fig. 6b, the ratio of BOPs reduction
+Linear layeri with
+orig. activation
+1st Time Step
+Check 
+non-linear function
+Static Time
+Non linear func.
+2nd Time Step
+Calculate 
+difference
+Non linear func.
+Linear layeri with
+difference
+Non 
+linear func?
+Summation
+Non 
+linear func?
+i=i+1
+𝐶𝑦𝑐𝑙𝑒𝑎𝑐𝑡.
+𝐿𝑖
+𝑆𝑡𝑜𝑟𝑒 
+i=i+1
+Later Time Steps
+Calculate 
+difference
+Linear layeri with
+org. activation
+Linear layeri with
+difference
+Non 
+linear func?
+Summation
+Non linear func.
+𝐸𝑥𝑒𝑑𝑖𝑓𝑓.
+𝐿𝑖
+Non linear func.
+i=i+1
+Summation
+i=i+1
+Non 
+linear func?
+i=i+1
+i=i+1
+𝐸𝑥𝑒𝑑𝑖𝑓𝑓.
+𝐿𝑖+1
+True
+𝐸𝑥𝑒𝑑𝑖𝑓𝑓.
+𝐿𝑖
+=
+ 𝐶𝑦𝑐𝑙𝑒𝑎𝑐𝑡.
+𝐿𝑖> 𝐶𝑦𝑐𝑙𝑒𝑑𝑖𝑓𝑓.
+𝐿𝑖
+𝐸𝑥𝑒𝑑𝑖𝑓𝑓.
+𝐿𝑖
+=
+ 𝐶𝑦𝑐𝑙𝑒𝑎𝑐𝑡.
+𝐿𝑖> 𝐶𝑦𝑐𝑙𝑒𝑑𝑖𝑓𝑓.
+𝐿𝑖
+i=i+1
+False
+False
+True
+True
+False
+False
+True
+True
+False
+True
+False
+Fig. 9: Overall flow of the Ditto algorithm.
+is consistent across time steps. Based on the observation,
+Defo applies the execution flow of each layer determined in
+the second time step to all subsequent time steps. In our
+evaluation, it successfully selects a more efficient execution
+flow with 92% accuracy by using only first and second
+time step information, demonstrating the effectiveness and
+feasibility of our approach (see Fig. 17). For subsequent time
+steps, all layers operate with the execution type determined in
+the second time step. As in the second time step, difference
+calculation and summation are dynamically bypassed using
+layer dependency information, further reducing the memory
+overhead of the temporal difference processing method.
+To further boost the performance of diffusion models, we
+introduce an additional optimization for layers that execute
+with the original activations. In hardware utilizing tempo-
+ral differences, they could leverage spatial differences with
+minor hardware modification. Therefore, the Ditto algorithm
+is optimized to leverage spatial difference processing in the
+first time step and for layers determined by Defo to be
+executed with the original activations (defined as Defo+).
+Defo+ calculates the spatial difference between the input
+data sequences and utilizes the difference in the same way
+as temporal difference processing. As shown in Fig. 6a, the
+spatial difference processing results in a reduction of BOPs
+compared to original activation processing, while it is higher
+than the temporal difference processing. Furthermore, since
+utilizing spatial difference processing calculates the difference
+within the intra-tensor, it does not require additional operations
+with the input and output of previous time steps, and thus does
+not incur memory access overhead. Consequently, the compu-
+tation reduction achieved through spatial differences enhances
+performance compared to using the original activations.
+V. DITTO HARDWARE
+While the Ditto algorithm enhances computational effi-
+ciency in diffusion models, its optimal performance would be
+constrained when implemented on general-purpose processors.
+The algorithm modifies the data in layer operation into a
+mix of zero, low, and full bit-width data. Although a large
+portion of zero and low bit-width differences introduce the
+potential computational efficiency, it necessitates hardware
+architecture that supports both sparsity and mixed precision
+
+
+=== PDF PAGE 7 ===
+Compute Unit
+Vector Processing Unit
+Summation
+Accumulation Buffer
+Processing Elements
+(PEs)
+Encoding Unit
+Activation Norm.
+==
+==
+==
+==
+==
+==
+==
+==
+Compare Reorder
+Subtract
+Previous 
+Act. Buffer
+Quant. & Dequant.
+Softmax
+Weight
+Buffer
+Current 
+Act. Buffer
+DRAM
+Defo Unit
+Layer Table
+...
+...
+...
+>
+Comparator
+Control
+Unit
+Fig. 10: Overall architecture of the Ditto hardware.
+to fully exploit its potential. A straightforward method to
+support the mixed precision is by incorporating outlier PEs.
+However, the algorithm requires full bit-width data execution
+in the first time step and in layers determined by Defo to be
+executed with the original activations, making it difficult to
+design the optimal ratio between normal and outlier PEs. To
+solve these design challenges, we propose the Ditto hardware,
+a specialized hardware accelerator to support both dynamic
+sparsity and bit-width in a single PE design.
+A. Hardware Overview
+Fig. 10 presents the overall architecture of the Ditto hard-
+ware. It consists of four main components: Encoding Unit,
+Compute Unit, Vector Processing Unit, and Defo Unit. En-
+coding Unit is a specialized hardware unit that calculates
+data differences and reorders the data elements to exploit the
+dynamic sparsity of Ditto. It first computes the differences
+between consecutive steps, and classifies zero value, low bit-
+width, and full bit-width differences. After classification, it
+reorders the data elements to skip zero value differences in
+Compute Unit and notates the full bit-width differences.
+With reordered data, Compute Unit, a core unit of the
+proposed hardware, executes the actual layer operations of
+the diffusion model. We design Compute Unit as an adder
+tree based Multiply and Accumulate (MAC) unit that supports
+two types of bit-width operation, a full bit-width (8-bit) and
+a low bit-width (4-bit) operation. Since a large portion of the
+temporal differences is represented in 4-bit data, the bit-width
+of the baseline multiplier is set to multiplier between 4-bit
+activation and weights, supporting 8-bit activation by utilizing
+two multipliers and shifting logic. By leveraging reordered
+data by Encoding Unit, Compute Unit can skip zero and
+exploit the benefits of reduced bit-width while supporting full
+bit-width operation, ensuring numerical equivalent results with
+original operations. Vector Processing Unit operates the other
+special functions without linear layers such as non-linear func-
+tions. It also executes quantization and dequantization which
+is essential for quantized DNN [24], [41], [48], [91]. Also, it
+supports summation for the temporal difference processing.
+The three components are designed as a pipelined archi-
+tecture, a common technique for accelerators [4], [22], [34],
+Previous
+Activation
+Current
+Activation
+High
+4-bit
+==
+0
+2-bit 
+Control 
+Signal 
+Weight
+Low
+4-bit
+==
+0
+Calculate Difference
+Determine Bit-Width
+Reorder and Notate Bit-Width
+Difference
+Weight
+Bit 
+Action
+00
+Zero Skipping
+01
+Enqueue Lower 4-bit part
+1X
+Enqueue both part
+Enqueue
+Enqueue
+Fig. 11: Detailed architecture of Encoding Unit.
+[37], to maximize throughput and minimize latency. We set
+the frequency of all components as the same, and the number
+of each component to support the maximum throughput of
+the Compute Unit executing in a low bit-width activation (4-
+bit). Since the Ditto algorithm requires selective utilization of
+the three components, we design Defo Unit as a control unit,
+supporting the dynamic execution flow of the Defo. It stores
+cycles of layers with original activations at the first time step
+and determines the type of execution for each layer.
+B. Detailed Hardware Design
+Encoding Unit: Fig. 11 illustrates the detailed architecture
+of the Encoding Unit. It has three main functionalities: cal-
+culating differences, classifying the bit-width requirement of
+data, and reordering data for zero skipping and notation of full
+bit-width data. To provide these functionalities, it consists of
+a subtractor, two comparators, and reordering logic. Initially,
+it receives data elements from the previous and current time
+steps, calculating the difference between two data elements
+from these time steps using a subtractor. Subsequently, it
+classifies each difference as a zero, low bit-width, and full
+bit-width. For the classification, it divides the differences into
+higher and lower bit parts and compares them with zero
+using two comparators. The comparators identify zero value
+differences by detecting zero in both parts and low bit-width
+data by detecting zero only in the higher part. The rest of
+the comparison results are classified as full bit-width data.
+The outputs of these comparisons are synthesized into a 2-
+bit control signal utilized for the reordering process. In the
+hardware that also exploits spatial differences, it only requires
+an offset register to store the spatial offset, and a multiplexer
+to switch the previous time step input into the spatial offset.
+For the simple design of Compute Unit, we design Encoding
+Unit to eliminate zero differences and notate the full bit-
+width data during the reordering process. This design allows
+Compute Unit to execute the reordered data elements without
+zero differences while also handling full bit-width data effi-
+ciently. To support the functionality, Encoding Unit utilizes
+reordering logic to align data elements with the results of
+the classification The reordering logic receives the 2-bit signal
+from the classification process and determines whether to skip
+the data element or enqueue it into a data queue. By skipping
+the zero differences, Encoding Unit ensures the Compute Unit
+only executes data elements that require actual execution.
+
+
+=== PDF PAGE 8 ===
+Partial Sum.
+<<4
+<<4
+4-bit ActH
+1 1
+Weight
+4-bit ActL
+Weight
+4-bit ActH
+Weight
+4-bit ActL
+Weight
+Meta
+data
+Execution with the original activation
+Partial Sum.
+<<4
+<<4
+4-bit diff
+0 1
+Weight
+4-bit diff
+Weight
+4-bit diffH
+Weight
+4-bit diffL
+Weight
+Meta
+data
+Execution with the differences
+Fig. 12: Detailed architecture and workflow of Compute Unit.
+During the reordering process, Encoding Unit also reorga-
+nizes the data elements and notates those requiring full bit-
+width operations. In the Compute Unit, a single multiplier
+is designed to multiply low bit-width data (i.e., 4-bit) with
+weight, while two multipliers are used for full bit-width data
+(i.e., 8-bit). To support the design, Encoding Unit divides the
+data elements into high and low bit parts and enqueues them
+separately. Then, it notates the data as full bit-width data to
+apply shift operation to the higher part. Since Compute Unit
+supports shift operation per two multipliers for area efficiency,
+Encoding Unit reorders the data to align the high bit part
+with the multiplier with shift operations. As the order of
+accumulation is independent in the matrix multiplication, the
+high and low parts do not have to be accumulated in the first
+stage of the adder tree. Therefore, it only needs to reorder the
+two parts of the data to ensure the higher part is directed to
+the multiplier with a shifter. Consequently, it sends four 4-bit
+data with 2-bit flag for high bit part to a single adder tree unit
+of Compute Unit. Note that Encoding Unit consists of simple
+logic, it can be implemented with low area overhead and high
+throughput. Moreover, as subtraction and comparison can be
+combined into one cycle and queuing also can be done in one
+cycle, it can achieve low latency for its operation.
+Compute Unit: Fig. 12 illustrates the detailed architecture
+of Compute Unit. We design it as a set of adder tree based
+MAC units that support two types of bit-width, 8-bit full bit-
+width and 4-bit low bit-width data. Each PE in the Compute
+Unit, consists of four multipliers that execute a multiplication
+between 4-bit data and weight, and a corresponding adder tree.
+To support 8-bit operations, shifters are applied in the first
+adder stage. As we design Encoding Unit to support reordering
+between the higher and lower part of the data, PE only requires
+shifter logic per two multipliers for supporting 8-bit data.
+As shown in the figure, the PE receives the data and the
+metadata for higher part of full bit-width data from the Encod-
+ing Unit. For 4-bit data, multiplication between activation and
+weight is straightforwardly executed through the multiplier,
+and then results are accumulated via an adder tree. Besides, for
+8-bit data, the PE utilizes two multipliers to process each part
+of the data, the higher 4-bit and lower 4-bit parts, separately.
+After multiplication, it recognizes the higher 4-bit through the
+metadata and applies shift operation to the result of a higher 4-
+bit part and then accumulates with an adder tree. As previously
+mentioned, those two parts of the data do not have to be
+accumulated in the adder tree at once, they are accumulated
+through a partial sum register within PE.
+Vector Processing Unit: Vector Processing Unit supports
+various operations including activation functions, normaliza-
+tion, quantize and dequantize processes for quantized DNN,
+and summation of results with previous outputs. Since these
+operations are not required after every layer operation, Vector
+Processing Unit selectively executes them based on the model
+structure. If layer operation does not need non linear function,
+it is bypassed to boost energy efficiency.
+Defo Unit: Defo Unit determines the execution type of layers.
+In the first time step, it executes the layer operation with full
+bit-width. It also stores cycle information of each layer in a
+table to determine the execution flow of later time steps. After
+the first time step, Defo Unit changes the execution type of all
+layers to temporal difference processing for the second time
+step. Since the Defo optimizes the layer sequence in compile
+time, it dynamically skips Vector Processing Unit according
+to the layer sequence. During the second time step, Defo Unit
+monitors and stores the cycle of each layer in the table. Then, it
+compares the second time step cycles with those from the first
+time step through compare logic and stores the results of the
+comparison in the table. If the results indicate the effectiveness
+of the difference processing method, the Defo Unit maintains
+the execution type of the layer for all subsequent time steps
+accordingly. Otherwise, it changes the execution flow to the
+original activation execution and bypasses Encoder Units.
+To support the functionality of the Defo Unit, the table
+requires entries for each layer. Based on our evaluation, the
+maximum number of layers of the diffusion model is 347, so
+we design it to have 512 entries to align a power of 2. Addi-
+tionally, according to our evaluation, first time step and second
+time step cycle can be represented with 16-bit. Therefore, each
+entry is designed to have 33-bit, which includes 16-bit for the
+first time step cycle, 16-bit for the second time step cycle,
+and 1-bit for the later time step decision. Since the Defo unit
+is a control unit that only determines the type of execution
+path, it does not need to be scaled for throughput, unlike other
+hardware components. Therefore, it consumes only 0.01% of
+the total hardware area.
+C. Operational Flow & Communication
+To enable execution of the Ditto hardware, the CPU first
+sends the weights and input data to the DRAM in the Ditto
+hardware, along with the layer instructions to the Defo Unit.
+Since the DRAM and buffer memory store full bit-width (8-
+bit) data, we set the main interconnect between the DRAM,
+buffer memory, Encoder Unit, and Vector Processing Unit to
+operate on 8-bit data units. Once all the data is stored, the
+Defo Unit initiates the operations of each unit based on the
+layer instructions.
+For communication during layer operations, we design
+the interconnect connected to the Compute Unit to support
+different bit-width compared to the main interconnect. The
+
+
+=== PDF PAGE 9 ===
+TABLE I: Evaluated Models, Datasets, and Samplers
+Abbr.
+Model
+Dataset
+Sampler & Step
+DDPM
+DDPM [29]
+Cifar-10 [3]
+DDIM [81] 100 step
+BED
+Latent-Diffusion [68]
+LSUN-Bed [90]
+DDIM [81] 200 step
+CHUR
+Latent-Diffusion [68]
+LSUN-Church [90]
+DDIM [81] 200 step
+IMG
+Latent-Diffusion [68]
+ImageNet [12]
+DDIM [81] 20 step
+SDM
+Stable-Diffusion [68]
+COCO2017 [53]
+PLMS [54] 50 step
+DiT
+DiT-XL/2 [66]
+ImageNet [12]
+DDIM [81] 250 step
+Latte
+Latte-XL/2 [57]
+UCF-101 [83]
+DDIM [81] 20 step
+TABLE II: Accuracy of Diffusion Models. FID is lower the
+better. IS and CS are higher the better.
+Model
+Metric
+FP32
+Ditto
+DDPM
+FID / IS
+4.143 / 9.084
+4.406 / 9.288
+BED
+FID / IS
+2.962 / 2.227
+5.897 / 2.338
+CHUR
+FID / IS
+4.100 / 2.715
+3.743 / 2.714
+IMG
+FID / IS
+14.332 / 368.302
+14.156 / 358.580
+SDM
+FID / IS / CS
+20.547 / 37.345 / 0.310
+18.834 / 38.135 / 0.309
+DiT
+FID / IS
+18.659 / 482.372
+17.178 / 475.694
+Latte
+IS
+70.589
+71.254
+Encoder Unit sends difference and weight to the Compute
+Unit in sets of four 4-bit and four 8-bit data units, while the
+Compute Unit transfers accumulated data in 32-bit units to the
+Vector Processing Unit. These sets of data are aligned with the
+inputs and outputs of the processing units in the Compute Unit,
+ensuring that they remain unchanged whether the operation
+requires 4-bit or 8-bit data. After the Vector Processing Unit
+applies quantization to the output of the activation functions,
+it stores the resulting 8-bit data in the current activation buffer,
+and the hardware begins processing the next layer.
+VI. EVALUATION
+A. Methodology & Hardware Configuration
+For the evaluation, we utilize seven diffusion models, shown
+in Table. I: one pixel-space unconditional diffusion model
+(DDPM), two latent-space unconditional diffusion models
+(BED, CHUR), two latent-space conditional diffusion models
+(IMG, SDM), and two diffusion transformer (DiT, Latte).
+We apply quantization to those models except for diffusion
+transformers with state-of-the-art quantization methods, Q-
+Diffusion [50]. Since this method requires an offline calibra-
+tion process to determine the scaling factor, we perform cali-
+bration on offline based on their repository. In the similar way,
+dynamic quantization is adapted to two diffusion transformer
+models (DiT, Latte).
+Table. II presents our evaluation on the accuracy of the
+diffusion model with the Ditto algorithm. We employ vari-
+ous evaluation metrics commonly used in image generation
+tasks: Frechet Inception Distance (FID) [28], Inception Score
+(IS) [75], and CLIP Score (CS) [27]. As shown in the table, the
+Ditto algorithm preserves the accuracy of all diffusion models
+compared to baseline FP32 models.
+The Ditto hardware is evaluated using an open-source cycle-
+accurate simulator from Sparse-DySta [14]. The simulator
+adopts hook functions provided by PyTorch [65] to utilize
+dynamic sparsity in real DNN workloads. We modify this
+functionality to detect zero value, low bit-width, and full
+bit-width differences using actual input activation data in
+TABLE III: Hardware Configurations of Baseline and the Ditto
+Hardware
+Hardware
+# of PE
+Bit-
+width
+of PE
+Power
+(W)
+SRAM
+(MB)
+Area
+(mm2)
+Freq.
+ITC [63]
+27648
+A8W8
+36.9
+192
+64.48
+1GHz
+Diffy [58]
+39398
+A4W8
+33.6
+Cambricon-D [43]
+normal-38280
+A4W8
+33.3
+outlier-2552
+A8W8
+Ditto
+39398
+A4W8
+33.6
+the diffusion model. We design Tensor Core [36] as the
+baseline hardware in the simulator and extends to our hardware
+design. Additionally, it is modified to support spatial difference
+processing instead of the original activation execution and
+integrated into the simulator (defined as Ditto+ hardware). To
+measure the area and power, Synopsys Design Compiler with
+a FreePDK 45nm library [84] is used to evaluate the core unit
+and CACTI [59] to measure the area and energy consumption
+of memory modules.
+For evaluating GPU system, we select an NVIDIA A100
+GPU [63]. We adopt the performance measurement method
+of the previous work [87] to compare GPU with proposed
+hardware. Additionally, three baseline hardware accelerator
+designs are selected. As a quantized model is utilized in our
+evaluation, an integer MAC unit-based Tensor Core-like unit
+is used as the baseline (defined as ITC). We additionally
+compare with hardware that employs difference processing
+methods: Diffy [58] and Cambricon-D [43]. Diffy utilizes
+spatial differences between sliding windows in convolution
+operations. Since the diffusion model also uses fully con-
+nected and attention layers, we extend the Diffy method to
+support difference processing along the row dimension of
+input activations in fully connected and attention layers for a
+fair comparison. Cambricon-D exploits temporal differences in
+diffusion models. It also modifies the diffusion model using a
+software technique called sign-mask data flow, which bypasses
+difference calculation and summation for non-linear functions,
+such as SiLU and Group Normalization, to reduce the memory
+overhead of the temporal difference processing mechanism.
+Unlike Ditto, it uses outlier PE designs to support full bit-
+width operations. Also, it does not check layer dependency for
+non-linear functions and process attention layers with full bit-
+width operations. For a fair comparison, our dependency check
+technique and difference processing mechanism of attention
+layers integrate into the Cambricon-D.
+All baseline and Ditto hardware is designed to execute 8-bit
+activation and 8-bit weight (A8W8) quantized models, as this
+configuration preserves accuracy [26], [50], [77]. We adjust the
+number of PE for iso-area comparison as shown in Table III.
+We fix the SRAM size and frequency to the same configuration
+across the hardware designs. We also set the frequency of all
+components in the Ditto hardware (e.g., Encoding Unit, Vector
+Processing Unit, Defo Unit) to the same frequency as the PEs,
+as described in Section V-A.
+
+
+=== PDF PAGE 10 ===
+Speedup
+Relative Energy Consumption
+GPU
+ITC
+Diffy
+Cam-D
+Ditto
+Ditto+
+GPU
+ITC
+Diffy
+Cam-D
+Ditto
+Ditto+
+GPU
+ITC
+Diffy
+Cam-D
+Ditto
+Ditto+
+GPU
+ITC
+Diffy
+Cam-D
+Ditto
+Ditto+
+GPU
+ITC
+Diffy
+Cam-D
+Ditto
+Ditto+
+GPU
+ITC
+Diffy
+Cam-D
+Ditto
+Ditto+
+GPU
+ITC
+Diffy
+Cam-D
+Ditto
+Ditto+
+GPU
+ITC
+Diffy
+Cam-D
+Ditto
+Ditto+
+DDPM
+BED
+CHUR
+IMG
+SDM
+DiT
+Latte
+AVG.
+EU
+Core 
+SRAM
+DRAM
+ITC
+Diffy
+Cam-D
+Ditto
+Pixel Space 
+Unconditional
+Latent Space Unconditional 
+Latent Space Conditional 
+VPU
+Ditto+
+GPU
+Diffusion Transformer
+Defo
+GPU
+130.657
+37.081
+85.145
+31.165
+22.915
+42.146
+36.812
+0.059
+0.199
+0.049
+0.193
+0.223
+0.197
+0.283
+0.179
+55.046
+1.00
+0.50
+0
+1.50
+2.00
+1.00
+0.50
+0
+1.50
+2.00
+Fig. 13: Comparison results of the various hardware in speedup (top), and relative energy consumption (bottom). Speedup
+and energy consumption are normalized to ITC. Cam-D, Ditto, Ditto+, CU, EU, VPU, and Defo denote Cambricon-D, Ditto
+hardware, Ditto+ hardware, Compute Unit, Encoding Unit, Vector Processing Unit, and Defo Unit, respectively.
+B. Performance Evaluation
+To evaluate the performance of Ditto hardware, we first
+compare it with other hardware designs in terms of speedup
+and energy consumption, as shown in Fig. 13. In the speedup
+evaluation, all hardware accelerator design achieves high
+performance over the GPU, due to the utilizing dedicated
+hardware design. Compared to ITC, the Ditto hardware obtains
+1.5× speedup on average, achieving the highest speedup
+across the other difference processing based hardware. More-
+over, the Ditto+ hardware exhibits 1.06× faster results com-
+pared to the Ditto hardware. This result aligns with the analysis
+in Section. III-B, spatial difference processing obtains potential
+speedup over the original activation execution. Diffy also
+exploits spatial differences. but shows 24% lower performance
+compared to the Ditto hardware. Consequently, exploiting
+temporal difference processing is essential in diffusion models.
+The Ditto hardware also shows a 1.56× speedup compared
+to Cambricon-D. While Cambricon-D exploits temporal differ-
+ence processing, their design requires full bit-width operation
+through outlier PEs. Consequently, with the same area budget,
+the Ditto hardware can accommodate more PEs to handle
+reduced bit-width operations and achieves additional speedup
+through zero skipping, resulting in better performance. Addi-
+tionally, while Cambricon-D mitigates memory overhead from
+temporal difference processing by utilizing sign-mask data
+flow for SiLU and Group Normalization, it cannot be applied
+to diffusion models using other non-linear functions such as
+GeLU, Softmax, and Layer Normalization (Fig. 2). However,
+our Ditto hardware can fully reduce memory overhead by
+automatically determining the optimal execution flow for each
+layer in all diffusion models through Defo.
+We also evaluate the energy consumption of the Ditto
+hardware with other hardware designs. Similar to speedup
+experiments, all of the dedicated hardware achieves lower
+0
+0.5
+1
+1.5
+2
+2.5
+3
+DDPM
+BED
+CHUR
+IMG
+SDM
+DiT
+Latte
+AVG.
+Relative 
+Memory Accesses
+ITC Cam-D Ditto Ditto+
+Fig. 14: Relative memory accesses of the various hardware.
+Memory accesses are normalized to the ITC.
+energy consumption over the GPU. The Ditto and Ditto+
+hardware achieves 17.74% and 22.92% energy saving over
+ITC, which is larger than other difference processing based
+hardware. These energy savings are due to reduced execution
+times, which lower the energy consumption of Compute Unit
+by exploiting both dynamic sparsity and bit-width. Diffy also
+shows similar results with speedup, achieving 14.3% energy
+saving over ITC. However, Cambricon-D exhibits higher en-
+ergy consumption than ITC on average. The result comes from
+a few benchmarks, such as BED, CHUR, and SDM, showing
+notably higher energy consumption. In these benchmarks,
+significant memory overhead occurs by the temporal difference
+processing algorithm. This is due to the large input and output
+sizes of the linear layers that non-linear functions cannot be
+resolved by sign-mask data flow. While the Ditto hardware
+also faces the overheads as shown in Fig. 16, it mitigates
+these overheads through Defo. As a result, the Ditto hardware
+achieves 43.24% energy savings compared to Cambricon-D.
+Additionally, we evaluate the overhead of the additional
+components in the Ditto hardware. Since we adopt a fully
+pipelined architecture in the accelerator design, the Ditto
+hardware overlaps the Encoding Unit, the Vector Processing
+Unit, and the Defo Unit with the execution of the Compute
+Unit. As a result, the latency overheads of the Encoding Unit,
+the Vector Processing Unit, and the Defo Unit only account for
+
+
+=== PDF PAGE 11 ===
+0
+0.5
+1
+1.5
+2
+2.5
+3
+DDPM
+BED
+CHUR
+IMG
+SDM
+DiT
+Latte
+AVG.
+Speedup
+Org. Cam-D
+Org. Cam-D & Attn. Diff.
+Org. Cam-D & Attn. Diff. & Defo
+Org. Cam-D & Attn. Diff. & Defo+
+Ditto 
+Ditto & Sign-mask
+Ditto+ Ditto+ & Sign-mask
+Fig. 15: Comparison of Cambricon-D and the Ditto hardware
+with various software techniques in Cabmricon-D and Ditto.
+All designs utilize the layer dependency check technique.
+Speedup is normalized to the original Cambricon-D.
+0.1%, 0.17%, and 0.1% of the total latency, respectively. The
+energy consumption of these units accounts for only 2.23%,
+2.9%, and 0.0001%, respectively in the Ditto hardware.
+As temporal difference processing increases memory ac-
+cesses, we evaluate memory access of hardware designs that
+leverage temporal differences. In Fig. 14, we find out that the
+memory accesses in all hardware designs are higher than the
+baseline ITC. Cambricon-D incurs 1.95× more memory ac-
+cesses than ITC, and Ditto and Ditto+ show 1.56× and 1.36×
+more accesses, respectively. The Defo algorithm automatically
+reduces memory overheads of memory-intensive layers, while
+Cambricon-D only reduces specific layers. As a result, Ditto
+and Ditto+ achieve fewer memory accesses than Cambricon-D
+and demonstrate greater generality.
+In order to further demonstrate the advantages of our
+hardware over other designs utilizing temporal differences,
+we conducted a detailed comparison between the Ditto
+and Cambricon-D, which also leverages temporal differences
+for diffusion models. Since the software optimization of
+Cambricon-D and Ditto can be applied to each other, we apply
+the software techniques of the Ditto algorithm to Cambricon-
+D and sign-mask data flow of Cambricon-D to the Ditto
+hardware, as shown in Fig. 15. In the figure, Cambricon-D
+achieves a 1.16× speedup when all Ditto algorithm techniques
+are applied and the Ditto and Ditto+ hardware achieve 1.068×
+and 1.055× speedup through the sign-mask data flow. These
+results indicate that both hardware can benefit from the soft-
+ware techniques of the others since those are complementary.
+However, all of the Cambricon-D design shows lower per-
+formance than the Ditto hardware due to limitations in outlier
+PEs based design, performing original activation execution
+with a smaller number of PEs. Consequently, even with the
+Defo technique, the cycles for original activation execution are
+too high, causing memory overhead reduction to be offset by
+compute overhead. To effectively address memory overhead in
+temporal difference processing, a design like Ditto hardware,
+which dynamically selects bit-width, is more efficient.
+C. Design Space Exploration
+Several design space explorations are conducted to analyze
+the effectiveness of the Ditto algorithm and hardware. Firstly,
+we examine various design choices in Ditto to identify the
+contribution of each technique, as shown in Fig. 16. The
+accelerators that benefit from the Ditto algorithm can be
+Relative Cycle Count 
+2.0
+DDPM
+DB
+DS
+DB&DS
+DB&DS&Attn. 
+Ditto
+Ditto+
+BED
+CHUR
+IMG
+SDM
+Latte
+AVG.
+DiT
+Compute cycles
+Memory stall cycles
+Dynamic Sparsity (DS)
+Attn. (Attention Difference)
+Aberration
+1.5
+1.0
+0.5
+0
+Dynamic Bit-width (DB)
+DB
+DS
+DB&DS
+DB&DS&Attn. 
+Ditto
+Ditto+
+DB
+DS
+DB&DS
+DB&DS&Attn. 
+Ditto
+Ditto+
+DB
+DS
+DB&DS
+DB&DS&Attn. 
+Ditto
+Ditto+
+DB
+DS
+DB&DS
+DB&DS&Attn. 
+Ditto
+Ditto+
+DB
+DS
+DB&DS
+DB&DS&Attn. 
+Ditto
+Ditto+
+DB
+DS
+DB&DS
+DB&DS&Attn. 
+Ditto
+Ditto+
+DB
+DS
+DB&DS
+DB&DS&Attn. 
+Ditto
+Ditto+
+compared to ITC 
+Fig. 16: Cycle count results for variation of the Ditto hardware.
+All designs utilize the layer dependency check technique.
+categorized into two types. One type of accelerator leverages
+dynamic sparsity (defined as DS) like sparse accelerator [18],
+[87], [88]. Others utilize dynamic bit-width (defined as DB)
+like Bit Fusion [78] or DRQ [82]. As DS does not support
+dynamic bit-width, they require multipliers that support the
+multiplication of 8-bit data and weights. Besides, DB is
+designed to multiply 4-bit data with weight, since DB supports
+dynamic bit-width. Then, we categorize the software technique
+of the Ditto algorithm, as attention difference, Ditto (with
+Defo), and Ditto+ (with Defo+).
+In the figure, DB and DS exhibit more cycle counts than
+the baseline ITC. While DS and DB can improve their
+performance in computation cycles, they involve high mem-
+ory stall cycles due to the temporal difference processing.
+Combining DB and DS, and applying attention differences
+can reserve performance improvement over the baseline, but
+they also suffer from high memory stall cycles, limiting their
+advantages. Besides, Ditto and Ditto+ can effectively decrease
+memory stall cycles by applying Defo. As a result, Ditto shows
+slightly higher compute cycles than DB&DS&Attn. design,
+but 39.24% lower memory stall cycles, achieving 18.32%
+performance improvement.
+To assess the impact of Defo on changes in execution type,
+a further analysis of Defo is conducted as shown in Fig. 17.
+The top part of the figure shows the portion of layers that are
+changed back to their original activation execution through
+Defo. In the default Defo, it changes 14.4% of the layer
+into the original activation execution on average. Besides, it
+changes 38.29% of the layer in Defo+. Since performance
+improvements occur in the first time steps by utilizing spatial
+differences, the threshold to change the execution flow of each
+layer is reduced. In particular, 81.6% of the layer change
+execution flows into spatial difference processing in the Latte.
+Since Latte is a video generation task, there is spatial similarity
+between frames, which means that using spatial differences
+techniques can be beneficial. However, other models show that
+63% of the layers do not change their execution flow even
+with the Defo+. As a result, temporal difference processing is
+essential to accelerate various diffusion models.
+To evaluate the feasibility of the Defo, we also measure the
+accuracy of Defo at the bottom of the figure. The accuracy is
+measured by assessing whether the execution flow determined
+by Defo for each layer is indeed the optimal execution flow.
+
+
+=== PDF PAGE 12 ===
+% of Layer
+100%
+80%
+60%
+40%
+20%
+0%
+Accuracy
+Defo
+Defo
+Defo
+Defo
+Defo
+Defo
+Defo
+Defo
+Defo
+Defo
+Defo
+Defo
+Defo
+Defo
+Defo
+Defo
+DDPM
+BED
+CHUR
+IMG
+SDM
+DiT
+Latte
+AVG.
+100%
+80%
+60%
+40%
+20%
+0%
+Change
+Not Change
+Correct
+Not correct
++
++
++
++
++
++
++
++
+Fig. 17: Ratio of layer execution types using Defo (top) and
+accuracy of layer type prediction through Defo (bottom).
+0
+0.5
+1
+1.5
+2
+DDPM
+BED
+CHUR
+IMG
+SDM
+DiT
+Latte
+AVG.
+Speedup
+ITC
+Ditto
+Ideal-Ditto
+Ditto+
+Ideal-Ditto+
+Fig. 18: Comparison results of the Ditto and Ditto+ hardware
+with ideal hardware.
+In the figure, Defo and Defo+ achieve high accuracy of 92%
+and 88.11%, even if the execution flow is fixed the execution
+flow at the second time step. Moreover, we observe that layers
+where Defo incorrectly determines the optimal execution flow
+result in only minimal performance degradation, as these lay-
+ers are on the borderline of the threshold. To demonstrate the
+observation, we compare the ideal design with our hardware
+as shown in Fig. 18. In the figure, Ideal-Ditto and ideal-Ditto+
+represent designs that Defo and Defo+ have 100% accuracy.
+Therefore, the ideal design always determines the optimal
+execution flow of each layer for entire time steps. While
+the Defo mechanism determines the execution flow in the
+second time step, Ditto and Ditto+ obtains 98.8% and 95.8%
+performance of the ideal design, indicating the feasibility and
+effectiveness.
+Through our analyses on Fig. 6b, we find out that tempo-
+ral difference processing leads to consistent BOPs reduction
+compared to original activation processing across all time
+steps in diffusion models. However, some future models
+with high temporal similarity may exhibit dynamic temporal
+similarity across the time domain, causing BOPs reduction
+to vary dynamically. To explore how Ditto can support the
+case, we adjust the value distribution of our benchmark to
+make the execution type threshold dynamic and examine the
+impact. Moreover, we additionally design the modified Defo
+algorithm, dynamically determining the execution type of each
+layer (referred to as Dynamic-Ditto). We design the Dynamic-
+Ditto to change the type of processing only from difference
+processing to original activation processing, since it cannot
+get the cycle of difference processing during execution with
+original activation.
+In Fig. 19, the accuracy of Defo shows a slight decline of
+7% compared to the original benchmark shown in Fig. 17. This
+is because both Ditto and Dynamic-Ditto predict the benefits
+0%
+40%
+80%
+120%
+0
+0.5
+1
+1.5
+Ditto
+Dyn.-Ditto
+Ideal-Ditto
+Ditto
+Dyn.-Ditto
+Ideal-Ditto
+Ditto
+Dyn.-Ditto
+Ideal-Ditto
+Ditto
+Dyn.-Ditto
+Ideal-Ditto
+Ditto
+Dyn.-Ditto
+Ideal-Ditto
+Ditto
+Dyn.-Ditto
+Ideal-Ditto
+Ditto
+Dyn.-Ditto
+Ideal-Ditto
+Ditto
+Dyn.-Ditto
+Ideal-Ditto
+DDPM
+BED
+CHUR
+IMG
+SDM
+DIT
+Latte
+AVG.
+Like
+Like
+Like
+Like
+Like
+Like
+Like
+Like
+Defo Accuracy
+ 
+Ditto Dynamic-Ditto Ideal-Ditto
+1.5
+1.0
+0.5
+0
+Speedup  
+compared to ITC
+Defo Accuracy
+120%
+80%
+40%
+0%
+AVG.
+Fig. 19: Design space exploration of Defo. Dyn.-Ditto indicate
+Dynamic Ditto hardware.
+of difference processing based on a past time step, while
+the cycle reduction in the current time step changes dynami-
+cally. However, Ditto and Dynamic-Ditto achieve 98.03% and
+98.18% performance of the ideal-Ditto, as the speedup in Defo
+primarily comes from addressing a few important layers with
+high memory overhead, which are relatively easy to predict.
+Additionally, Dynamic-Ditto slightly outperforms the original
+Ditto due to the dynamic Defo algorithm, which better adapts
+to varying conditions.
+VII. RELATED WORK
+Previous works, such as Cambricon-D [43] and Guo et
+al. [23], have explored the temporal similarity between adja-
+cent time steps in diffusion models and leveraged this similar-
+ity to reduce the bit-width of layer operations. However, they
+exhibit limitation compared to Ditto, since Ditto analyzes and
+exploits more extensive characteristics of diffusion models.
+First, Ditto analyzes temporal differences between the time
+steps in detail and find out that temporal differences exhibits
+not only reduced bit-width but also zero values. By exploiting
+both dynamic bit-width and sparsity with an lightweight logic,
+Ditto achieves a higher performance than previous works,
+which only leverage reduced bit-width. While there are other
+hardware designs that target dynamic sparsity [18], [19], [55],
+[64], [87], [88] or bit-width [33], [35], [70], [78], [82], they
+typically focus on one of these technique and do not utilize
+temporal similarity.
+Second, while Cambricon-D [43] also addresses the memory
+overhead of temporal difference processing by proposing a
+sign-mask data flow approach for specific non-linear func-
+tions, Defo dynamically selects the execution type for each
+layer, effectively managing the memory overhead of the Ditto
+algorithm. Our analysis reveals a consistency in temporal dif-
+ferences across time steps, enabling Defo to adaptively change
+the execution type for only memory-intensive layers, leaving
+others at second time step by utilizing lightweight logic. Since
+Defo is independent of the type of non-linear function, it offers
+greater flexibility compared to prior methods.
+Additionally, we introduce Ditto+, an enhanced version of
+Ditto that further exploits spatial similarity in the original
+activation execution to provide additional performance im-
+provements. Ditto+ benefits from the Ditto hardware, which
+is not limited to exploiting sparsity and bit-width reductions
+only in temporal differences. While there are previous works
+
+
+=== PDF PAGE 13 ===
+that explore either spatial [1], [8], [58], [62], [67] or temporal
+similarity [15], [16], [23], [43], [71], [79], they generally
+support only one of these aspects. In contrast, our hardware
+and execution flow optimization allow for the simultaneous
+exploitation of both spatial and temporal similarities, offering
+a significant performance advantage.
+Lastly, previous works like Q-Diffusion [50] and TDQ [80]
+have introduced timestep-specific quantization methods for
+diffusion models by leveraging the varying value distribution
+of input activations across time steps. Ditto enable synergy
+with them by combining quantization with the exploitation
+of temporal similarities. Integrating our scheme with existing
+diffusion model quantization methods [26], [32], [50], [77],
+[80] allows Ditto to further accelerate quantized diffusion
+models, significantly reducing denoising latency of diffusion
+models.
+VIII. CONCLUSION
+Diffusion models are state-of-the-art DNN algorithms for
+image generation but suffer from long execution times and
+high computational overhead due to recursive time steps. This
+paper introduces high temporal value similarity between adja-
+cent time steps and reveals that the high similarity exhibits a
+narrower value range of differences between the time steps. We
+observe that the smaller value range exposes reduced bit-width
+and zero values in the diffusion models with quantization.
+Based on our observations, we propose the Ditto algorithm to
+reduce computation overhead by utilizing zero-skipping and
+reduced bit-width. Since the temporal difference processing
+incurs memory overhead in some layers, the algorithm is
+further optimized by Defo, automatically determining the
+optimal execution flow of each layer. We also design the
+Ditto hardware that supports dynamic bit-width, sparsity, and
+adaptive execution flow, achieving up to 1.5× speedup and
+17.74% energy saving over the baseline hardware.
+ACKNOWLEDGMENT
+This work was supported by the Institute of Information &
+Communications Technology Planning & Evaluation (IITP),
+supported by the Korean government (Ministry of Science and
+ICT, MSIT) (No. 2024-0-00441, Memory-Centric Architecture
+Using Reconfigurable PIM Devices) and by Samsung Elec-
+tronics Co., Ltd. Won Woo Ro is the corresponding author.
+REFERENCES
+[1] F. Alantali, Y. Halawani, B. Mohammad, and M. Al-Qutayri, “Slid:
+Exploiting spatial locality in input data as a computational reuse method
+for efficient cnn,” IEEE Access, vol. 9, pp. 57 179–57 187, 2021.
+[2] J. Albericio, A. Delm´as, P. Judd, S. Sharify, G. O’Leary, R. Genov,
+and A. Moshovos, “Bit-pragmatic deep neural network computing,” in
+Proceedings of the 50th annual IEEE/ACM international symposium on
+microarchitecture, 2017, pp. 382–394.
+[3] K. Alex, “Learning multiple layers of features from tiny images,”
+https://www. cs. toronto. edu/kriz/learning-features-2009-TR. pdf, 2009.
+[4] E. Baek, D. Kwon, and J. Kim, “A multi-neural network acceleration
+architecture,” in 2020 ACM/IEEE 47th Annual International Symposium
+on Computer Architecture (ISCA).
+IEEE, 2020, pp. 940–953.
+[5] C. Baskin, N. Liss, E. Schwartz, E. Zheltonozhskii, R. Giryes, A. M.
+Bronstein, and A. Mendelson, “Uniq: Uniform noise injection for
+non-uniform quantization of neural networks,” ACM Transactions on
+Computer Systems (TOCS), vol. 37, no. 1-4, pp. 1–15, 2021.
+[6] H. Cao, C. Tan, Z. Gao, Y. Xu, G. Chen, P.-A. Heng, and S. Z.
+Li, “A survey on generative diffusion models,” IEEE Transactions on
+Knowledge and Data Engineering, 2024.
+[7] S.-E. Chang, Y. Li, M. Sun, R. Shi, H. K.-H. So, X. Qian, Y. Wang, and
+X. Lin, “Mix and match: A novel fpga-centric deep neural network
+quantization framework,” in 2021 IEEE International Symposium on
+High-Performance Computer Architecture (HPCA).
+IEEE, 2021, pp.
+208–220.
+[8] C. Chen, X. Zou, H. Shao, Y. Li, and K. Li, “Point cloud acceleration
+by exploiting geometric similarity,” in Proceedings of the 56th Annual
+IEEE/ACM International Symposium on Microarchitecture, 2023, pp.
+1135–1147.
+[9] E. Cho, J. Bang, and M. Rhu, “Characterization and analysis of text-to-
+image diffusion models,” IEEE Computer Architecture Letters, 2024.
+[10] F.-A. Croitoru, V. Hondru, R. T. Ionescu, and M. Shah, “Diffusion
+models in vision: A survey,” IEEE Transactions on Pattern Analysis
+and Machine Intelligence, 2023.
+[11] A. Delmas Lascorz, P. Judd, D. M. Stuart, Z. Poulos, M. Mahmoud,
+S. Sharify, M. Nikolic, K. Siu, and A. Moshovos, “Bit-tactical: A
+software/hardware approach to exploiting value and bit sparsity in
+neural networks,” in Proceedings of the Twenty-Fourth International
+Conference on Architectural Support for Programming Languages and
+Operating Systems, 2019, pp. 749–763.
+[12] J. Deng, W. Dong, R. Socher, L.-J. Li, K. Li, and L. Fei-Fei, “Imagenet:
+A large-scale hierarchical image database,” in 2009 IEEE conference on
+computer vision and pattern recognition.
+Ieee, 2009, pp. 248–255.
+[13] P. Dhariwal and A. Nichol, “Diffusion models beat gans on image
+synthesis,” Advances in neural information processing systems, vol. 34,
+pp. 8780–8794, 2021.
+[14] H. Fan, S. I. Venieris, A. Kouris, and N. Lane, “Sparse-dysta: Sparsity-
+aware dynamic and static scheduling for sparse multi-dnn workloads,”
+in Proceedings of the 56th Annual IEEE/ACM International Symposium
+on Microarchitecture, 2023, pp. 353–366.
+[15] C. Gao, D. Neil, E. Ceolini, S.-C. Liu, and T. Delbruck, “Deltarnn: A
+power-efficient recurrent neural network accelerator,” in Proceedings of
+the 2018 ACM/SIGDA International Symposium on Field-Programmable
+Gate Arrays, 2018, pp. 21–30.
+[16] C. Gao, A. Rios-Navarro, X. Chen, S.-C. Liu, and T. Delbruck, “Edge-
+drnn: Recurrent neural network accelerator for edge inference,” IEEE
+Journal on Emerging and Selected Topics in Circuits and Systems,
+vol. 10, no. 4, pp. 419–432, 2020.
+[17] A. Golden, S. Hsia, F. Sun, B. Acun, B. Hosmer, Y. Lee, Z. DeVito,
+J. Johnson, G.-Y. Wei, D. Brooks et al., “Generative ai beyond llms:
+System implications of multi-modal generation,” in 2024 IEEE Inter-
+national Symposium on Performance Analysis of Systems and Software
+(ISPASS).
+IEEE, 2024, pp. 257–267.
+[18] A. Gondimalla, N. Chesnut, M. Thottethodi, and T. Vijaykumar,
+“Sparten: A sparse tensor accelerator for convolutional neural networks,”
+in Proceedings of the 52nd Annual IEEE/ACM International Symposium
+on Microarchitecture, 2019, pp. 151–165.
+[19] A. Gondimalla, M. Thottethodi, and T. Vijaykumar, “Eureka: Efficient
+tensor cores for one-sided unstructured sparsity in dnn inference,” in
+Proceedings of the 56th Annual IEEE/ACM International Symposium
+on Microarchitecture, 2023, pp. 324–337.
+[20] I. Goodfellow, J. Pouget-Abadie, M. Mirza, B. Xu, D. Warde-Farley,
+S. Ozair, A. Courville, and Y. Bengio, “Generative adversarial networks,”
+Communications of the ACM, vol. 63, no. 11, pp. 139–144, 2020.
+[21] C. Guo, J. Tang, W. Hu, J. Leng, C. Zhang, F. Yang, Y. Liu, M. Guo,
+and Y. Zhu, “Olive: Accelerating large language models via hardware-
+friendly outlier-victim pair quantization,” in Proceedings of the 50th
+Annual International Symposium on Computer Architecture, 2023, pp.
+1–15.
+[22] C. Guo, C. Zhang, J. Leng, Z. Liu, F. Yang, Y. Liu, M. Guo, and
+Y. Zhu, “Ant: Exploiting adaptive numerical data type for low-bit deep
+neural network quantization,” in 2022 55th IEEE/ACM International
+Symposium on Microarchitecture (MICRO).
+IEEE, 2022, pp. 1414–
+1433.
+[23] R. Guo, L. Wang, X. Chen, H. Sun, Z. Yue, Y. Qin, H. Han, Y. Wang,
+F. Tu, S. Wei et al., “20.2 a 28nm 74.34 tflops/w bf16 heterogenous cim-
+based accelerator exploiting denoising-similarity for diffusion models,”
+
+
+=== PDF PAGE 14 ===
+in 2024 IEEE International Solid-State Circuits Conference (ISSCC),
+vol. 67.
+IEEE, 2024, pp. 362–364.
+[24] S. Han, H. Mao, and W. J. Dally, “Deep compression: Compressing
+deep neural networks with pruning, trained quantization and huffman
+coding,” arXiv preprint arXiv:1510.00149, 2015.
+[25] W. Harvey, S. Naderiparizi, V. Masrani, C. Weilbach, and F. Wood,
+“Flexible diffusion modeling of long videos,” Advances in Neural
+Information Processing Systems, vol. 35, pp. 27 953–27 965, 2022.
+[26] Y. He, L. Liu, J. Liu, W. Wu, H. Zhou, and B. Zhuang, “Ptqd: Accurate
+post-training quantization for diffusion models,” Advances in Neural
+Information Processing Systems, vol. 36, 2024.
+[27] J. Hessel, A. Holtzman, M. Forbes, R. L. Bras, and Y. Choi, “Clipscore:
+A reference-free evaluation metric for image captioning,” arXiv preprint
+arXiv:2104.08718, 2021.
+[28] M. Heusel, H. Ramsauer, T. Unterthiner, B. Nessler, and S. Hochreiter,
+“Gans trained by a two time-scale update rule converge to a local
+nash equilibrium,” Advances in neural information processing systems,
+vol. 30, 2017.
+[29] J. Ho, A. Jain, and P. Abbeel, “Denoising diffusion probabilistic models,”
+Advances in neural information processing systems, vol. 33, pp. 6840–
+6851, 2020.
+[30] J. Ho, C. Saharia, W. Chan, D. J. Fleet, M. Norouzi, and T. Salimans,
+“Cascaded diffusion models for high fidelity image generation,” Journal
+of Machine Learning Research, vol. 23, no. 47, pp. 1–33, 2022.
+[31] Q. Huang, C. Hong, J. Wawrzynek, M. Subedar, and Y. S. Shao,
+“Learning a continuous and reconstructible latent space for hardware
+accelerator design,” in 2022 IEEE International Symposium on Perfor-
+mance Analysis of Systems and Software (ISPASS).
+IEEE, 2022, pp.
+277–287.
+[32] Y. Huang, R. Gong, J. Liu, T. Chen, and X. Liu, “Tfmq-dm: Temporal
+feature maintenance quantization for diffusion models,” in Proceedings
+of the IEEE/CVF Conference on Computer Vision and Pattern Recogni-
+tion, 2024, pp. 7362–7371.
+[33] D. Im, G. Park, Z. Li, J. Ryu, and H.-J. Yoo, “Sibia: Signed bit-slice
+architecture for dense dnn acceleration with slice-level sparsity exploita-
+tion,” in 2023 IEEE International Symposium on High-Performance
+Computer Architecture (HPCA).
+IEEE, 2023, pp. 69–80.
+[34] V. Janfaza, K. Weston, M. Razavi, S. Mandal, F. Mahmud, A. Hilty,
+and A. Muzahid, “Mercury: Accelerating dnn training by exploiting
+input similarity,” in 2023 IEEE International Symposium on High-
+Performance Computer Architecture (HPCA).
+IEEE, 2023, pp. 638–
+650.
+[35] J.-W. Jang, S. Lee, D. Kim, H. Park, A. S. Ardestani, Y. Choi, C. Kim,
+Y. Kim, H. Yu, H. Abdel-Aziz et al., “Sparsity-aware and re-configurable
+npu architecture for samsung flagship mobile soc,” in 2021 ACM/IEEE
+48th Annual International Symposium on Computer Architecture (ISCA).
+IEEE, 2021, pp. 15–28.
+[36] Z. Jia, M. Maggioni, B. Staiger, and D. P. Scarpazza, “Dissecting the
+nvidia volta gpu architecture via microbenchmarking,” arXiv preprint
+arXiv:1804.06826, 2018.
+[37] N. Jouppi, G. Kurian, S. Li, P. Ma, R. Nagarajan, L. Nai, N. Patil,
+S. Subramanian, A. Swing, B. Towles et al., “Tpu v4: An optically
+reconfigurable supercomputer for machine learning with hardware sup-
+port for embeddings,” in Proceedings of the 50th Annual International
+Symposium on Computer Architecture, 2023, pp. 1–14.
+[38] P. Judd, J. Albericio, T. Hetherington, T. M. Aamodt, and A. Moshovos,
+“Stripes: Bit-serial deep neural network computing,” in 2016 49th
+Annual IEEE/ACM International Symposium on Microarchitecture (MI-
+CRO).
+IEEE, 2016, pp. 1–12.
+[39] B.-K. Kim, H.-K. Song, T. Castells, and S. Choi, “Bk-sdm: Archi-
+tecturally compressed stable diffusion for efficient text-to-image gen-
+eration,” in Workshop on Efficient Systems for Foundation Models@
+ICML2023, 2023.
+[40] S. Kim, S. Kang, D. Han, S. Kim, S. Kim, and H.-J. Yoo, “An energy-
+efficient gan accelerator with on-chip training for domain-specific op-
+timization,” IEEE Journal of Solid-State Circuits, vol. 56, no. 10, pp.
+2968–2980, 2021.
+[41] S. Kim, H. Lee, S. Kim, C. Kim, and W. W. Ro, “Airgun: Adaptive
+granularity quantization for accelerating large language models,” in
+2024 IEEE 42nd International Conference on Computer Design (ICCD).
+IEEE, 2024, pp. 645–652.
+[42] D. P. Kingma and M. Welling, “Auto-encoding variational bayes,” arXiv
+preprint arXiv:1312.6114, 2013.
+[43] W. Kong, Y. Hao, Q. Guo, Y. Zhao, X. Song, X. Li, M. Zou,
+Z. Du, R. Zhang, C. Liu et al., “Cambricon-d: Full-network differential
+acceleration for diffusion models,” in 2024 ACM/IEEE 51st Annual
+International Symposium on Computer Architecture (ISCA).
+IEEE,
+2024, pp. 903–914.
+[44] Z. Kong and W. Ping, “On fast sampling of diffusion probabilistic
+models,” arXiv preprint arXiv:2106.00132, 2021.
+[45] S. Lang, Introduction to linear algebra.
+Springer Science & Business
+Media, 2012.
+[46] A. D. Lascorz, S. Sharify, I. Edo, D. M. Stuart, O. M. Awad, P. Judd,
+M. Mahmoud, M. Nikolic, K. Siu, Z. Poulos et al., “Shapeshifter:
+Enabling fine-grain data width adaptation in deep learning,” in Pro-
+ceedings of the 52nd Annual IEEE/ACM International Symposium on
+Microarchitecture, 2019, pp. 28–41.
+[47] A. D. Lascorz, S. Sharify, I. Edo, D. M. Stuart, O. M. Awad, P. Judd,
+M. Mahmoud, M. Nikolic, K. Siu, Z. Poulos et al., “Shapeshifter:
+Enabling fine-grain data width adaptation in deep learning,” in Pro-
+ceedings of the 52nd Annual IEEE/ACM International Symposium on
+Microarchitecture, 2019, pp. 28–41.
+[48] H. Lee, H. Jang, S. Kim, S. Kim, W. Cho, and W. W. Ro, “Exploit-
+ing inherent properties of complex numbers for accelerating complex
+valued neural networks,” in Proceedings of the 56th Annual IEEE/ACM
+International Symposium on Microarchitecture, 2023, pp. 1121–1134.
+[49] S. Li, W. Li, C. Cook, C. Zhu, and Y. Gao, “Independently recurrent
+neural network (indrnn): Building a longer and deeper rnn,” in Proceed-
+ings of the IEEE conference on computer vision and pattern recognition,
+2018, pp. 5457–5466.
+[50] X. Li, Y. Liu, L. Lian, H. Yang, Z. Dong, D. Kang, S. Zhang, and
+K. Keutzer, “Q-diffusion: Quantizing diffusion models,” in Proceedings
+of the IEEE/CVF International Conference on Computer Vision, 2023,
+pp. 17 535–17 545.
+[51] Y. Li, H. Wang, Q. Jin, J. Hu, P. Chemerys, Y. Fu, Y. Wang, S. Tulyakov,
+and J. Ren, “Snapfusion: Text-to-image diffusion model on mobile
+devices within two seconds,” Advances in Neural Information Processing
+Systems, vol. 36, 2024.
+[52] Z. Li, C. Ding, S. Wang, W. Wen, Y. Zhuo, C. Liu, Q. Qiu, W. Xu,
+X. Lin, X. Qian et al., “E-rnn: Design optimization for efficient recurrent
+neural networks in fpgas,” in 2019 IEEE International Symposium on
+High Performance Computer Architecture (HPCA).
+IEEE, 2019, pp.
+69–80.
+[53] T.-Y. Lin, M. Maire, S. Belongie, J. Hays, P. Perona, D. Ramanan,
+P. Doll´ar, and C. L. Zitnick, “Microsoft coco: Common objects in
+context,” in Computer Vision–ECCV 2014: 13th European Conference,
+Zurich, Switzerland, September 6-12, 2014, Proceedings, Part V 13.
+Springer, 2014, pp. 740–755.
+[54] L. Liu, Y. Ren, Z. Lin, and Z. Zhao, “Pseudo numerical methods for
+diffusion models on manifolds,” arXiv preprint arXiv:2202.09778, 2022.
+[55] Z.-G. Liu, P. N. Whatmough, Y. Zhu, and M. Mattina, “S2ta: Exploiting
+structured sparsity for energy-efficient mobile cnn acceleration,” in
+2022 IEEE International Symposium on High-Performance Computer
+Architecture (HPCA).
+IEEE, 2022, pp. 573–586.
+[56] A. Lugmayr, M. Danelljan, A. Romero, F. Yu, R. Timofte, and
+L. Van Gool, “Repaint: Inpainting using denoising diffusion probabilistic
+models,” in Proceedings of the IEEE/CVF conference on computer vision
+and pattern recognition, 2022, pp. 11 461–11 471.
+[57] X. Ma, Y. Wang, G. Jia, X. Chen, Z. Liu, Y.-F. Li, C. Chen, and Y. Qiao,
+“Latte: Latent diffusion transformer for video generation,” arXiv preprint
+arXiv:2401.03048, 2024.
+[58] M. Mahmoud, K. Siu, and A. Moshovos, “Diffy: A d´ej`a vu-free differ-
+ential deep neural network accelerator,” in 2018 51st Annual IEEE/ACM
+International Symposium on Microarchitecture (MICRO).
+IEEE, 2018,
+pp. 134–147.
+[59] N. Muralimanohar, R. Balasubramonian, and N. P. Jouppi, “Cacti 6.0:
+A tool to model large caches,” HP laboratories, vol. 27, p. 28, 2009.
+[60] A. Q. Nichol and P. Dhariwal, “Improved denoising diffusion probabilis-
+tic models,” in International conference on machine learning.
+PMLR,
+2021, pp. 8162–8171.
+[61] A. Q. Nichol, P. Dhariwal, A. Ramesh, P. Shyam, P. Mishkin, B. Mcgrew,
+I. Sutskever, and M. Chen, “Glide: Towards photorealistic image gen-
+eration and editing with text-guided diffusion models,” in International
+Conference on Machine Learning.
+PMLR, 2022, pp. 16 784–16 804.
+[62] L. Ning and X. Shen, “Deep reuse: Streamline cnn inference on the
+fly via coarse-grained computation reuse,” in Proceedings of the ACM
+International Conference on Supercomputing, 2019, pp. 438–448.
+
+
+=== PDF PAGE 15 ===
+[63] NVIDIA,
+“Nvidia
+a100
+tensor
+core
+gpu
+architecture,”
+https://images.nvidia.com/aem-dam/en-zz/Solutions/data-center/nvidia-
+ampere-architecture-whitepaper.pdf, 2020.
+[64] A. Parashar, M. Rhu, A. Mukkara, A. Puglielli, R. Venkatesan,
+B. Khailany, J. Emer, S. W. Keckler, and W. J. Dally, “Scnn: An
+accelerator for compressed-sparse convolutional neural networks,” ACM
+SIGARCH computer architecture news, vol. 45, no. 2, pp. 27–40, 2017.
+[65] A. Paszke, S. Gross, F. Massa, A. Lerer, J. Bradbury, G. Chanan,
+T. Killeen, Z. Lin, N. Gimelshein, L. Antiga et al., “Pytorch: An
+imperative style, high-performance deep learning library,” Advances in
+neural information processing systems, vol. 32, 2019.
+[66] W. Peebles and S. Xie, “Scalable diffusion models with transformers,”
+in Proceedings of the IEEE/CVF International Conference on Computer
+Vision, 2023, pp. 4195–4205.
+[67] M. Riera, J.-M. Arnau, and A. Gonz´alez, “Computation reuse in dnns
+by exploiting input similarity,” in 2018 ACM/IEEE 45th Annual Inter-
+national Symposium on Computer Architecture (ISCA).
+IEEE, 2018,
+pp. 57–68.
+[68] R. Rombach, A. Blattmann, D. Lorenz, P. Esser, and B. Ommer, “High-
+resolution image synthesis with latent diffusion models,” in Proceedings
+of the IEEE/CVF conference on computer vision and pattern recognition,
+2022, pp. 10 684–10 695.
+[69] N. Ruiz, Y. Li, V. Jampani, Y. Pritch, M. Rubinstein, and K. Aberman,
+“Dreambooth: Fine tuning text-to-image diffusion models for subject-
+driven generation,” in Proceedings of the IEEE/CVF Conference on
+Computer Vision and Pattern Recognition, 2023, pp. 22 500–22 510.
+[70] S. Ryu, H. Kim, W. Yi, and J.-J. Kim, “Bitblade: Area and energy-
+efficient precision-scalable neural network accelerator with bitwise
+summation,” in Proceedings of the 56th Annual Design Automation
+Conference 2019, 2019, pp. 1–6.
+[71] A. Sabet, J. Hare, B. M. Al-Hashimi, and G. V. Merrett, “Similarity-
+aware cnn for efficient video recognition at the edge,” IEEE Transactions
+on Computer-Aided Design of Integrated Circuits and Systems, vol. 41,
+no. 11, pp. 4901–4914, 2021.
+[72] C. Saharia, W. Chan, H. Chang, C. Lee, J. Ho, T. Salimans, D. Fleet,
+and M. Norouzi, “Palette: Image-to-image diffusion models,” in ACM
+SIGGRAPH 2022 conference proceedings, 2022, pp. 1–10.
+[73] C. Saharia, W. Chan, S. Saxena, L. Li, J. Whang, E. L. Denton,
+K. Ghasemipour, R. Gontijo Lopes, B. Karagol Ayan, T. Salimans
+et al., “Photorealistic text-to-image diffusion models with deep language
+understanding,” Advances in neural information processing systems,
+vol. 35, pp. 36 479–36 494, 2022.
+[74] C. Saharia, J. Ho, W. Chan, T. Salimans, D. J. Fleet, and M. Norouzi,
+“Image super-resolution via iterative refinement,” IEEE transactions on
+pattern analysis and machine intelligence, vol. 45, no. 4, pp. 4713–4726,
+2022.
+[75] T. Salimans, I. Goodfellow, W. Zaremba, V. Cheung, A. Radford, and
+X. Chen, “Improved techniques for training gans,” Advances in neural
+information processing systems, vol. 29, 2016.
+[76] R. San-Roman, E. Nachmani, and L. Wolf, “Noise estimation for
+generative diffusion models,” arXiv preprint arXiv:2104.02600, 2021.
+[77] Y. Shang, Z. Yuan, B. Xie, B. Wu, and Y. Yan, “Post-training quantiza-
+tion on diffusion models,” in Proceedings of the IEEE/CVF Conference
+on Computer Vision and Pattern Recognition, 2023, pp. 1972–1981.
+[78] H. Sharma, J. Park, N. Suda, L. Lai, B. Chau, J. K. Kim, V. Chandra,
+and H. Esmaeilzadeh, “Bit fusion: Bit-level dynamically composable
+architecture for accelerating deep neural network,” in 2018 ACM/IEEE
+45th Annual International Symposium on Computer Architecture (ISCA).
+IEEE, 2018, pp. 764–775.
+[79] F. Silfa, G. Dot, J.-M. Arnau, and A. Gonz`alez, “Neuron-level fuzzy
+memoization in rnns,” in Proceedings of the 52nd Annual IEEE/ACM
+International Symposium on Microarchitecture, 2019, pp. 782–793.
+[80] J. So, J. Lee, D. Ahn, H. Kim, and E. Park, “Temporal dynamic
+quantization for diffusion models,” Advances in Neural Information
+Processing Systems, vol. 36, 2024.
+[81] J. Song, C. Meng, and S. Ermon, “Denoising diffusion implicit
+models,” arXiv:2010.02502, October 2020. [Online]. Available: https:
+//arxiv.org/abs/2010.02502
+[82] Z. Song, B. Fu, F. Wu, Z. Jiang, L. Jiang, N. Jing, and X. Liang,
+“Drq: dynamic region-based quantization for deep neural network ac-
+celeration,” in 2020 ACM/IEEE 47th Annual International Symposium
+on Computer Architecture (ISCA).
+IEEE, 2020, pp. 1010–1021.
+[83] K. Soomro, A. R. Zamir, and M. Shah, “Ucf101: A dataset of 101 human
+actions classes from videos in the wild,” arXiv preprint arXiv:1212.0402,
+2012.
+[84] J. E. Stine, I. Castellanos, M. Wood, J. Henson, F. Love, W. R. Davis,
+P. D. Franzon, M. Bucher, S. Basavarajaiah, J. Oh et al., “Freepdk:
+An open-source variation-aware design kit,” in 2007 IEEE international
+conference on Microelectronic Systems Education (MSE’07).
+IEEE,
+2007, pp. 173–174.
+[85] G. Strang, Linear algebra and its applications, 2012.
+[86] J. Su, W. Byeon, J. Kossaifi, F. Huang, J. Kautz, and A. Anandkumar,
+“Convolutional tensor-train lstm for spatio-temporal learning,” Advances
+in Neural Information Processing Systems, vol. 33, pp. 13 714–13 726,
+2020.
+[87] H. Wang, Z. Zhang, and S. Han, “Spatten: Efficient sparse attention
+architecture with cascade token and head pruning,” in 2021 IEEE
+International Symposium on High-Performance Computer Architecture
+(HPCA).
+IEEE, 2021, pp. 97–110.
+[88] Y. Wang, C. Zhang, Z. Xie, C. Guo, Y. Liu, and J. Leng, “Dual-
+side sparse tensor core,” in 2021 ACM/IEEE 48th Annual International
+Symposium on Computer Architecture (ISCA).
+IEEE, 2021, pp. 1083–
+1095.
+[89] L. Yang, Z. Zhang, Y. Song, S. Hong, R. Xu, Y. Zhao, W. Zhang,
+B. Cui, and M.-H. Yang, “Diffusion models: A comprehensive survey
+of methods and applications,” ACM Computing Surveys, vol. 56, no. 4,
+pp. 1–39, 2023.
+[90] F. Yu, A. Seff, Y. Zhang, S. Song, T. Funkhouser, and J. Xiao, “Lsun:
+Construction of a large-scale image dataset using deep learning with
+humans in the loop,” arXiv preprint arXiv:1506.03365, 2015.
+[91] A. H. Zadeh, M. Mahmoud, A. Abdelhadi, and A. Moshovos, “Mokey:
+Enabling narrow fixed-point inference for out-of-the-box floating-point
+transformer models,” in Proceedings of the 49th Annual International
+Symposium on Computer Architecture, 2022, pp. 888–901.
+[92] L. Zhang, A. Rao, and M. Agrawala, “Adding conditional control
+to text-to-image diffusion models,” in Proceedings of the IEEE/CVF
+International Conference on Computer Vision, 2023, pp. 3836–3847.
+[93] M. Zhang, Z. Cai, L. Pan, F. Hong, X. Guo, L. Yang, and Z. Liu, “Mo-
+tiondiffuse: Text-driven human motion generation with diffusion model,”
+IEEE Transactions on Pattern Analysis and Machine Intelligence, 2024.
+[94] S. Q. Zhang, B. McDanel, H. Kung, and X. Dong, “Training for multi-
+resolution inference using reusable quantization terms,” in Proceedings
+of the 26th ACM International Conference on Architectural Support for
+Programming Languages and Operating Systems, 2021, pp. 845–860.
+[95] X. Zhang, H. Xia, D. Zhuang, H. Sun, X. Fu, M. B. Taylor, and
+S. L. Song, “η-lstm: Co-designing highly-efficient large lstm training
+via exploiting memory-saving and architectural design opportunities,”
+in 2021 ACM/IEEE 48th Annual International Symposium on Computer
+Architecture (ISCA).
+IEEE, 2021, pp. 567–580.
+[96] H. Zheng, P. He, W. Chen, and M. Zhou, “Truncated diffusion proba-
+bilistic models,” arXiv preprint arXiv:2202.09671, vol. 1, no. 3.1, p. 2,
+2022.
+[97] Z. Zheng, X. Peng, T. Yang, C. Shen, S. Li, H. Liu, Y. Zhou, T. Li, and
+Y. You, “Open-sora: Democratizing efficient video production for all,”
+March 2024. [Online]. Available: https://github.com/hpcaitech/Open-
+Sora

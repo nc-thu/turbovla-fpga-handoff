@@ -1,0 +1,37 @@
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (win64) Build 3367213 Tue Oct 19 02:48:09 MDT 2021
+| Date         : Tue Sep 15 18:33:54 2026
+| Host         : nc23 running 64-bit major release  (build 9200)
+| Command      : report_design_analysis -congestion -file {E:/GPU ARCH/vector_core_sim/turbovla_w8a8_pack2/hw/v3_2026-09-15_174639_vivado_impl/reports/250MHz_real4/reports/placed_congestion.rpt}
+| Design       : tvla_w8a8_pack2_impl_top
+| Device       : xczu7ev
+| Design State : Fully Placed
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Report Design Analysis
+
+Table of Contents
+-----------------
+1. Placer Final Level Congestion Reporting
+2. SLR Net Crossing Reporting
+
+1. Placer Final Level Congestion Reporting
+------------------------------------------
+
++-----------+------+-------+---------------------------------+---------------+---------------+-----+--------+------+------+------+------+-----+-------+-----+------------------------------------------------------+
+| Direction | Type | Level |              Window             | Combined LUTs | Avg LUT Input | LUT | LUTRAM | Flop | MUXF | RAMB | URAM | DSP | CARRY | SRL |                      Cell Names                      |
++-----------+------+-------+---------------------------------+---------------+---------------+-----+--------+------+------+------+------+-----+-------+-----+------------------------------------------------------+
+| South     | Long |     5 | (CLEL_R_X34Y179,CLEL_R_X49Y210) |           27% |         1.892 | 50% | 0%     |  46% |   6% | 0%   | 0%   | 25% |   37% |  1% | u_system/u_replay/g_array.u_array/u_array/u_ref(97%) |
++-----------+------+-------+---------------------------------+---------------+---------------+-----+--------+------+------+------+------+-----+-------+-----+------------------------------------------------------+
+
+
+2. SLR Net Crossing Reporting
+-----------------------------
+
++------------+-----------------------------+
+| Cell Names | Number of Nets crossing SLR |
++------------+-----------------------------+
+* The current part is not an SSI device
+
+

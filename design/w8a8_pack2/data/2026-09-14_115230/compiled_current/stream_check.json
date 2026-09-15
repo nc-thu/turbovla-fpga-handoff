@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-09-14 12:04:22",
+  "descriptor_count": 432,
+  "instruction_count": 433,
+  "mapping_counts": {
+    "aux_behavior": 128,
+    "rtl_gemm": 280,
+    "rtl_bmm": 24
+  },
+  "mapped_count": 304,
+  "valid_mac_count": 49584342528,
+  "unknown_count": 0,
+  "failures": [],
+  "status": "PASS",
+  "elapsed_seconds": 0.008037567138671875
+}

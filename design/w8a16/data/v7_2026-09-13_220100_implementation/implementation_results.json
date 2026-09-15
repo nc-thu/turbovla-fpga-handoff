@@ -1,0 +1,240 @@
+{
+  "schema_version": "tvla_w8a16.vivado_implementation.v7",
+  "generated_at": "2026-09-13T22:00:24+08:00",
+  "tool": "Vivado 2021.2",
+  "part": "xczu7ev-ffvc1156-2-e",
+  "top": "w8a16_system_top",
+  "rows": 16,
+  "pcols": 48,
+  "target_period_ns": 4.0,
+  "status": "passed",
+  "started": "2026-09-13T21:23:26+0800",
+  "finished": "2026-09-13T21:59:37+0800",
+  "elapsed_s": 2171.0,
+  "run_root": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs",
+  "output_dir": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz",
+  "resources": {
+    "total_luts": 66375,
+    "logic_luts": 65033,
+    "lutram": 0,
+    "srl": 1342,
+    "ffs": 117104,
+    "ramb36": 0,
+    "ramb18": 0,
+    "uram": 0,
+    "dsp": 785
+  },
+  "timing": {
+    "target_period_ns": 4.0,
+    "target_frequency_mhz": 250.0,
+    "clock_frequency_mhz": 250.0,
+    "wns_ns": 0.006,
+    "tns_ns": 0.0,
+    "whs_ns": 1.468,
+    "ths_ns": 0.0,
+    "timing_met": true,
+    "data_path_delay_ns": 3.889,
+    "logic_delay_ns": 0.472,
+    "logic_delay_percent": 12.137,
+    "route_delay_ns": 3.417,
+    "route_delay_percent": 87.863,
+    "fmax_estimate_mhz": 250.37556334501753,
+    "critical_source": "u_runtime/u_ctrl/word_r_reg[58]/C",
+    "critical_destination": "u_gemm/u_arr/g_row[9].g_col[47].u_pe/acc_r_reg[15]/CE",
+    "failing_endpoints": 0
+  },
+  "power": {
+    "total_on_chip_w": 4.67,
+    "dynamic_w": 4.056,
+    "static_w": 0.614,
+    "confidence": "Medium",
+    "activity_file": "---",
+    "is_vectorless": true,
+    "evidence": "vectorless_estimate"
+  },
+  "route": {
+    "logical_nets": 873767,
+    "routable_nets": 184322,
+    "fully_routed_nets": 184322,
+    "unrouted_nets": 0,
+    "routing_errors": 0,
+    "status": "passed"
+  },
+  "drc": {
+    "violations": 821,
+    "errors": 0,
+    "warnings": 4,
+    "advisories": 1,
+    "status": "pass_with_warnings",
+    "rules": {
+      "DPIP-2": {
+        "severity": "Warning",
+        "count": 34
+      },
+      "DPOP-3": {
+        "severity": "Warning",
+        "count": 1
+      },
+      "DPOP-4": {
+        "severity": "Warning",
+        "count": 17
+      },
+      "RTSTAT-10": {
+        "severity": "Warning",
+        "count": 1
+      },
+      "AVAL-155": {
+        "severity": "Advisory",
+        "count": 768
+      }
+    }
+  },
+  "simulation": {
+    "status": "passed",
+    "tool": "verilator",
+    "version_file": "logs/verilator_version.txt",
+    "started": "2026-09-13T13:19:59Z",
+    "finished": "2026-09-13T13:22:38Z",
+    "elapsed_seconds": 159,
+    "tests": [
+      "tb_w8a16_pe",
+      "tb_w8a16_array",
+      "tb_w8a16_full",
+      "tb_w8a16_requant",
+      "tb_w8a16_gemm",
+      "tb_w8a16_activations",
+      "tb_w8a16_vector_ops",
+      "tb_w8a16_dma",
+      "tb_w8a16_isa_ctrl",
+      "tb_w8a16_runtime",
+      "tb_w8a16_system"
+    ],
+    "dsp_full_array": 768,
+    "path": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\sim\\logs\\verilator_run.json"
+  },
+  "pipeline_changes": [
+    "w8a16_sysarr: clr 控制按每 8 列分组，保留 group nets，降低 PE accumulator CE 扇出",
+    "v6 的 DSP AREG/BREG/MREG/PREG 和 action-path product/drain 变化保持不变"
+  ],
+  "comparison_v6_post_route": {
+    "resources": {
+      "total_luts": 66368,
+      "logic_luts": 65016,
+      "lutram": 0,
+      "srl": 1352,
+      "ffs": 117105,
+      "ramb36": 0,
+      "ramb18": 0,
+      "uram": 0,
+      "dsp": 785
+    },
+    "timing": {
+      "target_period_ns": 4.0,
+      "wns_ns": -0.05,
+      "tns_ns": -4.464,
+      "fmax_estimate_mhz": 246.9135802469136,
+      "data_path_delay_ns": 3.946,
+      "logic_delay_ns": 0.301,
+      "logic_delay_percent": 7.628,
+      "route_delay_ns": 3.645,
+      "route_delay_percent": 92.372
+    },
+    "route": {
+      "logical_nets": 873716,
+      "routable_nets": 184306,
+      "fully_routed_nets": 184306,
+      "unrouted_nets": 0,
+      "routing_errors": 0,
+      "status": "passed"
+    },
+    "drc": {
+      "violations": 821,
+      "errors": 0,
+      "warnings": 4,
+      "advisories": 1,
+      "status": "pass_with_warnings",
+      "rules": {
+        "DPIP-2": {
+          "severity": "Warning",
+          "count": 34
+        },
+        "DPOP-3": {
+          "severity": "Warning",
+          "count": 1
+        },
+        "DPOP-4": {
+          "severity": "Warning",
+          "count": 17
+        },
+        "RTSTAT-10": {
+          "severity": "Warning",
+          "count": 1
+        },
+        "AVAL-155": {
+          "severity": "Advisory",
+          "count": 768
+        }
+      }
+    },
+    "deltas": {
+      "total_luts": 7,
+      "logic_luts": 17,
+      "ffs": -1,
+      "dsp": 0,
+      "ramb36": 0,
+      "ramb18": 0,
+      "uram": 0
+    },
+    "note": "v7 与 v6 目标周期相同，适合看扇出分区的方向；最终仍以 post-route 结果为准。"
+  },
+  "comparison_v5_post_route": {
+    "resources": {
+      "total_luts": 66255,
+      "logic_luts": 65586,
+      "lutram": 0,
+      "srl": 669,
+      "ffs": 118169,
+      "ramb36": 0,
+      "ramb18": 0,
+      "uram": 0,
+      "dsp": 785
+    },
+    "timing": {
+      "target_period_ns": 3.298,
+      "wns_ns": -0.461,
+      "tns_ns": -1197.739,
+      "fmax_estimate_mhz": 266.02819898909286,
+      "data_path_delay_ns": 3.74
+    },
+    "drc": {
+      "violations": 2358,
+      "errors": 0,
+      "warnings": 4,
+      "advisories": 1,
+      "status": "pass_with_warnings"
+    }
+  },
+  "raw_reports": {
+    "post_synth_timing.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz\\post_synth_timing.rpt",
+    "post_synth_utilization.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz\\post_synth_utilization.rpt",
+    "post_place_timing.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz\\post_place_timing.rpt",
+    "post_place_utilization.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz\\post_place_utilization.rpt",
+    "post_route_timing.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz\\post_route_timing.rpt",
+    "post_route_critical_paths.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz\\post_route_critical_paths.rpt",
+    "post_route_utilization.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz\\post_route_utilization.rpt",
+    "post_route_power.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz\\post_route_power.rpt",
+    "post_route_status.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz\\post_route_status.rpt",
+    "post_route_congestion.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz\\post_route_congestion.rpt",
+    "post_route_drc.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz\\post_route_drc.rpt",
+    "post_route_methodology.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz\\post_route_methodology.rpt",
+    "post_route_qor_assessment.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz\\post_route_qor_assessment.rpt",
+    "post_route.dcp": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\runs\\2026-09-13_195800_system_250mhz\\post_route.dcp",
+    "vivado.log": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v7_2026-09-13_195800_clr_partition_250mhz\\impl\\vivado.log"
+  },
+  "evidence_notes": [
+    "v7 是 4.000 ns（250 MHz）约束下的真实 post-route implementation。",
+    "clr 按 8 列分组，未插入时钟周期；Verilator 11 项测试通过。",
+    "power 是 vectorless activity propagation 估算，没有 SAIF/VCD。",
+    "OOC 工程没有板级时钟、I/O delay、AXI/DDR 和 pin 约束；没有生成 bitstream。"
+  ]
+}

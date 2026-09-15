@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>F4 写回竞态修复：证明两块暂存区够用后用编译器乒乓归零 168 个失配段 2026-09-10</title>
+<style>
+  body{font-family:"Microsoft YaHei",SimSun,serif;max-width:1000px;margin:24px auto;padding:0 16px;color:#111;background:#fff;line-height:1.75}
+  h1{font-size:22px;border-bottom:2px solid #000;padding-bottom:6px}
+  h2{font-size:18px;border-left:5px solid #000;padding-left:8px;margin-top:32px}
+  h3{font-size:15px;margin-top:22px}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:14px}
+  th,td{border:1px solid #444;padding:5px 8px;text-align:left}
+  th{background:#eee}
+  .num{text-align:right;font-variant-numeric:tabular-nums}
+  .mono{font-family:Consolas,monospace;font-size:13px;background:#f4f4f4;padding:1px 4px}
+  .meta{color:#555;font-size:13px}
+  .box{border:1px dashed #888;padding:10px 14px;margin:12px 0;background:#fafafa}
+  .hint{color:#555;font-size:13px;margin:4px 0}
+  .fig{margin:14px 0}
+  .fig svg{width:100%;height:auto;display:block}
+  .stamp{color:#777;font-size:12px}
+  svg text{font-family:"Microsoft YaHei",SimSun,serif}
+</style>
+</head>
+<body>
+<h1>F4 写回竞态修复收官：先证明"两块暂存区足够覆盖写回存活期"，再用编译器侧 y_base 乒乓把 168 个失配段（15,512 个危险对）全部归零</h1>
+<p class="meta">
+生成时刻：2026-09-10 14:50:30　|　轮次：compiler v7（F4 修复）　|
+本地：compiler/v7_2026-09-10_1258_f4_ybase_pong/　|　服务器：/tmp/compiler_v7、/tmp/hw_v7　|
+证据账：notes/evidence_log.md（本页每个数字都从那里的 JSON/原始输出亲自核过）
+</p>
+
+<h2>第零节　这轮要解决什么问题</h2>
+
+<p class="meta">开轮 2026-09-10 12:58　|　用户裁决 12:50：倾向编译器侧 y_base 乒乓，但前提是先证明"两块暂存区足够覆盖写回存活期"；证不出来就转硬件侧精确 interlock</p>
+
+<p>先交代背景。F4 是 09-09 晚电路门立案的竞态：窗口注意力（swin）的分数矩阵计算阶段，
+96 个伪窗循环复用<b>同一块片上暂存区</b>（y_base）。循环每步是三条指令：COPY 搬数据、
+GEMM 算矩阵乘并把结果<b>写进暂存区</b>、STORE 把暂存区内容<b>慢慢写回内存（DDR）</b>。
+问题在 STORE：调度器把它发出去就不管了（fire-and-forget，08-31 省拍 18.9% 的设计），
+写引擎要花几千拍才能把暂存区读完；而循环下一步的 GEMM 算得快，<b>写引擎还没读完，
+它就把同一块暂存区覆盖成下一轮的值了</b>。结果写回 DDR 的是被污染的数据——实测失配字节
+100% 等于黄金模型的"下一轮迭代值"，波及 3,400 段中的 168 段（4.9%）、15,512 个危险对。</p>
+
+<p>两个候选修法：电路侧给矩阵乘加发射门（改 RTL、要重新综合）、编译器侧让相邻迭代
+轮流用两块暂存区（乒乓，只改编译器）。用户倾向后者，但提了一个硬前提：
+<b>必须先证明两块够用</b>——如果第二轮迭代的写回存活期比两块暂存区的交替周期还长，
+乒乓照样咬。这轮就按这个顺序走：先证前提，证出来了才动手修，最后五道验证门收官。</p>
+
+<h2>第一节　前提证明：结构证明 + 电路实测双保险</h2>
+
+<p class="meta">证明脚本全量验证完成 2026-09-10 14:05　|　VCD 锚点完成 14:42</p>
+
+<h3>1.1 结构性证明：不靠拍数余量，靠门控顺序</h3>
+
+<p>为什么不用"算拍数、看余量"的常规思路？因为实测发现余量薄得吓人（见 1.2：
+写引擎排空到下一条发射只有 <b>9 拍</b>）。余量口径要建准确的周期模型才敢下结论，
+而这正是 09-04 以来反复摔过跟头的地方。所以改走<b>结构性证明</b>：只依赖电路里
+已经写死的三条事实，推出"两块必然够"，与快慢无关。</p>
+
+<table>
+<tr><th>#</th><th>事实</th><th>出处</th></tr>
+<tr><td>S1a</td><td>STORE（op=5）的<b>发射</b>门槛是写引擎空闲（!wr_busy）——上一条 STORE 没把 CTX 读干净，下一条 STORE 不能发射</td><td class="mono">ae_sched.sv:246-254</td></tr>
+<tr><td>S1b</td><td>LOAD（op=4）的发射门槛是 !dma_busy（=读忙|写忙）——LOAD 发射前写引擎同样已排空</td><td class="mono">ae_sched.sv T_EXEC、ae_dma.sv:310</td></tr>
+<tr><td>S2</td><td>调度器严格按指令流顺序执行，fire-and-forget 只免等完成、不改顺序</td><td class="mono">ae_sched.sv:237-312</td></tr>
+</table>
+
+<p>有了这三条，"两块够用"等价于一个可以在指令流上直接检查的性质（S3）：
+<b>对暂存区的每个读者，它与"下一个会写同一块缓冲的写者"（隔代写者）之间，
+必然隔着另一条 STORE 或 LOAD 的发射</b>。隔着的这条发射一发生，写引擎已经排空（S1a/S1b）；
+隔代写者又在它之后才执行（S2）——所以隔代写者动这块缓冲时，读者早就读完了。
+对全部 3,400 段（96 列档）+ 3,442 段（108 列档）逐段检查：<b>0 违反</b>。</p>
+
+<div class="box">
+两个容易踩的坑（都写进了脚本注释）：
+①"隔着的发射"必须算 op∈{4,5} 两种——只算 STORE 会把 361 段"靠 LOAD 排空就安全"的段误报成违反；
+②危险段与 swin 多迭代段是同一批东西（168=168，两个方向差集都是 0）——所以修法只需要动 swin 一处。</div>
+
+<h3>1.2 VCD 实测锚点：在电路上直接量到竞态和余量</h3>
+
+<p>结构证明是"读电路+扫指令流"，还需要一个实测锚点确认没读漏。做法：把 seg_0003
+（96 次迭代的 swin 段）喂进 Verilator 仿真，dump 全波形（VCD 格式，3.5GB），
+从中提取三类事件的时刻：STORE 发射、写引擎每次读 CTX、GEMM 每次写回暂存区。
+修复前（单缓冲）量到三组数：</p>
+
+<table>
+<tr><th>量</th><th>含义</th><th class="num">修复前实测</th></tr>
+<tr><td class="mono">A_min</td><td>STORE k 最后一次读暂存区 → STORE k+1 发射</td><td class="num">9 拍（全 95 对 &gt;0）</td></tr>
+<tr><td class="mono">B_min</td><td>STORE k+1 发射 → GEMM k+2 首次写回（隔代、同缓冲）</td><td class="num">619 拍（全 94 对 &gt;0）</td></tr>
+<tr><td class="mono">race</td><td>GEMM k+1 首写 早于 STORE k 末读（真竞态）的比例</td><td class="num">95/95 = 100%</td></tr>
+</table>
+
+<p>怎么读这组数：<b>A 和 B 链起来就是前提本身</b>——乒乓下缓冲 k%2 的重写者是 GEMM k+2，
+它的首写比这块缓冲的末读（STORE k）晚 9+619=628 拍以上，全链无一例外。
+race=100% 则是把竞态本体钉死在电路上：修复前<b>每一对</b>相邻迭代都咬上，
+和静态证据（失配字节=下一迭代值）互证。A_min 只有 9 拍也回头解释了
+为什么必须走结构证明——这种余量没有任何建模误差空间。</p>
+
+<div class="box">
+结论（用户前提的裁决依据）：结构证明（两档全量 0 违反）+ 实测锚点（A∧B 全链成立）
+双保险，<b>"两块暂存区足够覆盖写回存活期"成立</b>→ 按用户倾向走编译器侧乒乓，
+不需要动硬件。</div>
+
+<h2>第二节　修复实施：swin 相位一改乒乓，其余零改动</h2>
+
+<p class="meta">编译器改动完成 2026-09-10 14:20　|　两档编译通过 14:25</p>
+
+<div class="fig">
+<svg viewBox="0 0 960 250" xmlns="http://www.w3.org/2000/svg">
+  <text x="480" y="20" text-anchor="middle" font-size="13" font-weight="bold">修法：同一块暂存区 → 两块按伪窗奇偶交替</text>
+  <g font-size="11">
+    <text x="30" y="52">修复前（单缓冲）：96 步循环全写全读同一块 sreg</text>
+    <g>
+      <rect x="60" y="62" width="120" height="24" fill="#eee" stroke="#111"/>
+      <text x="120" y="78" text-anchor="middle">GEMM k 写 sreg</text>
+      <rect x="190" y="62" width="150" height="24" fill="#fff" stroke="#111"/>
+      <text x="265" y="78" text-anchor="middle">STORE k 读 sreg（慢）</text>
+      <rect x="350" y="62" width="120" height="24" fill="#eee" stroke="#111"/>
+      <text x="410" y="78" text-anchor="middle">GEMM k+1 写 sreg</text>
+      <line x1="415" y1="86" x2="345" y2="98" stroke="#111" stroke-width="1.5" marker-end="url(#a3)"/>
+      <text x="420" y="102" font-size="10.5">覆盖！写引擎还没读完</text>
+    </g>
+    <text x="30" y="140">修复后（乒乓）：偶数步用 sreg0，奇数步用 sreg1</text>
+    <g>
+      <rect x="60" y="150" width="150" height="24" fill="#fff" stroke="#111"/>
+      <text x="135" y="166" text-anchor="middle">GEMM k 写 sreg0</text>
+      <rect x="220" y="150" width="160" height="24" fill="#fff" stroke="#111" stroke-dasharray="4 2"/>
+      <text x="300" y="166" text-anchor="middle">STORE k 读 sreg0（慢）</text>
+      <rect x="390" y="150" width="150" height="24" fill="#ddd" stroke="#111"/>
+      <text x="465" y="166" text-anchor="middle">GEMM k+1 写 sreg1</text>
+      <rect x="550" y="150" width="150" height="24" fill="#fff" stroke="#111"/>
+      <text x="625" y="166" text-anchor="middle">GEMM k+2 写 sreg0</text>
+      <text x="715" y="166" font-size="10.5">↑ 隔代才回 sreg0，</text>
+      <text x="715" y="180" font-size="10.5">中间隔着 STORE k+1 发射门</text>
+      <text x="30" y="205" font-size="10.5">改动点：sreg 拆 sreg0/sreg1 两块 ctx 分配、两块都预热零、GEMM 与 STORE 的 y_base 按伪窗奇偶二选一、批尾两块一起释放。</text>
+      <text x="30" y="222" font-size="10.5">swin 相位二和其它所有层零改动；RTL 一行未动。</text>
+    </g>
+  </g>
+  <defs><marker id="a3" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#111"/></marker></defs>
+</svg>
+<p class="hint">怎么看这张图：上排是 bug——相邻两步共用一块暂存区，下一步的写追上下一步的读。下排是修法——两块交替后，同一块缓冲要隔两步才会被重写，而隔两步必然经过一条 STORE 发射门，门前写引擎必然已排空。</p>
+</div>
+
+<p>编译产物：96 列档（电路档）3,388 段、108 列档（数值档）3,442 段，都编译通过。
+96 档比修复前少 12 段——逐段对齐定位后确认是两个 swin 单元的<b>相位二</b>批次重排
+（26 段→20 段 ×2）：相位一多占的暂存区改变了段的容量边缘，段分配器把批重新切了。
+108 档段数与修复前完全一致。这种重排本身不改变数值——下一节的字节全等门兜底。</p>
+
+<h2>第三节　五道验证门全绿</h2>
+
+<p class="meta">全部亲核完成 2026-09-10 14:45</p>
+
+<table>
+<tr><th>门</th><th>内容</th><th class="num">修复前</th><th class="num">修复后</th></tr>
+<tr><td>① 危险对扫描</td><td>f4_scan2 判据（STORE 悬置被同址 GEMM 命中），96 档全量</td><td class="num">168 段 / 15,512 对</td><td class="num"><b>0 段 / 0 对（−100%）</b></td></tr>
+<tr><td>② 结构证明重跑</td><td>S3 门控性质，v7 两个档全量</td><td class="num">0 违反（v6 两档）</td><td class="num"><b>0 违反（v7 两档）</b></td></tr>
+<tr><td>③ 全量图级对拍</td><td>v6 vs v7 两个 108 档 build，图级对齐链式跑，逐字节比</td><td class="num">—</td><td class="num"><b>31,991/31,991 = 100% 字节全等</b></td></tr>
+<tr><td>④ RTL 电路门</td><td>新指令流过 Verilator 电路 vs 黄金模型，96 档</td><td class="num">168 段失配</td><td class="num"><b>15/15 段 0 坏字节</b></td></tr>
+<tr><td>⑤ 锚点复跑</td><td>seg_0003 波形重测（同缓冲口径）</td><td class="num">race 95/95 全咬</td><td class="num"><b>同缓冲 0/47 咬</b>；A/B 全链不变</td></tr>
+</table>
+
+<p>④ 的 15 段覆盖：swin 相位一全部三种形态（k=32/4/8 各至少 2 段）+ 相位二重打包段
+2 段 + G3 回归七段（m=1280 死锁修复类、逐通道×3、m=1、m=896、最长段 1981 条等）。
+RTL 一行未动，用的就是 09-09 已验证的那套电路。⑤ 的数字要解释一句：94 对里
+奇数对的 47 次"重叠"是<b>跨缓冲</b>重叠（GEMM 写 sreg0 时 STORE 在读 sreg1），
+正是乒乓要允许的并发；47=47 与奇偶分组严丝合缝，同缓冲的咬合为零。</p>
+
+<h2>第四节　代价账</h2>
+
+<table>
+<tr><th>项</th><th class="num">修复前</th><th class="num">修复后</th><th class="num">变化</th></tr>
+<tr><td>seg_0003 拍数（每段）</td><td class="num">326,849</td><td class="num">327,725</td><td class="num">+876 拍（+0.27%）</td></tr>
+<tr><td>帧预估 @198.5MHz（96 档）</td><td class="num">3,083.58 ms</td><td class="num">3,083.44 ms</td><td class="num"><b>−0.005%</b></td></tr>
+<tr><td>段数（96 档）</td><td class="num">3,400</td><td class="num">3,388</td><td class="num">−12</td></tr>
+<tr><td>片上暂存区（每 swin 批）</td><td class="num">1×T16×T</td><td class="num">2×T16×T</td><td class="num">+3,136 字 ≈ 3KB（CTX 2MB 的 0.15%）</td></tr>
+</table>
+
+<p>拍数代价来自每个 swin 批多一个预热零 LOAD（写引擎搬零的 DMA 时长）；帧预估反而
+微降，因为省下的 12 个段头开销盖过了 336 个预热零。对照另一个候选修法
+（电路侧给 GEMM 加发射门）：那要吃写回并发、改 RTL、重新综合——乒乓方案
+RTL 零改动、代价千分之三以下，前提又被证明成立，所以是明确更优解。</p>
+
+<h2>第五节　复现命令</h2>
+
+<p class="mono">证明脚本（两档）：ssh &lt;SERVER&gt; "python3 /tmp/compiler_v6/f4_pong_proof.py /tmp/compiler_v7/build_s000_v7_96 96"</p>
+<p class="mono">危险对扫描：ssh &lt;SERVER&gt; "python3 /tmp/hw_v7/f4_scan2_v7.py"</p>
+<p class="mono">编译（96 档，不带 --attn-calib）：ssh &lt;SERVER&gt; "cd /tmp/compiler_v7 &amp;&amp; python3 sw/compiler.py --trace /tmp/ae_hostdrv/trace_s000.json --manifest /tmp/pcw_rtn/manifest.json --w8 /tmp/pcw_rtn/w8_full --calib /tmp/pcw_rtn/hw_calib_table_pcw_v3.json --pcw-w8 /tmp/pcw_rtn/pcw_export --profile full96 --out build_s000_v7_96"</p>
+<p class="mono">全量对拍：ssh &lt;SERVER&gt; "cd /tmp/compiler_v7 &amp;&amp; python3 g_v7_compare.py plan &amp;&amp; cd gtasks &amp;&amp; split -n l/48 -d tasks.jsonl shard_ &amp;&amp; cd .. &amp;&amp; for f in gtasks/shard_*; do python3 g_v7_compare.py worker \$f &gt;/dev/null 2&gt;&amp;1 &amp; done; wait; python3 g_v7_compare.py merge1"</p>
+<p class="mono">RTL 电路门：ssh &lt;SERVER&gt; "cd /tmp/hw_v7 &amp;&amp; python gate_v7.py /tmp/compiler_v7/build_s000_v7_96 -t 300 seg_0003 seg_0353 seg_0354 seg_0357 seg_0372 seg_1218 seg_0403 seg_0597"</p>
+<p class="mono">VCD 锚点（跑完删 3.4GB VCD）：ssh &lt;SERVER&gt; "cd /tmp/hw_v7 &amp;&amp; python3 f4_anchor.py /tmp/compiler_v7/build_s000_v7_96 seg_0003 &amp;&amp; rm -f run/seg_0003_f4/vcd_f4.vcd"</p>
+<p class="meta">完整命令与全部 JSON 路径见 notes/evidence_log.md §8。</p>
+
+<h2>第六节　诚实边界</h2>
+
+<ul>
+<li><b>结构证明依赖的三条 RTL 事实是读代码得到的</b>（S1a/S1b/S2，行号在证据账），
+不是形式验证；但锚点在电路上实测了门控行为（A_min=9 拍正是发射门在工作），
+两个独立来源互相印证。</li>
+<li><b>RTL 电路门抽了 15 个代表段</b>（含全部三种 swin 形态与 G3 回归类），
+3,388 段没有全跑——全量门与 09-09 轮同理列为后续项。但本轮 RTL 零改动，
+电路本身沿用已验证的二进制，风险面只剩指令流，而指令流被门①③全量覆盖。</li>
+<li><b>全量对拍的 verify 直查有 44 个非全等键</b>——与 v6 轮同位置的已知伪影
+（链式重跑按名过滤的计数差异，v6 轮 553 个照样以总账收官）；总账口径
+（全链哈希多集对比）0 失配，裁判 18/18。</li>
+<li><b>跨段共享 CTX 的别名问题不在本轮范围</b>：段与段之间宿主会等 done、
+暂存区随段销毁重建，这是宿主契约层的假设，按现有 host_driver 语义成立。</li>
+<li><b>帧预估口径</b>是编译器分段串行口径，与架构线三通道并行的 0.909s@303MHz
+不是同一口径，引用时别混。</li>
+<li>96 档 −12 段的相位二重排已逐段定位并解释，数值等价由门③兜底；
+若未来有人改动段分配器预算，这段历史在 evidence_log §3。</li>
+</ul>
+
+<p class="meta" style="margin-top:24px">本页生成于 2026-09-10 14:50:30。数字来源：notes/evidence_log.md §1-§7（主会话亲自核过的
+JSON/原始输出，全部在 results/ 与服务器 /tmp/compiler_v7、/tmp/hw_v7 可复跑）。
+总览页 plans/2026-09-09_1800_hb_fpga_full_story.html 按其自身约定不回改，本轮结果以本页和
+compiler/CHANGELOG.md 为准。</p>
+
+</body>
+</html>

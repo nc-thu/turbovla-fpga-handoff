@@ -1,0 +1,19 @@
+configuration,stage,cycles,share_of_total_pct,note
+baseline,gemm_read,68778961,44.15120198456167,non-overlap stage subtotal; overlap total is reported separately
+baseline,gemm_compute,70101248,45.00001620870444,non-overlap stage subtotal; overlap total is reported separately
+baseline,snapshot,319228,0.20492167520715607,non-overlap stage subtotal; overlap total is reported separately
+baseline,requant,3563862,2.2877459723054545,non-overlap stage subtotal; overlap total is reported separately
+baseline,writeback,3563862,2.2877459723054545,non-overlap stage subtotal; overlap total is reported separately
+baseline,bias_add,3032182,1.9464452208859653,non-overlap stage subtotal; overlap total is reported separately
+baseline,vector_fallback,6094560,3.912274126488043,non-overlap stage subtotal; overlap total is reported separately
+baseline,aux_fallback,326592,0.20964883954181812,non-overlap stage subtotal; overlap total is reported separately
+baseline,serial_subtotal_check,155780495,100.0,"baseline equals total; optimized includes max(read,compute,post)+guard and therefore is a separate schedule"
+all_selected,gemm_read,6267413,8.328235554127758,non-overlap stage subtotal; overlap total is reported separately
+all_selected,gemm_compute,70101248,93.15162507757626,non-overlap stage subtotal; overlap total is reported separately
+all_selected,snapshot,319228,0.42419511518916914,non-overlap stage subtotal; overlap total is reported separately
+all_selected,requant,3563862,4.7357150738917095,non-overlap stage subtotal; overlap total is reported separately
+all_selected,writeback,3563862,4.7357150738917095,non-overlap stage subtotal; overlap total is reported separately
+all_selected,bias_add,3032182,4.029210447593962,non-overlap stage subtotal; overlap total is reported separately
+all_selected,vector_fallback,4579120,6.084805643192414,non-overlap stage subtotal; overlap total is reported separately
+all_selected,aux_fallback,326592,0.4339805125485895,non-overlap stage subtotal; overlap total is reported separately
+all_selected,serial_subtotal_check,91753507,121.92348249801157,"baseline equals total; optimized includes max(read,compute,post)+guard and therefore is a separate schedule"

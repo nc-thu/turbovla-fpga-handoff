@@ -1,0 +1,27 @@
+[
+  {
+    "source": "E:\\ae_syn\\hb_h10\\runs\\base_pa48\\synth\\power_route.rpt",
+    "snapshot": "data\\route_intake\\v10_base_pa48_power_route.rpt",
+    "sha256": "36c5a4e69d9d62cca740f86aa5ab3a57efce027c88e19cb63de684039c393d5d"
+  },
+  {
+    "source": "E:\\ae_syn\\hb_h10\\runs\\base_pa48\\synth\\timing_summary_route.rpt",
+    "snapshot": "data\\route_intake\\v10_base_pa48_timing_summary_route.rpt",
+    "sha256": "915c036399687af812028a139f1787c522dd49ac5bbec293649130e3ba83248f"
+  },
+  {
+    "source": "E:\\ae_syn\\hb_h10\\runs\\base_pa48\\synth\\util_route.rpt",
+    "snapshot": "data\\route_intake\\v10_base_pa48_util_route.rpt",
+    "sha256": "bf5db5dfdc046b43dc4a37cd8812b63273ab68858e8939c39ab744ebe6ff634e"
+  },
+  {
+    "source": "E:\\ae_syn\\hb_h10\\runs\\base_pa48\\synth\\wns_route.txt",
+    "snapshot": "data\\route_intake\\v10_base_pa48_wns_route.txt",
+    "sha256": "f8a4aa6e5fd537377876975dfb341e505f39f44bf0a15697e8ed40b01061f132"
+  },
+  {
+    "source": "E:\\GPU ARCH\\vector_core_sim\\hw\\v5_2026-09-08_2000_h2_r2_b64_pwr\\results\\eng48\\route\\power.rpt",
+    "snapshot": "data\\route_intake\\v5_power.rpt",
+    "sha256": "f68a421c59a6df3ac5bd196b7984d8411149da8a8184797d25a65f89085b0260"
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "candidates": [
+    "group_32",
+    "group_32_mse",
+    "group_64"
+  ],
+  "rule": "MAE,max,scale_count,name"
+}

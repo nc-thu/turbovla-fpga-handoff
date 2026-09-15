@@ -1,0 +1,251 @@
+{
+  "schema_version": "tvla_w8a16.camera_ready_report.v4",
+  "generated_at": "2026-09-13T15:25:06+08:00",
+  "status": "camera_ready_candidate",
+  "compiler": {
+    "status": "PASS",
+    "logical_instructions": 83,
+    "transport_words": 172,
+    "smoke_words": 7,
+    "descriptors": 8,
+    "opcodes": 18,
+    "descriptor_status": "PASS",
+    "full_cycles_lower_bound": 633933.0
+  },
+  "cycles": {
+    "total_macs": 285788672.0,
+    "total_cycles": 496648.0,
+    "weighted_engine_utilization": 0.8493850042379394,
+    "weighted_completion_rate": 0.7492644018835607
+  },
+  "rtl": {
+    "schema_version": "tvla_w8a16.rtl_results.v4",
+    "generated_at": "2026-09-13T07:25:05+00:00",
+    "server_experiment": "/tmp/tvla_v4_timingfix_20260913_150700",
+    "verilator": {
+      "status": "passed",
+      "tool": "verilator",
+      "version_file": "logs/verilator_version.txt",
+      "started": "2026-09-13T05:03:59Z",
+      "finished": "2026-09-13T05:06:23Z",
+      "elapsed_seconds": 144,
+      "tests": [
+        "tb_w8a16_pe",
+        "tb_w8a16_array",
+        "tb_w8a16_full",
+        "tb_w8a16_requant",
+        "tb_w8a16_gemm",
+        "tb_w8a16_activations",
+        "tb_w8a16_vector_ops",
+        "tb_w8a16_dma",
+        "tb_w8a16_isa_ctrl",
+        "tb_w8a16_runtime",
+        "tb_w8a16_system"
+      ],
+      "dsp_full_array": 768
+    },
+    "iverilog": {
+      "status": "passed",
+      "tool": "iverilog",
+      "started": "2026-09-13T04:51:30Z",
+      "finished": "2026-09-13T04:51:30Z",
+      "elapsed_seconds": 0,
+      "tests": [
+        "tb_w8a16_pe",
+        "tb_w8a16_array",
+        "tb_w8a16_activations",
+        "tb_w8a16_isa_ctrl",
+        "tb_w8a16_runtime"
+      ]
+    },
+    "unisim": {
+      "status": "unavailable",
+      "tool": "xvlog",
+      "started": "2026-09-13T05:07:12Z",
+      "finished": "2026-09-13T05:07:12Z",
+      "elapsed_seconds": 0,
+      "reason": "Vivado/UNISIM executable not found on server"
+    },
+    "tests": {
+      "tb_w8a16_pe": true,
+      "tb_w8a16_array": true,
+      "tb_w8a16_full": true,
+      "tb_w8a16_requant": true,
+      "tb_w8a16_gemm": true,
+      "tb_w8a16_activations": true,
+      "tb_w8a16_vector_ops": true,
+      "tb_w8a16_dma": true,
+      "tb_w8a16_isa_ctrl": true,
+      "tb_w8a16_runtime": true,
+      "tb_w8a16_system": true,
+      "iverilog_pe": true,
+      "iverilog_array": true,
+      "iverilog_activations": true,
+      "iverilog_isa_ctrl": true,
+      "iverilog_runtime": true
+    },
+    "compiler_to_rtl_action": {
+      "status": "PASS",
+      "testbench": "tb_w8a16_runtime.sv",
+      "trace": true,
+      "action_lanes": 7
+    },
+    "dsp_mapping_expected": {
+      "1_pe": 1,
+      "4x4": 16,
+      "16x48": 768
+    },
+    "ooc": {
+      "status": "completed",
+      "part": "xczu7ev-ffvc1156-2-e",
+      "clock_ns": 3.298,
+      "reason": "Vivado 2021.2 synthesis completed locally; post-route is separate and not run",
+      "levels": [
+        "1x1",
+        "4x4",
+        "16x48"
+      ]
+    },
+    "rtl_sha256": {
+      "w8a16_action_path.sv": "b502783ba35bc06e41372da9dffafca14b935c8cb7a4f8f5a0625894941072d6",
+      "w8a16_dma.sv": "47c66545b6dc5f467ece30e321374042ab6bf86fff2a3acf01b8193eef0aed73",
+      "w8a16_gelu.sv": "6d40d974b8fb119da5529dfb56e47843f385c3618da45733b3d2ca75c7c5f6f3",
+      "w8a16_gemm.sv": "7ad3a6eeb3235e3377395cda23edf33c4072a412ae9d1ab76f0b2248d1e68c7b",
+      "w8a16_isa_ctrl.sv": "3c290a682783361912fae358f23fdbc2ec107e43bb1f23a989b6c1a96f9b240f",
+      "w8a16_layernorm.sv": "1a3a283957882e4ad0588531cb312e864e1acc30caa47cc17ef82ac62aaa019d",
+      "w8a16_mult.sv": "8e089d311c1ead08ec7174e39c0d110d1c99f024f640c1a1b799cc9812cfab9b",
+      "w8a16_pe.sv": "0647de2be80bf3bfa4c38702efa760d392072fbeda268cc28c43fb07c5c6eb6c",
+      "w8a16_relu.sv": "2944e87c7dde99d26aa8cebf71dac0b6d3f0708c1920d96cee032a64358708de",
+      "w8a16_requant.sv": "7c0c36a3b75fbe05be3dad1b3729b2446ac7e57759210ac2cd980ab4eeb5e01e",
+      "w8a16_runtime.sv": "71d5bfe55a2069dfda4c786a459bf43d6057e2f13c219dce87229da21008082d",
+      "w8a16_softmax.sv": "e2518afb1784acf0c4f8d644d60fc5f4c81d9ba67bf386a5744f00fbb619416d",
+      "w8a16_sysarr.sv": "9d6d246b3618b444f86f3a36192b0f8b9e4e7677f20f5d2abc294deae93ce957",
+      "w8a16_tanh.sv": "512836c412ae41759aaf5f2e682c817af5769687f4f00b915ca59054e355e065",
+      "w8a16_tanh_pipe.sv": "24974a3fa03f9bfe1b6fe48d9d02b922842e078714d0f33c482905bc02eae6bb",
+      "w8a16_vector_add.sv": "2ef2b5439d7f7174b6911d35650a2267abce1708ee90a27cc23f14af1bbf52c6",
+      "w8a16_vector_mul.sv": "385115cd9d98e5e9d89bd9f90cc93cee22c073c32c863f96b4052229ee1f048e",
+      "w8a16_vector_ops.sv": "81292afb080604c87b99f2cfc17a2192b419634de40024fd5f07865fef8a1023"
+    },
+    "limitations": [
+      "UNISIM/DSP48E2 smoke was not run because xvlog was unavailable on the server",
+      "Vivado result is synth_design timing/resource data; place/route and post-route timing are not included",
+      "simulation uses the behavioral multiplier branch; it does not replace a vendor primitive check"
+    ]
+  },
+  "vivado": {
+    "system": {
+      "name": "2026-09-13_150700_system_v14",
+      "top": "w8a16_system_top",
+      "rows": 16,
+      "pcols": 48,
+      "status": "passed",
+      "exit_code": 0,
+      "started": "2026-09-13T15:11:12+0800",
+      "finished": "2026-09-13T15:16:22+0800",
+      "elapsed_s": 310.0,
+      "message": "synth_design completed; reports may contain tool warnings",
+      "output_dir": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v4_2026-09-13_150700_w8a16_timing_fixed_rtl\\synth\\runs\\2026-09-13_150700_system_v14",
+      "total_luts": 67448,
+      "logic_luts": 66768,
+      "lutram": 0,
+      "srl": 680,
+      "ffs": 118149,
+      "ramb36": 0,
+      "ramb18": 0,
+      "uram": 0,
+      "dsp": 785,
+      "timing": {
+        "target_period_ns": 3.298,
+        "target_frequency_mhz": 303.21406913280777,
+        "clock_frequency_mhz": 303.214,
+        "wns_ns": 0.31,
+        "tns_ns": 0.0,
+        "timing_met": true,
+        "data_path_delay_ns": 2.978,
+        "logic_delay_ns": 2.08,
+        "logic_delay_percent": 69.846,
+        "route_delay_ns": 0.898,
+        "route_delay_percent": 30.154,
+        "fmax_estimate_mhz": 334.67202141900935,
+        "critical_source": "u_runtime/u_action/weight_r_reg[1][7][7]/C",
+        "critical_destination": "u_runtime/u_action/acc_r_reg[0][29]/D"
+      },
+      "drc": {
+        "violations": 2359,
+        "errors": 0,
+        "warnings": 3,
+        "status": "pass"
+      },
+      "raw_reports": {
+        "utilization": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v4_2026-09-13_150700_w8a16_timing_fixed_rtl\\synth\\runs\\2026-09-13_150700_system_v14\\utilization.rpt",
+        "timing": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v4_2026-09-13_150700_w8a16_timing_fixed_rtl\\synth\\runs\\2026-09-13_150700_system_v14\\timing.rpt",
+        "drc": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v4_2026-09-13_150700_w8a16_timing_fixed_rtl\\synth\\runs\\2026-09-13_150700_system_v14\\drc.rpt",
+        "checkpoint": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v4_2026-09-13_150700_w8a16_timing_fixed_rtl\\synth\\runs\\2026-09-13_150700_system_v14\\post_synth.dcp"
+      }
+    },
+    "array_16x48": {
+      "name": "2026-09-13_141900_array_16x48",
+      "top": "w8a16_array_top",
+      "rows": 16,
+      "pcols": 48,
+      "status": "passed",
+      "exit_code": 0,
+      "started": "2026-09-13T14:19:00+0800",
+      "finished": "2026-09-13T14:24:36+0800",
+      "elapsed_s": 336.0,
+      "message": "synth_design completed; reports may contain tool warnings",
+      "output_dir": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v3_2026-09-13_140118_w8a16_camera_ready_rtl\\synth\\runs\\2026-09-13_141900_array_16x48",
+      "total_luts": 57331,
+      "logic_luts": 56651,
+      "lutram": 0,
+      "srl": 680,
+      "ffs": 110656,
+      "ramb36": 0,
+      "ramb18": 0,
+      "uram": 0,
+      "dsp": 768,
+      "timing": {
+        "target_period_ns": 3.298,
+        "target_frequency_mhz": 303.21406913280777,
+        "clock_frequency_mhz": 303.214,
+        "wns_ns": 2.149,
+        "tns_ns": 0.0,
+        "timing_met": true,
+        "data_path_delay_ns": 1.128,
+        "logic_delay_ns": 0.91,
+        "logic_delay_percent": 80.674,
+        "route_delay_ns": 0.218,
+        "route_delay_percent": 19.326,
+        "fmax_estimate_mhz": 870.3220191470845,
+        "critical_source": "u_array/g_row[0].g_col[0].u_pe/b_r_reg[7]/C",
+        "critical_destination": "u_array/g_row[0].g_col[0].u_pe/u_mult/u_dsp/DSP_M_DATA_INST/V[14]"
+      },
+      "drc": {
+        "violations": 2304,
+        "errors": 0,
+        "warnings": 1,
+        "status": "pass"
+      },
+      "raw_reports": {
+        "utilization": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v3_2026-09-13_140118_w8a16_camera_ready_rtl\\synth\\runs\\2026-09-13_141900_array_16x48\\utilization.rpt",
+        "timing": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v3_2026-09-13_140118_w8a16_camera_ready_rtl\\synth\\runs\\2026-09-13_141900_array_16x48\\timing.rpt",
+        "drc": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v3_2026-09-13_140118_w8a16_camera_ready_rtl\\synth\\runs\\2026-09-13_141900_array_16x48\\drc.rpt",
+        "checkpoint": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v3_2026-09-13_140118_w8a16_camera_ready_rtl\\synth\\runs\\2026-09-13_141900_array_16x48\\post_synth.dcp"
+      },
+      "source_version": "v3_unchanged_array_top",
+      "inheritance_note": "v4 vector_mul timing fix is not instantiated by top_w8a16_array"
+    },
+    "timing_is_synthesis_estimate": true
+  },
+  "figures": {
+    "datapath": "figures/fig_w8a16_datapath.svg",
+    "compiler_rtl": "figures/fig_compiler_rtl_path.svg",
+    "timing": "figures/fig_timing_history.svg"
+  },
+  "limitations": [
+    "DINO/T5、TurboVLA 采样循环和真实 LIBERO 环境动作尚未接入 RTL",
+    "UNISIM/DSP48E2 smoke 因服务器没有 xvlog 未运行",
+    "Vivado 只有 synth_design，未做 place/route、post-route、功耗或上板",
+    "OOC 没有板级 pin 约束；NSTD-1/UCIO-1 是接口约束警告，不等于内部 setup 失败，但当前结果还不能直接生成 bitstream"
+  ]
+}

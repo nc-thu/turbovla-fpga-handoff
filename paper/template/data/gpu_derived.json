@@ -1,0 +1,16 @@
+{
+  "generated_at": "2026-09-12T14:00:42",
+  "mean_forward_ms": 404.9258766074975,
+  "forwards_per_second": 2.4695877882097403,
+  "stage_ms": {
+    "Visual": 32.987650483846664,
+    "Language / interaction": 60.37970073521137,
+    "Action": 312.83413991332054,
+    "Other / preprocess": 2.806606392065703
+  },
+  "action_stage_fraction": 0.764860504735176,
+  "shared_board_power_mean_w": 99.74297029702971,
+  "energy_per_policy_call_j": null,
+  "calls_per_joule": null,
+  "quality_success_rate": null
+}

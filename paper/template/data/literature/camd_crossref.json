@@ -1,0 +1,588 @@
+{
+  "indexed": {
+    "date-parts": [
+      [
+        2026,
+        9,
+        10
+      ]
+    ],
+    "date-time": "2026-09-10T23:03:37Z",
+    "timestamp": 1789081417448,
+    "version": "build-2803163510"
+  },
+  "reference-count": 28,
+  "publisher": "IEEE",
+  "license": [
+    {
+      "start": {
+        "date-parts": [
+          [
+            2024,
+            6,
+            29
+          ]
+        ],
+        "date-time": "2024-06-29T00:00:00Z",
+        "timestamp": 1719619200000
+      },
+      "content-version": "stm-asf",
+      "delay-in-days": 0,
+      "URL": "https://doi.org/10.15223/policy-029"
+    },
+    {
+      "start": {
+        "date-parts": [
+          [
+            2024,
+            6,
+            29
+          ]
+        ],
+        "date-time": "2024-06-29T00:00:00Z",
+        "timestamp": 1719619200000
+      },
+      "content-version": "stm-asf",
+      "delay-in-days": 0,
+      "URL": "https://doi.org/10.15223/policy-037"
+    }
+  ],
+  "content-domain": {
+    "domain": [],
+    "crossmark-restriction": false
+  },
+  "short-container-title": [],
+  "published-print": {
+    "date-parts": [
+      [
+        2024,
+        6,
+        29
+      ]
+    ]
+  },
+  "DOI": "10.1109/isca59077.2024.00070",
+  "type": "proceedings-article",
+  "created": {
+    "date-parts": [
+      [
+        2024,
+        8,
+        1
+      ]
+    ],
+    "date-time": "2024-08-01T13:38:44Z",
+    "timestamp": 1722519524000
+  },
+  "page": "903-914",
+  "source": "Crossref",
+  "is-referenced-by-count": 28,
+  "title": [
+    "Cambricon-D: Full-Network Differential Acceleration for Diffusion Models"
+  ],
+  "prefix": "10.1109",
+  "author": [
+    {
+      "given": "Weihao",
+      "family": "Kong",
+      "sequence": "first",
+      "affiliation": [
+        {
+          "name": "SKLP, ICT, CAS UCAS,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Yifan",
+      "family": "Hao",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "SKLP, ICT, CAS,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Qi",
+      "family": "Guo",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "SKLP, ICT, CAS,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Yongwei",
+      "family": "Zhao",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "SKLP, ICT, CAS,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Xinkai",
+      "family": "Song",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "SKLP, ICT, CAS,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Xiaqing",
+      "family": "Li",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "SKLP, ICT, CAS,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Mo",
+      "family": "Zou",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "SKLP, ICT, CAS,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Zidong",
+      "family": "Du",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "SKLP, ICT, CAS,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Rui",
+      "family": "Zhang",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "SKLP, ICT, CAS,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Chang",
+      "family": "Liu",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "Cambricon,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Yuanbo",
+      "family": "Wen",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "SKLP, ICT, CAS,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Pengwei",
+      "family": "Jin",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "SKLP, ICT, CAS UCAS,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Xing",
+      "family": "Hu",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "SKLP, ICT, CAS,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Wei",
+      "family": "Li",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "SKLP, ICT, CAS,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Zhiwei",
+      "family": "Xu",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "SKLP, ICT, CAS UCAS,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    },
+    {
+      "given": "Tianshi",
+      "family": "Chen",
+      "sequence": "additional",
+      "affiliation": [
+        {
+          "name": "Cambricon,Beijing,China"
+        }
+      ],
+      "role": [
+        {
+          "vocabulary": "crossref",
+          "role": "author"
+        }
+      ]
+    }
+  ],
+  "member": "263",
+  "reference": [
+    {
+      "key": "ref1",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3085572"
+    },
+    {
+      "key": "ref2",
+      "volume-title": "Video generation models as world simulators",
+      "author": "Brooks",
+      "year": "2024"
+    },
+    {
+      "key": "ref3",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/mm.2021.3061394"
+    },
+    {
+      "key": "ref4",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/cvpr.2009.5206848"
+    },
+    {
+      "key": "ref5",
+      "first-page": "8780",
+      "article-title": "Diffusion Models Beat GANs on Image Synthesis",
+      "volume": "34",
+      "author": "Dhariwal",
+      "year": "2021",
+      "journal-title": "Advances in Neural Information Processing Systems"
+    },
+    {
+      "key": "ref6",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1016/j.neunet.2017.12.012"
+    },
+    {
+      "key": "ref7",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1007/978-3-642-39360-0_3"
+    },
+    {
+      "key": "ref8",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1145/3579371.3589038"
+    },
+    {
+      "key": "ref9",
+      "article-title": "Denoising diffusion probabilistic models",
+      "volume-title": "Advances in Neural Information Processing Systems 33: Annual Conference on Neural Information Processing Systems 2020, NeurIPS 2020",
+      "author": "Ho"
+    },
+    {
+      "key": "ref10",
+      "volume-title": "Midjourney",
+      "author": "Holz"
+    },
+    {
+      "key": "ref11",
+      "first-page": "448",
+      "article-title": "Batch normalization: accelerating deep network training by reducing internal covariate shift",
+      "volume-title": "Proceedings of the 32nd International Conference on International Conference on Machine Learning - Volume 37, ser. ICML\u201915",
+      "author": "Ioffe"
+    },
+    {
+      "key": "ref12",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/lca.2015.2414456"
+    },
+    {
+      "key": "ref13",
+      "volume-title": "Denoising Diffusion-based Generative Modeling: Foundations and Applications",
+      "author": "Kreis",
+      "year": "2022"
+    },
+    {
+      "key": "ref14",
+      "article-title": "Q-diffusion: Quantizing diffusion models",
+      "volume": "abs/2302.04304",
+      "author": "Li",
+      "year": "2023",
+      "journal-title": "CoRR"
+    },
+    {
+      "key": "ref15",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/micro.2018.00020"
+    },
+    {
+      "key": "ref16",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/isca.2018.00063"
+    },
+    {
+      "key": "ref17",
+      "first-page": "arXiv: 2204.06125",
+      "article-title": "Hierarchical Text-Conditional Image Generation with CLIP Latents",
+      "volume": "abs/2204.06125",
+      "author": "Ramesh",
+      "year": "2022",
+      "journal-title": "CoRR"
+    },
+    {
+      "key": "ref18",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/CVPR52688.2022.01042"
+    },
+    {
+      "key": "ref19",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/ISCAS51556.2021.9401196"
+    },
+    {
+      "key": "ref20",
+      "article-title": "LAION-5B: an open large-scale dataset for training next generation image-text models",
+      "volume-title": "NeurIPS",
+      "author": "Schuhmann"
+    },
+    {
+      "key": "ref21",
+      "article-title": "Post-training quantization on diffusion models",
+      "volume": "abs/2211.15736",
+      "author": "Shang",
+      "year": "2022",
+      "journal-title": "CoRR"
+    },
+    {
+      "key": "ref22",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.18653/v1/P18-1238"
+    },
+    {
+      "issue": "1",
+      "key": "ref23",
+      "first-page": "1929",
+      "article-title": "Dropout: a simple way to prevent neural networks from overfitting",
+      "volume": "15",
+      "author": "Srivastava",
+      "year": "2014",
+      "journal-title": "The Journal of Machine Learning Research"
+    },
+    {
+      "key": "ref24",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/CVPR.2016.308"
+    },
+    {
+      "key": "ref25",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.48550/ARXIV.1706.03762"
+    },
+    {
+      "key": "ref26",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1109/TIP.2003.819861"
+    },
+    {
+      "key": "ref27",
+      "doi-asserted-by": "publisher",
+      "DOI": "10.1007/978-3-030-01261-8_1"
+    },
+    {
+      "key": "ref28",
+      "article-title": "LSUN: construction of a large-scale image dataset using deep learning with humans in the loop",
+      "volume": "abs/1506.03365",
+      "author": "Yu",
+      "year": "2015",
+      "journal-title": "CoRR"
+    }
+  ],
+  "event": {
+    "name": "2024 ACM/IEEE 51st Annual International Symposium on Computer Architecture (ISCA)",
+    "location": "Buenos Aires, Argentina",
+    "start": {
+      "date-parts": [
+        [
+          2024,
+          6,
+          29
+        ]
+      ]
+    },
+    "end": {
+      "date-parts": [
+        [
+          2024,
+          7,
+          3
+        ]
+      ]
+    }
+  },
+  "container-title": [
+    "2024 ACM/IEEE 51st Annual International Symposium on Computer Architecture (ISCA)"
+  ],
+  "original-title": [],
+  "link": [
+    {
+      "URL": "http://xplorestaging.ieee.org/ielx8/10609566/10609567/10609724.pdf?arnumber=10609724",
+      "content-type": "unspecified",
+      "content-version": "vor",
+      "intended-application": "similarity-checking"
+    }
+  ],
+  "deposited": {
+    "date-parts": [
+      [
+        2024,
+        8,
+        3
+      ]
+    ],
+    "date-time": "2024-08-03T00:47:08Z",
+    "timestamp": 1722646028000
+  },
+  "score": 1,
+  "resource": {
+    "primary": {
+      "URL": "https://ieeexplore.ieee.org/document/10609724/"
+    }
+  },
+  "subtitle": [],
+  "short-title": [],
+  "issued": {
+    "date-parts": [
+      [
+        2024,
+        6,
+        29
+      ]
+    ]
+  },
+  "references-count": 28,
+  "URL": "https://doi.org/10.1109/isca59077.2024.00070",
+  "relation": {},
+  "subject": [],
+  "published": {
+    "date-parts": [
+      [
+        2024,
+        6,
+        29
+      ]
+    ]
+  }
+}

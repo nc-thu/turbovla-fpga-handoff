@@ -1,0 +1,62 @@
+{
+  "schema_version": "tvla_w8a16.file_manifest.v4",
+  "generated_at": "2026-09-13T15:32:11+08:00",
+  "workspace": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16",
+  "source_commit": "b29ab1420baa5c663ec935df513f2012430beb67",
+  "checkpoint": {
+    "path": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/pretrained/TurboVLA/checkpoints/libero/turbovla_libero.pth",
+    "sha256": "d031ad7be05a2f5d04afb3194ed26b0cb46083685edee7a5e145078a37d26bab"
+  },
+  "version": "v4_2026-09-13_150700",
+  "metadata_hashes": {
+    "model_state_dict_shapes.json": "e85e2752dcd3e2f49fa918dd2445a74b939e230ac09a2dad771595fef8d32f02",
+    "checkpoint_model_config.json": "24df521ed77a737b12a19bde13d261d34ae3b6b89c12006079b0d62e818eaea2",
+    "quant_screening_summary.json": "2c2408e89fd31ca93339a888f20d4e34194896a16f256bda8c34cdc3c20e13d6"
+  },
+  "tracked_files": {
+    "BUILD_MANIFEST.md": "5f40a15facc2ad365de9ce553ae9a2e116b208810c7f3fcc334b326b50522ef3",
+    "CHANGELOG.md": "f17b86b9be65ec5202e037477305b2f5812d512a92c4e35dc145af0ab5171953",
+    "data/v4_2026-09-13_150700/checkpoint_model_config.json": "24df521ed77a737b12a19bde13d261d34ae3b6b89c12006079b0d62e818eaea2",
+    "data/v4_2026-09-13_150700/compile_manifest.json": "283742def1064fb25f02d2776bbfd7d17315db1af7e226fff88391b79acee2ad",
+    "data/v4_2026-09-13_150700/cycle_breakdown.csv": "04ea45531d03502a9a8d2ed7501407070ccc6a62676ca6713785486309cd6cd3",
+    "data/v4_2026-09-13_150700/cycle_breakdown.json": "a2052fd05d5acad5f26816aa85a2a2e5d247ddbb3a22a4659258e2fddb815734",
+    "data/v4_2026-09-13_150700/descriptor_manifest.json": "044a25f94f4b12b02d99173602454adeb955e4c855d86946a2f3d6237c3b518a",
+    "data/v4_2026-09-13_150700/file_manifest.json": "b5c6a3e85074a09b396c9371cd6582119d1281109827781e4631fdfb6546bf8c",
+    "data/v4_2026-09-13_150700/instruction_costs.csv": "2e74013fd01ca473ead607f50c538f371c102f5e19b5cf9752e41cca55aa1efe",
+    "data/v4_2026-09-13_150700/instruction_costs.json": "d493d12031328cab8cad82c56eddf73834967e6281a270281826b6623bd1084e",
+    "data/v4_2026-09-13_150700/isa_sim_results.json": "d80b73d80cbdb6ebb10c0e42fcaef3356921a98716c098ca6723873692a9f76c",
+    "data/v4_2026-09-13_150700/isa_spec.json": "b76dcf67019172f114ceef5b189846cecb1facbac0c66d02b4156eb3aac00ec3",
+    "data/v4_2026-09-13_150700/libero_action_probe.json": "4976a040dd7dc609ed292855a4f9a77d7e8c2b6185fee7a7a538ae077191ce1d",
+    "data/v4_2026-09-13_150700/model_state_dict_shapes.json": "e85e2752dcd3e2f49fa918dd2445a74b939e230ac09a2dad771595fef8d32f02",
+    "data/v4_2026-09-13_150700/operator_inventory.json": "08b0c639f84b85b3a92d3d6d763b41e46e0656c90ed53514545f8b6d21444a4b",
+    "data/v4_2026-09-13_150700/python_checks.json": "0e87d451eb27a5e81bb2a8d5cfa60ba967ceb7b3665a9aabecabce4b3589f500",
+    "data/v4_2026-09-13_150700/quant_error.csv": "16c62d08e0116bbd5d29455fec62f22b926633fbc02c3a4880911e6dfd65bc2d",
+    "data/v4_2026-09-13_150700/quant_screening_summary.json": "2c2408e89fd31ca93339a888f20d4e34194896a16f256bda8c34cdc3c20e13d6",
+    "data/v4_2026-09-13_150700/rtl_results.json": "89ad45762d9dbb3a8c42e617b046cde1f3d6911112be92c5bd4d1b0e18ff79bd",
+    "data/v4_2026-09-13_150700/traffic_breakdown.csv": "163482e54b9972e29e9f4edc8e565dbf88dca8b0c85d7d6d12e9821944e7d4fd",
+    "data/v4_2026-09-13_150700/turbovla_w8a16_program.json": "befe05ad5d68e82ec612aa7f1cad96afbb0f4f4ad0b917e015115e78ad1cb321",
+    "data/v4_2026-09-13_150700/vivado_synth_results.csv": "554199930f3d7e1d989c957bc8798d47cbe955f2141d1f5e97ab6be4460517d1",
+    "data/v4_2026-09-13_150700/vivado_synth_results.json": "b01af7d5dc1be8ec8ca5cd37703dcde75803dac149887201dd7eb07a37195c22",
+    "data/v4_2026-09-13_150700/w8a16_descriptors.json": "f1e2a3d9fe17783d53a84d29fdf1825d42b94618c90647673bcce7f8dd0c51f4",
+    "README.md": "a46b427a7923cf673e67e27ac7e651c18a8b5c962d1cc4a2d067f3b50fad9ea4",
+    "scripts/build_v4_manifest.py": "b2075c17a52f805390aac19d1033236e7bf1aa4530b92de200a555313b24af3e",
+    "scripts/collect_v4_rtl_results.py": "c2b82dd87d541fd5bdc72126c84045fb5e6d0e536f5eac29367d175b293634c7",
+    "scripts/collect_v4_vivado_synth.py": "f4568a26a12c0ad66af10d8d8cd9793ed044f0efb5ba81062cb348123332781a",
+    "scripts/generate_camera_ready_report_v4.py": "e897277fab70fed4a3d71190e62788469111e577d2a29141e8b68412b2cf3b4f",
+    "scripts/reproduce_v4_pipeline.ps1": "386e0e328ba15d4008fa81a6bffb4973cd97499b9b1f4b629d7831637d53454f",
+    "WORKLOG.md": "66127feadc6a295e73ac7d0ce001144d285e66ed2c9a60df646b16e4a5974298"
+  },
+  "array_evidence": {
+    "source_version": "v3_unchanged_array_top",
+    "reason": "v4 vector_mul timing fix is not instantiated by top_w8a16_array",
+    "records": [
+      "2026-09-13_141621_array_1x1",
+      "2026-09-13_141800_array_4x4",
+      "2026-09-13_141900_array_16x48"
+    ]
+  },
+  "notes": [
+    "tracked_files 只覆盖 v4 源码、数据、当前 system_v14 原始综合报告和根级工作日志；旧版本和只读 references 不在本清单内。",
+    "checkpoint hash 沿用 v3 归档的已记录值，没有重新下载 checkpoint。"
+  ]
+}

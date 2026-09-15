@@ -1,0 +1,9 @@
+﻿{
+    "status":  "not_run",
+    "reason":  "vivado command not found on this host",
+    "start":  "2026-09-15 16:29:50",
+    "end":  "2026-09-15 16:29:50",
+    "elapsed_seconds":  0.05,
+    "period_ns":  3.298,
+    "frequency_mhz":  303.214069
+}

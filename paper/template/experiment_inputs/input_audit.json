@@ -1,0 +1,129 @@
+{
+  "generated": "2026-09-12T12:40:31.541410",
+  "read_only": true,
+  "records": [
+    {
+      "path": "E:\\GPU ARCH\\vector_core_sim\\compiler\\v7_2026-09-10_1258_f4_ybase_pong\\sw\\compiler.py",
+      "sha256": "a3176ec786caa7eeb8e717a37bf98eb015284a4741afe2198c58ae6be894abe4",
+      "mtime": "2026-09-10T14:04:58.264560",
+      "matching_lines": [
+        {
+          "line": 233,
+          "text": "class HostOp:"
+        },
+        {
+          "line": 235,
+          "text": "    im2col/host_gemm/exempt/deform_host/other\"\"\""
+        },
+        {
+          "line": 429,
+          "text": "        self.nodes = []          # HostOp / WGemm / Attn 混合执行序"
+        },
+        {
+          "line": 443,
+          "text": "            self.stats['exempt_host_gemm'] += 1"
+        },
+        {
+          "line": 666,
+          "text": "                nodes.append(HostOp(f'h{len(nodes)}', A.module, 'WindowMSA',"
+        },
+        {
+          "line": 680,
+          "text": "                    nodes.append(HostOp(f'h{len(nodes)}', wrec['module'],"
+        },
+        {
+          "line": 686,
+          "text": "                        nodes.append(HostOp(f'h{len(nodes)}', r['module'], cls,"
+        },
+        {
+          "line": 687,
+          "text": "                                            'deform_host',"
+        },
+        {
+          "line": 693,
+          "text": "                nodes.append(HostOp(f'h{len(nodes)}', r['module'], cls,"
+        },
+        {
+          "line": 698,
+          "text": "                nodes.append(HostOp(f'h{len(nodes)}', r['module'], cls,"
+        },
+        {
+          "line": 764,
+          "text": "                self.nodes.append(HostOp(f'h{len(self.nodes)}', r['module'],"
+        },
+        {
+          "line": 767,
+          "text": "                self.nodes.append(HostOp(f'h{len(self.nodes)}', r['module'],"
+        },
+        {
+          "line": 772,
+          "text": "                self.stats['host_gemm_k_too_big'] += 1"
+        },
+        {
+          "line": 773,
+          "text": "                self.nodes.append(HostOp(f'h{len(self.nodes)}', r['module'],"
+        },
+        {
+          "line": 774,
+          "text": "                                         r['cls'], 'host_gemm',"
+        },
+        {
+          "line": 1956,
+          "text": "            if isinstance(nd, HostOp):"
+        },
+        {
+          "line": 2116,
+          "text": "          f'豁免={st.get(\"exempt_host_gemm\")} '"
+        },
+        {
+          "line": 2117,
+          "text": "          f'host_gemm_k超限={st.get(\"host_gemm_k_too_big\")}')"
+        }
+      ]
+    },
+    {
+      "path": "E:\\GPU ARCH\\vector_core_sim\\hw\\v8_2026-09-12_0054_rtl_util_r5\\rtl_p2\\ae_gemm_p2d.sv",
+      "sha256": "0c9264eaeb935b6e05272aea802d3184d52616577bc673b141d08a41f32e1624",
+      "mtime": "2026-09-12T03:10:10.883613",
+      "matching_lines": [
+        {
+          "line": 31,
+          "text": "  input  logic clk,                 // 接口时钟"
+        },
+        {
+          "line": 32,
+          "text": "  input  logic cclk,                // 2× 核心时钟（阵列域，与 clk 相位对齐）"
+        }
+      ]
+    },
+    {
+      "path": "E:\\GPU ARCH\\vector_core_sim\\hw\\v10_2026-09-12_1148_engfull_preadd\\notes\\regression_verdict.md",
+      "sha256": "d6614cf224cb08384c419d4267d540ddb058d6b79f60034e84c76d0b53bcda87",
+      "mtime": "2026-09-12T12:28:05.988543",
+      "matching_lines": [
+        {
+          "line": 12,
+          "text": "| p2_base4（基线引擎） | ctl_p2_base4.log（v8 原 PE 本机重跑） | 全文 diff | 逐行一致，含 L2b 既有 FAIL err=384、cycles=6245 行为一致 |"
+        },
+        {
+          "line": 13,
+          "text": "| pp4_wb1（乒乓+双写，写口0） | v8 存档 pp4_wb1.log | 归一化 diff（去 \\r、去 $finish 诊断行） | 十档（D0~D3/L0~L2）逐行一致，ALL PASS |"
+        },
+        {
+          "line": 14,
+          "text": "| pp4_wb2（同上，写口1） | v8 存档 pp4_wb2.log | 同上 | 逐行一致，ALL PASS |"
+        },
+        {
+          "line": 15,
+          "text": "| p2d4_pd6（2× 时钟域引擎） | v8 存档 p2d4_pd6.log | grep -v dbg 归一化 diff | 逐行一致（唯一差异 = v8 存档多一行 $finish 诊断），ALL PASS |"
+        },
+        {
+          "line": 17,
+          "text": "注：p2_base4 的 L2b FAIL（err=384, got=x）是**对照组同样复现**的既有行为"
+        }
+      ]
+    }
+  ],
+  "candidate_inputs": [],
+  "warning": "Static references are not dynamic operator coverage. Select the actual compiled build and join its host plan to the model trace."
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "tvla_w8a16.history_optimization.v1",
+  "generated_at": "2026-09-14 01:17:12",
+  "source_module_events": 408,
+  "source_dispatch_events": 6836,
+  "instruction_count": 433,
+  "descriptor_count": 432,
+  "bmm_descriptor_count": 24,
+  "unknown_event_count": 0,
+  "coverage": {
+    "module_events_covered": 408,
+    "module_events_total": 408,
+    "dispatch_bmm_covered": 24,
+    "dispatch_bmm_total": 24,
+    "parent_children_not_double_counted": true,
+    "bmm_attached_to_parent": 0
+  },
+  "compiler_order": "module_then_bmm",
+  "fusion_group_count": 0,
+  "optimization_options": [
+    "tile_mask"
+  ],
+  "optimization_option_bits": {
+    "tile_mask": 4
+  },
+  "clock_mhz": 250.0,
+  "array": {
+    "rows": 16,
+    "physical_cols": 48,
+    "dsp": 768,
+    "mac_per_dsp_per_cycle": 1
+  },
+  "cycles": {
+    "total_cycles": 155780495,
+    "fallback_cycles": 6421152,
+    "mapped_cycles": 149359343,
+    "base_total_cycles": 155780495,
+    "optimized_total_cycles": 155780495,
+    "cycle_savings": 0,
+    "cycle_savings_pct": 0.0,
+    "dma_read_cycles": 32859055,
+    "dma_write_cycles": 14935934,
+    "scheduler_wait_cycles": 5974373,
+    "snapshot_cycles": 319228,
+    "requant_cycles": 3563862,
+    "vector_cycles": 6094560
+  },
+  "traffic_bytes": {
+    "activation_bytes": 161740000,
+    "weight_bytes": 276530176,
+    "output_bytes": 164575944
+  },
+  "tile_count": 79807,
+  "valid_mac_count": 49584342528,
+  "pe_active_pe_cycles": 49584342528,
+  "pe_busy_cycles": 114707975424,
+  "pe_time_utilization": 0.41444820161856594,
+  "gemm_utilization": 0.43226586769332537,
+  "effective_gmac_per_s": 79.57405471076467,
+  "effective_gops": 159.14810942152934,
+  "physical_peak_gmac_per_s": 192.0,
+  "physical_peak_gops": 384.0,
+  "fallback_is_behavior_level": true,
+  "model_boundary": "cycle model; reuse/overlap/coalescing are conditional until activity is measured"
+}

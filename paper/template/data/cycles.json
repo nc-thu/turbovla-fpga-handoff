@@ -1,0 +1,257 @@
+{
+ "p2_base4": {
+  "file": "p2_base4.log",
+  "pass_": "ALL PASS",
+  "L": {}
+ },
+ "pp4_wb2": {
+  "file": "pp4_wb2.log",
+  "pass_": "ALL PASS",
+  "L": {
+   "L0": {
+    "cycles": 313,
+    "P_raw": 78.2,
+    "resid": 1,
+    "wb": 4.0,
+    "k": 5,
+    "mt": 4
+   },
+   "L1": {
+    "cycles": 373,
+    "P_raw": 93.2,
+    "resid": 1,
+    "wb": 4.0,
+    "k": 64,
+    "mt": 4
+   },
+   "L2": {
+    "cycles": 8293,
+    "P_raw": 2073.2,
+    "resid": 1,
+    "wb": 4.0,
+    "k": 2049,
+    "mt": 4
+   }
+  }
+ },
+ "pp4_wb1": {
+  "file": "pp4_wb1.log",
+  "pass_": "ALL PASS",
+  "L": {
+   "L0": {
+    "cycles": 317,
+    "P_raw": 79.2,
+    "resid": 1,
+    "wb": 8.0,
+    "k": 5,
+    "mt": 4
+   },
+   "L1": {
+    "cycles": 377,
+    "P_raw": 94.2,
+    "resid": 1,
+    "wb": 8.0,
+    "k": 64,
+    "mt": 4
+   },
+   "L2": {
+    "cycles": 8297,
+    "P_raw": 2074.2,
+    "resid": 1,
+    "wb": 8.0,
+    "k": 2049,
+    "mt": 4
+   }
+  }
+ },
+ "p2d4": {
+  "file": "p2d4_pd6.log",
+  "pass_": "ALL PASS",
+  "L": {
+   "L0": {
+    "cycles": 305,
+    "P_raw": 76.2,
+    "resid": 1,
+    "wb": 4.0,
+    "k": 5,
+    "mt": 4
+   },
+   "L1": {
+    "cycles": 333,
+    "P_raw": 83.2,
+    "resid": 1,
+    "wb": 4.0,
+    "k": 64,
+    "mt": 4
+   },
+   "L2": {
+    "cycles": 4193,
+    "P_raw": 1048.2,
+    "resid": 1,
+    "wb": 4.0,
+    "k": 2049,
+    "mt": 4
+   }
+  }
+ },
+ "p2_base48": {
+  "file": "p2_base48_full.log",
+  "pass_": "ALL PASS",
+  "L": {
+   "L1b": {
+    "cycles": 421,
+    "P_raw": 140.3,
+    "resid": 1,
+    "wb": 8.0,
+    "k": 64,
+    "mt": 3
+   },
+   "L2b": {
+    "cycles": 6289,
+    "P_raw": 2096.3,
+    "resid": 1,
+    "wb": 8.0,
+    "k": 2049,
+    "mt": 3
+   }
+  }
+ },
+ "pp48_wb1": {
+  "file": "pp48_wb1.log",
+  "pass_": "ALL PASS",
+  "L": {
+   "L0": {
+    "cycles": 361,
+    "P_raw": 90.2,
+    "resid": 1,
+    "wb": 8.0,
+    "k": 5,
+    "mt": 4
+   },
+   "L1": {
+    "cycles": 421,
+    "P_raw": 105.2,
+    "resid": 1,
+    "wb": 8.0,
+    "k": 64,
+    "mt": 4
+   },
+   "L2": {
+    "cycles": 8341,
+    "P_raw": 2085.2,
+    "resid": 1,
+    "wb": 8.0,
+    "k": 2049,
+    "mt": 4
+   },
+   "L3": {
+    "cycles": 8432,
+    "P_raw": 2108.0,
+    "resid": 0,
+    "wb": 96.0,
+    "k": 2049,
+    "mt": 4
+   },
+   "L4": {
+    "cycles": 584,
+    "P_raw": 146.0,
+    "resid": 0,
+    "wb": 96.0,
+    "k": 64,
+    "mt": 4
+   }
+  }
+ },
+ "pp48_wb2": {
+  "file": "pp48_wb2.log",
+  "pass_": "ALL PASS",
+  "L": {
+   "L0": {
+    "cycles": 357,
+    "P_raw": 89.2,
+    "resid": 1,
+    "wb": 4.0,
+    "k": 5,
+    "mt": 4
+   },
+   "L1": {
+    "cycles": 417,
+    "P_raw": 104.2,
+    "resid": 1,
+    "wb": 4.0,
+    "k": 64,
+    "mt": 4
+   },
+   "L2": {
+    "cycles": 8337,
+    "P_raw": 2084.2,
+    "resid": 1,
+    "wb": 4.0,
+    "k": 2049,
+    "mt": 4
+   },
+   "L3": {
+    "cycles": 8381,
+    "P_raw": 2095.2,
+    "resid": 1,
+    "wb": 48.0,
+    "k": 2049,
+    "mt": 4
+   },
+   "L4": {
+    "cycles": 461,
+    "P_raw": 115.2,
+    "resid": 1,
+    "wb": 48.0,
+    "k": 64,
+    "mt": 4
+   }
+  }
+ },
+ "p2d48": {
+  "file": "p2d48.log",
+  "pass_": "ALL PASS",
+  "L": {
+   "L0": {
+    "cycles": 329,
+    "P_raw": 82.2,
+    "resid": 1,
+    "wb": 4.0,
+    "k": 5,
+    "mt": 4
+   },
+   "L1": {
+    "cycles": 357,
+    "P_raw": 89.2,
+    "resid": 1,
+    "wb": 4.0,
+    "k": 64,
+    "mt": 4
+   },
+   "L2": {
+    "cycles": 4213,
+    "P_raw": 1053.2,
+    "resid": 1,
+    "wb": 4.0,
+    "k": 2049,
+    "mt": 4
+   },
+   "L3": {
+    "cycles": 4257,
+    "P_raw": 1064.2,
+    "resid": 1,
+    "wb": 48.0,
+    "k": 2049,
+    "mt": 4
+   },
+   "L4": {
+    "cycles": 401,
+    "P_raw": 100.2,
+    "resid": 1,
+    "wb": 48.0,
+    "k": 64,
+    "mt": 4
+   }
+  }
+ }
+}

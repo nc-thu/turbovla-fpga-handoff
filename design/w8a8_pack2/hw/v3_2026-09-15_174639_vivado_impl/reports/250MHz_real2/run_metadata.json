@@ -1,0 +1,10 @@
+{
+  "status": "failed",
+  "start": "2026-09-15 18:04:13",
+  "end": "2026-09-15 18:07:06",
+  "elapsed_seconds": 173,
+  "period_ns": 4.000,
+  "top": "tvla_w8a8_pack2_impl_top",
+  "part": "xczu7ev-ffvc1156-2-e",
+  "error": "ERROR: [Common 17-69] Command failed: Placer could not place all instances\n"
+}

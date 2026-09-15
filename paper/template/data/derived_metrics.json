@@ -1,0 +1,9 @@
+{
+  "short_K_lt64_modeled_cycle_share_pct": 29.114303898978715,
+  "short_K_lt64_MAC_share_pct": 5.907410359354482,
+  "pe_lut_reduction_pct": 14.876033057851235,
+  "strip_lut_reduction_pct": 12.364052661705783,
+  "clock_note": "single clock peak1536 MAC/iface cycle; 2x core peak3072, assuming768 DSPs and2 products/core cycle",
+  "quality_values": null,
+  "full_engine_preadder_results": null
+}

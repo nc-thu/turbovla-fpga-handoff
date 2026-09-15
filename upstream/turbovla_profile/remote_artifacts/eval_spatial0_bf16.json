@@ -1,0 +1,25 @@
+{
+  "script": "turbovla_libero_evaluation",
+  "ckpt_path": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/pretrained/TurboVLA/checkpoints/libero/turbovla_libero.pth",
+  "task_suite_name": "libero_spatial",
+  "requested_task_ids": [
+    0
+  ],
+  "num_trials_per_task": 1,
+  "num_open_loop_steps": 12,
+  "seed": 7,
+  "precision": "bf16",
+  "dinov3_output_hidden_states": true,
+  "tasks": [
+    {
+      "task_id": 0,
+      "task_description": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+      "episodes": 1,
+      "successes": 1,
+      "success_rate": 1.0
+    }
+  ],
+  "total_episodes": 1,
+  "total_successes": 1,
+  "overall_success_rate": 1.0
+}

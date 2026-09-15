@@ -1,0 +1,158 @@
+{
+  "status": "passed",
+  "started": "2026-09-12T22:01:48",
+  "suite": "libero_spatial",
+  "task_id": 0,
+  "initial_state_index": 0,
+  "seed": 7,
+  "instruction": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+  "image_shapes": [
+    [
+      256,
+      256,
+      3
+    ],
+    [
+      256,
+      256,
+      3
+    ]
+  ],
+  "modes": {
+    "fp32": {
+      "status": "passed",
+      "elapsed_s": 7.436347760260105,
+      "output_shape": [
+        12,
+        7
+      ],
+      "output_finite": true,
+      "output_dtype": "torch.float32",
+      "quantization": {
+        "stats": {
+          "mode": "fp32",
+          "weight_bits": 32,
+          "activation_format": "FP32",
+          "activation_bits": null,
+          "weight_scheme": "none",
+          "quantized_linear": 0,
+          "quantized_conv": 0,
+          "quantized_mha": 0,
+          "quantized_embedding": 0,
+          "quantized_weight_values": 0,
+          "quantized_weight_bytes": 0,
+          "fp32_bias_values": 0,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 216073239,
+        "buffer_count_after_wrapping": 1040,
+        "logical_int8_weight_bytes": 0,
+        "logical_int8_weight_mib": 0.0,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      }
+    },
+    "w8a8": {
+      "status": "passed",
+      "elapsed_s": 2.268595051020384,
+      "output_shape": [
+        12,
+        7
+      ],
+      "output_finite": true,
+      "output_dtype": "torch.float32",
+      "quantization": {
+        "stats": {
+          "mode": "w8a8",
+          "weight_bits": 8,
+          "activation_format": "INT8",
+          "activation_bits": 8,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "max_abs_vs_fp32": 0.44453322887420654,
+      "mean_abs_vs_fp32": 0.0862240195274353
+    },
+    "w8a16": {
+      "status": "passed",
+      "elapsed_s": 2.6141304168850183,
+      "output_shape": [
+        12,
+        7
+      ],
+      "output_finite": true,
+      "output_dtype": "torch.float32",
+      "quantization": {
+        "stats": {
+          "mode": "w8a16",
+          "weight_bits": 8,
+          "activation_format": "INT16",
+          "activation_bits": 16,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "max_abs_vs_fp32": 0.013931810855865479,
+      "mean_abs_vs_fp32": 0.003540256293490529
+    },
+    "w8afp16": {
+      "status": "passed",
+      "elapsed_s": 2.101566245779395,
+      "output_shape": [
+        12,
+        7
+      ],
+      "output_finite": true,
+      "output_dtype": "torch.float16",
+      "quantization": {
+        "stats": {
+          "mode": "w8afp16",
+          "weight_bits": 8,
+          "activation_format": "FP16",
+          "activation_bits": null,
+          "weight_scheme": "symmetric per-output-channel INT8; FP32 bias/normalization",
+          "quantized_linear": 208,
+          "quantized_conv": 1,
+          "quantized_mha": 12,
+          "quantized_embedding": 4,
+          "quantized_weight_values": 215733760,
+          "quantized_weight_bytes": 215733761,
+          "fp32_bias_values": 60424,
+          "unsupported_weight_modules": []
+        },
+        "parameter_count_after_wrapping": 3281424,
+        "buffer_count_after_wrapping": 430321950,
+        "logical_int8_weight_bytes": 215733761,
+        "logical_int8_weight_mib": 205.73974704742432,
+        "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+      },
+      "max_abs_vs_fp32": 0.015839308500289917,
+      "mean_abs_vs_fp32": 0.003658770816400647
+    }
+  },
+  "finished": "2026-09-12T22:02:04"
+}

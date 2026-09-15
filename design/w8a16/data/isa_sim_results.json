@@ -1,0 +1,153 @@
+{
+  "schema_version": "tvla_w8a16.isa_sim.v1",
+  "status": "PASS",
+  "program_sha256": "98273d7abd86e3c33ccf028d9901e984319df583091c59a2a801d1d43a4d43a4",
+  "full_program_validation": {
+    "status": "PASS",
+    "events": 108,
+    "instruction_count": 83
+  },
+  "opcode_catalog_validation": {
+    "status": "PASS",
+    "opcodes": 18
+  },
+  "smoke": {
+    "state_int16": [
+      100,
+      -200,
+      300,
+      -400,
+      500,
+      -600,
+      700,
+      -800
+    ],
+    "weight_int8": [
+      [
+        -2,
+        0,
+        2,
+        -1,
+        1,
+        -2,
+        0,
+        2
+      ],
+      [
+        -1,
+        1,
+        -2,
+        0,
+        2,
+        -1,
+        1,
+        -2
+      ],
+      [
+        0,
+        2,
+        -1,
+        1,
+        -2,
+        0,
+        2,
+        -1
+      ],
+      [
+        1,
+        -2,
+        0,
+        2,
+        -1,
+        1,
+        -2,
+        0
+      ],
+      [
+        2,
+        -1,
+        1,
+        -2,
+        0,
+        2,
+        -1,
+        1
+      ],
+      [
+        -2,
+        0,
+        2,
+        -1,
+        1,
+        -2,
+        0,
+        2
+      ],
+      [
+        -1,
+        1,
+        -2,
+        0,
+        2,
+        -1,
+        1,
+        -2
+      ]
+    ],
+    "bias_int16": [
+      -3,
+      -2,
+      -1,
+      0,
+      1,
+      2,
+      3
+    ],
+    "raw_acc_int40": [
+      900,
+      3000,
+      100,
+      -2800,
+      -1200,
+      900,
+      3000
+    ],
+    "after_bias_int16": [
+      897,
+      2998,
+      99,
+      -2800,
+      -1199,
+      902,
+      3003
+    ],
+    "action_q15": [
+      1345,
+      4497,
+      148,
+      -4200,
+      -1798,
+      1353,
+      4504
+    ],
+    "action_normalized": [
+      0.0410474,
+      0.1372417,
+      0.0045167,
+      -0.1281777,
+      -0.0548723,
+      0.0412915,
+      0.1374554
+    ],
+    "executed_ops": [
+      "LOAD_CTX",
+      "LOAD_WEIGHT",
+      "GEMM_W8A16",
+      "BIAS_ADD",
+      "TANH",
+      "STORE_ACTION",
+      "END"
+    ]
+  },
+  "scope": "compiler words and seven-lane action-head command path; not full TurboVLA inference"
+}

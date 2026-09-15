@@ -1,0 +1,79 @@
+{
+ "build": "/tmp/compiler_v7/build_s000_v7_full",
+ "cols": 108,
+ "n_seg": 3442,
+ "segs_with_y_chain": 3442,
+ "segs_swin_phase1": 480,
+ "segs_violation": 0,
+ "violations": [],
+ "actv_touch_segs": 0,
+ "chain_shapes": {
+  "m=224,n=21,k=32,len=4704,nb=1": 480
+ },
+ "strict5_pairs": 6872,
+ "strict5_segs": 368,
+ "examples": [
+  {
+   "seg": "seg_1272",
+   "nb": 1,
+   "len": 4704,
+   "shape": [
+    224,
+    21,
+    32
+   ]
+  },
+  {
+   "seg": "seg_1273",
+   "nb": 1,
+   "len": 4704,
+   "shape": [
+    224,
+    21,
+    32
+   ]
+  },
+  {
+   "seg": "seg_1274",
+   "nb": 1,
+   "len": 4704,
+   "shape": [
+    224,
+    21,
+    32
+   ]
+  },
+  {
+   "seg": "seg_1275",
+   "nb": 1,
+   "len": 4704,
+   "shape": [
+    224,
+    21,
+    32
+   ]
+  },
+  {
+   "seg": "seg_1276",
+   "nb": 1,
+   "len": 4704,
+   "shape": [
+    224,
+    21,
+    32
+   ]
+  },
+  {
+   "seg": "seg_1277",
+   "nb": 1,
+   "len": 4704,
+   "shape": [
+    224,
+    21,
+    32
+   ]
+  }
+ ],
+ "load_errors": [],
+ "verdict": "PASS: S3 holds on all segments"
+}

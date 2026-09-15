@@ -1,0 +1,12 @@
+{
+  "checkpoint": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/pretrained/TurboVLA/checkpoints/libero/turbovla_libero.pth",
+  "dino": {
+    "tensors": 211,
+    "parameters": 85660416
+  },
+  "bert": {
+    "tensors": 199,
+    "parameters": 109482240
+  },
+  "transformers": "4.57.6"
+}

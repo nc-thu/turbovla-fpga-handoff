@@ -1,0 +1,1986 @@
+{
+  "schema_version": "tvla_w8a16.program.v1",
+  "isa": "data/isa_spec.json",
+  "engine": {
+    "rows": 16,
+    "physical_cols": 48,
+    "dsp": 768,
+    "clock_ns": 3.298
+  },
+  "full_program": [
+    {
+      "pc": 0,
+      "op": "LOAD_CTX",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 393216,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "fallback",
+      "note": "RGB preprocessing and patch extraction remain outside the INT16 array",
+      "word_hex": "0x0103000000000000"
+    },
+    {
+      "pc": 1,
+      "op": "LOAD_WEIGHT",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 786432,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "vision projection weights",
+      "word_hex": "0x0203000000000000"
+    },
+    {
+      "pc": 2,
+      "op": "GEMM_W8A16",
+      "dst": 1,
+      "src0": 0,
+      "src1": 0,
+      "length": 0,
+      "m": 256,
+      "n": 1024,
+      "k": 768,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "representative vision projection",
+      "word_hex": "0x1003010000000000"
+    },
+    {
+      "pc": 3,
+      "op": "LAYER_NORM",
+      "dst": 1,
+      "src0": 1,
+      "src1": 0,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "normalization unit; scale/bias are separate",
+      "word_hex": "0x3003010100000000"
+    },
+    {
+      "pc": 4,
+      "op": "ADD",
+      "dst": 1,
+      "src0": 1,
+      "src1": 2,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "view and position embedding",
+      "word_hex": "0x2103010102000000"
+    },
+    {
+      "pc": 5,
+      "op": "LAYER_NORM",
+      "dst": 8,
+      "src0": 1,
+      "src1": 0,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "interaction layer 0 visual norm",
+      "word_hex": "0x3003080100000000"
+    },
+    {
+      "pc": 6,
+      "op": "GEMM_W8A16",
+      "dst": 9,
+      "src0": 8,
+      "src1": 0,
+      "length": 0,
+      "m": 256,
+      "n": 1024,
+      "k": 256,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "interaction layer 0 visual projection",
+      "word_hex": "0x1003090800000000"
+    },
+    {
+      "pc": 7,
+      "op": "BMM_W8A16",
+      "dst": 10,
+      "src0": 9,
+      "src1": 3,
+      "length": 0,
+      "m": 256,
+      "n": 21,
+      "k": 128,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "QK only when both layouts are compatible",
+      "word_hex": "0x11030a0903000000"
+    },
+    {
+      "pc": 8,
+      "op": "SOFTMAX",
+      "dst": 11,
+      "src0": 10,
+      "src1": 0,
+      "length": 5376,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "attention normalization",
+      "word_hex": "0x31030b0a00150000"
+    },
+    {
+      "pc": 9,
+      "op": "BMM_W8A16",
+      "dst": 12,
+      "src0": 11,
+      "src1": 4,
+      "length": 0,
+      "m": 256,
+      "n": 128,
+      "k": 21,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "attention value product",
+      "word_hex": "0x11030c0b04000000"
+    },
+    {
+      "pc": 10,
+      "op": "ADD",
+      "dst": 1,
+      "src0": 1,
+      "src1": 12,
+      "length": 65536,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "visual residual",
+      "word_hex": "0x210301010c000000"
+    },
+    {
+      "pc": 11,
+      "op": "GELU",
+      "dst": 13,
+      "src0": 9,
+      "src1": 0,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "fixed-point approximation",
+      "word_hex": "0x33030d0900000000"
+    },
+    {
+      "pc": 12,
+      "op": "BIAS_ADD",
+      "dst": 14,
+      "src0": 13,
+      "src1": 5,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "fallback_or_integer",
+      "note": "bias path is explicit",
+      "word_hex": "0x20030e0d05000000"
+    },
+    {
+      "pc": 13,
+      "op": "LAYER_NORM",
+      "dst": 16,
+      "src0": 1,
+      "src1": 0,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "interaction layer 1 visual norm",
+      "word_hex": "0x3003100100000000"
+    },
+    {
+      "pc": 14,
+      "op": "GEMM_W8A16",
+      "dst": 17,
+      "src0": 16,
+      "src1": 0,
+      "length": 0,
+      "m": 256,
+      "n": 1024,
+      "k": 256,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "interaction layer 1 visual projection",
+      "word_hex": "0x1003111000000000"
+    },
+    {
+      "pc": 15,
+      "op": "BMM_W8A16",
+      "dst": 18,
+      "src0": 17,
+      "src1": 3,
+      "length": 0,
+      "m": 256,
+      "n": 21,
+      "k": 128,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "QK only when both layouts are compatible",
+      "word_hex": "0x1103121103000000"
+    },
+    {
+      "pc": 16,
+      "op": "SOFTMAX",
+      "dst": 19,
+      "src0": 18,
+      "src1": 0,
+      "length": 5376,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "attention normalization",
+      "word_hex": "0x3103131200150000"
+    },
+    {
+      "pc": 17,
+      "op": "BMM_W8A16",
+      "dst": 20,
+      "src0": 19,
+      "src1": 4,
+      "length": 0,
+      "m": 256,
+      "n": 128,
+      "k": 21,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "attention value product",
+      "word_hex": "0x1103141304000000"
+    },
+    {
+      "pc": 18,
+      "op": "ADD",
+      "dst": 1,
+      "src0": 1,
+      "src1": 20,
+      "length": 65536,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "visual residual",
+      "word_hex": "0x2103010114000000"
+    },
+    {
+      "pc": 19,
+      "op": "GELU",
+      "dst": 21,
+      "src0": 17,
+      "src1": 0,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "fixed-point approximation",
+      "word_hex": "0x3303151100000000"
+    },
+    {
+      "pc": 20,
+      "op": "BIAS_ADD",
+      "dst": 22,
+      "src0": 21,
+      "src1": 5,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "fallback_or_integer",
+      "note": "bias path is explicit",
+      "word_hex": "0x2003161505000000"
+    },
+    {
+      "pc": 21,
+      "op": "LAYER_NORM",
+      "dst": 24,
+      "src0": 1,
+      "src1": 0,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "interaction layer 2 visual norm",
+      "word_hex": "0x3003180100000000"
+    },
+    {
+      "pc": 22,
+      "op": "GEMM_W8A16",
+      "dst": 25,
+      "src0": 24,
+      "src1": 0,
+      "length": 0,
+      "m": 256,
+      "n": 1024,
+      "k": 256,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "interaction layer 2 visual projection",
+      "word_hex": "0x1003191800000000"
+    },
+    {
+      "pc": 23,
+      "op": "BMM_W8A16",
+      "dst": 26,
+      "src0": 25,
+      "src1": 3,
+      "length": 0,
+      "m": 256,
+      "n": 21,
+      "k": 128,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "QK only when both layouts are compatible",
+      "word_hex": "0x11031a1903000000"
+    },
+    {
+      "pc": 24,
+      "op": "SOFTMAX",
+      "dst": 27,
+      "src0": 26,
+      "src1": 0,
+      "length": 5376,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "attention normalization",
+      "word_hex": "0x31031b1a00150000"
+    },
+    {
+      "pc": 25,
+      "op": "BMM_W8A16",
+      "dst": 28,
+      "src0": 27,
+      "src1": 4,
+      "length": 0,
+      "m": 256,
+      "n": 128,
+      "k": 21,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "attention value product",
+      "word_hex": "0x11031c1b04000000"
+    },
+    {
+      "pc": 26,
+      "op": "ADD",
+      "dst": 1,
+      "src0": 1,
+      "src1": 28,
+      "length": 65536,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "visual residual",
+      "word_hex": "0x210301011c000000"
+    },
+    {
+      "pc": 27,
+      "op": "GELU",
+      "dst": 29,
+      "src0": 25,
+      "src1": 0,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "fixed-point approximation",
+      "word_hex": "0x33031d1900000000"
+    },
+    {
+      "pc": 28,
+      "op": "BIAS_ADD",
+      "dst": 30,
+      "src0": 29,
+      "src1": 5,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "fallback_or_integer",
+      "note": "bias path is explicit",
+      "word_hex": "0x20031e1d05000000"
+    },
+    {
+      "pc": 29,
+      "op": "LAYER_NORM",
+      "dst": 32,
+      "src0": 1,
+      "src1": 0,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "interaction layer 3 visual norm",
+      "word_hex": "0x3003200100000000"
+    },
+    {
+      "pc": 30,
+      "op": "GEMM_W8A16",
+      "dst": 33,
+      "src0": 32,
+      "src1": 0,
+      "length": 0,
+      "m": 256,
+      "n": 1024,
+      "k": 256,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "interaction layer 3 visual projection",
+      "word_hex": "0x1003212000000000"
+    },
+    {
+      "pc": 31,
+      "op": "BMM_W8A16",
+      "dst": 34,
+      "src0": 33,
+      "src1": 3,
+      "length": 0,
+      "m": 256,
+      "n": 21,
+      "k": 128,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "QK only when both layouts are compatible",
+      "word_hex": "0x1103222103000000"
+    },
+    {
+      "pc": 32,
+      "op": "SOFTMAX",
+      "dst": 35,
+      "src0": 34,
+      "src1": 0,
+      "length": 5376,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "attention normalization",
+      "word_hex": "0x3103232200150000"
+    },
+    {
+      "pc": 33,
+      "op": "BMM_W8A16",
+      "dst": 36,
+      "src0": 35,
+      "src1": 4,
+      "length": 0,
+      "m": 256,
+      "n": 128,
+      "k": 21,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "attention value product",
+      "word_hex": "0x1103242304000000"
+    },
+    {
+      "pc": 34,
+      "op": "ADD",
+      "dst": 1,
+      "src0": 1,
+      "src1": 36,
+      "length": 65536,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "visual residual",
+      "word_hex": "0x2103010124000000"
+    },
+    {
+      "pc": 35,
+      "op": "GELU",
+      "dst": 37,
+      "src0": 33,
+      "src1": 0,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "fixed-point approximation",
+      "word_hex": "0x3303252100000000"
+    },
+    {
+      "pc": 36,
+      "op": "BIAS_ADD",
+      "dst": 38,
+      "src0": 37,
+      "src1": 5,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "fallback_or_integer",
+      "note": "bias path is explicit",
+      "word_hex": "0x2003262505000000"
+    },
+    {
+      "pc": 37,
+      "op": "LAYER_NORM",
+      "dst": 40,
+      "src0": 1,
+      "src1": 0,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "interaction layer 4 visual norm",
+      "word_hex": "0x3003280100000000"
+    },
+    {
+      "pc": 38,
+      "op": "GEMM_W8A16",
+      "dst": 41,
+      "src0": 40,
+      "src1": 0,
+      "length": 0,
+      "m": 256,
+      "n": 1024,
+      "k": 256,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "interaction layer 4 visual projection",
+      "word_hex": "0x1003292800000000"
+    },
+    {
+      "pc": 39,
+      "op": "BMM_W8A16",
+      "dst": 42,
+      "src0": 41,
+      "src1": 3,
+      "length": 0,
+      "m": 256,
+      "n": 21,
+      "k": 128,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "QK only when both layouts are compatible",
+      "word_hex": "0x11032a2903000000"
+    },
+    {
+      "pc": 40,
+      "op": "SOFTMAX",
+      "dst": 43,
+      "src0": 42,
+      "src1": 0,
+      "length": 5376,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "attention normalization",
+      "word_hex": "0x31032b2a00150000"
+    },
+    {
+      "pc": 41,
+      "op": "BMM_W8A16",
+      "dst": 44,
+      "src0": 43,
+      "src1": 4,
+      "length": 0,
+      "m": 256,
+      "n": 128,
+      "k": 21,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "attention value product",
+      "word_hex": "0x11032c2b04000000"
+    },
+    {
+      "pc": 42,
+      "op": "ADD",
+      "dst": 1,
+      "src0": 1,
+      "src1": 44,
+      "length": 65536,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "visual residual",
+      "word_hex": "0x210301012c000000"
+    },
+    {
+      "pc": 43,
+      "op": "GELU",
+      "dst": 45,
+      "src0": 41,
+      "src1": 0,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "fixed-point approximation",
+      "word_hex": "0x33032d2900000000"
+    },
+    {
+      "pc": 44,
+      "op": "BIAS_ADD",
+      "dst": 46,
+      "src0": 45,
+      "src1": 5,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "fallback_or_integer",
+      "note": "bias path is explicit",
+      "word_hex": "0x20032e2d05000000"
+    },
+    {
+      "pc": 45,
+      "op": "LAYER_NORM",
+      "dst": 48,
+      "src0": 1,
+      "src1": 0,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "interaction layer 5 visual norm",
+      "word_hex": "0x3003300100000000"
+    },
+    {
+      "pc": 46,
+      "op": "GEMM_W8A16",
+      "dst": 49,
+      "src0": 48,
+      "src1": 0,
+      "length": 0,
+      "m": 256,
+      "n": 1024,
+      "k": 256,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "interaction layer 5 visual projection",
+      "word_hex": "0x1003313000000000"
+    },
+    {
+      "pc": 47,
+      "op": "BMM_W8A16",
+      "dst": 50,
+      "src0": 49,
+      "src1": 3,
+      "length": 0,
+      "m": 256,
+      "n": 21,
+      "k": 128,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "QK only when both layouts are compatible",
+      "word_hex": "0x1103323103000000"
+    },
+    {
+      "pc": 48,
+      "op": "SOFTMAX",
+      "dst": 51,
+      "src0": 50,
+      "src1": 0,
+      "length": 5376,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "attention normalization",
+      "word_hex": "0x3103333200150000"
+    },
+    {
+      "pc": 49,
+      "op": "BMM_W8A16",
+      "dst": 52,
+      "src0": 51,
+      "src1": 4,
+      "length": 0,
+      "m": 256,
+      "n": 128,
+      "k": 21,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "attention value product",
+      "word_hex": "0x1103343304000000"
+    },
+    {
+      "pc": 50,
+      "op": "ADD",
+      "dst": 1,
+      "src0": 1,
+      "src1": 52,
+      "length": 65536,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "visual residual",
+      "word_hex": "0x2103010134000000"
+    },
+    {
+      "pc": 51,
+      "op": "GELU",
+      "dst": 53,
+      "src0": 49,
+      "src1": 0,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "fixed-point approximation",
+      "word_hex": "0x3303353100000000"
+    },
+    {
+      "pc": 52,
+      "op": "BIAS_ADD",
+      "dst": 54,
+      "src0": 53,
+      "src1": 5,
+      "length": 262144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "fallback_or_integer",
+      "note": "bias path is explicit",
+      "word_hex": "0x2003363505000000"
+    },
+    {
+      "pc": 53,
+      "op": "LOAD_CTX",
+      "dst": 6,
+      "src0": 0,
+      "src1": 0,
+      "length": 8,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "state vector",
+      "word_hex": "0x0103060000000800"
+    },
+    {
+      "pc": 54,
+      "op": "LAYER_NORM",
+      "dst": 6,
+      "src0": 6,
+      "src1": 0,
+      "length": 8,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "state projection normalization",
+      "word_hex": "0x3003060600000800"
+    },
+    {
+      "pc": 55,
+      "op": "GEMM_W8A16",
+      "dst": 7,
+      "src0": 6,
+      "src1": 6,
+      "length": 0,
+      "m": 1,
+      "n": 512,
+      "k": 8,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "state projection",
+      "word_hex": "0x1003070606000000"
+    },
+    {
+      "pc": 56,
+      "op": "GELU",
+      "dst": 7,
+      "src0": 7,
+      "src1": 0,
+      "length": 512,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "state projection activation",
+      "word_hex": "0x3303070700020000"
+    },
+    {
+      "pc": 57,
+      "op": "LAYER_NORM",
+      "dst": 32,
+      "src0": 1,
+      "src1": 0,
+      "length": 65536,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder layer 0 norm",
+      "word_hex": "0x3003200100000000"
+    },
+    {
+      "pc": 58,
+      "op": "BMM_W8A16",
+      "dst": 33,
+      "src0": 32,
+      "src1": 32,
+      "length": 0,
+      "m": 12,
+      "n": 12,
+      "k": 256,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "decoder layer 0 self attention",
+      "word_hex": "0x1103212020000000"
+    },
+    {
+      "pc": 59,
+      "op": "SOFTMAX",
+      "dst": 34,
+      "src0": 33,
+      "src1": 0,
+      "length": 144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder attention",
+      "word_hex": "0x3103222100009000"
+    },
+    {
+      "pc": 60,
+      "op": "ADD",
+      "dst": 1,
+      "src0": 1,
+      "src1": 34,
+      "length": 3072,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder residual",
+      "word_hex": "0x21030101220c0000"
+    },
+    {
+      "pc": 61,
+      "op": "GEMM_W8A16",
+      "dst": 35,
+      "src0": 1,
+      "src1": 7,
+      "length": 0,
+      "m": 12,
+      "n": 2048,
+      "k": 256,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder FFN up",
+      "word_hex": "0x1003230107000000"
+    },
+    {
+      "pc": 62,
+      "op": "RELU",
+      "dst": 36,
+      "src0": 35,
+      "src1": 0,
+      "length": 24576,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder FFN activation",
+      "word_hex": "0x3203242300600000"
+    },
+    {
+      "pc": 63,
+      "op": "GEMM_W8A16",
+      "dst": 37,
+      "src0": 36,
+      "src1": 8,
+      "length": 0,
+      "m": 12,
+      "n": 256,
+      "k": 2048,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder FFN down",
+      "word_hex": "0x1003252408000000"
+    },
+    {
+      "pc": 64,
+      "op": "LAYER_NORM",
+      "dst": 39,
+      "src0": 1,
+      "src1": 0,
+      "length": 65536,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder layer 1 norm",
+      "word_hex": "0x3003270100000000"
+    },
+    {
+      "pc": 65,
+      "op": "BMM_W8A16",
+      "dst": 40,
+      "src0": 39,
+      "src1": 39,
+      "length": 0,
+      "m": 12,
+      "n": 12,
+      "k": 256,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "decoder layer 1 self attention",
+      "word_hex": "0x1103282727000000"
+    },
+    {
+      "pc": 66,
+      "op": "SOFTMAX",
+      "dst": 41,
+      "src0": 40,
+      "src1": 0,
+      "length": 144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder attention",
+      "word_hex": "0x3103292800009000"
+    },
+    {
+      "pc": 67,
+      "op": "ADD",
+      "dst": 1,
+      "src0": 1,
+      "src1": 41,
+      "length": 3072,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder residual",
+      "word_hex": "0x21030101290c0000"
+    },
+    {
+      "pc": 68,
+      "op": "GEMM_W8A16",
+      "dst": 42,
+      "src0": 1,
+      "src1": 7,
+      "length": 0,
+      "m": 12,
+      "n": 2048,
+      "k": 256,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder FFN up",
+      "word_hex": "0x10032a0107000000"
+    },
+    {
+      "pc": 69,
+      "op": "RELU",
+      "dst": 43,
+      "src0": 42,
+      "src1": 0,
+      "length": 24576,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder FFN activation",
+      "word_hex": "0x32032b2a00600000"
+    },
+    {
+      "pc": 70,
+      "op": "GEMM_W8A16",
+      "dst": 44,
+      "src0": 43,
+      "src1": 8,
+      "length": 0,
+      "m": 12,
+      "n": 256,
+      "k": 2048,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder FFN down",
+      "word_hex": "0x10032c2b08000000"
+    },
+    {
+      "pc": 71,
+      "op": "LAYER_NORM",
+      "dst": 46,
+      "src0": 1,
+      "src1": 0,
+      "length": 65536,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder layer 2 norm",
+      "word_hex": "0x30032e0100000000"
+    },
+    {
+      "pc": 72,
+      "op": "BMM_W8A16",
+      "dst": 47,
+      "src0": 46,
+      "src1": 46,
+      "length": 0,
+      "m": 12,
+      "n": 12,
+      "k": 256,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped_candidate",
+      "note": "decoder layer 2 self attention",
+      "word_hex": "0x11032f2e2e000000"
+    },
+    {
+      "pc": 73,
+      "op": "SOFTMAX",
+      "dst": 48,
+      "src0": 47,
+      "src1": 0,
+      "length": 144,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder attention",
+      "word_hex": "0x3103302f00009000"
+    },
+    {
+      "pc": 74,
+      "op": "ADD",
+      "dst": 1,
+      "src0": 1,
+      "src1": 48,
+      "length": 3072,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder residual",
+      "word_hex": "0x21030101300c0000"
+    },
+    {
+      "pc": 75,
+      "op": "GEMM_W8A16",
+      "dst": 49,
+      "src0": 1,
+      "src1": 7,
+      "length": 0,
+      "m": 12,
+      "n": 2048,
+      "k": 256,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder FFN up",
+      "word_hex": "0x1003310107000000"
+    },
+    {
+      "pc": 76,
+      "op": "RELU",
+      "dst": 50,
+      "src0": 49,
+      "src1": 0,
+      "length": 24576,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder FFN activation",
+      "word_hex": "0x3203323100600000"
+    },
+    {
+      "pc": 77,
+      "op": "GEMM_W8A16",
+      "dst": 51,
+      "src0": 50,
+      "src1": 8,
+      "length": 0,
+      "m": 12,
+      "n": 256,
+      "k": 2048,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "decoder FFN down",
+      "word_hex": "0x1003333208000000"
+    },
+    {
+      "pc": 78,
+      "op": "GEMM_W8A16",
+      "dst": 60,
+      "src0": 1,
+      "src1": 9,
+      "length": 0,
+      "m": 12,
+      "n": 7,
+      "k": 256,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "action projection",
+      "word_hex": "0x10033c0109000000"
+    },
+    {
+      "pc": 79,
+      "op": "TANH",
+      "dst": 61,
+      "src0": 60,
+      "src1": 0,
+      "length": 84,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "normalized action output",
+      "word_hex": "0x34033d3c00005400"
+    },
+    {
+      "pc": 80,
+      "op": "REQUANT",
+      "dst": 62,
+      "src0": 61,
+      "src1": 0,
+      "length": 84,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "INT16 action representation",
+      "word_hex": "0x35033e3d00005400"
+    },
+    {
+      "pc": 81,
+      "op": "STORE_ACTION",
+      "dst": 0,
+      "src0": 62,
+      "src1": 0,
+      "length": 84,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "action adapter converts normalized values to LIBERO format",
+      "word_hex": "0x0403003e00005400"
+    },
+    {
+      "pc": 82,
+      "op": "END",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 0,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "",
+      "word_hex": "0xff03000000000000"
+    }
+  ],
+  "smoke_program": [
+    {
+      "pc": 0,
+      "op": "LOAD_CTX",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 8,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "one LIBERO state-derived INT16 feature vector",
+      "word_hex": "0x0103000000000800"
+    },
+    {
+      "pc": 1,
+      "op": "LOAD_WEIGHT",
+      "dst": 1,
+      "src0": 0,
+      "src1": 0,
+      "length": 56,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "small action projection weight tile",
+      "word_hex": "0x0203010000003800"
+    },
+    {
+      "pc": 2,
+      "op": "GEMM_W8A16",
+      "dst": 2,
+      "src0": 0,
+      "src1": 1,
+      "length": 0,
+      "m": 1,
+      "n": 7,
+      "k": 8,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "RTL action-path smoke",
+      "word_hex": "0x1003020001000000"
+    },
+    {
+      "pc": 3,
+      "op": "BIAS_ADD",
+      "dst": 2,
+      "src0": 2,
+      "src1": 2,
+      "length": 7,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "explicit bias event",
+      "word_hex": "0x2003020202000700"
+    },
+    {
+      "pc": 4,
+      "op": "TANH",
+      "dst": 3,
+      "src0": 2,
+      "src1": 0,
+      "length": 7,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "normalized action",
+      "word_hex": "0x3403030200000700"
+    },
+    {
+      "pc": 5,
+      "op": "STORE_ACTION",
+      "dst": 0,
+      "src0": 3,
+      "src1": 0,
+      "length": 7,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "one action, not a complete model rollout",
+      "word_hex": "0x0403000300000700"
+    },
+    {
+      "pc": 6,
+      "op": "END",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 0,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "mapped",
+      "note": "",
+      "word_hex": "0xff03000000000000"
+    }
+  ],
+  "opcode_catalog": [
+    {
+      "pc": 0,
+      "op": "LOAD_CTX",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x0103000000000100"
+    },
+    {
+      "pc": 1,
+      "op": "LOAD_WEIGHT",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x0203000000000100"
+    },
+    {
+      "pc": 2,
+      "op": "STORE_CTX",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x0303000000000100"
+    },
+    {
+      "pc": 3,
+      "op": "STORE_ACTION",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x0403000000000100"
+    },
+    {
+      "pc": 4,
+      "op": "GEMM_W8A16",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x1003000000000100"
+    },
+    {
+      "pc": 5,
+      "op": "BMM_W8A16",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x1103000000000100"
+    },
+    {
+      "pc": 6,
+      "op": "BIAS_ADD",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x2003000000000100"
+    },
+    {
+      "pc": 7,
+      "op": "ADD",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x2103000000000100"
+    },
+    {
+      "pc": 8,
+      "op": "MUL_SCALE",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x2203000000000100"
+    },
+    {
+      "pc": 9,
+      "op": "LAYER_NORM",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x3003000000000100"
+    },
+    {
+      "pc": 10,
+      "op": "SOFTMAX",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x3103000000000100"
+    },
+    {
+      "pc": 11,
+      "op": "RELU",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x3203000000000100"
+    },
+    {
+      "pc": 12,
+      "op": "GELU",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x3303000000000100"
+    },
+    {
+      "pc": 13,
+      "op": "TANH",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x3403000000000100"
+    },
+    {
+      "pc": 14,
+      "op": "REQUANT",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x3503000000000100"
+    },
+    {
+      "pc": 15,
+      "op": "WAIT",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x4003000000000100"
+    },
+    {
+      "pc": 16,
+      "op": "BARRIER",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0x4103000000000100"
+    },
+    {
+      "pc": 17,
+      "op": "END",
+      "dst": 0,
+      "src0": 0,
+      "src1": 0,
+      "length": 1,
+      "m": 0,
+      "n": 0,
+      "k": 0,
+      "flags": {
+        "valid": true,
+        "saturate": true
+      },
+      "status": "catalog",
+      "note": "encoding coverage entry",
+      "word_hex": "0xff03000000000100"
+    }
+  ],
+  "coverage": {
+    "full_instruction_count": 83,
+    "smoke_instruction_count": 7,
+    "activation_ops": [
+      "GELU",
+      "LAYER_NORM",
+      "RELU",
+      "SOFTMAX",
+      "TANH"
+    ],
+    "dma_ops": [
+      "LOAD_CTX",
+      "LOAD_WEIGHT",
+      "STORE_ACTION"
+    ],
+    "fallback_ops_present": [
+      "BIAS_ADD",
+      "LOAD_CTX"
+    ]
+  },
+  "smoke_provenance": {
+    "observation_source": "algo/libero_transfer/2026-09-12_133034/env_smoke.json",
+    "task": "pick_up_the_black_bowl_from_table_center_and_place_it_on_the_plate",
+    "initial_state_index": 0,
+    "action_semantics": "7-D normalized action; this is a command-path smoke, not full TurboVLA inference"
+  }
+}

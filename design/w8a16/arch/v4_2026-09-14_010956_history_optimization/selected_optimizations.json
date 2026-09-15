@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-09-14 01:16:40",
+  "baseline": "turbovla_w8a16/data/v8_2026-09-13_231621/compiled",
+  "selected": [
+    {"id": 1, "name": "DSP input/output pipeline", "state": "inherited", "evidence": "historical hw v6: DSP AREG/BREG/MREG/PREG; no DSP increase; timing target 250 MHz"},
+    {"id": 2, "name": "Local clr/CE fanout partition", "state": "inherited", "evidence": "historical hw v7: post-route Fmax 246.9 to 250.4 MHz (+1.402%), DSP unchanged"},
+    {"id": 3, "name": "16x48 shape-aware tiling and tail mask", "state": "inherited", "evidence": "current v8 compiler and 16x48 W8A16 array; invalid tail MACs excluded"},
+    {"id": 4, "name": "Dependency-aware BMM/GEMM ordering", "state": "new_compiler", "evidence": "BMM descriptors are inserted after their parent event; 24/24 remain covered"},
+    {"id": 5, "name": "Activation tile reuse", "state": "new_model", "evidence": "same activation can serve multiple N tiles; guarded by layout/shape compatibility"},
+    {"id": 6, "name": "Weight tile reuse/broadcast", "state": "new_model", "evidence": "same weight tile can serve multiple M tiles when residency is possible"},
+    {"id": 7, "name": "Row-group streaming and double buffering", "state": "new_model_rtl_control", "evidence": "overlap read, compute and post stages with a startup guard; no DSP change"},
+    {"id": 8, "name": "Contiguous write coalescing", "state": "new_model_descriptor", "evidence": "full contiguous tiles share a modeled burst; no zero-skip assumption"},
+    {"id": 9, "name": "Adjacent compatible task merge", "state": "new_compiler", "evidence": "fusion metadata is emitted only for identical compatible descriptors"},
+    {"id": 10, "name": "Requant/bias/vector stage pipeline and control locality", "state": "inherited_plus_model", "evidence": "vector_pipeline reduces only behavior-level vector cycles; no PE arithmetic change"}
+  ],
+  "not_selected": [
+    {"name": "Unsafe dual-MAC preadder packing", "reason": "W8A16 has symmetric INT16 x INT8 operands; prior dual-MAC route did not close and would change DSP semantics"}
+  ],
+  "boundaries": {"measured": ["v8 compiler baseline", "v8 RTL representative tile", "v8 Vivado OOC"], "model": ["reuse flags", "overlap", "write coalescing"], "unknown": ["post-route of this new top", "SAIF power", "full LIBERO success rate"]}
+}

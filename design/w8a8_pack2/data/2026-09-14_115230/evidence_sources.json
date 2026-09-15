@@ -1,0 +1,29 @@
+{
+  "generated_at": "2026-09-14 12:10:00",
+  "target_thread": {
+    "uri": "codex://threads/01a09dc7-08f7-7201-afba-4820f3eedb3e",
+    "status": "active",
+    "use": "candidate evidence only; no new pure-W8A8 success-rate claim"
+  },
+  "local_sources": [
+    {
+      "path": "algo/turbovla_quant/2026-09-12_215112/results/summary.json",
+      "sha256": "2C2408E89FD31CA93339A888F20D4E34194896A16F256BDA8C34CDC3C20E13D6",
+      "role": "existing W8A8 fake-quant screening candidate"
+    },
+    {
+      "path": "turbovla_w8a16/data/v8_2026-09-13_231621/module_events.jsonl",
+      "sha256": "971f6c8c4cebafc44760b60c64bddab4d959a9bbb3848d4e7022483084ced0a9",
+      "role": "trace module events"
+    },
+    {
+      "path": "turbovla_w8a16/data/v8_2026-09-13_231621/operator_trace.jsonl",
+      "sha256": "a5ab118422c88ce1694eac6308a51a3771c6d6b0b0922c646fcd576f03dbe684",
+      "role": "trace dispatch events"
+    }
+  ],
+  "reference_rtl": {
+    "path": "hw/v10_2026-09-12_1148_engfull_preadd/rtl",
+    "role": "HB v10 Pack2 read-only reference"
+  }
+}

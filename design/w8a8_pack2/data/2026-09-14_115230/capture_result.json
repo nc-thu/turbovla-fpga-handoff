@@ -1,0 +1,30 @@
+{
+  "status": "passed",
+  "capture_version": "tvla_activity.v1",
+  "seed": 7,
+  "device": "cuda:0",
+  "suite": "libero_spatial",
+  "task_id": 0,
+  "image_resolution": [
+    256,
+    256
+  ],
+  "source": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/source",
+  "checkpoint": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/pretrained/TurboVLA/checkpoints/libero/turbovla_libero.pth",
+  "started_at": "2026-09-13 23:21:05",
+  "instruction": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+  "action_shape": [
+    12,
+    7
+  ],
+  "action_finite": true,
+  "parameters": 216073239,
+  "module_event_count": 408,
+  "dispatch_event_count": 6836,
+  "linear_event_count": 280,
+  "weight_unique_count": 208,
+  "activation_payload_bytes": 103076368,
+  "weight_payload_bytes": 188159488,
+  "ended_at": "2026-09-13 23:21:24",
+  "elapsed_seconds": 18.81141846999526
+}

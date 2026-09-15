@@ -1,0 +1,12 @@
+{
+  "generated_at": "2026-09-14 11:59:44",
+  "capture": "turbovla_w8a8_pack2\\data\\2026-09-14_115230",
+  "mode": "current",
+  "command_word": "op[63:56],flags[55:48],descriptor_id[47:32],length[15:0]",
+  "descriptor_bits": 512,
+  "source_hashes": {
+    "module_events.jsonl": "971f6c8c4cebafc44760b60c64bddab4d959a9bbb3848d4e7022483084ced0a9",
+    "operator_trace.jsonl": "a5ab118422c88ce1694eac6308a51a3771c6d6b0b0922c646fcd576f03dbe684"
+  },
+  "target_thread": "codex://threads/01a09dc7-08f7-7201-afba-4820f3eedb3e"
+}

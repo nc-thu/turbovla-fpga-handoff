@@ -1,0 +1,27 @@
+{
+  "generated_at": "2026-09-13T01:32:08+08:00",
+  "report": "2026-09-13_013208_turbovla_w8a16_report.html",
+  "figures": {
+    "datapath": {
+      "svg": "fig_w8a16_datapath.svg",
+      "pdf": "fig_w8a16_datapath.pdf",
+      "png": "fig_w8a16_datapath.png"
+    },
+    "coverage": {
+      "svg": "fig_operator_coverage.svg",
+      "pdf": "fig_operator_coverage.pdf",
+      "png": "fig_operator_coverage.png"
+    },
+    "cycles": {
+      "svg": "fig_cycles_utilization.svg",
+      "pdf": "fig_cycles_utilization.pdf",
+      "png": "fig_cycles_utilization.png"
+    },
+    "quant": {
+      "svg": "fig_quant_error.svg",
+      "pdf": "fig_quant_error.pdf",
+      "png": "fig_quant_error.png"
+    }
+  },
+  "workspace_manifest": "data/file_manifest.json"
+}

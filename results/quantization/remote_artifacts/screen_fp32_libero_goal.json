@@ -1,0 +1,66 @@
+{
+  "script": "turbovla_libero_evaluation",
+  "ckpt_path": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/pretrained/TurboVLA/checkpoints/libero/turbovla_libero.pth",
+  "task_suite_name": "libero_goal",
+  "requested_task_ids": [
+    0,
+    1
+  ],
+  "num_trials_per_task": 3,
+  "num_open_loop_steps": 12,
+  "seed": 7,
+  "precision": "fp32",
+  "dinov3_output_hidden_states": true,
+  "tasks": [
+    {
+      "task_id": 0,
+      "task_description": "open the middle drawer of the cabinet",
+      "episodes": 3,
+      "successes": 2,
+      "success_rate": 0.6666666666666666
+    },
+    {
+      "task_id": 1,
+      "task_description": "put the bowl on the stove",
+      "episodes": 3,
+      "successes": 3,
+      "success_rate": 1.0
+    }
+  ],
+  "total_episodes": 6,
+  "total_successes": 5,
+  "overall_success_rate": 0.8333333333333334,
+  "quantization_mode": "fp32",
+  "quantization": {
+    "stats": {
+      "mode": "fp32",
+      "weight_bits": 32,
+      "activation_format": "FP32",
+      "activation_bits": null,
+      "weight_scheme": "none",
+      "quantized_linear": 0,
+      "quantized_conv": 0,
+      "quantized_mha": 0,
+      "quantized_embedding": 0,
+      "quantized_weight_values": 0,
+      "quantized_weight_bytes": 0,
+      "fp32_bias_values": 0,
+      "unsupported_weight_modules": []
+    },
+    "parameter_count_after_wrapping": 216073239,
+    "buffer_count_after_wrapping": 1040,
+    "logical_int8_weight_bytes": 0,
+    "logical_int8_weight_mib": 0.0,
+    "note": "fake quantization on GPU; qweight bytes are logical format accounting, not an INT8 CUDA kernel memory measurement"
+  },
+  "experiment_started": "2026-09-12T22:10:46",
+  "experiment_finished": "2026-09-12T22:11:47",
+  "experiment_elapsed_seconds": 61.42239757440984,
+  "policy_call_timing_ms": {
+    "count": 71,
+    "median": 137.7414371818304,
+    "p90": 143.68516765534878,
+    "min": 77.2522110491991,
+    "max": 453.18928733468056
+  }
+}

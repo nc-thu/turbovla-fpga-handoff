@@ -1,0 +1,41 @@
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+--------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (win64) Build 3367213 Tue Oct 19 02:48:09 MDT 2021
+| Date         : Mon Sep 14 12:19:53 2026
+| Host         : nc23 running 64-bit major release  (build 9200)
+| Command      : report_drc -file {E:/GPU ARCH/vector_core_sim/turbovla_w8a8_pack2/hw/v1_2026-09-14_115230_pack2_rtl/synth/ooc_1x1/drc.rpt}
+| Design       : tvla_w8a8_pack2_array_top
+| Device       : xczu7ev-ffvc1156-2-e
+| Speed File   : -2
+| Design State : Synthesized
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Report DRC
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: tvla_w8a8_pack2_array_top
+          Floorplan: design_1
+      Design limits: <entire design considered>
+           Ruledeck: default
+             Max violations: <unlimited>
+             Violations found: 1
++--------+----------+------------------+------------+
+| Rule   | Severity | Description      | Violations |
++--------+----------+------------------+------------+
+| DPIP-2 | Warning  | Input pipelining | 1          |
++--------+----------+------------------+------------+
+
+2. REPORT DETAILS
+-----------------
+DPIP-2#1 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[0].g_col[0].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[0].g_col[0].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+

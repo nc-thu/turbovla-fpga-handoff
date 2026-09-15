@@ -1,0 +1,336 @@
+{
+  "generated_at": "2026-09-12T14:00:34",
+  "legend": {
+    "S": "supported",
+    "P": "partial",
+    "NR": "not reported in checked source",
+    "N/A": "not applicable",
+    "NR*": "not verified because full text unavailable"
+  },
+  "rows": [
+    {
+      "name": "DiTPA",
+      "cite": "ditpa",
+      "group": "Embodied / diffusion",
+      "source": "local DiTPA PDF; DOI 10.1109/ISCA66397.2026.00188",
+      "cells": {
+        "target_scope": {
+          "judgment": "DiT action planner",
+          "locator": "PDF p.1 Fig.1"
+        },
+        "substrate": {
+          "judgment": "ASIC",
+          "locator": "PDF p.8 Sec.V-A (28 nm)"
+        },
+        "full_model_host": {
+          "judgment": "P: planner only; upstream VLM external",
+          "locator": "PDF p.1 Fig.1"
+        },
+        "iteration_reuse": {
+          "judgment": "S: features + actions",
+          "locator": "PDF pp.2-6 Fig.2; algorithms"
+        },
+        "shape_overlap": {
+          "judgment": "S: reconfigurable PE; modality scheduler",
+          "locator": "PDF pp.6-8 hardware design"
+        },
+        "low_precision_packing": {
+          "judgment": "P: low precision; DSP N/A",
+          "locator": "PDF p.8 implementation setup; no FPGA DSP substrate"
+        },
+        "public_artifacts": {
+          "judgment": "NR: compiler / simulator / RTL release",
+          "locator": "PDF pp.1-12: no release URL identified"
+        }
+      }
+    },
+    {
+      "name": "Cambricon-D",
+      "cite": "camd",
+      "group": "Embodied / diffusion",
+      "source": "https://ict.cas.cn/xwgg/jssxw/202404/t20240408_7083571.html",
+      "cells": {
+        "target_scope": {
+          "judgment": "Diffusion; sign-mask dataflow",
+          "locator": "ICT author-institution report, paragraphs 4-5"
+        },
+        "substrate": {
+          "judgment": "Custom; NR*",
+          "locator": "Full text unavailable; not inferred from title"
+        },
+        "full_model_host": {
+          "judgment": "NR*: host boundary",
+          "locator": "Full text unavailable"
+        },
+        "iteration_reuse": {
+          "judgment": "S: temporal differences",
+          "locator": "ICT report paragraph 4 describes iterative differences"
+        },
+        "shape_overlap": {
+          "judgment": "NR*: detailed schedule",
+          "locator": "Full text unavailable"
+        },
+        "low_precision_packing": {
+          "judgment": "NR*: numeric datapath",
+          "locator": "Full text unavailable"
+        },
+        "public_artifacts": {
+          "judgment": "NR*: official release",
+          "locator": "No official release established; third-party SCALE-Sim excluded"
+        }
+      }
+    },
+    {
+      "name": "Ditto",
+      "cite": "ditto",
+      "group": "Embodied / diffusion",
+      "source": "https://arxiv.org/pdf/2501.11211",
+      "cells": {
+        "target_scope": {
+          "judgment": "Diffusion linear + special functions",
+          "locator": "PDF p.7 Sec.V-A"
+        },
+        "substrate": {
+          "judgment": "ASIC",
+          "locator": "PDF p.9 Sec.VI-A (45 nm)"
+        },
+        "full_model_host": {
+          "judgment": "P: model engine; host boundary NR",
+          "locator": "PDF p.7 VPU functions; full host audit NR"
+        },
+        "iteration_reuse": {
+          "judgment": "S: temporal difference",
+          "locator": "PDF pp.4-6 Sec.IV"
+        },
+        "shape_overlap": {
+          "judgment": "S: Defo + unit pipeline",
+          "locator": "PDF p.7 pipeline; p.10 overlap discussion"
+        },
+        "low_precision_packing": {
+          "judgment": "S: 4/8-bit; DSP N/A",
+          "locator": "PDF pp.7-8 Compute Unit"
+        },
+        "public_artifacts": {
+          "judgment": "NR: official source release",
+          "locator": "PDF pp.1-15: no project source URL identified"
+        }
+      }
+    },
+    {
+      "name": "EXION",
+      "cite": "exion",
+      "group": "Embodied / diffusion",
+      "source": "https://arxiv.org/pdf/2501.05680",
+      "cells": {
+        "target_scope": {
+          "judgment": "Multimodal diffusion",
+          "locator": "PDF p.1 abstract"
+        },
+        "substrate": {
+          "judgment": "ASIC",
+          "locator": "PDF p.10 Sec.V-B (14 nm)"
+        },
+        "full_model_host": {
+          "judgment": "P: diffusion core; host boundary NR",
+          "locator": "PDF pp.6-9 Sec.IV"
+        },
+        "iteration_reuse": {
+          "judgment": "S: FFN reuse",
+          "locator": "PDF pp.4-5 Sec.III-A"
+        },
+        "shape_overlap": {
+          "judgment": "S: ConMerge; overlap NR",
+          "locator": "PDF pp.5-8 ConMerge / SDUE"
+        },
+        "low_precision_packing": {
+          "judgment": "P: mixed domains; DSP N/A",
+          "locator": "PDF pp.8-9 eager prediction datapath"
+        },
+        "public_artifacts": {
+          "judgment": "NR: release; simulator described",
+          "locator": "PDF p.10 custom simulator described, no release location"
+        }
+      }
+    },
+    {
+      "name": "Diff-DiT",
+      "cite": "diffdit",
+      "group": "Embodied / diffusion",
+      "source": "https://github.com/Glinttsd/Diff-DiT",
+      "cells": {
+        "target_scope": {
+          "judgment": "Low-bit DiT inference",
+          "locator": "IEEE abstract; README modes 0-12"
+        },
+        "substrate": {
+          "judgment": "FPGA",
+          "locator": "IEEE abstract; src/TOP.cpp"
+        },
+        "full_model_host": {
+          "judgment": "P: DiT kernel; host boundary NR",
+          "locator": "README mode table; full host boundary not established"
+        },
+        "iteration_reuse": {
+          "judgment": "S: differential attention",
+          "locator": "IEEE abstract ADA; src masks"
+        },
+        "shape_overlap": {
+          "judgment": "S: cross-cast + pipelining",
+          "locator": "IEEE abstract contributions 2-3"
+        },
+        "low_precision_packing": {
+          "judgment": "S: low-bit; packing code",
+          "locator": "src/AMA_rtl.cpp; src/TOP.cpp; exact packing details require code audit"
+        },
+        "public_artifacts": {
+          "judgment": "P: HLS + tests; compiler NR",
+          "locator": "README Code Structure: TOP.cpp, test.cpp; not claimed full compiler/RTL release"
+        }
+      }
+    },
+    {
+      "name": "FlightLLM",
+      "cite": "flight",
+      "group": "Transformer / general FPGA",
+      "source": "https://github.com/FlightLLM/flightllm_test_demo",
+      "cells": {
+        "target_scope": {
+          "judgment": "LLM prefill + decode",
+          "locator": "PDF pp.3-6 architecture"
+        },
+        "substrate": {
+          "judgment": "FPGA",
+          "locator": "PDF p.1 abstract"
+        },
+        "full_model_host": {
+          "judgment": "S: LLM operators; host orchestration",
+          "locator": "PDF pp.3-4 SFU, controller; host demo"
+        },
+        "iteration_reuse": {
+          "judgment": "N/A: diffusion reuse",
+          "locator": "Target is autoregressive LLM, not diffusion iteration reuse"
+        },
+        "shape_overlap": {
+          "judgment": "S: MM/MV + fused dataflow",
+          "locator": "PDF pp.4-6 Fig.5-8"
+        },
+        "low_precision_packing": {
+          "judgment": "S: mixed precision; DSP chain",
+          "locator": "PDF pp.4-5 DSP VPU / chain"
+        },
+        "public_artifacts": {
+          "judgment": "P: profiling + board demo",
+          "locator": "Official README profile/ and fpga_implementation/; not full source assertion"
+        }
+      }
+    },
+    {
+      "name": "Quasar-ViT",
+      "cite": "quasar",
+      "group": "Transformer / general FPGA",
+      "source": "https://arxiv.org/pdf/2407.18175",
+      "cells": {
+        "target_scope": {
+          "judgment": "ViT GEMM + SLS",
+          "locator": "PDF p.7 Sec.4.1"
+        },
+        "substrate": {
+          "judgment": "FPGA",
+          "locator": "PDF p.7 Fig.6"
+        },
+        "full_model_host": {
+          "judgment": "P: ARM norm / GELU / Softmax",
+          "locator": "PDF p.7 Sec.4.1 explicitly names ARM modules"
+        },
+        "iteration_reuse": {
+          "judgment": "N/A: diffusion reuse",
+          "locator": "ViT target; no diffusion iteration axis"
+        },
+        "shape_overlap": {
+          "judgment": "S: tiling + double buffers",
+          "locator": "PDF p.7 Sec.4.1; p.10 cycle model"
+        },
+        "low_precision_packing": {
+          "judgment": "S: hybrid signed DSP packing",
+          "locator": "PDF pp.7-9 Sec.4.2-4.3, Fig.7"
+        },
+        "public_artifacts": {
+          "judgment": "NR: official source release",
+          "locator": "PDF pp.1-14: no release URL; no official repository established"
+        }
+      }
+    },
+    {
+      "name": "FINN",
+      "cite": "finn",
+      "group": "Transformer / general FPGA",
+      "source": "https://github.com/Xilinx/finn",
+      "cells": {
+        "target_scope": {
+          "judgment": "Binarized neural networks",
+          "locator": "PDF pp.4-5 Sec.4"
+        },
+        "substrate": {
+          "judgment": "FPGA",
+          "locator": "PDF p.1"
+        },
+        "full_model_host": {
+          "judgment": "S: supported BNN; host I/O",
+          "locator": "PDF pp.4-6 heterogeneous network streaming"
+        },
+        "iteration_reuse": {
+          "judgment": "N/A: diffusion reuse",
+          "locator": "BNN target, not iterative diffusion"
+        },
+        "shape_overlap": {
+          "judgment": "S: folding + streaming",
+          "locator": "PDF pp.4-6 Sec.4.1 / 4.4"
+        },
+        "low_precision_packing": {
+          "judgment": "S: binary; DSP packing N/A",
+          "locator": "PDF pp.4-5 XNOR-popcount / thresholds"
+        },
+        "public_artifacts": {
+          "judgment": "S: compiler + tests + RTL library*",
+          "locator": "Official repo src/finn, tests, finn-rtllib; current repo differs from 2017 prototype"
+        }
+      }
+    },
+    {
+      "name": "VLA-FPGA",
+      "cite": "",
+      "group": "This work",
+      "source": "data/manifest.json",
+      "cells": {
+        "target_scope": {
+          "judgment": "Traced HoloBrain-0 segments",
+          "locator": "data/arch.json; compiler snapshot"
+        },
+        "substrate": {
+          "judgment": "FPGA",
+          "locator": "data/clock_rtl.sv"
+        },
+        "full_model_host": {
+          "judgment": "P: explicit HostOp boundaries",
+          "locator": "data/compiler.py HostOp"
+        },
+        "iteration_reuse": {
+          "judgment": "NR: no new reuse method",
+          "locator": "No inter-iteration reuse optimization claimed"
+        },
+        "shape_overlap": {
+          "judgment": "P: overlap; merge pending",
+          "locator": "v8 RTL + arch model; compiler merge not integrated"
+        },
+        "low_precision_packing": {
+          "judgment": "S: exact INT8 Pack2 preadder",
+          "locator": "v9 preadder reports; v10 synthesis not routed"
+        },
+        "public_artifacts": {
+          "judgment": "P: local compiler / simulator / RTL; release planned",
+          "locator": "https://github.com/nc-thu/vector-core-r3c; no permission/publication changes"
+        }
+      }
+    }
+  ]
+}

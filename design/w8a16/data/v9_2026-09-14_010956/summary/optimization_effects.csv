@@ -1,0 +1,11 @@
+id,name,state,config,before_cycles,after_cycles,cycle_savings,cycle_savings_pct,evidence
+1,DSP input/output pipeline,inherited,pipeline,155780495,155780495,0,0.0,historical hw v6: DSP AREG/BREG/MREG/PREG; no DSP increase; timing target 250 MHz
+2,Local clr/CE fanout partition,inherited,fanout,155780495,155780495,0,0.0,"historical hw v7: post-route Fmax 246.9 to 250.4 MHz (+1.402%), DSP unchanged"
+3,16x48 shape-aware tiling and tail mask,inherited,tile_mask,155780495,155780495,0,0.0,current v8 compiler and 16x48 W8A16 array; invalid tail MACs excluded
+4,Dependency-aware BMM/GEMM ordering,new_compiler,order,155780495,155780495,0,0.0,BMM descriptors are inserted after their parent event; 24/24 remain covered
+5,Activation tile reuse,new_model,act_reuse,155780495,155518927,261568,0.16790805549821883,same activation can serve multiple N tiles; guarded by layout/shape compatibility
+6,Weight tile reuse/broadcast,new_model,weight_reuse,155780495,151996599,3783896,2.4289921533501353,same weight tile can serve multiple M tiles when residency is possible
+7,Row-group streaming and double buffering,new_model_rtl_control,overlap,155780495,76764416,79016079,50.72270376339477,"overlap read, compute and post stages with a startup guard; no DSP change"
+8,Contiguous write coalescing,new_model_descriptor,write_coalesce,155780495,155780495,0,0.0,full contiguous tiles share a modeled burst; no zero-skip assumption
+9,Adjacent compatible task merge,new_compiler,fusion,155780495,155780495,0,0.0,fusion metadata is emitted only for identical compatible descriptors
+10,Requant/bias/vector stage pipeline and control locality,inherited_plus_model,vector_pipeline,155780495,154265055,1515440,0.9728047147365914,vector_pipeline reduces only behavior-level vector cycles; no PE arithmetic change

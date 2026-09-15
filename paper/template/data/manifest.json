@@ -1,0 +1,146 @@
+[
+  {
+    "id": "arch",
+    "source": "arch/v8_2026-09-11_2315_gemm_util_design/util_decomp.json",
+    "snapshot": "data\\arch.json",
+    "sha256": "9861e8f682fac67ac86e37ff6e00b42756af476e83a74f80e8994f2d9d8be0eb",
+    "source_mtime": "2026-09-11T23:22:14.328584",
+    "snapshot_mtime": "2026-09-11T23:22:14.328584"
+  },
+  {
+    "id": "cycles",
+    "source": "hw/v8_2026-09-12_0054_rtl_util_r5/results/p2_cyc.json",
+    "snapshot": "data\\cycles.json",
+    "sha256": "8297b5e4b771b0e1d713341146821f33aa06d363578cf34554f1d012a7cddbf9",
+    "source_mtime": "2026-09-12T04:15:29.175975",
+    "snapshot_mtime": "2026-09-12T04:15:29.175975"
+  },
+  {
+    "id": "write",
+    "source": "hw/v8_2026-09-12_0054_rtl_util_r5/results/r5_wr_compare.json",
+    "snapshot": "data\\write.json",
+    "sha256": "46463e0cec145fe005bbdc9f787d3d9280b6ae1ef0d746cff173023e81c7752a",
+    "source_mtime": "2026-09-12T04:10:44.966628",
+    "snapshot_mtime": "2026-09-12T04:10:44.966628"
+  },
+  {
+    "id": "hier",
+    "source": "hw/v8_2026-09-12_0054_rtl_util_r5/results/hier_modsum.json",
+    "snapshot": "data\\hier.json",
+    "sha256": "31ca6f695d62d6f966f33f3f63a71ea9f7678aaa42408d35427c149d21a1214c",
+    "source_mtime": "2026-09-12T04:40:58.963170",
+    "snapshot_mtime": "2026-09-12T04:40:58.963170"
+  },
+  {
+    "id": "pe",
+    "source": "hw/v9_2026-09-12_1102_preadd_pack2/results/summary_v9.json",
+    "snapshot": "data\\pe.json",
+    "sha256": "aa2a4ae3398f2cd71480fb27cb36ef26991d79024d9f9d705e8d00ff15737ac7",
+    "source_mtime": "2026-09-12T11:30:01.649823",
+    "snapshot_mtime": "2026-09-12T11:30:01.649823"
+  },
+  {
+    "id": "v10_verdict",
+    "source": "hw/v10_2026-09-12_1148_engfull_preadd/notes/regression_verdict.md",
+    "snapshot": "data\\v10_verdict.md",
+    "sha256": "e8f3ae73a7eb6b46f230f77aaf79e1db08ae3c167a12d113128b705cb7a7aa66",
+    "source_mtime": "2026-09-12T12:28:05.988543",
+    "snapshot_mtime": "2026-09-12T12:14:29.231122"
+  },
+  {
+    "id": "compiler",
+    "source": "compiler/v7_2026-09-10_1258_f4_ybase_pong/sw/compiler.py",
+    "snapshot": "data\\compiler.py",
+    "sha256": "a3176ec786caa7eeb8e717a37bf98eb015284a4741afe2198c58ae6be894abe4",
+    "source_mtime": "2026-09-10T14:04:58.264560",
+    "snapshot_mtime": "2026-09-10T14:04:58.264560"
+  },
+  {
+    "id": "clock_rtl",
+    "source": "hw/v8_2026-09-12_0054_rtl_util_r5/rtl_p2/ae_gemm_p2d.sv",
+    "snapshot": "data\\clock_rtl.sv",
+    "sha256": "0c9264eaeb935b6e05272aea802d3184d52616577bc673b141d08a41f32e1624",
+    "source_mtime": "2026-09-12T03:10:10.883613",
+    "snapshot_mtime": "2026-09-12T03:10:10.883613"
+  },
+  {
+    "id": "arch_script",
+    "source": "arch/v8_2026-09-11_2315_gemm_util_design/util_decomp.py",
+    "snapshot": "data\\arch_script.py",
+    "sha256": "1dff03aac3ae9dcaf92dff026916e4a132fdc677b2917c06c6c103373472ddf1",
+    "source_mtime": "2026-09-11T23:22:04.573692",
+    "snapshot_mtime": "2026-09-11T23:22:04.573692"
+  },
+  {
+    "id": "pe_base_util",
+    "source": "hw/v9_2026-09-12_1102_preadd_pack2/results/synth_base48/util.rpt",
+    "snapshot": "data\\pe_base_util.rpt",
+    "sha256": "2657a989437d3b8e78fd60cbaffb1164d1d7bab92931ac143db9a26224424cbe",
+    "source_mtime": "2026-09-12T11:28:51.449582",
+    "snapshot_mtime": "2026-09-12T11:28:51.449582"
+  },
+  {
+    "id": "pe_cand_util",
+    "source": "hw/v9_2026-09-12_1102_preadd_pack2/results/synth_cand48/util.rpt",
+    "snapshot": "data\\pe_cand_util.rpt",
+    "sha256": "bf646d48a73944c22409ebd1924a0a94bbd5bfd2203eb244a4c5acb35089b1a6",
+    "source_mtime": "2026-09-12T11:28:51.553207",
+    "snapshot_mtime": "2026-09-12T11:28:51.553207"
+  },
+  {
+    "id": "pe_base_hier",
+    "source": "hw/v9_2026-09-12_1102_preadd_pack2/results/synth_base48/util_hier.rpt",
+    "snapshot": "data\\pe_base_hier.rpt",
+    "sha256": "985ce61640c8e6f5372f96b59700fb42e0a79110647f866ed39c17cb9330ecf9",
+    "source_mtime": "2026-09-12T11:28:51.460960",
+    "snapshot_mtime": "2026-09-12T11:28:51.460960"
+  },
+  {
+    "id": "pe_cand_hier",
+    "source": "hw/v9_2026-09-12_1102_preadd_pack2/results/synth_cand48/util_hier.rpt",
+    "snapshot": "data\\pe_cand_hier.rpt",
+    "sha256": "cacd1a52e123ea68be0f44714577a6538e8e2836d13e04128c434ff5691ade8a",
+    "source_mtime": "2026-09-12T11:28:51.565687",
+    "snapshot_mtime": "2026-09-12T11:28:51.565687"
+  },
+  {
+    "id": "pe_base_route",
+    "source": "hw/v9_2026-09-12_1102_preadd_pack2/results/synth_base48/wns_route.txt",
+    "snapshot": "data\\pe_base_route.txt",
+    "sha256": "dbbca087f085e9dc6769c7185750c5ba8f2497d68dad3844b7fc9e7517fec0f9",
+    "source_mtime": "2026-09-12T11:28:51.526015",
+    "snapshot_mtime": "2026-09-12T11:28:51.526015"
+  },
+  {
+    "id": "pe_cand_route",
+    "source": "hw/v9_2026-09-12_1102_preadd_pack2/results/synth_cand48/wns_route.txt",
+    "snapshot": "data\\pe_cand_route.txt",
+    "sha256": "37086d3ef169ed60d673dc099113ae10857d7f5c0b2f53b97880ed3495fb42b3",
+    "source_mtime": "2026-09-12T11:28:51.637024",
+    "snapshot_mtime": "2026-09-12T11:28:51.637024"
+  },
+  {
+    "id": "pe_math_log",
+    "source": "hw/v9_2026-09-12_1102_preadd_pack2/notes/math_exhaustive_out.txt",
+    "snapshot": "data\\pe_math_log.txt",
+    "sha256": "82e86026190c3075745549126556e90e49bba9c207770b30cc97fa42325437fb",
+    "source_mtime": "2026-09-12T10:59:52.876504",
+    "snapshot_mtime": "2026-09-12T10:59:52.876504"
+  },
+  {
+    "id": "pe_verilator_log",
+    "source": "hw/v9_2026-09-12_1102_preadd_pack2/results/run_pe_pair_verilator.log",
+    "snapshot": "data\\pe_verilator_log.log",
+    "sha256": "5e4fbcd99f4ad97b4f85196ef6db9cf1caef8f46715db1040c4e21453fa67efa",
+    "source_mtime": "2026-09-12T11:11:02.183330",
+    "snapshot_mtime": "2026-09-12T11:11:02.183330"
+  },
+  {
+    "id": "pe_xsim_log",
+    "source": "hw/v9_2026-09-12_1102_preadd_pack2/results/run_pe_pair_xsim.log",
+    "snapshot": "data\\pe_xsim_log.log",
+    "sha256": "9e120fa8b5640cfac38e61df2c0292ff99d2efc2ed508c326aa68d8cc494c0eb",
+    "source_mtime": "2026-09-12T11:13:21.886138",
+    "snapshot_mtime": "2026-09-12T11:13:21.886138"
+  }
+]

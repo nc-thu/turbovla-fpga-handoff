@@ -1,0 +1,234 @@
+{
+  "generated_at": "2026-09-14 00:59:00",
+  "round": "2026-09-13_231621",
+  "capture": {
+    "suite": "libero_spatial",
+    "task_id": 0,
+    "seed": 7,
+    "module_events": 408,
+    "dispatch_events": 6836
+  },
+  "replay": {
+    "total_cycles": 155780495,
+    "replay_time_s_at_250mhz": 0.62312198,
+    "valid_mac_count": 49584342528,
+    "pe_time_utilization": 0.41444820161856594,
+    "gemm_utilization": 0.43226586769332537,
+    "effective_gops": 159.14810942152934,
+    "physical_peak_gops": 384.0,
+    "active_equivalent_seconds": 0.258251784,
+    "top_activity_counters": {
+      "total_cycles": 155780495,
+      "mapped_cycles": 149359343,
+      "fallback_cycles": 6421152,
+      "pe_active_pe_cycles": 49584342528,
+      "valid_mac_count": 49584342528,
+      "tile_count": 75487,
+      "output_bytes": 159228360,
+      "queue_max_occupancy": 1
+    }
+  },
+  "coverage": {
+    "module_events_covered": 408,
+    "module_events_total": 408,
+    "dispatch_bmm_covered": 24,
+    "dispatch_bmm_total": 24,
+    "parent_children_not_double_counted": true
+  },
+  "vivado": [
+    {
+      "configuration": "array_off_trace_off",
+      "enable_array": false,
+      "trace_enable": false,
+      "status": "passed",
+      "started": "2026-09-14T00:38:26+0800",
+      "finished": "2026-09-14T00:39:52+0800",
+      "elapsed_s": 86.505,
+      "part": "xczu7ev-ffvc1156-2-e",
+      "target_period_ns": 4.0,
+      "utilization": {
+        "lut": 2170,
+        "logic_lut": 2170,
+        "lutram": 0,
+        "srl": 0,
+        "ff": 7098,
+        "ramb36": 0,
+        "ramb18": 0,
+        "uram": 0,
+        "dsp": 0
+      },
+      "hierarchy": {},
+      "timing": {
+        "target_period_ns": 4.0,
+        "wns_ns": 1.989,
+        "data_path_delay_ns": 2.001,
+        "logic_delay_ns": 1.018,
+        "route_delay_ns": 0.983,
+        "stage": "synthesis_estimated"
+      },
+      "power": {
+        "total_on_chip_w": 0.673,
+        "dynamic_w": 0.081,
+        "static_w": 0.592,
+        "confidence": "Medium",
+        "mode": "vectorless_no_saif_vcd"
+      },
+      "drc": {
+        "violations_found": 0,
+        "critical_or_error": 0,
+        "severity_summary": [
+          "none reported"
+        ],
+        "note": "synthesis-stage DRC report"
+      },
+      "source": "turbovla_w8a16\\hw\\v8_2026-09-13_2316_integrated_replay_top\\synth\\runs\\2026-09-14_0039\\array_off_trace_off"
+    },
+    {
+      "configuration": "array_on_trace_off",
+      "enable_array": true,
+      "trace_enable": false,
+      "status": "passed",
+      "started": "2026-09-14T00:39:56+0800",
+      "finished": "2026-09-14T00:43:09+0800",
+      "elapsed_s": 192.637,
+      "part": "xczu7ev-ffvc1156-2-e",
+      "target_period_ns": 4.0,
+      "utilization": {
+        "lut": 60364,
+        "logic_lut": 58916,
+        "lutram": 0,
+        "srl": 1448,
+        "ff": 116980,
+        "ramb36": 0,
+        "ramb18": 0,
+        "uram": 0,
+        "dsp": 768
+      },
+      "hierarchy": {
+        "sysarr": {
+          "lut": 58195,
+          "logic_lut": 56747,
+          "lutram": 0,
+          "srl": 1448,
+          "ff": 109881,
+          "ramb36": 0,
+          "ramb18": 0,
+          "uram": 0,
+          "dsp": 768
+        },
+        "pe_example": {
+          "lut": 63,
+          "logic_lut": 62,
+          "lutram": 0,
+          "srl": 1,
+          "ff": 140,
+          "ramb36": 0,
+          "ramb18": 0,
+          "uram": 0,
+          "dsp": 1
+        }
+      },
+      "timing": {
+        "target_period_ns": 4.0,
+        "wns_ns": 2.051,
+        "data_path_delay_ns": 1.939,
+        "logic_delay_ns": 0.946,
+        "route_delay_ns": 0.993,
+        "stage": "synthesis_estimated"
+      },
+      "power": {
+        "total_on_chip_w": 3.455,
+        "dynamic_w": 2.848,
+        "static_w": 0.607,
+        "confidence": "Medium",
+        "mode": "vectorless_no_saif_vcd"
+      },
+      "drc": {
+        "violations_found": 768,
+        "critical_or_error": 0,
+        "severity_summary": [
+          "AVAL-155"
+        ],
+        "note": "synthesis-stage DRC report; AVAL-155 is advisory"
+      },
+      "source": "turbovla_w8a16\\hw\\v8_2026-09-13_2316_integrated_replay_top\\synth\\runs\\2026-09-14_0039\\array_on_trace_off"
+    },
+    {
+      "configuration": "array_on_trace_on",
+      "enable_array": true,
+      "trace_enable": true,
+      "status": "passed",
+      "started": "2026-09-14T00:43:13+0800",
+      "finished": "2026-09-14T00:46:31+0800",
+      "elapsed_s": 197.7,
+      "part": "xczu7ev-ffvc1156-2-e",
+      "target_period_ns": 4.0,
+      "utilization": {
+        "lut": 60364,
+        "logic_lut": 58916,
+        "lutram": 0,
+        "srl": 1448,
+        "ff": 116980,
+        "ramb36": 0,
+        "ramb18": 0,
+        "uram": 0,
+        "dsp": 768
+      },
+      "hierarchy": {
+        "sysarr": {
+          "lut": 58195,
+          "logic_lut": 56747,
+          "lutram": 0,
+          "srl": 1448,
+          "ff": 109881,
+          "ramb36": 0,
+          "ramb18": 0,
+          "uram": 0,
+          "dsp": 768
+        },
+        "pe_example": {
+          "lut": 63,
+          "logic_lut": 62,
+          "lutram": 0,
+          "srl": 1,
+          "ff": 140,
+          "ramb36": 0,
+          "ramb18": 0,
+          "uram": 0,
+          "dsp": 1
+        }
+      },
+      "timing": {
+        "target_period_ns": 4.0,
+        "wns_ns": 2.051,
+        "data_path_delay_ns": 1.939,
+        "logic_delay_ns": 0.946,
+        "route_delay_ns": 0.993,
+        "stage": "synthesis_estimated"
+      },
+      "power": {
+        "total_on_chip_w": 3.455,
+        "dynamic_w": 2.848,
+        "static_w": 0.607,
+        "confidence": "Medium",
+        "mode": "vectorless_no_saif_vcd"
+      },
+      "drc": {
+        "violations_found": 768,
+        "critical_or_error": 0,
+        "severity_summary": [
+          "AVAL-155"
+        ],
+        "note": "synthesis-stage DRC report; AVAL-155 is advisory"
+      },
+      "source": "turbovla_w8a16\\hw\\v8_2026-09-13_2316_integrated_replay_top\\synth\\runs\\2026-09-14_0039\\array_on_trace_on"
+    }
+  ],
+  "boundaries": {
+    "full_trace": "virtual descriptor counter replay",
+    "representative_tile": "cycle-by-cycle Verilator",
+    "power": "vectorless without SAIF/VCD",
+    "unknown_event_count": 0
+  },
+  "html": "turbovla_w8a16\\reports\\2026-09-13_231621\\2026-09-13_231621_TurboVLA_activity_replay.html"
+}

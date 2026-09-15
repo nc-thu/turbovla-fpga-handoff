@@ -1,0 +1,23 @@
+{
+ "checked": 16777216,
+ "errors": {
+  "base_prod0": 0,
+  "base_prod1": 0,
+  "cand_prod0": 0,
+  "cand_prod1": 0,
+  "borrow_law": 0,
+  "R_range": 0,
+  "base_eq_cand": 0
+ },
+ "boundary_27b_snapshot": {
+  "K": 4096,
+  "a": -128,
+  "w": -128,
+  "true_sum": 67108864,
+  "snap27_reads_as": -67108864,
+  "wraps": true,
+  "acc32_ok": true
+ },
+ "elapsed_s": 1.5
+}
+MATH_EXHAUSTIVE_PASS

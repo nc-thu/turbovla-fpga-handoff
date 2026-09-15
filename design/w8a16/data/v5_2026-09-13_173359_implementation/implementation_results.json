@@ -1,0 +1,116 @@
+{
+  "schema_version": "tvla_w8a16.vivado_implementation.v5",
+  "generated_at": "2026-09-13T17:36:13+08:00",
+  "tool": "Vivado 2021.2",
+  "part": "xczu7ev-ffvc1156-2-e",
+  "top": "w8a16_system_top",
+  "rows": 16,
+  "pcols": 48,
+  "target_period_ns": 3.298,
+  "status": "passed",
+  "started": "2026-09-13T16:38:39.0843990+08:00",
+  "finished": "2026-09-13T17:33:13.2599687+08:00",
+  "elapsed_s": 3274.176,
+  "run_root": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v5_2026-09-13_163609_post_route_impl\\impl\\runs\\2026-09-13_163609_system_impl",
+  "output_dir": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v5_2026-09-13_163609_post_route_impl\\impl\\runs\\2026-09-13_163609_system_impl\\system_top",
+  "resources": {
+    "total_luts": 66255,
+    "logic_luts": 65586,
+    "lutram": 0,
+    "srl": 669,
+    "ffs": 118169,
+    "ramb36": 0,
+    "ramb18": 0,
+    "uram": 0,
+    "dsp": 785
+  },
+  "timing": {
+    "target_period_ns": 3.298,
+    "target_frequency_mhz": 303.21406913280777,
+    "clock_frequency_mhz": 303.214,
+    "wns_ns": -0.461,
+    "tns_ns": -1197.739,
+    "whs_ns": null,
+    "ths_ns": null,
+    "timing_met": false,
+    "data_path_delay_ns": 3.74,
+    "logic_delay_ns": 2.056,
+    "logic_delay_percent": 54.973,
+    "route_delay_ns": 1.684,
+    "route_delay_percent": 45.027,
+    "fmax_estimate_mhz": 266.02819898909286,
+    "critical_source": "u_runtime/u_action/k_r_reg[0]_replica_1/C",
+    "critical_destination": "u_runtime/u_action/acc_r_reg[4][9]/D",
+    "failing_endpoints": 8075
+  },
+  "power": {
+    "total_on_chip_w": 5.678,
+    "dynamic_w": 5.058,
+    "static_w": 0.62,
+    "confidence": "Medium",
+    "activity_file": "---",
+    "is_vectorless": true,
+    "evidence": "vectorless_estimate"
+  },
+  "route": {
+    "logical_nets": 874746,
+    "routable_nets": 184104,
+    "fully_routed_nets": 184104,
+    "unrouted_nets": 0,
+    "routing_errors": 0,
+    "status": "passed"
+  },
+  "drc": {
+    "violations": 2358,
+    "errors": 0,
+    "warnings": 4,
+    "advisories": 1,
+    "status": "pass_with_warnings"
+  },
+  "comparison_v4_synth": {
+    "resources": {
+      "total_luts": 67448,
+      "logic_luts": 66768,
+      "ffs": 118149,
+      "dsp": 785,
+      "ramb36": 0,
+      "ramb18": 0,
+      "uram": 0
+    },
+    "timing": {
+      "wns_ns": 0.31,
+      "tns_ns": 0.0,
+      "fmax_estimate_mhz": 334.67202141900935,
+      "data_path_delay_ns": 2.978
+    },
+    "deltas": {
+      "total_luts": -1193,
+      "logic_luts": -1182,
+      "ffs": 20,
+      "dsp": 0,
+      "ramb36": 0,
+      "ramb18": 0,
+      "uram": 0
+    },
+    "note": "v4 是同一顶层的综合结果；v5 是 post-route implementation，不能把两者当作同一阶段的直接 PPA 对比。"
+  },
+  "raw_reports": {
+    "post_route_timing.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v5_2026-09-13_163609_post_route_impl\\impl\\runs\\2026-09-13_163609_system_impl\\system_top\\post_route_timing.rpt",
+    "post_route_critical_paths.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v5_2026-09-13_163609_post_route_impl\\impl\\runs\\2026-09-13_163609_system_impl\\system_top\\post_route_critical_paths.rpt",
+    "post_route_utilization.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v5_2026-09-13_163609_post_route_impl\\impl\\runs\\2026-09-13_163609_system_impl\\system_top\\post_route_utilization.rpt",
+    "post_route_power.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v5_2026-09-13_163609_post_route_impl\\impl\\runs\\2026-09-13_163609_system_impl\\system_top\\post_route_power.rpt",
+    "post_route_status.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v5_2026-09-13_163609_post_route_impl\\impl\\runs\\2026-09-13_163609_system_impl\\system_top\\post_route_status.rpt",
+    "post_route_congestion.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v5_2026-09-13_163609_post_route_impl\\impl\\runs\\2026-09-13_163609_system_impl\\system_top\\post_route_congestion.rpt",
+    "post_route_drc.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v5_2026-09-13_163609_post_route_impl\\impl\\runs\\2026-09-13_163609_system_impl\\system_top\\post_route_drc.rpt",
+    "post_route_methodology.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v5_2026-09-13_163609_post_route_impl\\impl\\runs\\2026-09-13_163609_system_impl\\system_top\\post_route_methodology.rpt",
+    "post_route_qor_assessment.rpt": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v5_2026-09-13_163609_post_route_impl\\impl\\runs\\2026-09-13_163609_system_impl\\system_top\\post_route_qor_assessment.rpt",
+    "post_route.dcp": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v5_2026-09-13_163609_post_route_impl\\impl\\runs\\2026-09-13_163609_system_impl\\system_top\\post_route.dcp",
+    "vivado.log": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a16\\hw\\v5_2026-09-13_163609_post_route_impl\\impl\\runs\\2026-09-13_163609_system_impl\\system_top\\vivado.log"
+  },
+  "evidence_notes": [
+    "timing/utilization/route 是真实 post-route implementation 报告。",
+    "power 使用 report_power 的 vectorless activity propagation，没有仿真 SAIF/VCD，属于估算而非板上实测。",
+    "OOC wrapper 没有板级 pin、AXI/DDR 和时钟缓冲约束；NSTD/UCIO 类 DRC 不能代表板级设计已就绪。",
+    "本轮没有生成 bitstream，也没有修改 v4 RTL。"
+  ]
+}

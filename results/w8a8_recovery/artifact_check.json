@@ -1,0 +1,15 @@
+{
+  "generated": "2026-09-14T12:41:14",
+  "html": "2026-09-14_124114_w8a8_recovery.html",
+  "checks": {
+    "filename_seconds": true,
+    "header_seconds": true,
+    "local_links": true,
+    "no_external_dependencies": true,
+    "no_nan_label": true,
+    "cycle_formula": true,
+    "byte_formula": true
+  },
+  "pass": true,
+  "visual_review": "Automated browser file navigation was blocked by tool URL policy; not claimed as visually verified."
+}

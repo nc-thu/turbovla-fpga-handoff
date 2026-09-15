@@ -1,0 +1,116 @@
+Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
+--------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2021.2 (win64) Build 3367213 Tue Oct 19 02:48:09 MDT 2021
+| Date         : Mon Sep 14 12:21:27 2026
+| Host         : nc23 running 64-bit major release  (build 9200)
+| Command      : report_drc -file {E:/GPU ARCH/vector_core_sim/turbovla_w8a8_pack2/hw/v1_2026-09-14_115230_pack2_rtl/synth/ooc_4x4/drc.rpt}
+| Design       : tvla_w8a8_pack2_array_top
+| Device       : xczu7ev-ffvc1156-2-e
+| Speed File   : -2
+| Design State : Synthesized
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Report DRC
+
+Table of Contents
+-----------------
+1. REPORT SUMMARY
+2. REPORT DETAILS
+
+1. REPORT SUMMARY
+-----------------
+            Netlist: tvla_w8a8_pack2_array_top
+          Floorplan: design_1
+      Design limits: <entire design considered>
+           Ruledeck: default
+             Max violations: <unlimited>
+             Violations found: 16
++--------+----------+------------------+------------+
+| Rule   | Severity | Description      | Violations |
++--------+----------+------------------+------------+
+| DPIP-2 | Warning  | Input pipelining | 16         |
++--------+----------+------------------+------------+
+
+2. REPORT DETAILS
+-----------------
+DPIP-2#1 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[0].g_col[0].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[0].g_col[0].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#2 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[0].g_col[1].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[0].g_col[1].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#3 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[0].g_col[2].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[0].g_col[2].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#4 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[0].g_col[3].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[0].g_col[3].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#5 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[1].g_col[0].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[1].g_col[0].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#6 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[1].g_col[1].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[1].g_col[1].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#7 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[1].g_col[2].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[1].g_col[2].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#8 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[1].g_col[3].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[1].g_col[3].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#9 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[2].g_col[0].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[2].g_col[0].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#10 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[2].g_col[1].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[2].g_col[1].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#11 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[2].g_col[2].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[2].g_col[2].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#12 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[2].g_col[3].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[2].g_col[3].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#13 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[3].g_col[0].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[3].g_col[0].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#14 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[3].g_col[1].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[3].g_col[1].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#15 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[3].g_col[2].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[3].g_col[2].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+DPIP-2#16 Warning
+Input pipelining  
+DSP u_array/u_ref/g_row[3].g_col[3].u_pe/u_mul/u_dsp input u_array/u_ref/g_row[3].g_col[3].u_pe/u_mul/u_dsp/B[17:0] is not pipelined. Pipelining DSP48 input will improve performance.
+Related violations: <none>
+
+

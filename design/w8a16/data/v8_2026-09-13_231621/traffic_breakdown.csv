@@ -1,0 +1,5 @@
+category,bytes,meaning
+activation_payload,104912572,INT16 activation reads and payload
+weight_payload,273953152,deduplicated INT8 weight stream as counted by descriptors
+output_payload,159228360,INT16 output/writeback payload
+all_payload,538094084,sum of the three payload categories; not a bandwidth measurement

@@ -1,0 +1,76 @@
+{
+  "status": "passed",
+  "precision": "fp32",
+  "device": "cuda:0",
+  "seed": 7,
+  "task_suite": "libero_spatial",
+  "task_id": 0,
+  "initial_state_index": 0,
+  "warmup": 5,
+  "repeat": 10,
+  "observation_resolution": [
+    256,
+    256
+  ],
+  "source": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/source",
+  "checkpoint": "/home/nc23/experiments/turbovla_profile/2026-09-12_192541/pretrained/TurboVLA/checkpoints/libero/turbovla_libero.pth",
+  "instruction": "pick up the black bowl between the plate and the ramekin and place it on the plate",
+  "image_shapes": [
+    [
+      256,
+      256,
+      3
+    ],
+    [
+      256,
+      256,
+      3
+    ]
+  ],
+  "parameters": 216073239,
+  "parameter_dtypes": [
+    "torch.float32"
+  ],
+  "trace_status": "passed",
+  "wall_ms": [
+    71.47613354027271,
+    67.73868575692177,
+    67.65066646039486,
+    68.98744404315948,
+    70.90449705719948,
+    66.22770242393017,
+    66.0783238708973,
+    66.07098877429962,
+    65.8334344625473,
+    66.36545993387699
+  ],
+  "gpu_ms": [
+    71.30850982666016,
+    67.6612777709961,
+    67.57657623291016,
+    68.91161346435547,
+    70.82854461669922,
+    66.15312194824219,
+    66.00601959228516,
+    65.99913787841797,
+    65.76060485839844,
+    66.29459381103516
+  ],
+  "wall_ms_median": 67.00806319713593,
+  "wall_ms_p90": 70.9616607055068,
+  "wall_ms_min": 65.8334344625473,
+  "wall_ms_max": 71.47613354027271,
+  "gpu_ms_median": 66.93558502197266,
+  "gpu_ms_p90": 70.87654113769531,
+  "gpu_ms_min": 65.76060485839844,
+  "gpu_ms_max": 71.30850982666016,
+  "output_shape": [
+    12,
+    7
+  ],
+  "output_finite": true,
+  "repeat_max_abs_delta": 0.0,
+  "peak_cuda_allocated_bytes": 901209088,
+  "peak_cuda_reserved_bytes": 983564288,
+  "elapsed_seconds": 16.737208971753716
+}

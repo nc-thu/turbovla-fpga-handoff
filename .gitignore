@@ -1,0 +1,26 @@
+# Local/generated files
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.Xil/
+.cache/
+vivado*.jou
+vivado*.log
+*.dcp
+*.bit
+*.ltx
+*.wdb
+*.vvp
+**/system_top_elaboration.log
+
+# Model weights and raw private captures
+*.pt
+*.pth
+*.bin
+*.safetensors
+*.mp4
+*.gif
+*.zip
+*.tar.gz
