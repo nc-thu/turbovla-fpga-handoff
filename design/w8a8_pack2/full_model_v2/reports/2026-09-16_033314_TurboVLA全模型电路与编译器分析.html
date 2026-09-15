@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026-09-16 03:33:14 TurboVLA 全模型电路与编译器分析</title>
+<style>
+body{font-family:Arial,"Microsoft YaHei",sans-serif;color:#222;background:#f5f6f7;margin:0;line-height:1.65}
+main{max-width:1180px;margin:24px auto;padding:0 22px;background:#fff}
+h1{font-size:28px;border-bottom:3px solid #222;padding-bottom:12px} h2{margin-top:32px;border-left:5px solid #2d6f9f;padding-left:10px}
+.meta{color:#555;font-size:13px} .note{border:1px solid #bbb;background:#fafafa;padding:12px 15px;margin:14px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px} .metric{border:1px solid #bbb;padding:12px;background:#fbfbfb}
+.metric b{font-size:24px;display:block;color:#205d88} table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px} th,td{border:1px solid #bbb;padding:7px 9px;text-align:left} th{background:#e9eef2}
+code{background:#f0f0f0;padding:1px 4px} svg{width:100%;height:auto;border:1px solid #aaa;margin:8px 0}
+.done{color:#176b3a} .warn{color:#9b5b00} .todo{color:#9d2020} ul{margin-top:6px}
+</style></head><body><main>
+<h1>TurboVLA 全模型电路与编译器分析</h1>
+<p class="meta">生成时间：2026-09-16 03:33:14　|　版本：full_model v2 / full-model RTL v4　|　器件：xczu7ev-ffvc1156-2-e</p>
+<div class="note"><b>先看结论：</b>编译器已经把一次真实 TurboVLA forward 的 6836 个 dispatch 事件全部分类，未知事件为 0；但“分类完成”不等于“每个算子都有专用电路”。当前真正进入 Pack2/向量/布局/存储 RTL 的只是其中一部分，其余仍用 AUX/fallback 保留时间线。报告中的综合和实现数字只代表本次 full-model generic top，不代表已经接上板级 DDR 或完整模型已经在 FPGA 上跑通。</div>
+<section><h2>1. 这次到底做了什么</h2>
+<p>输入来自 TurboVLA 的真实 dispatch trace。编译器按一次 dispatch 生成一个 descriptor，并把矩阵尺寸、地址、stride、scale、布局和依赖放进 sideband。顶层同时放入 Pack2 GEMM、BMM 布局缓存、16-lane 向量单元、embedding/position、im2col、CTX/WRAM、DMA 和动作后处理。</p>
+<div class="grid"><div class="metric"><b>6,836</b>真实 dispatch 事件</div><div class="metric"><b>408</b>模块边界事件</div><div class="metric"><b>0</b>未知事件</div><div class="metric"><b>768</b>Pack2 DSP（目标阵列）</div></div></section>
+<section><h2>2. 编译器覆盖情况</h2>
+<p>下表展示的是“编译器把事件送到哪里”，不是“电路已经把所有数学都实现了”。例如 <code>aux_behavior</code> 表示有明确的周期和 payload 位置，但仍由软件或行为级单元提供结果。</p>
+<table><thead><tr><th>执行类别</th><th>事件数</th></tr></thead><tbody><tr><td>aux_behavior</td><td>4968</td></tr><tr><td>layout_rtl</td><td>973</td></tr><tr><td>memory_rtl</td><td>3</td></tr><tr><td>rtl_bmm</td><td>30</td></tr><tr><td>rtl_gemm</td><td>301</td></tr><tr><td>vector_rtl</td><td>561</td></tr></tbody></table>
+<table><thead><tr><th>操作</th><th>次数</th></tr></thead><tbody><tr><td>ADD</td><td>174</td></tr><tr><td>AUX_EVENT</td><td>4966</td></tr><tr><td>BMM_W8A8</td><td>30</td></tr><tr><td>CLAMP</td><td>24</td></tr><tr><td>CONV_IM2COL</td><td>2</td></tr><tr><td>COS</td><td>2</td></tr><tr><td>DIV</td><td>4</td></tr><tr><td>EMBED</td><td>3</td></tr><tr><td>GELU</td><td>38</td></tr><tr><td>GEMM_W8A8</td><td>301</td></tr><tr><td>LAYER_NORM</td><td>112</td></tr><tr><td>LAYOUT</td><td>973</td></tr><tr><td>MUL</td><td>174</td></tr><tr><td>RELU</td><td>11</td></tr><tr><td>SIN</td><td>2</td></tr><tr><td>SOFTMAX</td><td>18</td></tr><tr><td>TANH</td><td>2</td></tr></tbody></table></section>
+<section><h2>3. 周期模型告诉我们什么</h2><svg viewBox="0 0 760 180" role="img" aria-label="全模型周期拆账">
+<rect x="0" y="0" width="760" height="180" fill="white" stroke="#222"/>
+<text x="20" y="28" font-size="15" font-weight="bold">一次完整 trace 的周期落点</text>
+<rect x="28" y="62" width="650" height="36" fill="#d7e7f5" stroke="#222"/>
+<rect x="28" y="62" width="19.1" height="36" fill="#3a78a8"/>
+<text x="36" y="86" fill="white" font-size="13">RTL 映射 2.94%</text>
+<rect x="47.1" y="62" width="630.9" height="36" fill="#e7b869"/>
+<text x="55.1" y="86" font-size="13">fallback/AUX 97.06%</text>
+<text x="28" y="128" font-size="13">总周期：565,587,640</text>
+<text x="28" y="150" font-size="13">这图怎么看：现在的瓶颈不是 Pack2 的乘法峰值，而是大量未被专用硬件接住的全模型事件。</text>
+</svg>
+<div class="grid"><div class="metric"><b>565,587,640</b>总周期</div><div class="metric"><b>1.79%</b>PE 时间利用率</div><div class="metric"><b>61.13%</b>GEMM 内部利用率</div><div class="metric"><b>13.78</b>有效 GOPS@250MHz</div></div>
+<p>13.78 GOPS 是把 fallback 时间也放进完整 forward 后的有效吞吐；它不能和 768 GOPS 的 Pack2 物理峰值直接当成同一个数字。两者相差约 55.7 倍，原因主要是全模型事件还没有全部由片上算子接住。</p></section>
+<section><h2>4. 现在已经做成电路的部分</h2>
+<ul><li class="done">Pack2：16×48 物理阵列、96 逻辑列、INT8×INT8、INT32 累加、snapshot/readout、requant 和 INT8 写回。</li>
+<li class="done">向量 primitive：Add、Mul、Bias、LayerNorm、Softmax、GELU、ReLU、Tanh、Exp、Div、Clamp 的有界整数接口。LayerNorm/Softmax 当前使用有界近似，不是 FP16 精确 IP。</li>
+<li class="done">数据搬运和重排：CTX/WRAM 同步存储、DMA AXI 行为级通道、BMM 行缓存、transpose/gather/scatter/slice、9 点 im2col。</li>
+<li class="done">模型尾部：action clamp、gripper 格式化和步号写入。</li></ul></section>
+<section><h2>5. 还没有做成专用电路的部分</h2>
+<ul><li class="todo"><b>DINO/视觉 backbone：</b>patch embedding、attention 的完整投影、归一化和大规模 feature 读写仍是 AUX/fallback；当前没有可综合的专用视觉 encoder。</li>
+<li class="todo"><b>T5/语言 encoder：</b>文本 token embedding、完整 Transformer block、语言 KV/cache 尚未做成 RTL。embedding primitive 只覆盖接口位置和小表访问。</li>
+<li class="todo"><b>复杂动态 attention：</b>BMM 只有在两个操作数、布局和依赖都满足时才进入布局缓存；不能满足的 BMM 会保留 AUX 成本。</li>
+<li class="todo"><b>精确 FP16 激活：</b><code>tvla_fp16_activation_wrap</code> 现在是注册的接口占位，尚未接入 Xilinx Floating-Point IP。当前整数 fallback 不能冒充 FP16 精度。</li>
+<li class="todo"><b>完整的 bias/scale/采样链：</b>不能整数融合的 bias、动态 scale、采样更新和动作前的复杂后处理还由编译器记录为 fallback。</li>
+<li class="warn"><b>板级系统：</b>本轮没有板级 DDR 控制器、NoC、真实 AXI 带宽测量、bitstream 下载和端到端 LIBERO 成功率复测。</li></ul></section>
+<section><h2>6. Vivado 资源与时序</h2>
+<p>资源表来自本机 Vivado 2021.2。综合和完整实现分开列出，不用综合估算冒充布局布线结果。实现阶段的 DRC 摘要：无 Error；有板级/性能警告；报告中共列出 3907 项规则提示，其中 Error 为 0 项，Critical Warning 为 有。</p>
+<table><thead><tr><th>阶段</th><th>LUT</th><th>FF</th><th>DSP</th><th>BRAM</th><th>WNS(ns)</th><th>vectorless power</th></tr></thead><tbody><tr><td>synth</td><td>90761</td><td>193186</td><td>784</td><td>25.5</td><td>-0.367</td><td>未生成</td></tr><tr><td>impl</td><td>89795</td><td>193533</td><td>784</td><td>25.5</td><td>-0.303</td><td>5.733</td></tr></tbody></table>
+<div class="note">这张表怎么看：实现结果保留了 768 个 Pack2 DSP，另外 784 个 DSP 是整个顶层的总用量，其中多出来的部分来自向量单元。实现阶段 4 ns（250 MHz）约束未通过：WNS=-0.303 ns；最差数据路径延迟 3.917 ns（逻辑 1.318 ns，布线 2.599 ns）。 DRC 的 Critical Warning 主要是演示顶层没有绑定真实板卡 I/O，以及部分 DSP 输入/输出寄存器没有全部打开；它们不等于内部逻辑布线失败，但在生成板级 bitstream 前必须处理。</div></section>
+<section><h2>7. 下一步建议</h2>
+<ol><li>先把实现报告中的 Pack2 DSP、CTX/WRAM BRAM 和向量单元关键路径核对清楚。</li><li>为 LayerNorm、Softmax 和 GELU 接入实际 FP16 IP 或定点近似验证，分别测精度和时序。</li><li>按 trace 占比最高的 AUX 类别逐个拆出可综合模块，优先处理视觉投影、语言投影和动态 attention。</li><li>编译器增加“硬件已实现 / 行为级 / 软件 fallback”字段，防止后续报告把 <code>unknown=0</code> 误读成全硬件覆盖。</li></ol></section>
+<section><h2>8. 证据边界</h2>
+<p>编译器统计是实际 trace 读取得到的结果；周期和吞吐是 Python 模型；RTL 是新 full-model top 的可综合集成；Vivado 资源和时序是综合/实现工具输出。没有 SAIF/VCD 时不报告 TOPS/W。没有真实训练权重完整 FPGA 回放时，不报告端到端模型延迟或成功率。</p></section>
+<p class="meta">报告文件：2026-09-16 03:33:14　|　机器可读输入：<code>compiler/v2_2026-09-16_0100_full_model_compiler/compiled_full</code></p>
+</main></body></html>

@@ -1,5 +1,7 @@
 # TurboVLA 全模型覆盖边界
 
+> 2026-09-16 更新：下面的历史段落保留作对照；当前全模型版本和最终 Vivado 数字以 `design/w8a8_pack2/full_model_v2/` 及本文件末尾的“当前版本更新” 为准。
+
 更新时间：2026-09-15 23:41:16
 
 ## 先说结论
@@ -76,3 +78,34 @@
 5. 导入静态 scale/bias 表，完成完整 trace 的 payload 回放，再做多 suite 的纯整数 LIBERO 验证。
 
 在这些步骤完成前，报告里应把 Pack2 结果称为“GEMM/BMM 子集的实测实现 + 其余算子的行为级周期占位”，不要称为 TurboVLA 全模型 FPGA 推理结果。
+
+## 当前版本更新（2026-09-16 03:33:14）
+
+本次 `full_model_v2` 使用同一份真实 TurboVLA dispatch trace，把每个 dispatch 都写入 descriptor。统计为 6836 个 dispatch、6836 个 descriptor、301 个 `rtl_gemm`、30 个 `rtl_bmm`、973 个 `layout_rtl`、561 个 `vector_rtl`、3 个 `memory_rtl` 和 4968 个 `aux_behavior`；`unknown=0` 代表分类完整，不代表 6836 个事件都有对应专用电路。
+
+### 已有电路与仅有编译器分类的区别
+
+| 部分 | 当前状态 | 需要继续补的内容 |
+|---|---|---|
+| Pack2 GEMM/BMM | 16×48、768-DSP、INT8×INT8、INT32 累加、snapshot/readout/requant 有可综合 RTL | 完整 payload 回放、静态 scale/bias 闭合 |
+| 向量 primitive | 有 16-lane Add/Mul/Clamp 等接口，LayerNorm/Softmax/Div 使用有界整数近似 | 接入精确数值方案并逐算子对拍 |
+| Layout/embedding/im2col/CTX-WRAM | 有对应小模块或存储接口 | 大张量地址生成、容量和冲突验证 |
+| AUX/fallback | 有 descriptor、事件顺序、周期和 payload 位置 | DINO/T5/backbone、完整 attention、非线性和采样专用电路 |
+| DMA/DDR | 顶层有行为级单拍 AXI 端口 | 真实 DDR 控制器、带宽、背压和板级约束 |
+
+### 最终 generic top 结果
+
+Vivado 2021.2 在 `xczu7ev-ffvc1156-2-e` 上对 `vivado_runs_20260916_0248` 完成 route。资源为 89,795 LUT、193,533 FF、784 DSP、25.5 BRAM；vectorless power 为 5.733 W（Low confidence）。4 ns setup WNS=-0.303 ns，250 MHz 约束未通过；DRC 没有 Error，但有 generic top I/O critical warning。这个结果证明顶层可以被工具实现，不证明整模型已经能在 FPGA 板上运行。
+
+对应周期模型为 565,587,640 cycles、1.794% PE 时间利用率、61.13% GEMM 利用率和 13.78 GOPS@250 MHz。周期模型把 6505 个 AUX/fallback 事件的成本保留在总时间里，因此不能把 13.78 GOPS 当成 Pack2 的物理峰值 768 GOPS。
+
+### 仍然没有做成全模型电路或完整编译支持的项目
+
+1. DINO/视觉 backbone：patch embedding、完整视觉 attention/投影、归一化和 feature 读写。
+2. T5/语言 encoder：token embedding、Transformer block、语言 KV/cache 和文本端量化加载。
+3. 复杂动态 attention/BMM：mask、转置、双输入重排和不满足布局条件的 BMM。
+4. 精确 FP16 激活 IP：当前 `tvla_fp16_activation_wrap.sv` 只是注册接口占位，不是 Xilinx Floating-Point IP。
+5. 完整 bias、动态 scale、采样更新和动作后处理链：部分仍是 AUX/fallback，不能按零周期处理。
+6. 生产级数据通路：真实 AXI/DDR/NoC、容量管理、跨算子背压、bitstream、板级时序和 LIBERO 端到端执行。
+
+所以，“编译器没有漏掉事件”和“全模型已经有专用硬件”是两件事。当前交接包支持架构师复现分类、Pack2 子集和 generic top 实现；要声称全模型 FPGA 推理，还需要补齐上述六类内容并完成整条 trace 的逐位回放。

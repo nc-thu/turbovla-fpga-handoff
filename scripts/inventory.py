@@ -28,7 +28,8 @@ def main() -> int:
         # manifest deterministic when it is regenerated.
         # Simulation binaries/logs are deliberately ignored by .gitignore and
         # are not part of the handoff manifest either.
-        if rel == 'package_inventory.json' or p.suffix.lower() in {'.vvp'} or p.name == 'system_top_elaboration.log':
+        if (rel == 'package_inventory.json' or p.suffix.lower() in {'.vvp', '.pyc'}
+                or '__pycache__' in p.parts or p.name == 'system_top_elaboration.log'):
             continue
         rows.append({'path': rel, 'bytes': p.stat().st_size, 'sha256': sha256(p)})
     out = root / 'package_inventory.json'

@@ -1,6 +1,6 @@
 # TurboVLA FPGA 交接包清单
 
-生成时间：2026-09-15 19:39:43
+生成时间：2026-09-16 03:33:14
 
 ## 包含内容
 
@@ -31,5 +31,12 @@
 2. `reports/*_real4/reports/`：Vivado 2021.2 post-route 报告。
 3. `data/2026-09-14_115230/`：TurboVLA trace 和 Python 周期模型。
 4. `results/`：软件量化、profiling 和误差筛选。
+
+## 2026-09-16 新增全模型版本
+
+- `design/w8a8_pack2/full_model_v2/`：真实 TurboVLA trace 的全模型编译器、descriptor/ISA 说明、Pack2/向量/布局/存储/AUX 集成 RTL、XSim smoke 和最终中文报告。
+- 全模型报告：`design/w8a8_pack2/full_model_v2/reports/2026-09-16_033314_TurboVLA全模型电路与编译器分析.html`。
+- 报告摘要中的 Vivado 目录是本地生成目录 `vivado_runs_20260916_0248`；仓库只保留可复现脚本和必要的文本报告，不公开 `.dcp`、`.bit`、模型权重或仿真缓存。
+- 这一版的 setup WNS=-0.303 ns，250 MHz 未通过；DRC 没有 Error，但 generic top 仍有未绑定板级 I/O 的 Critical Warning。
 
 报告中的“实测”仅指对应工具确实运行过的项目；条件模型、行为级 fallback 和 vectorless power 都在文档中单独标出。

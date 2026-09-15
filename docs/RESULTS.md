@@ -1,6 +1,6 @@
 # 已验证结果和下一步
 
-更新时间：2026-09-15 19:39:43
+更新时间：2026-09-16 03:33:14
 
 ## 已验证
 
@@ -15,6 +15,14 @@
 - DSP 输入侧 AREG/BREG 等寄存器的架构取舍。当前实现时序已过，但 Vivado 对 768 个 DSP 给出输入未寄存 warning。
 - SAIF/VCD 活动文件和板级功耗；当前 5.310 W/6.924 W 只是 vectorless 估算。
 - TurboVLA 全模型的真实 W8A8 整数 trace、完整 fallback 复放和 LIBERO 正式成功率。
+
+## 2026-09-16 全模型 generic top
+
+- 最终实现目录：`design/w8a8_pack2/full_model_v2/`，Vivado run `vivado_runs_20260916_0248`。
+- 资源：89,795 LUT、193,533 FF、784 DSP、25.5 BRAM；vectorless power 5.733 W（Low confidence）。
+- route 完成、failed nets=0、DRC Error=0，但 setup WNS=-0.303 ns（TNS=-20.580 ns），因此 4 ns/250 MHz 约束未通过。
+- 全模型 trace 周期为 565,587,640 cycles，PE 时间利用率 1.794%，GEMM 利用率 61.13%，有效吞吐 13.78 GOPS@250 MHz。周期结果来自 Python 模型，不能当作板上运行速度。
+- XSim 宽接口 smoke 通过；尚未完成板级 I/O/DDR、bitstream、真实整模型 FPGA 回放和新的 LIBERO 成功率。
 
 ## 如何读这些数字
 

@@ -1,6 +1,6 @@
 # 当前 TurboVLA 软硬件交接说明
 
-更新时间：2026-09-15 19:39:43
+更新时间：2026-09-16 03:33:14
 
 ## 一句话说明
 
@@ -36,3 +36,9 @@ command word 只放 opcode、flags、descriptor id 和短长度。矩阵尺寸�
 - `design/w8a8_pack2/` 是当前主线，包含最终重跑的 Vivado v3 实现结果。
 - `design/w8a16/` 是前一条 W8A16 研究线，不能与 W8A8 的 DSP 峰值混写。
 - `results/` 是软件实验快照。它们支持量化和形状分析，不自动证明 FPGA 上已经完成相同算子。
+
+## 2026-09-16 全模型版本
+
+`design/w8a8_pack2/full_model_v2/` 在同一 Pack2 阵列外增加了向量、布局、embedding/position、im2col、BMM 行缓存、CTX/WRAM、行为级 DMA、FP16 接口占位和动作后处理。它的目的，是把真实 TurboVLA trace 的事件顺序送入一个可综合 generic top；它不是已经能在开发板上独立执行全模型的设计。
+
+编译器对 6836 个 dispatch 逐条生成 descriptor，统计为 301 个 Pack2 GEMM、30 个 Pack2 BMM、973 个 layout、561 个 vector、3 个 memory，以及 4968 个 AUX/fallback。`unknown=0` 只表示每个事件都有分类，不能理解为每个事件都有专用 RTL。最终实现使用 784 个 DSP（768 个 Pack2 + 16 个向量乘法）、25.5 BRAM，4 ns setup WNS=-0.303 ns，尚未达到 250 MHz。
