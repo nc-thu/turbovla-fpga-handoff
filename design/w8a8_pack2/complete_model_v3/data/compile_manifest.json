@@ -1,0 +1,10 @@
+{
+  "generated_at": "2026-09-16 03:51:52",
+  "schema": "tvla_w8a8_pack2.complete_model.v3",
+  "command_word": "op[63:56],flags[55:48],descriptor_id[47:32],length[15:0]",
+  "descriptor_sideband_bits": 512,
+  "source_capture_sha256": {
+    "operator_trace.jsonl": "a5ab118422c88ce1694eac6308a51a3771c6d6b0b0922c646fcd576f03dbe684",
+    "module_events.jsonl": "971f6c8c4cebafc44760b60c64bddab4d959a9bbb3848d4e7022483084ced0a9"
+  }
+}

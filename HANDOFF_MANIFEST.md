@@ -40,3 +40,11 @@
 - 这一版的 setup WNS=-0.303 ns，250 MHz 未通过；DRC 没有 Error，但 generic top 仍有未绑定板级 I/O 的 Critical Warning。
 
 报告中的“实测”仅指对应工具确实运行过的项目；条件模型、行为级 fallback 和 vectorless power 都在文档中单独标出。
+
+## 2026-09-16 05:51:14 新增完整算子版本
+
+- `design/w8a8_pack2/complete_model_v3/`：完整算子编译器、架构说明、RTL、Icarus smoke、周期数据和中文报告。
+- 输入来自一次真实 TurboVLA forward。编译器生成 6,836 descriptors、6,837 command words，`unknown=0`；`data/` 中保留机器可读摘要，不包含模型权重或大张量。
+- 实现入口为 `rtl/tvla_complete_model_package_top.sv`。Vivado 2021.2 已完成综合、布局布线、DRC 和 vectorless power；资源 117,482 LUT、198,003 FF、817 DSP、46 BRAM、247 IOB，4 ns WNS=-0.522 ns，vectorless power=6.885 W。
+- 报告：`design/w8a8_pack2/complete_model_v3/reports/2026-09-16_055114_TurboVLA全模型电路与编译器分析.html`。
+- 明确未包含：DCP/bitstream、checkpoint、真实板级 DDR/PHY、精确 FP16 IP、完整 DINO/T5/action-head 专用电路、Verilator 全 trace 和 LIBERO 端到端成功率。

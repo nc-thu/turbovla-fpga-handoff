@@ -109,3 +109,26 @@ Vivado 2021.2 在 `xczu7ev-ffvc1156-2-e` 上对 `vivado_runs_20260916_0248` 完�
 6. 生产级数据通路：真实 AXI/DDR/NoC、容量管理、跨算子背压、bitstream、板级时序和 LIBERO 端到端执行。
 
 所以，“编译器没有漏掉事件”和“全模型已经有专用硬件”是两件事。当前交接包支持架构师复现分类、Pack2 子集和 generic top 实现；要声称全模型 FPGA 推理，还需要补齐上述六类内容并完成整条 trace 的逐位回放。
+
+## 2026-09-16 05:51:14：complete_model_v3 的边界
+
+新版本位于 `design/w8a8_pack2/complete_model_v3/`。它把 6,836 个真实 dispatch 全部送到显式执行单元，未知事件为 0；同时新增 LayerNorm、Softmax、GELU、ReLU、tanh、Conv/im2col、Embedding/position、layout、mask、BMM、CTX/WRAM、DMA 和 action post 的 RTL 槽位。这里的“槽位”是指有自己的接口、握手和周期入口，不代表已经接入精确的训练权重和数值 IP。
+
+### 已经由工具实际处理的内容
+
+- Icarus 的全算子 smoke 通过；它验证的是模块连接和控制握手。
+- `tvla_complete_model_package_top` 在 Vivado 2021.2 上完成综合、布局、物理优化、布线、DRC、vectorless power 和 checkpoint。
+- post-route 资源为 117,482 LUT、198,003 FF、817 DSP、46 BRAM tile、247 IOB；4 ns 约束的 WNS=-0.522 ns，所以 250 MHz 仍未通过。
+
+### 仍然不能称为“完整模型电路”的内容
+
+1. `tvla_fp16_alu.sv` 是有界参考单元，不是已经接入的 Xilinx Floating-Point IP。LayerNorm、Softmax、GELU、tanh 的精度还没有逐位闭环。
+2. DINO 视觉 backbone、语言 encoder 和 action head 的完整层循环、参数加载、KV/cache 与中间张量流还没有专用 RTL。
+3. descriptor 里的 scale ID、地址和 payload 还没有和 checkpoint 的真实静态权重、scale 表、DDR burst 一一接上。
+4. BMM 的完整转置、布局重排、mask、双输入调度只有接口和部分条件路径；没有全 trace 的逐位输出证明。
+5. CTX/WRAM 和 AXI 是片上/边界模型；没有板级 DDR 控制器、PHY、真实带宽和背压验证。
+6. 本机没有 Verilator，只有 Icarus smoke；没有完成 6,836 事件的 RTL 回放。
+7. action post 接口已存在，但没有把新 top 的动作输出送进 LIBERO 重新测 W8A8 成功率。
+8. 6.885 W 是 vectorless power，不是带活动文件的真实功耗，也不能据此报告 TOPS/W。
+
+所以 complete_model_v3 的准确称呼是：**真实 trace 驱动的全算子编译器 + 可综合集成顶层 + generic Vivado 实现结果**。它还不是可下载到板上执行完整 TurboVLA 的最终设计。

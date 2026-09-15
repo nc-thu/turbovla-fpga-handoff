@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "unknown_event_count": 0,
+  "unclassified_event_count": 0,
+  "dispatch_events": 6836,
+  "descriptors": 6836,
+  "pack2_gemm_bmm": 331,
+  "explicit_execution_units": 6836
+}

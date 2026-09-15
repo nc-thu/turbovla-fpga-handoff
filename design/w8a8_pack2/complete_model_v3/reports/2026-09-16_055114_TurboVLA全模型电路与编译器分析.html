@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026-09-16_055114 TurboVLA 全模型电路与编译器分析</title>
+<style>
+body{margin:0;background:#f2f4f6;color:#20252a;font-family:Arial,"Microsoft YaHei",sans-serif;line-height:1.65}
+main{max-width:1220px;margin:26px auto;background:#fff;padding:26px 32px 50px;box-shadow:0 2px 12px #ccd3da}
+h1{font-size:30px;margin:0 0 6px;border-bottom:3px solid #222;padding-bottom:12px} h2{font-size:22px;margin-top:34px;border-left:5px solid #2d789f;padding-left:10px}
+.meta{font-size:13px;color:#5e6872} .note{border:1px solid #adb7bf;background:#f8fafb;padding:13px 16px;margin:16px 0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0} .metric{border:1px solid #b9c3ca;padding:12px;background:#fbfcfd} .metric b{font-size:24px;color:#1e668c;display:block}
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px} th,td{border:1px solid #c3cbd1;padding:7px 9px;text-align:left;vertical-align:top} th{background:#e9eef2} .todo{color:#8e2b2b} .ok{color:#176b3a} code{background:#eef1f3;padding:1px 4px} svg{width:100%;border:1px solid #aeb7bd;margin:10px 0}
+li{margin:6px 0} .small{font-size:13px;color:#59636d}
+</style></head><body><main>
+<h1>TurboVLA 全模型电路与编译器分析</h1>
+<p class="meta">生成时间：2026-09-16 05:51:14　|　版本：complete-model v3　|　器件：xczu7ev-ffvc1156-2-e　|　Vivado 2021.2</p>
+<div class="note"><b>先看结论：</b>这版已经把一次真实 TurboVLA forward 的 6,836 个 dispatch 事件逐项分类，并把 Pack2、BMM、向量、布局、卷积展开、Embedding、CTX/WRAM、DMA 和动作后处理放进同一个可综合顶层。Icarus 算子冒烟通过，Vivado 也完成了综合、布局布线、DRC 和 vectorless power。可是，当前仍不能称为“完整模型已经由 FPGA 电路执行”：FP16 IP、完整 DINO/语言 encoder、训练权重流、真实 DDR、全 trace 逐位回放和 250 MHz 时序仍未完成。</div>
+<section><h2>1. 本轮做了什么</h2>
+<p>编译器读取 TurboVLA 的真实 dispatch trace。每个事件生成一个 descriptor 和一个 64 位 command word。矩阵尺寸、地址、stride、scale、布局和依赖放在 descriptor sideband 中。RTL 顶层再按执行单元分派任务。</p>
+<div class="grid"><div class="metric"><b>6,836</b>dispatch 事件</div><div class="metric"><b>408</b>模块边界事件</div><div class="metric"><b>0</b>未知事件</div><div class="metric"><b>331</b>Pack2 GEMM/BMM 任务</div><div class="metric"><b>768</b>目标 Pack2 DSP</div></div>
+<svg viewBox="0 0 900 235" role="img" aria-label="全模型工作量与硬件覆盖">
+<rect width="900" height="235" fill="#fff"/>
+<text x="24" y="28" font-size="18" font-weight="700">一次完整 TurboVLA trace 的工作落点</text>
+<text x="24" y="53" font-size="13" fill="#555">编译器知道每个事件该去哪里；这不等于每个事件已经有精确数值电路。</text>
+<g transform="translate(26,78)">
+<rect x="0" y="0" width="170" height="42" fill="#222"/><text x="85" y="27" text-anchor="middle" fill="white" font-size="14">6,836 dispatch</text>
+<path d="M170 21 H205" stroke="#333" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="210" y="0" width="150" height="42" fill="#2d789f"/><text x="285" y="27" text-anchor="middle" fill="white" font-size="14">Pack2/BMM 331</text>
+<rect x="210" y="58" width="150" height="42" fill="#4c9b71"/><text x="285" y="85" text-anchor="middle" fill="white" font-size="14">vector 575</text>
+<rect x="390" y="0" width="180" height="42" fill="#c78b34"/><text x="480" y="27" text-anchor="middle" fill="white" font-size="14">layout/memory 1,018</text>
+<rect x="390" y="58" width="180" height="42" fill="#d7d7d7" stroke="#777"/><text x="480" y="85" text-anchor="middle" fill="#222" font-size="14">controller/meta 4,912</text>
+<path d="M360 21 H385" stroke="#333" stroke-width="2" marker-end="url(#arr)"/><path d="M360 79 H385" stroke="#333" stroke-width="2" marker-end="url(#arr)"/>
+<rect x="600" y="29" width="190" height="42" fill="#e8a34a"/><text x="695" y="56" text-anchor="middle" fill="#222" font-size="14">行为级/控制 slot</text>
+<path d="M570 50 H595" stroke="#333" stroke-width="2" marker-end="url(#arr)"/>
+</g>
+<text x="24" y="205" font-size="13">这图怎么看：当前最占数量的是控制和布局事件；真正能让 768 个 DSP 持续工作的 GEMM/BMM 只占 331 项。</text>
+<defs><marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#333"/></marker></defs>
+</svg></section>
+<section><h2>2. 编译器现在能覆盖什么</h2>
+<p>“unknown=0”只说明每个事件都有明确归属，不代表每个归属都有精确数值电路。下面先看执行单元，再看具体操作。</p>
+<table><thead><tr><th>执行单元</th><th>事件数</th></tr></thead><tbody><tr><td>attention_controller</td><td>42</td></tr><tr><td>conv_im2col</td><td>2</td></tr><tr><td>embedding_posenc</td><td>7</td></tr><tr><td>fp16_vector</td><td>575</td></tr><tr><td>layout_engine</td><td>977</td></tr><tr><td>mask_engine</td><td>26</td></tr><tr><td>memory_engine</td><td>14</td></tr><tr><td>meta_engine</td><td>4862</td></tr><tr><td>pack2_bmm</td><td>30</td></tr><tr><td>pack2_gemm</td><td>301</td></tr></tbody></table>
+<table><thead><tr><th>操作</th><th>次数</th></tr></thead><tbody><tr><td>ADD</td><td>174</td></tr><tr><td>ATTENTION</td><td>42</td></tr><tr><td>BMM_W8A8</td><td>30</td></tr><tr><td>CLAMP</td><td>24</td></tr><tr><td>CONV_IM2COL</td><td>2</td></tr><tr><td>DIV</td><td>4</td></tr><tr><td>EMBED</td><td>3</td></tr><tr><td>FILL</td><td>14</td></tr><tr><td>GELU</td><td>38</td></tr><tr><td>GEMM_W8A8</td><td>301</td></tr><tr><td>LAYER_NORM</td><td>112</td></tr><tr><td>LAYOUT</td><td>977</td></tr><tr><td>MASK</td><td>26</td></tr><tr><td>META_IDENTITY</td><td>4862</td></tr><tr><td>MUL</td><td>174</td></tr><tr><td>POSENC</td><td>4</td></tr><tr><td>REDUCE</td><td>18</td></tr><tr><td>RELU</td><td>11</td></tr><tr><td>SOFTMAX</td><td>18</td></tr><tr><td>TANH</td><td>2</td></tr></tbody></table>
+<p class="small">编译器输出在 <code>data/2026-09-16_034653_complete_model/compiled_complete</code>。机器可读结果包括 <code>descriptors.jsonl</code>、<code>instructions.hex</code>、依赖图、scale 表、周期明细和覆盖摘要。</p></section>
+<section><h2>3. 周期模型和 PE 利用率</h2>
+<div class="grid"><div class="metric"><b>204,648,209</b>完整 forward 周期（模型）</div><div class="metric"><b>4.96%</b>PE 时间利用率</div><div class="metric"><b>76.69%</b>GEMM 内部利用率</div><div class="metric"><b>38.08</b>有效 GOPS@250 MHz</div><div class="metric"><b>768</b>Pack2 峰值 GOPS@250 MHz</div></div>
+<p>这里的 38.08 GOPS 把完整 trace 的控制、布局、读写和行为级槽都算进去了，所以只有峰值的约 5.0%。换句话说，阵列在 GEMM 片段里并不算空，但完整模型大部分时间并没有在做可以交给 Pack2 的乘加。当前模型值与硬件实测必须分开看。</p>
+<p class="small"><code>fallback_cycles=0</code> 在这版统计里表示“没有把事件丢进一个无名的 fallback 桶”：每个事件都有自己的行为级或硬件槽周期。它不表示 LayerNorm、Softmax、DINO 或语言编码器已经由精确 FPGA 电路完成。</p>
+<table><thead><tr><th>指标</th><th>本轮数值</th><th>证据类型</th><th>怎么理解</th></tr></thead><tbody>
+<tr><td>有效 MAC</td><td>15,587,257,344</td><td>Python 周期模型</td><td>只统计真正进入 Pack2/BMM 的有效乘加。</td></tr>
+<tr><td>GEMM 计算周期</td><td>13,233,202</td><td>Python 周期模型</td><td>只作为 GEMM 利用率分母，不把 fallback 周期算进阵列工作。</td></tr>
+<tr><td>完整 forward 周期</td><td>204,648,209</td><td>Python 周期模型</td><td>包含所有显式执行单元和控制事件。</td></tr>
+</tbody></table></section>
+<section><h2>4. RTL 顶层和 Vivado 结果</h2>
+<p>新顶层使用窄板级接口：64 位 host stream、64 位 DDR read stream 和 64 位 DDR write stream。这样避免把仿真用的大总线直接当芯片引脚。综合、布局布线和 checkpoint 均已生成。</p>
+<table><thead><tr><th>阶段</th><th>LUT</th><th>FF</th><th>DSP</th><th>BRAM tile</th><th>IOB</th><th>WNS(ns)</th><th>vectorless power(W)</th></tr></thead><tbody><tr><td>synth</td><td>118933</td><td>197309</td><td>817</td><td>46</td><td>247</td><td>-0.411</td><td>未生成</td></tr><tr><td>impl</td><td>117482</td><td>198003</td><td>817</td><td>46</td><td>247</td><td>-0.522</td><td>6.885</td></tr></tbody></table>
+<p>布局布线 WNS=-0.522 ns，4 ns（250 MHz）目标未通过。 最差路径报告为 4.199 ns，其中逻辑约 1.293 ns，布线约 2.906 ns。说明现在首先要处理的是长布线和跨模块观察/数据汇聚，而不是单纯再加乘法器。实现报告的 DRC 有 4038 条提示，其中 Error=0、Critical Warning=2；主要是未绑定真实板卡 I/O 标准/引脚，以及 DSP 输入寄存器没有全部打开。它们还不是可交付 bitstream 的板级约束。</p>
+<div class="note">功耗 6.885 W 是 Vivado vectorless 估算。没有 SAIF/VCD 活动文件，不能把它换算成可信 TOPS/W。</div></section>
+<section><h2>5. 目前还没有做成电路或没有接上编译器的部分</h2>
+<table><thead><tr><th>部分</th><th>当前状态</th></tr></thead><tbody><tr><td>精确 FP16 数值单元</td><td class="todo">当前 fp16/activation 槽是可综合的有界参考实现；尚未接入 Xilinx Floating-Point IP，也没有对 LayerNorm、Softmax、GELU 做位级精度闭环。</td></tr><tr><td>DINO 与语言编码器专用电路</td><td class="todo">编译器能把视觉、文本和 action head 事件送入明确 unit，但没有把完整 backbone、参数流、KV/cache 和层间控制做成专用 RTL。</td></tr><tr><td>真实权重/scale/payload</td><td class="todo">descriptor 有地址、shape、依赖和 scale ID；本轮没有把训练 checkpoint 的全部静态 scale、权重和中间 payload 写进可回放 bitstream 数据路径。</td></tr><tr><td>完整 BMM 转置与双输入执行</td><td class="todo">满足布局条件的 BMM 有入口；需要动态重排或不满足依赖的 BMM 仍走控制/行为级路径，尚未完成真实输出逐位证明。</td></tr><tr><td>DDR/AXI 板级系统</td><td class="todo">当前是片上 CTX/WRAM 加窄数据流和 AXI 边界模型；没有板级 DDR 控制器、PHY、burst 带宽和真实板卡约束。</td></tr><tr><td>完整 trace 的 RTL 回放</td><td class="todo">Icarus 的算子冒烟通过；Verilator 不在本机环境中，尚未完成 6,836 事件逐位 RTL 回放和输出顺序闭环。</td></tr><tr><td>动作与 LIBERO 闭环</td><td class="todo">动作后处理接口已接入，但没有用新 top 生成完整动作并在 LIBERO 上做 W8A8 成功率复测。</td></tr><tr><td>250 MHz camera-ready 时序</td><td class="todo">实现已布线但 4 ns 约束未通过；不能把这版称为满足 250 MHz 的最终电路。</td></tr><tr><td>可信 TOPS/W</td><td class="todo">Vivado 只有 vectorless power 估算，没有 SAIF/VCD 活动文件，因此不能给出真实 TOPS/W。</td></tr></tbody></table></section>
+<section><h2>6. 下一步怎么排优先级</h2>
+<ol><li><b>先修 250 MHz 时序：</b>把 observe/checksum 汇聚从主数据路径拿掉，给 Pack2、BMM、FP16/vector 和 BRAM 读写之间补寄存器；再用真实板卡 XDC 绑定 I/O。</li><li><b>接入真正的 FP16 IP：</b>先做 LayerNorm、Softmax 的缩放/指数/归约，再测精度和资源；GELU、tanh 可以随后接同一条向量接口。</li><li><b>补真实参数流：</b>让 compiler 生成权重、scale、activation payload 的地址和长度，RTL 端从 CTX/WRAM/DDR 读到同一份数据。</li><li><b>做代表性逐位回放：</b>先选短 K、尾块、BMM 转置和一个完整 action head；随后才扩到全 trace 和 LIBERO。</li><li><b>最后再谈全模型成功率：</b>没有完整整数结果和动作输出闭环之前，不拿当前周期模型推导成功率。</li></ol></section>
+<section><h2>7. 证据边界</h2>
+<ul><li class="ok">已测：编译器覆盖摘要、Icarus 全算子冒烟、Vivado 综合/实现/DRC/vectorless power、窄接口顶层可布局布线。</li><li class="ok">已建模：全模型事件周期、Pack2 利用率、GOPS 和任务分类。</li><li class="todo">未完成：FP16 vendor IP 数值闭环、真实 DINO/T5/action-head 电路、DDR/板级时序、Verilator 全 trace、W8A8 FPGA LIBERO 成功率。</li></ul>
+<p class="small">原始文件和脚本仍保存在本地工作区 <code>turbovla_w8a8_pack2</code>；本报告的 Vivado checkpoint 位于新 v5 工程的 <code>vivado_runs_20260916_0500_package</code>。</p></section>
+</main></body></html>

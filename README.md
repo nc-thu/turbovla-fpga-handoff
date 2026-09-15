@@ -11,6 +11,7 @@
 - `docs/RESULTS.md`：已经跑过的功能检查、Vivado 实现结果和仍未验证的部分。
 - `design/w8a8_pack2/`：当前主线。包括黄金模型、编译器、16×48 Pack2 阵列、时序版 top、Vivado Tcl 和报告。
 - `design/w8a8_pack2/full_model_v2/`：2026-09-16 的全模型 trace 编译器、Pack2/向量/布局/存储/AUX 集成顶层和回放报告。这里的 AUX 仍是行为级时间线，不等于专用电路。
+- `design/w8a8_pack2/complete_model_v3/`：2026-09-16 05:51:14 的完整算子顶层版本。它把 LayerNorm、Softmax、GELU、Conv/im2col、Embedding/position、layout、BMM、CTX/WRAM、DMA 和 action post 放进显式 unit，并用窄接口顶层完成了一次新的 Vivado route；FP16 IP、完整模型参数流和板级 DDR 仍未闭环。
 - `design/w8a16/`：此前的 W8A16 版本，只作为参考，不代表当前 W8A8 设计。
 - `upstream/turbovla_profile/`：TurboVLA 官方代码快照、LIBERO profiling 结果和版本信息。
 - `results/`：量化筛选、W8A8 整数恢复和 profiling 的机器可读结果。
@@ -32,6 +33,12 @@
 `design/w8a8_pack2/full_model_v2/` 使用一次真实 TurboVLA dispatch trace：6836 个 dispatch 全部被编译器分类（`unknown=0`），其中 331 个进入 Pack2 GEMM/BMM，973 个是布局，561 个是向量，3 个是存储，6505 个仍为 AUX/fallback。周期模型得到 565,587,640 cycles、1.794% PE 时间利用率和 13.78 GOPS@250 MHz；这些是 trace 驱动模型，不是 FPGA 板上端到端测量。
 
 同一 full-model generic top 的最终 Vivado 实现资源为 89,795 LUT、193,533 FF、784 DSP、25.5 BRAM，vectorless power 5.733 W。实现已完成布线但 4 ns setup WNS=-0.303 ns，250 MHz 约束未通过；DRC 无 Error，但仍有 generic top 的 I/O critical warning。完整说明见 `design/w8a8_pack2/full_model_v2/reports/` 和 `docs/FULL_MODEL_COVERAGE.md`。
+
+## 2026-09-16 05:51:14 完整算子版本
+
+新版本 `design/w8a8_pack2/complete_model_v3/` 使用真实 trace 的 6,836 个 dispatch。编译器未知事件为 0，Icarus 全算子 smoke 通过。新的 package top 在 Vivado 中完成综合、布局、物理优化、布线、DRC、vectorless power 和 checkpoint：117,482 LUT、198,003 FF、817 DSP、46 BRAM、247 IOB，WNS=-0.522 ns（4 ns 约束未通过），vectorless power=6.885 W。该结果是 generic top 的工具实现结果，不是板级端到端 TurboVLA 执行。
+
+这版明确把“编译器有分类”和“有专用电路”分开。完整 DINO/T5/action-head 数值电路、精确 FP16 IP、真实权重/scale/payload 流、DDR 控制器与 PHY、Verilator 全 trace、LIBERO W8A8 成功率和真实 TOPS/W 都还没有完成。
 
 ## 快速复现
 
