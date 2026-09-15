@@ -1,5 +1,11 @@
 # TurboVLA 交接包工作记录
 
+## 2026-09-16 03:33:14 — 仓库公开并加入全模型版本
+
+- 已将 GitHub 仓库 `nc-thu/turbovla-fpga-handoff` 设置为 **PUBLIC**，并推送提交 `67942f3`。
+- 新增 `design/w8a8_pack2/full_model_v2/`：6836 dispatch 的全模型编译器输出、Pack2/向量/布局/存储/AUX 集成 RTL、XSim smoke、Vivado Tcl 和中文报告。
+- 公开包不包含模型权重、原始大张量、Vivado DCP/bitstream 或服务器私有路径；编译器检查可直接在公开包的 `data/` 上运行。
+
 ## 2026-09-15 19:39:43 — 建立交接包
 
 把 TurboVLA 的 W8A8 Pack2 主线、W8A16 参考线、profiling、量化筛选、整数恢复、论文模板和 GEMM 利用率辅助资料复制到本目录。旧目录保持不动。模型权重、原始大张量、Vivado checkpoint 和服务器私有路径不进入仓库。

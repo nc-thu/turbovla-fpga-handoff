@@ -1,7 +1,9 @@
 # TurboVLA full-model Pack2 synthesis/implementation (2026-09-16 01:00:24).
-set root {E:/GPU ARCH/vector_core_sim/turbovla_w8a8_pack2/hw/v4_2026-09-16_0100_full_model_rtl}
-set rtl_dir {E:/GPU ARCH/vector_core_sim/turbovla_w8a8_pack2/hw/v4_2026-09-16_0100_full_model_rtl/rtl}
-set work_dir {E:/GPU ARCH/vector_core_sim/turbovla_w8a8_pack2/hw/v4_2026-09-16_0100_full_model_rtl/vivado}
+# Resolve all paths from this script so the public handoff can be cloned to a
+# different directory without editing private workstation paths.
+set work_dir [file dirname [file normalize [info script]]]
+set root [file normalize [file join $work_dir ..]]
+set rtl_dir [file normalize [file join $root rtl]]
 cd $work_dir
 set run_tag 20260916_0244
 if {[info exists ::env(TVLA_VIVADO_RUN_TAG)] && $::env(TVLA_VIVADO_RUN_TAG) ne ""} {

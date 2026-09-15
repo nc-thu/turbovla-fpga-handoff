@@ -3,5 +3,5 @@
   "schema": "tvla_w8a8_pack2.full_model.v2",
   "command_word": "op[63:56],flags[55:48],descriptor_id[47:32],length[15:0]",
   "descriptor_sideband_bits": 512,
-  "source_capture": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a8_pack2\\data\\2026-09-14_115230"
+  "source_capture": "local trace omitted from public package; see operator_inventory.json source_hashes"
 }

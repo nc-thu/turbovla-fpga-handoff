@@ -81,6 +81,6 @@
     "critical_warning": "有",
     "errors": "0"
   },
-  "report": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a8_pack2\\reports\\2026-09-16_033314\\2026-09-16_033314_TurboVLA全模型电路与编译器分析.html",
-  "vivado_dir": "E:\\GPU ARCH\\vector_core_sim\\turbovla_w8a8_pack2\\hw\\v4_2026-09-16_0100_full_model_rtl\\vivado\\vivado_runs_20260916_0248"
+  "report": "design/w8a8_pack2/full_model_v2/reports/2026-09-16_033314_TurboVLA全模型电路与编译器分析.html",
+  "vivado_dir": "vivado_runs_20260916_0248 (local reports omitted from public package)"
 }
