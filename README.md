@@ -7,6 +7,7 @@
 ## 先看哪些文件
 
 - `docs/ARCHITECTURE.md`：当前硬件、指令格式和软件到 RTL 的关系。
+- `docs/FULL_MODEL_COVERAGE.md`：逐项说明全模型哪些算子已有电路、哪些只有编译器占位、哪些还没有进入指令流。
 - `docs/RESULTS.md`：已经跑过的功能检查、Vivado 实现结果和仍未验证的部分。
 - `design/w8a8_pack2/`：当前主线。包括黄金模型、编译器、16×48 Pack2 阵列、时序版 top、Vivado Tcl 和报告。
 - `design/w8a16/`：此前的 W8A16 版本，只作为参考，不代表当前 W8A8 设计。

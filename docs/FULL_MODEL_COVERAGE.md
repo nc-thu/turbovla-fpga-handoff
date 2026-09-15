@@ -1,0 +1,78 @@
+# TurboVLA 全模型覆盖边界
+
+更新时间：2026-09-15 23:41:16
+
+## 先说结论
+
+现在已经做成并通过 Vivado 实现的是 **W8A8 Pack2 GEMM 数据通路**，不是一颗可以独立完成 TurboVLA 全模型推理的芯片。编译器能把 Linear 和部分满足布局条件的 BMM 变成 Pack2 描述符；其余算子目前主要被记录成 `aux_behavior` 或被保留在原始 dispatch trace 里。`unknown_event_count=0` 只表示本版本的模块分类没有落入“未分类”分支，不能理解成 6836 个底层 dispatch 都已经有对应硬件指令。
+
+## 目前这份 trace 到底编译了多少
+
+数据来自 `design/w8a8_pack2/data/2026-09-14_115230/`：
+
+| 项目 | 数量 | 该数字说明什么 |
+|---|---:|---|
+| 模块边界事件 | 408 | 采集器看到的高层模块调用 |
+| 底层 dispatch 事件 | 6,836 | 包括 `add`、`mul`、`softmax`、布局变换等细粒度操作 |
+| 编译器输出 descriptor | 432 | 280 个 Linear、24 个 BMM 子事件、128 个辅助事件 |
+| `rtl_gemm` | 280 | 已映射到 Pack2 GEMM |
+| `rtl_bmm` | 24 | 复用同一 Pack2 数据通路的条件映射，不是独立 BMM 引擎 |
+| `aux_behavior` | 128 | 有周期占位，但当前 Pack2 RTL 不执行该算子的数学运算 |
+
+因此，当前周期模型的 86,410,126 cycles 只能叫“模块级 trace 的条件投影”。它没有把 6,836 个 dispatch 逐条变成硬件指令，也没有把所有布局和数据搬运逐条计入。
+
+## 算子逐项边界
+
+| 全模型部分 | 当前编译器做了什么 | 当前 Pack2 RTL 做了什么 | 当前状态 |
+|---|---|---|---|
+| Linear / GEMM | 生成 `GEMM_W8A8` descriptor，记录 M/N/K、scale ID、tile 和周期 | 16×48 Pack2 阵列、每 DSP 两个 INT8×INT8 产品、INT32 累加、snapshot、requant | 已有可综合实现 |
+| 动态 BMM | 记录两个输入和形状；满足简单布局条件时生成 `BMM_W8A8` | BMM 命令进入同一 GEMM 阵列；没有独立的转置、重排和地址生成单元 | 条件支持 |
+| LayerNorm | 112 个模块事件分类为 `LAYER_NORM`/`aux_behavior` | 没有 LayerNorm 数学电路 | 未做成当前 Pack2 电路 |
+| Softmax / attention score | 原始 trace 有 18 次 `softmax`、6 次 `baddbmm`；当前只保留 MHA 容器和 BMM 子事件 | 没有 Softmax、指数、归一化和 mask 电路 | 没有独立编译指令和 RTL |
+| GELU | 2 个模块事件分类为 fallback；编译器有 GELU opcode | 没有 GELU 电路 | 只有占位成本 |
+| Conv2d / im2col | 2 个 Conv2d 事件标成 `im2col_required` | 没有卷积阵列，也没有 im2col 搬运单元 | fallback |
+| Bias / Add / Mul | 编译器定义了 opcode，但当前构建流程没有为每个底层 `add`、`mul`、bias 生成独立 descriptor；bias 只进入 GEMM 成本字段 | 没有独立 bias/add/mul 数据通路 | 未完成 |
+| Requant | 编译器记录 requant 周期 | `tvla_w8a8_pack2_requant.sv` 已存在并参与 Pack2 路径 | 已有局部电路，未证明全模型格式闭合 |
+| Embedding / positional encoding | 原始 trace 有 embedding、cos/sin、arange 等事件，但没有独立硬件 descriptor | 没有 embedding/位置编码电路 | 未完成 |
+| Layout / tensor movement | `permute`、`transpose`、`reshape`、`view`、`slice`、`cat`、`contiguous` 等只存在于 dispatch trace | 没有 gather/scatter、转置 buffer 或通用地址生成器 | 未完成 |
+| DMA / CTX / WRAM / DDR | 编译器保留 `LOAD_CTX`、`LOAD_WEIGHT`、`STORE_CTX` opcode 名称，但当前 trace 编译没有形成真实 AXI 事务 | 顶层只有流式 activation/weight/output 端口；没有 DDR 控制器、AXI master 或生产级 CTX/WRAM | 未完成 |
+| Scheduler / overlap | 周期模型提供 current、double-buffer、queue、R5 四种计算方式 | replay top 有 descriptor FIFO 和计数器，但没有已验证的读算写双缓冲数据通路 | 模型有，硬件未闭合 |
+| DINO / BERT / action head | 其中 Linear 子层可编译，非线性、归一化、布局和注意力外围仍被拆成辅助事件 | 没有完整视觉编码器、语言编码器或动作后处理电路 | 只有 GEMM 子集 |
+| Scale / calibration | descriptor 发出 scale ID；当前 `scale_table.json` 的静态硬件系数仍是 `pending_calibration` | 没有动态 scale 采集和全模型校准加载路径 | 未完成 |
+| Action post-processing | `clamp`、`tanh`、类型转换等保留在原始 dispatch 中 | 没有动作后处理和机器人接口电路 | 未完成 |
+
+## RTL 实际识别的命令范围
+
+当前 replay top 的真实 RTL 分支主要识别：
+
+- `0x18`：GEMM；
+- `0x19`：BMM，仍走 Pack2 阵列；
+- `0xff`：结束；
+- `0x30/0x31/0x33`：只增加向量/fallback 计数，不执行 LayerNorm、Softmax 或 GELU 数学运算；
+- 其他命令：按 fallback 周期累计。
+
+这说明编译器里列出 opcode，不等于 RTL 已经实现该 opcode。完整支持还需要为每个指令定义输入/输出 buffer、数据格式、握手、周期和正确性测试。
+
+## 当前已经做成的硬件
+
+以下部分有 RTL 和实现结果：
+
+1. Pack2 预加器和两个 INT8 乘积抽取；
+2. 16 行 × 48 物理列、768 DSP 的阵列；
+3. INT32 累加、27-bit snapshot、读出和 requant 局部路径；
+4. descriptor FIFO、命令握手和活动计数器；
+5. Vivado 2021.2 的 generic top 综合、布局和布线。
+
+250 MHz 约束下 post-route WNS 为 `+0.241 ns`，303.215 MHz 目标下为 `+0.103 ns`。这证明当前 generic Pack2 top 能实现，不证明全模型可以在 FPGA 板上独立运行。
+
+## 要变成“全模型推理芯片”，下一步缺什么
+
+建议按这个顺序补，不要先把当前 GEMM 的 GOPS 当成全模型吞吐：
+
+1. 先让编译器把所有重要 dispatch 变成显式 descriptor，特别是 LayerNorm、Softmax、GELU、bias/add/mul、embedding 和布局搬运；
+2. 实现真正的 CTX/WRAM/DMA/AXI 数据路径，让 descriptor 中的地址和 stride 能驱动实际读写；
+3. 为 LayerNorm、Softmax/GELU 和 bias/add/mul 做共享向量单元，并定义 INT8/INT32/FP 中间格式；
+4. 给 BMM 加转置、mask、缩放和双输入重排，验证动态 attention 的两个操作数都能按依赖进入阵列；
+5. 导入静态 scale/bias 表，完成完整 trace 的 payload 回放，再做多 suite 的纯整数 LIBERO 验证。
+
+在这些步骤完成前，报告里应把 Pack2 结果称为“GEMM/BMM 子集的实测实现 + 其余算子的行为级周期占位”，不要称为 TurboVLA 全模型 FPGA 推理结果。
