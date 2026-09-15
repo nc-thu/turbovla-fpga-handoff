@@ -12,6 +12,9 @@
 | `results/quantization/` | W8A8/W8A16/W8A-FP16 量化筛选结果 | `E:/GPU ARCH/vector_core_sim/algo/turbovla_quant/2026-09-12_215112/` |
 | `results/w8a8_recovery/` | W8A8 整数恢复、误差和周期结果（不含观测 `.pt`） | `E:/GPU ARCH/vector_core_sim/algo/turbovla_w8a8_recovery/2026-09-14_104416/` |
 | `paper/template/` | TurboVLA FPGA 论文模板和证据索引 | `E:/GPU ARCH/vector_core_sim/paper/2026-09-12_vla_fpga_r3/` |
+| `support/arch_gemm_util_v8/` | GEMM 利用率和写回周期模型的辅助脚本 | `E:/GPU ARCH/vector_core_sim/arch/v8_2026-09-11_2315_gemm_util_design/` |
+| `support/compiler_v7/` | 兼容任务队列和描述符编译的历史参考 | `E:/GPU ARCH/vector_core_sim/compiler/v7_2026-09-10_1258_f4_ybase_pong/` |
+| `scripts/`、`package_inventory.json` | 交接包复现入口和逐文件 SHA256 清单 | 本交接包生成 |
 
 ## 有意排除
 

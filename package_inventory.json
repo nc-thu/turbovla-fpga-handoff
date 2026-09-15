@@ -3,8 +3,8 @@
   "files": [
     {
       "path": ".gitignore",
-      "bytes": 244,
-      "sha256": "e398ed24257e2d6251b74c3323c3384273ae398ce3b28114b81a1e3874a5b3f7"
+      "bytes": 273,
+      "sha256": "3158eeffc70767c95f0d1003bd11bea313d4874661f14a30c0388b9abeb2a7f1"
     },
     {
       "path": "CHANGELOG.md",
@@ -6497,31 +6497,6 @@
       "sha256": "1189cd3f4f1fe36395224e77daa91cd10d36290d4696a23e18b5e9461fdf3e21"
     },
     {
-      "path": "design/w8a8_pack2/hw/v3_2026-09-15_174639_vivado_impl/data/system_top_elab.vvp",
-      "bytes": 16890687,
-      "sha256": "a8c3bf1070d61cd1f18c66d3e1d80e51722058e3abc9c031c13522fc31b1f700"
-    },
-    {
-      "path": "design/w8a8_pack2/hw/v3_2026-09-15_174639_vivado_impl/data/system_top_elaboration.log",
-      "bytes": 674158,
-      "sha256": "8e33a2e2206d0de76518a0e9f703e48203074524da5cf18adfdcd08d0807a1bf"
-    },
-    {
-      "path": "design/w8a8_pack2/hw/v3_2026-09-15_174639_vivado_impl/data/tb_pack2_mult_padd.vvp",
-      "bytes": 16290,
-      "sha256": "a36c2d1ba6c9e5cbb47ab5f8ce2e2eb938c94d3c155bc0ed92e8dd27e688fb6d"
-    },
-    {
-      "path": "design/w8a8_pack2/hw/v3_2026-09-15_174639_vivado_impl/data/tb_timing_array_smoke.vvp",
-      "bytes": 166916,
-      "sha256": "93108ec1f13044152e3b7a49a6d6b4280156167cd92a6efdfe65b59793d09862"
-    },
-    {
-      "path": "design/w8a8_pack2/hw/v3_2026-09-15_174639_vivado_impl/data/tb_timing_replay_top.vvp",
-      "bytes": 51399,
-      "sha256": "932efacffaa059b326fe5d9bdeb1d87197431bd5c398b8322d35730839582c9d"
-    },
-    {
       "path": "design/w8a8_pack2/hw/v3_2026-09-15_174639_vivado_impl/data/timing_array.log",
       "bytes": 6502,
       "sha256": "406ecb1c623c2bab2c16ccb64ae4c0e46755d89a03bda931b74ae56648cd5d4c"
@@ -7058,8 +7033,8 @@
     },
     {
       "path": "HANDOFF_MANIFEST.md",
-      "bytes": 2040,
-      "sha256": "60bf7148b935da8c40a5beb3e252e39c5af42caff0bcad94669395eb7e52d269"
+      "bytes": 2469,
+      "sha256": "33f0219bec09bda2ca17ecbcff6eb70831c6727176c92783e2683343e34df7c3"
     },
     {
       "path": "paper/template/2026-09-12_Claude_experiments.md",
@@ -11293,8 +11268,8 @@
     },
     {
       "path": "scripts/inventory.py",
-      "bytes": 1341,
-      "sha256": "b6a083c24f35d6afffc4adb8973cb95eee4ee6a852ee15ab740def2ffee5fb9d"
+      "bytes": 1548,
+      "sha256": "fbc46a59ae402b867e79ed271cc40c742034b76e2e1513e413de468fd040906a"
     },
     {
       "path": "scripts/run_pack2_checks.ps1",
@@ -12290,6 +12265,11 @@
       "path": "upstream/turbovla_profile/summary.json",
       "bytes": 7406,
       "sha256": "841cd88c35f73fb6e8f4a504826724e1d714ba2cca82dc257b79b762b4f57d51"
+    },
+    {
+      "path": "WORKLOG.md",
+      "bytes": 986,
+      "sha256": "f38832e3361de813f0e2bd999e4b7a19c9ff122227937a2a3c39894fd5d46285"
     }
   ]
 }
