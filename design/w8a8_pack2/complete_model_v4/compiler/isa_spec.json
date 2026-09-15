@@ -1,0 +1,7 @@
+{
+  "schema_version": "tvla_w8a8_pack2.full_model.v2",
+  "command_word": {"op": "[63:56]", "flags": "[55:48]", "descriptor_id": "[47:32]", "length": "[15:0]"},
+  "descriptor_bits": 512,
+  "data_ports": {"ctx_activation": "128 bit INT8", "wram_weight": "768 bit Pack2 weight pairs", "ctx_output": "128 bit INT8"},
+  "opcodes": {"GEMM_W8A8": "0x18", "BMM_W8A8": "0x19", "LAYER_NORM": "0x30", "SOFTMAX": "0x31", "GELU": "0x33", "LAYOUT": "0x40", "CONV_IM2COL": "0x42", "AUX_EVENT": "0x50", "ACTION": "0x60", "END": "0xff"}
+}

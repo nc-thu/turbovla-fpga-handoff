@@ -48,3 +48,12 @@
 - 实现入口为 `rtl/tvla_complete_model_package_top.sv`。Vivado 2021.2 已完成综合、布局布线、DRC 和 vectorless power；资源 117,482 LUT、198,003 FF、817 DSP、46 BRAM、247 IOB，4 ns WNS=-0.522 ns，vectorless power=6.885 W。
 - 报告：`design/w8a8_pack2/complete_model_v3/reports/2026-09-16_055114_TurboVLA全模型电路与编译器分析.html`。
 - 明确未包含：DCP/bitstream、checkpoint、真实板级 DDR/PHY、精确 FP16 IP、完整 DINO/T5/action-head 专用电路、Verilator 全 trace 和 LIBERO 端到端成功率。
+
+## 2026-09-16 07:20:00 新增 complete_model_v4
+
+- `design/w8a8_pack2/complete_model_v4/` 是 v6 的公开交接快照，包含 TurboVLA 完整 trace 编译器、512-bit descriptor sideband、BMM 双输入 staging、scale/bias 两拍 loader、RTL 小测试、Vivado 综合脚本/报告和中文状态页。
+- 编译器输出：6,836 descriptors、6,837 command words、`unknown=0`；数据文件不包含 checkpoint 或原始大张量。
+- Icarus：`COMPLETE_MODEL_SMOKE PASS`、`DESCRIPTOR_SIDEBAND PASS`、`BMM_LAYOUT PASS`、`SCALE_TABLE PASS`、`PACKAGE_SCALE PASS`。
+- Vivado project-mode synthesis：127,303 LUT、200,791 FF、854 DSP、46 BRAM；4 ns setup WNS=-0.751 ns、TNS=-153.891 ns。综合 0 Error，但没有通过 250 MHz，也没有完成 v6 place/route。
+- 公布边界：LayerNorm/Softmax/GELU/tanh 完整数值链、DINO/T5/action-head 专用电路、真实 checkpoint payload/DDR、full-trace Verilator、板级动作回放和 LIBERO W8A8 成功率仍未完成。报告与 README 将这些项目逐项列出，没有把 fallback 或接口占位写成已完成电路。
+- 报告：`design/w8a8_pack2/complete_model_v4/reports/2026-09-16_070844_TurboVLA全模型v6架构与实现状态.html`。
