@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-09-16 08:20:00",
+  "items": [
+    {"module":"Pack2 GEMM","compiler":"implemented","rtl":"implemented_and_smoke_tested","full_model":"not_replayed"},
+    {"module":"BMM attention","compiler":"dual_input_descriptor","rtl":"staging_transpose_mask_only","full_model":"QK_AV_missing"},
+    {"module":"LayerNorm Softmax GELU tanh","compiler":"implemented","rtl":"bounded_vector_or_optional_fp16_ip","full_model":"exact_ip_replay_missing"},
+    {"module":"Add Mul ReLU Clamp","compiler":"implemented","rtl":"basic_vector_path","full_model":"broadcast_layout_coverage_missing"},
+    {"module":"Conv2d","compiler":"im2col_descriptor","rtl":"small_behavioral_path","full_model":"generic_conv_missing"},
+    {"module":"Embedding position encoding","compiler":"implemented","rtl":"partial","full_model":"table_and_trig_payload_missing"},
+    {"module":"Layout","compiler":"implemented","rtl":"partial","full_model":"general_reshape_permute_missing"},
+    {"module":"CTX WRAM","compiler":"memory_descriptors","rtl":"BRAM_inferred","full_model":"real_payload_loader_missing"},
+    {"module":"DMA AXI DDR","compiler":"bounded_burst_descriptors","rtl":"burst_and_64bit_bridge","full_model":"board_ddr_and_payload_fifo_missing"},
+    {"module":"DINO T5 action head","compiler":"GEMM_plus_AUX","rtl":"no_dedicated_full_layers","full_model":"weights_residuals_and_intermediates_missing"},
+    {"module":"Full trace replay","compiler":"all_events_classified","rtl":"not_complete","full_model":"not_validated"},
+    {"module":"LIBERO FPGA closed loop","compiler":"not_applicable","rtl":"not_done","full_model":"not_done"}
+  ]
+}

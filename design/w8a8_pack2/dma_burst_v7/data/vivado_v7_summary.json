@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-09-16 08:19:38",
+  "tool": "Vivado 2021.2",
+  "device": "xczu7ev-ffvc1156-2-e",
+  "top": "tvla_complete_model_package_top",
+  "flow": "synthesis_only",
+  "clock_period_ns": 4.0,
+  "frequency_mhz": 250.0,
+  "lut": 138068,
+  "ff": 203455,
+  "dsp": 849,
+  "bram_tiles": 46,
+  "wns_ns": -0.783,
+  "tns_ns": -157.377,
+  "whs_ns": -0.182,
+  "power_w_vectorless": 5.966,
+  "power_confidence": "Low",
+  "errors": 0,
+  "critical_warnings": 0,
+  "implementation": "not_run",
+  "source_report": "hw/v7_2026-09-16_073705_dma_burst_memory_rtl/vivado/v7_synth_20260916_0810"
+}

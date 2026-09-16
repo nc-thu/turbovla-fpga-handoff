@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-09-16 08:20:00",
+  "v7_dma_burst_unit": {
+    "status": "PASS",
+    "length_bytes": 80,
+    "max_burst_beats": 4,
+    "read_beats": 5,
+    "write_beats": 5,
+    "read_cycles": 8,
+    "write_cycles": 9,
+    "log": "hw/v7_2026-09-16_073705_dma_burst_memory_rtl/data/dma_burst.log"
+  },
+  "package_64bit_bridge": {
+    "status": "PASS",
+    "read64_beats": 10,
+    "write64_beats": 10,
+    "internal_responses": 5,
+    "log": "hw/v7_2026-09-16_073705_dma_burst_memory_rtl/data/package_dma_bridge.log"
+  },
+  "real_trace_explicit_dma_events": 0,
+  "note": "The current TurboVLA trace has no explicit DMA dispatch, so the new burst fields are compiler-ready but do not change this trace's cycle total."
+}
