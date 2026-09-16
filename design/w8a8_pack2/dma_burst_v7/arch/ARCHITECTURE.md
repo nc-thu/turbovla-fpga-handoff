@@ -17,7 +17,8 @@ descriptor sideband。Pack2 阵列是 16 行×48 物理列，共 768 个 DSP；�
 DMA 内部使用 128 bit AXI beat。一次请求最多发送 16 个 beat，并且在 4 KB
 边界处自动拆分。v7 package wrapper 对外保留 64 bit DDR 流：读方向两拍拼成
 一个内部 128 bit beat，写方向把一个内部 beat 拆成两拍。这个桥已经用 80 B
-读写测试逐位核对。
+读写测试逐位核对。package top 的 host kind 7 现在可以送入真实 64-bit payload，
+读回数据使用 host kind 2/3 输出；测试不再靠内部零填充制造数据。
 
 ## 证据边界
 
@@ -39,8 +40,8 @@ DMA 内部使用 128 bit AXI beat。一次请求最多发送 16 个 beat，并�
 | Conv2d | `CONV_IM2COL` | 小型 im2col/行为级路径 | 形状和搬运成本可记录 | 通用 stride/padding/权重流 |
 | Embedding/position | `EMBED`/`POSENC` | 部分地址和位置路径 | 小例子 | 完整表、cos/sin 和缓存一致性 |
 | Layout | `LAYOUT` | 部分 transpose/gather/scatter | descriptor 可发出 | 通用 reshape/permute/slice/cat |
-| CTX/WRAM | memory descriptor | BRAM 推断、双结果缓冲 | Vivado 能推断 46 个 BRAM tile | 真实 activation/weight payload 装载 |
-| DMA/AXI | `DMA_READ/WRITE` | v7 有界 burst + 64-bit 桥 | standalone 与 package bridge 测试 | 板级 DDR 控制器、真实 payload 端口 |
+| CTX/WRAM | memory descriptor | BRAM 推断、双结果缓冲 | Vivado 能推断 46 个 BRAM tile | descriptor 驱动的 activation/weight 装载 |
+| DMA/AXI | `DMA_READ/WRITE` | v7 有界 burst + 64-bit 桥 + host payload | standalone 与 package bridge 测试 | 板级 DDR 控制器、自动路由到 CTX/WRAM |
 | DINO/T5/action head | GEMM + AUX 分类 | 没有完整专用电路 | compiler 可拆事件 | 层循环、残差、权重和中间张量 |
 | 全 trace replay | descriptor 全覆盖 | 未完成 | Python 周期模型对账 | Verilator 全 trace 和真实结果回放 |
 | LIBERO/FPGA 闭环 | 记录为外部任务 | 未完成 | 软件 fake-quant 背景数据 | 板级运行和新的 W8A8 成功率 |
@@ -52,18 +53,17 @@ burst 长度上限设为 16 beat，是为了先验证地址、4 KB 边界、尾 
 显式 `dma_read`/`dma_write` dispatch，因此这轮编译器新增的 DMA 字段尚未在
 真实 trace 周期里产生节省；DMA 单元测试负责证明路径本身可用。
 
-package top 没有板级 128 bit payload 端口。为避免未驱动输入在综合时变成
-不可控状态，当前内部 stream 使用确定性的零填充 tie-off。这是安全的验证默认值，
-不是生产 payload 路径。下一步应把 CTX/WRAM 的实际加载 FIFO 接到这个端口，
-再做真实 DDR 回放。
+package top 目前把 host payload 接到了 DMA stream，因此可以对真实 64-bit beat
+做桥接和 backpressure 检查。但 DMA 读出的数据仍返回 host，尚未由 descriptor
+自动写入 CTX/WRAM；板级 DDR 控制器、片上加载 FIFO 和真实地址路由还没有完成。
 
 ## Vivado 观察
 
-v7 在 `xczu7ev-ffvc1156-2-e` 上完成综合，目标时钟 4.000 ns。综合没有 error，
+payload 版本在 `xczu7ev-ffvc1156-2-e` 上完成综合，目标时钟 4.000 ns。综合没有 error，
 但 WNS 为 -0.783 ns，所以 250 MHz 仍未通过。综合资源为 138,068 LUT、203,455 FF、
-849 DSP 和 46 BRAM tile。849 个 DSP 中除了 768 个 Pack2 DSP，还包括向量、布局和
-其它辅助乘法器；不能把它写成“整个顶层只有 768 DSP”。vectorless 功耗是 5.966 W，
+138,170 LUT、204,228 FF、849 DSP 和 46 BRAM tile。849 个 DSP 中除了 768 个 Pack2 DSP，还包括向量、布局和
+其它辅助乘法器；不能把它写成“整个顶层只有 768 DSP”。vectorless 功耗是 6.043 W，
 没有 SAIF/VCD 且尚未 place/route，只能作为低置信度估计。
 
-后续优先级是：先补真实 payload FIFO，再把 FP16 向量 IP 与时序寄存器接好；然后
+后续优先级是：先补 descriptor 驱动的 CTX/WRAM 加载，再把 FP16 向量 IP 与时序寄存器接好；然后
 实现 BMM 的 QK/AV 全链路，最后才做完整 trace 的 RTL 回放和板级 DDR。

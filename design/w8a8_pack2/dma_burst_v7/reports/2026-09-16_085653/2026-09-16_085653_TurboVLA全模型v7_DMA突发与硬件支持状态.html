@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2026-09-16_085653 TurboVLA 全模型 v7 DMA 突发与硬件支持状态</title>
+<style>
+body{margin:0;background:#f4f6f8;color:#20252b;font:15px/1.65 Arial,"Microsoft YaHei",sans-serif}
+main{max-width:1220px;margin:0 auto;padding:26px 30px 56px}
+h1{font-size:30px;line-height:1.25;margin:0 0 6px} h2{font-size:22px;margin:32px 0 10px;border-left:5px solid #2f6f9f;padding-left:10px}
+h3{font-size:17px;margin:20px 0 7px} p{margin:8px 0} .muted{color:#65717d}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+.fact{background:#fff;border:1px solid #d7dde4;padding:13px 15px;border-radius:4px} .fact b{display:block;font-size:24px;color:#135d91}
+table{border-collapse:collapse;width:100%;background:#fff;margin:9px 0 16px} th,td{border:1px solid #d7dde4;padding:7px 9px;text-align:left;vertical-align:top} th{background:#eaf0f5}
+.ok{color:#126b42;font-weight:700} .warn{color:#9b5600;font-weight:700} .bad{color:#a62f2f;font-weight:700}
+.note{background:#fff8e6;border-left:4px solid #d99b21;padding:10px 13px;margin:12px 0}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px} .barrow{display:grid;grid-template-columns:170px 1fr 84px;gap:8px;align-items:center;margin:6px 0}
+.bar{height:14px;background:#e4e8ed;border-radius:2px;overflow:hidden} .bar i{display:block;height:100%}
+.barrow b{text-align:right;font-weight:600} .diagram{background:#fff;border:1px solid #cfd7df;padding:13px;margin:12px 0}
+.small{font-size:13px} code{background:#eef1f4;padding:1px 4px;border-radius:3px} li{margin:5px 0}
+@media(max-width:760px){main{padding:17px 13px}.facts{grid-template-columns:repeat(2,1fr)}.cols{grid-template-columns:1fr}h1{font-size:24px}table{font-size:13px}}
+</style></head><body><main>
+<h1>TurboVLA 全模型 v7：真实 payload DMA 路径和硬件支持状态</h1>
+<p class="muted">生成时间：2026-09-16 08:56:53　|　工作区：<code>turbovla_w8a8_pack2</code>　|　公共交接仓库：<code>nc-thu/turbovla-fpga-handoff</code></p>
+<div class="note"><b>先看结论：</b>仓库已经设为公开。v7 的 DMA 单元和 64-bit 板级桥已经通过小规模功能检查，package top 现在还可以接收和返回真实 64-bit payload；Vivado 综合完成且 0 errors，但 4 ns 约束的 WNS 为 -0.783 ns，不能说已经达到 250 MHz。全模型仍缺 descriptor 驱动的 CTX/WRAM 装载、完整 BMM、精确 FP16 非线性、通用 layout、DINO/T5/action head 数据流和板级 DDR 回放。</div>
+<div class="facts"><div class="fact"><span>公开仓库</span><b>是</b><small>nc-thu/turbovla-fpga-handoff</small></div><div class="fact"><span>v7 综合</span><b>0 errors</b><small>0 critical warnings</small></div><div class="fact"><span>综合资源</span><b>138,170 LUT</b><small>204,228 FF / 849 DSP / 46 BRAM tile</small></div><div class="fact"><span>vectorless 功耗</span><b>6.043 W</b><small>低置信度，未做实现</small></div></div>
+
+<h2>1. 这轮实际做了什么</h2>
+<p>之前的 DMA 更像一个“每拍发一个地址”的接口壳。v7 改成了有限长度的 AXI burst。一次请求最多连续发 16 个 128-bit beat，并在 4 KB 边界处自动拆分。这样后面接 DDR 时，地址握手不会重复占用每个数据拍。</p>
+<div class="diagram"><svg viewBox="0 0 1120 250" width="100%" role="img" aria-label="DMA burst data path">
+<defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="#26323a"/></marker></defs>
+<rect x="20" y="75" width="160" height="90" fill="#e5eff9" stroke="#26323a" stroke-width="2"/><text x="100" y="108" text-anchor="middle" font-size="17" font-weight="700">64-bit DDR 流</text><text x="100" y="133" text-anchor="middle" font-size="12">板级桥接接口</text>
+<rect x="255" y="44" width="220" height="150" fill="#fff3d6" stroke="#26323a" stroke-width="2"/><text x="365" y="76" text-anchor="middle" font-size="17" font-weight="700">v7 package bridge</text><text x="365" y="106" text-anchor="middle" font-size="12">读：两拍拼 128 bit</text><text x="365" y="129" text-anchor="middle" font-size="12">写：128 bit 拆两拍</text><text x="365" y="152" text-anchor="middle" font-size="12">等待最后一对响应</text>
+<rect x="550" y="44" width="220" height="150" fill="#e9f6e9" stroke="#26323a" stroke-width="2"/><text x="660" y="76" text-anchor="middle" font-size="17" font-weight="700">bounded-burst DMA</text><text x="660" y="106" text-anchor="middle" font-size="12">内部 128-bit beat</text><text x="660" y="129" text-anchor="middle" font-size="12">最多 16 beat</text><text x="660" y="152" text-anchor="middle" font-size="12">4 KB 边界 / 尾 strobe</text>
+<rect x="845" y="75" width="250" height="90" fill="#fbe9dc" stroke="#26323a" stroke-width="2"/><text x="970" y="108" text-anchor="middle" font-size="17" font-weight="700">CTX / WRAM / AXI</text><text x="970" y="133" text-anchor="middle" font-size="12">仍缺 DDR→片上自动路由</text>
+<path d="M180 120 H255" stroke="#26323a" stroke-width="3" marker-end="url(#arrow)"/><path d="M475 120 H550" stroke="#26323a" stroke-width="3" marker-end="url(#arrow)"/><path d="M770 120 H845" stroke="#26323a" stroke-width="3" marker-end="url(#arrow)"/>
+</svg><p class="small muted">这图怎么看：DMA 的地址和数据已经能成 burst 走通，package top 的 host kind 7 可以送入真实 64-bit payload，读回数据从 host kind 2/3 返回。当前还没有 descriptor 驱动的 DDR→CTX/WRAM 自动路由，所以这仍不是板级生产数据路径。</p></div>
+<table><tr><th>检查</th><th>结果</th><th>说明</th></tr><tr><td>DMA standalone</td><td class="ok">PASS</td><td>80 B、最大 4 beat，读 5 beat / 写 5 beat，读 8 cycles / 写 9 cycles。</td></tr><tr><td>64-bit package bridge</td><td class="ok">PASS</td><td>10 个 64-bit 读 beat、10 个写 beat，5 个内部 128-bit 响应。</td></tr><tr><td>真实 trace 显式 DMA</td><td class="warn">0 个</td><td>编译器已经支持 DMA_READ/DMA_WRITE，但当前 trace 没有显式 DMA 事件，所以本轮周期总数没有因为 burst 变化。</td></tr></table>
+
+<h2>2. 真实 TurboVLA trace 现在能编译到什么程度</h2>
+<p>编译器读入一次真实 forward 的 6,836 个 dispatch 和 408 个模块事件，输出 6,836 个 descriptor 和 6,837 条 command。所有事件都有类别，所以 <code>unknown=0</code>。这个数字只表示“每个事件都被记账”，不表示每个事件都已经有精确 RTL。</p>
+<div class="cols"><div><h3>执行单元数量</h3><div class="barrow"><span>meta_engine</span><div class="bar"><i style="width:100.00%;background:#7c9e69"></i></div><b>4,862</b></div><div class="barrow"><span>layout_engine</span><div class="bar"><i style="width:20.09%;background:#7c9e69"></i></div><b>977</b></div><div class="barrow"><span>fp16_vector</span><div class="bar"><i style="width:11.83%;background:#7c9e69"></i></div><b>575</b></div><div class="barrow"><span>memory_engine</span><div class="bar"><i style="width:2.00%;background:#7c9e69"></i></div><b>14</b></div><div class="barrow"><span>mask_engine</span><div class="bar"><i style="width:2.00%;background:#7c9e69"></i></div><b>26</b></div><div class="barrow"><span>embedding_posenc</span><div class="bar"><i style="width:2.00%;background:#7c9e69"></i></div><b>7</b></div><div class="barrow"><span>pack2_gemm</span><div class="bar"><i style="width:6.19%;background:#2b6cb0"></i></div><b>301</b></div><div class="barrow"><span>attention_controller</span><div class="bar"><i style="width:2.00%;background:#7c9e69"></i></div><b>42</b></div><div class="barrow"><span>conv_im2col</span><div class="bar"><i style="width:2.00%;background:#7c9e69"></i></div><b>2</b></div><div class="barrow"><span>pack2_bmm</span><div class="bar"><i style="width:2.00%;background:#2b6cb0"></i></div><b>30</b></div></div><div><h3>这组数字意味着什么</h3><table><tr><th>项目</th><th>数值</th></tr><tr><td>Pack2 GEMM</td><td>301 个</td></tr><tr><td>Pack2 BMM</td><td>30 个</td></tr><tr><td>向量单元</td><td>575 个</td></tr><tr><td>layout / meta</td><td>977 / 4,862</td></tr><tr><td>周期模型</td><td>204,648,209 cycles，250 MHz 下约 818.59 ms</td></tr><tr><td>PE 时间利用率</td><td>4.96%</td></tr><tr><td>GEMM 内部利用率</td><td>76.69%</td></tr><tr><td>完整模型有效吞吐</td><td>38.08 GOPS，峰值 768.0 GOPS 的 4.96%</td></tr></table></div></div>
+<p class="muted">这张图要注意：GEMM 区间本身并不差，真正拉低完整模型结果的是大量 meta、layout、向量和行为级辅助事件。它们现在有周期预算，但还没有都变成能逐位处理真实张量的专用电路。</p>
+
+<h2>3. 全模型还有哪些没有做成电路或没有被编译器完整支持</h2>
+<table><tr><th>模块</th><th>编译器</th><th>RTL 当前状态</th><th>全模型还缺什么</th></tr><tr><td>Pack2 GEMM</td><td>implemented</td><td>implemented_and_smoke_tested</td><td>not_replayed</td></tr><tr><td>BMM attention</td><td>dual_input_descriptor</td><td>staging_transpose_mask_only</td><td>QK_AV_missing</td></tr><tr><td>LayerNorm Softmax GELU tanh</td><td>implemented</td><td>bounded_vector_or_optional_fp16_ip</td><td>exact_ip_replay_missing</td></tr><tr><td>Add Mul ReLU Clamp</td><td>implemented</td><td>basic_vector_path</td><td>broadcast_layout_coverage_missing</td></tr><tr><td>Conv2d</td><td>im2col_descriptor</td><td>small_behavioral_path</td><td>generic_conv_missing</td></tr><tr><td>Embedding position encoding</td><td>implemented</td><td>partial</td><td>table_and_trig_payload_missing</td></tr><tr><td>Layout</td><td>implemented</td><td>partial</td><td>general_reshape_permute_missing</td></tr><tr><td>CTX WRAM</td><td>memory_descriptors</td><td>BRAM_inferred</td><td>descriptor-driven activation/weight loader missing</td></tr><tr><td>DMA AXI DDR</td><td>bounded_burst_descriptors</td><td>burst_and_64bit_bridge_with_host_payload</td><td>board DDR controller and autonomous CTX/WRAM routing missing</td></tr><tr><td>DINO T5 action head</td><td>GEMM_plus_AUX</td><td>no_dedicated_full_layers</td><td>weights_residuals_and_intermediates_missing</td></tr><tr><td>Full trace replay</td><td>all_events_classified</td><td>not_complete</td><td>not_validated</td></tr><tr><td>LIBERO FPGA closed loop</td><td>not_applicable</td><td>not_done</td><td>not_done</td></tr></table>
+<p class="small muted">编译器的“已分类”和 RTL 的“已实现”是两件不同的事。论文或架构报告只能把右侧明确标成“缺失”的部分写成后续工作，不能用 <code>unknown=0</code> 代替。</p>
+
+<h2>4. Vivado 综合结果</h2>
+<table><tr><th>资源/指标</th><th>v7 综合值</th><th>解释</th></tr><tr><td>器件 / top</td><td>xczu7ev-ffvc1156-2-e<br><code>tvla_complete_model_package_top</code></td><td>package top，64-bit host/DDR stream。</td></tr><tr><td>时钟</td><td>4.000 ns / 250 MHz</td><td>WNS -0.783 ns、TNS -157.377 ns，setup 没有过。</td></tr><tr><td>LUT / FF</td><td>138,170 / 204,228</td><td>包含 Pack2、向量、控制、存储和 DMA burst 逻辑。</td></tr><tr><td>DSP</td><td>849</td><td>不是 768。除 Pack2 阵列外，向量和其它辅助乘法器也被综合成 DSP。</td></tr><tr><td>BRAM</td><td>46</td><td>CTX/WRAM 和缓冲被推断为片上 RAM。</td></tr><tr><td>功耗</td><td>6.043 W</td><td>vectorless、低置信度，没有 SAIF/VCD，也没有 place/route。</td></tr></table>
+<p class="small muted">报告来源：<code>hw/v7_2026-09-16_073705_dma_burst_memory_rtl/vivado/v7_synth_payload_20260916_0832/</code>。Vivado 日志显示 synthesis 完成 0 errors、0 critical warnings；这不能替代实现后的布线时序和板卡 I/O 检查。</p>
+
+<h2>5. 下一步按什么顺序补</h2>
+<p>这轮已经补上 host payload 的真实进出。下一步不是再证明 DMA 会握手，而是把 DMA 读回的数据按 descriptor 写入 CTX/WRAM；目前仍不能把 host 回读路径当成片上加载器。</p>
+<ol><li><b>CTX/WRAM 装载：</b>把 descriptor、DMA 读回数据和片上 128/768-bit memory port 接起来，不能只把 payload 返回 host。</li><li><b>精确向量：</b>把 LayerNorm、Softmax、GELU、tanh 的 vendor FP16 IP 接到已有控制接口，补均值、方差、mask、exp、倒数和饱和的逐位对拍。</li><li><b>完整 attention：</b>实现 BMM 的 QK、scale/mask、softmax、AV 和输出写回，不再只做 staging。</li><li><b>通用 layout：</b>补齐 reshape、permute、slice、cat、gather/scatter 的地址生成，并用真实 trace 的布局事件对账。</li><li><b>完整模型回放：</b>把 DINO/T5/action head 的权重加载、残差、层循环和中间张量接起来，再做 Verilator full trace 和 FPGA/DDR 运行。</li></ol>
+<div class="note"><b>现在可以对外说什么：</b>公开仓库里已经有一条可综合的 TurboVLA W8A8 Pack2 顶层、一个可测试的 DMA burst 路径和一套能读真实 trace 的编译器。<b>现在不能说什么：</b>不能说完整 TurboVLA 已经在 FPGA 上运行，不能说 250 MHz 已通过，不能说有端到端 W8A8 LIBERO 成功率，也不能把 vectorless 功耗换算成 TOPS/W。</div>
+<p class="muted">本页生成时间：2026-09-16 08:56:53。数字来自 JSON、CSV、Icarus/Verilator 日志和 Vivado 报告；没有把估算值写成实测值。</p>
+</main></body></html>

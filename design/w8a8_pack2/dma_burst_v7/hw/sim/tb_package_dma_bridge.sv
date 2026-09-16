@@ -15,9 +15,9 @@ module tb_package_dma_bridge;
   logic [63:0] ddr_read_data = 0; logic ddr_read_valid = 0; wire ddr_read_ready;
   wire [63:0] ddr_write_data; wire ddr_write_valid; logic ddr_write_ready = 1;
   logic ddr_write_resp_valid = 0;
-  integer read_beats = 0, write_beats = 0, responses = 0, errors = 0;
+  integer read_beats = 0, write_beats = 0, responses = 0, dma_out_words = 0, errors = 0;
   integer cycles = 0;
-  logic [63:0] write_first = 0;
+  logic [63:0] write_first = 0, write_second = 0;
 
   tvla_complete_model_package_top dut (
     .clk(clk), .rst_n(rst_n), .host_in_data(host_in_data),
@@ -87,6 +87,7 @@ module tb_package_dma_bridge;
     if (ddr_read_valid && ddr_read_ready) read_beats <= read_beats + 1;
     if (ddr_write_valid && ddr_write_ready) begin
       if (write_beats == 0) write_first <= ddr_write_data;
+      if (write_beats == 1) write_second <= ddr_write_data;
       write_beats <= write_beats + 1;
       // One response is returned after the second half of each internal beat.
       if ((write_beats % 2) == 1) begin
@@ -94,6 +95,9 @@ module tb_package_dma_bridge;
         responses <= responses + 1;
       end
     end else if (ddr_write_resp_valid) ddr_write_resp_valid <= 1'b0;
+    if (host_out_valid && host_out_ready &&
+        (host_out_kind == 3'd2 || host_out_kind == 3'd3))
+      dma_out_words <= dma_out_words + 1;
   end
 
   initial begin
@@ -102,15 +106,29 @@ module tb_package_dma_bridge;
     send_sideband(64'h0000_0000_0050_1000);
     send_host(3'd0, 64'h0100_0000_0000_0000);
     do_read_stream();
+    for (integer ow = 0; ow < 40 && dma_out_words < 10; ow = ow + 1)
+      @(negedge clk);
     if (read_beats != 10) begin
       $display("PACKAGE_DMA FAIL read_beats=%0d", read_beats); errors = errors + 1;
+    end
+    if (dma_out_words != 10) begin
+      $display("PACKAGE_DMA FAIL dma_out_words=%0d", dma_out_words); errors = errors + 1;
     end
 
     send_sideband(64'h0000_0000_0050_2000);
     send_host(3'd0, 64'h0200_0000_0000_0000);
+    // Real payload path: the package top packs these 64-bit beats into
+    // internal 128-bit stream beats instead of supplying zero-fill data.
+    for (integer p = 0; p < 10; p = p + 1)
+      send_host(3'd7, 64'hA000_0000_0000_0000 + p);
     wait (dut.u_core.dma_done);
     if (write_beats != 10) begin
       $display("PACKAGE_DMA FAIL write_beats=%0d", write_beats); errors = errors + 1;
+    end
+    if (write_first != 64'hA000_0000_0000_0000 ||
+        write_second != 64'hA000_0000_0000_0001) begin
+      $display("PACKAGE_DMA FAIL payload first=%h second=%h", write_first, write_second);
+      errors = errors + 1;
     end
     repeat (4) @(negedge clk);
     if (errors == 0)

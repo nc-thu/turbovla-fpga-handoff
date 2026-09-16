@@ -19,7 +19,9 @@ module tvla_complete_model_package_top #(
   // host_in_kind: 0 command, 1 activation, 2 weight,
   //                3 action low 64b, 4 action high 48b,
   //                5 descriptor-sideband 64b beat,
-  //                6 scale/bias load (two beats per entry).
+  //                6 scale/bias load (two beats per entry),
+  //                7 DMA write payload 64b beat.  Two kind-7 beats are
+  //                packed into one internal 128-bit DMA stream beat.
   input  logic [63:0] host_in_data,
   input  logic [2:0] host_in_kind,
   input  logic [15:0] host_desc_id,
@@ -83,19 +85,25 @@ module tvla_complete_model_package_top #(
   logic [7:0] core_awlen;
   logic core_wvalid, core_wready, core_wlast;
   logic core_bvalid, core_bready;
-  // The package wrapper uses the AXI boundary below, so the optional DMA
-  // stream sideband on the core is tied off explicitly instead of floating.
+  // The package wrapper exposes the DMA payload on the existing tagged host
+  // stream.  This keeps the board pin count at 64 bits while still allowing
+  // real payloads to reach the DMA write channel and real DMA read payloads
+  // to leave the chip.
   logic core_dma_stream_out_valid, core_dma_stream_out_ready;
   logic [127:0] core_dma_stream_out_data;
   logic core_dma_stream_in_valid, core_dma_stream_in_ready;
   logic [127:0] core_dma_stream_in_data;
-  assign core_dma_stream_out_ready = 1'b1;
-  // The narrow package does not yet expose a separate 128-bit payload port.
-  // Drive a deterministic zero-fill stream so a DMA_WRITE command cannot
-  // deadlock.  A board wrapper that has real CTX/WRAM data replaces this
-  // assignment with its payload FIFO; the AXI bridge itself is independent.
-  assign core_dma_stream_in_valid = core_dma_stream_in_ready;
-  assign core_dma_stream_in_data = '0;
+  logic dma_input_valid, dma_input_half;
+  logic [63:0] dma_input_low;
+  logic [127:0] dma_input_data;
+  logic dma_output_valid, dma_output_half;
+  logic [127:0] dma_output_data;
+  assign core_dma_stream_in_valid = dma_input_valid;
+  assign core_dma_stream_in_data = dma_input_data;
+  // A new internal read beat can be accepted when the previous 128-bit beat
+  // is empty, or when its high 64-bit half is being consumed this cycle.
+  assign core_dma_stream_out_ready = !dma_output_valid ||
+    (dma_output_valid && host_out_ready && dma_output_half && !action_out_valid);
 
   assign cmd_word = host_in_data;
   assign desc_id = host_desc_id;
@@ -157,6 +165,7 @@ module tvla_complete_model_package_top #(
       3'd3, 3'd4: host_in_ready = !action_valid;
       3'd5: host_in_ready = core_sideband_ready;
       3'd6: host_in_ready = core_scale_load_ready;
+      3'd7: host_in_ready = !dma_input_valid;
       default: host_in_ready = 1'b0;
     endcase
   end
@@ -190,16 +199,69 @@ module tvla_complete_model_package_top #(
   // Serialize the 112-bit action result on the same host output stream.
   logic [1:0] action_word_index;
   assign action_out_ready = host_out_ready && action_out_valid &&
-                            (action_word_index == 2'd1);
-  assign host_out_valid = action_out_valid;
-  assign host_out_kind = (action_word_index == 2'd0) ? 3'd0 : 3'd1;
-  assign host_out_data = (action_word_index == 2'd0) ? action_target[63:0] :
-                         {16'd0, action_target[111:64]};
+                            !dma_output_valid && (action_word_index == 2'd1);
+  // DMA read payload has priority over action output.  It uses kinds 2/3 on
+  // the output stream; action output keeps the historical kinds 0/1.
+  assign host_out_valid = dma_output_valid || action_out_valid;
+  assign host_out_kind = dma_output_valid ?
+                         (dma_output_half ? 3'd3 : 3'd2) :
+                         ((action_word_index == 2'd0) ? 3'd0 : 3'd1);
+  assign host_out_data = dma_output_valid ?
+                         (dma_output_half ? dma_output_data[127:64] : dma_output_data[63:0]) :
+                         ((action_word_index == 2'd0) ? action_target[63:0] :
+                          {16'd0, action_target[111:64]});
   always_ff @(posedge clk or negedge rst_n) begin
     if (!rst_n) action_word_index <= 2'd0;
     else if (action_out_valid && host_out_ready) begin
       if (action_word_index == 2'd0) action_word_index <= 2'd1;
       else action_word_index <= 2'd0;
+    end
+  end
+
+  // Pack two tagged 64-bit host beats into one DMA write beat.  The valid
+  // register is held until the DMA controller accepts it, so backpressure
+  // from AXI cannot lose a payload word.
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      dma_input_valid <= 1'b0;
+      dma_input_half <= 1'b0;
+      dma_input_low <= '0;
+      dma_input_data <= '0;
+    end else begin
+      if (dma_input_valid && core_dma_stream_in_ready)
+        dma_input_valid <= 1'b0;
+      if (host_in_valid && host_in_ready && host_in_kind == 3'd7) begin
+        if (!dma_input_half) begin
+          dma_input_low <= host_in_data;
+          dma_input_half <= 1'b1;
+        end else begin
+          dma_input_data <= {host_in_data, dma_input_low};
+          dma_input_valid <= 1'b1;
+          dma_input_half <= 1'b0;
+        end
+      end
+    end
+  end
+
+  // Split each internal DMA read beat into two host output beats.  This is a
+  // real payload path; unlike the previous v7 tie-off, no zero data is
+  // manufactured when a DMA_WRITE command is active.
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      dma_output_valid <= 1'b0;
+      dma_output_half <= 1'b0;
+      dma_output_data <= '0;
+    end else begin
+      if (core_dma_stream_out_valid && core_dma_stream_out_ready) begin
+        dma_output_data <= core_dma_stream_out_data;
+        dma_output_valid <= 1'b1;
+        dma_output_half <= 1'b0;
+      end else if (dma_output_valid && host_out_ready) begin
+        if (!dma_output_half)
+          dma_output_half <= 1'b1;
+        else
+          dma_output_valid <= 1'b0;
+      end
     end
   end
 
