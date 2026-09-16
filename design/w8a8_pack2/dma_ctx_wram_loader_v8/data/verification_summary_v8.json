@@ -1,0 +1,20 @@
+{
+  "generated_at": "2026-09-16 09:31:00",
+  "version": "v8_2026-09-16_090253_dma_ctx_wram_loader_rtl",
+  "checks": [
+    {"name":"compiler DMA target contract","status":"PASS","evidence":"scripts/test_v6_dma_descriptor.py; target and length bits decoded from sideband"},
+    {"name":"standalone CTX/WRAM loader","status":"PASS","evidence":"tb_dma_ctx_wram_loader.sv; CTX 2 beats and WRAM 6 beats"},
+    {"name":"package top CTX/WRAM payload route","status":"PASS","evidence":"tb_package_dma_loader.sv; 64-bit board stream paired into internal 128-bit beats"},
+    {"name":"v8 package compile","status":"PASS","evidence":"package_v8.vvp with -DVERILATOR"},
+    {"name":"Vivado v8 synthesis","status":"NOT_RUN","evidence":"v8 loader integration was completed after the latest v7 payload synthesis; v7 payload synthesis remains the latest physical result"},
+    {"name":"full TurboVLA RTL trace replay","status":"NOT_RUN","evidence":"requires payload extraction and event-by-event memory initialization"}
+  ],
+  "loader_contract": {
+    "board_stream_bits": 64,
+    "internal_dma_bits": 128,
+    "ctx_word_bits": 128,
+    "wram_row_bits": 768,
+    "descriptor_target_bits": "sideband[497:496]",
+    "target_encoding": {"ctx": 0, "wram": 1, "host": 2}
+  }
+}

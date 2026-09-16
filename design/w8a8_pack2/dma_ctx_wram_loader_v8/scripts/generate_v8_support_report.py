@@ -1,0 +1,102 @@
+"""Build a plain-language status page for the v8 memory-loader milestone."""
+from __future__ import annotations
+
+import html
+import json
+from datetime import datetime
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+DATA = ROOT / "data" / "2026-09-16_090253_dma_ctx_wram_loader"
+COMPILED = DATA / "compiled_v6"
+REPORT_DATA = ROOT / "data" / "2026-09-16_080520_dma_burst_compile"
+
+
+def esc(x: object) -> str:
+    return html.escape(str(x))
+
+
+def main() -> None:
+    now = datetime.now()
+    stamp = now.strftime("%Y-%m-%d_%H%M%S")
+    human = now.strftime("%Y-%m-%d %H:%M:%S")
+    summary = json.loads((COMPILED / "cycle_summary.json").read_text(encoding="utf-8"))
+    matrix = json.loads((DATA / "support_matrix_v8.json").read_text(encoding="utf-8"))
+    checks = json.loads((DATA / "verification_summary_v8.json").read_text(encoding="utf-8"))
+    viv = json.loads((REPORT_DATA / "vivado_payload_summary.json").read_text(encoding="utf-8"))
+    unit_counts = summary["execution_unit_counts"]
+    max_unit = max(unit_counts.values())
+    bars = "".join(
+        f'<div class="barrow"><span>{esc(k)}</span><div class="bar"><i style="width:{max(2, 100*v/max_unit):.1f}%"></i></div><b>{v:,}</b></div>'
+        for k, v in unit_counts.items()
+    )
+    rows = "".join(
+        f'<tr><td>{esc(r["module"])}</td><td>{esc(r["compiler"])}</td><td>{esc(r["rtl"])}</td><td>{esc(r["full_model"])}</td></tr>'
+        for r in matrix["items"]
+    )
+    check_rows = "".join(
+        f'<tr><td>{esc(c["name"])}</td><td class="{("ok" if c["status"] == "PASS" else "warn")}">{esc(c["status"])}</td><td>{esc(c["evidence"])}</td></tr>'
+        for c in checks["checks"]
+    )
+    total_ms = summary["total_cycles"] / 250_000_000 * 1000
+    pe_pct = summary["pe_time_utilization"] * 100
+    gemm_pct = summary["gemm_utilization"] * 100
+    html_text = f'''<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{stamp} TurboVLA 全模型硬件支持状态：v8 DMA 到 CTX/WRAM</title>
+<style>
+body{{margin:0;background:#f4f6f8;color:#20252b;font:15px/1.65 Arial,"Microsoft YaHei",sans-serif}}
+main{{max-width:1280px;margin:0 auto;padding:26px 30px 60px}} h1{{font-size:30px;line-height:1.25;margin:0 0 6px}}
+h2{{font-size:22px;margin:30px 0 10px;border-left:5px solid #2f6f9f;padding-left:10px}}
+h3{{font-size:17px;margin:20px 0 7px}} p{{margin:8px 0}} .muted{{color:#65717d}}
+.facts{{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}} .fact{{background:#fff;border:1px solid #d7dde4;padding:13px 15px;border-radius:4px}} .fact b{{display:block;font-size:24px;color:#135d91}}
+table{{border-collapse:collapse;width:100%;background:#fff;margin:9px 0 16px}} th,td{{border:1px solid #d7dde4;padding:7px 9px;text-align:left;vertical-align:top}} th{{background:#eaf0f5}}
+.ok{{color:#126b42;font-weight:700}} .warn{{color:#9b5600;font-weight:700}} .bad{{color:#a62f2f;font-weight:700}}
+.note{{background:#fff8e6;border-left:4px solid #d99b21;padding:10px 13px;margin:12px 0}} .goodnote{{background:#eef8f0;border-left:4px solid #30935b;padding:10px 13px;margin:12px 0}}
+.cols{{display:grid;grid-template-columns:1fr 1fr;gap:18px}} .barrow{{display:grid;grid-template-columns:170px 1fr 80px;gap:8px;align-items:center;margin:6px 0}}
+.bar{{height:14px;background:#e4e8ed;border-radius:2px;overflow:hidden}} .bar i{{display:block;height:100%;background:#2b6cb0}} .barrow b{{text-align:right;font-weight:600}}
+.diagram{{background:#fff;border:1px solid #cfd7df;padding:13px;margin:12px 0}} .small{{font-size:13px}} code{{background:#eef1f4;padding:1px 4px;border-radius:3px}}
+li{{margin:5px 0}} @media(max-width:760px){{main{{padding:17px 13px}}.facts{{grid-template-columns:repeat(2,1fr)}}.cols{{grid-template-columns:1fr}}h1{{font-size:24px}}table{{font-size:13px}}}}
+</style></head><body><main>
+<h1>TurboVLA 全模型硬件支持状态：v8 已把 DMA 读回数据写入 CTX/WRAM</h1>
+<p class="muted">生成时间：{human}　|　工作区：<code>turbovla_w8a8_pack2</code>　|　公开仓库：<a href="https://github.com/nc-thu/turbovla-fpga-handoff">nc-thu/turbovla-fpga-handoff</a></p>
+<div class="goodnote"><b>这一轮完成的事情：</b>编译器在 descriptor sideband 中写入 DMA 目标；RTL loader 按目标把内部 128-bit beat 写进 CTX 或把 6 个 beat 拼成一行 768-bit WRAM。顶层集成测试已经通过。这解决了“DMA 只把数据送回 host、片上存储没有被装载”的一个具体缺口。</div>
+<div class="facts"><div class="fact"><span>编译器事件</span><b>{summary['source_dispatch_events']:,}</b><small>descriptor {summary['descriptor_count']:,}，unknown=0</small></div><div class="fact"><span>v8 loader</span><b>PASS</b><small>CTX 2 beat / WRAM 6 beat</small></div><div class="fact"><span>周期投影</span><b>{total_ms:.1f} ms</b><small>204,648,209 cycles @250 MHz</small></div><div class="fact"><span>当前 PE 利用率</span><b>{pe_pct:.2f}%</b><small>完整 trace 周期模型，不是 FPGA 实测</small></div></div>
+
+<h2>1. 现在的完整推理链走到哪里</h2>
+<div class="diagram"><svg viewBox="0 0 1180 255" width="100%" role="img" aria-label="TurboVLA v8 data path">
+<defs><marker id="arr" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#28343d"/></marker></defs>
+<rect x="18" y="74" width="160" height="100" fill="#e7eff8" stroke="#28343d" stroke-width="2"/><text x="98" y="108" text-anchor="middle" font-size="17" font-weight="700">编译器</text><text x="98" y="134" text-anchor="middle" font-size="12">64-bit command</text><text x="98" y="153" text-anchor="middle" font-size="12">512-bit descriptor</text>
+<rect x="238" y="45" width="220" height="158" fill="#fff3d6" stroke="#28343d" stroke-width="2"/><text x="348" y="80" text-anchor="middle" font-size="17" font-weight="700">DMA / AXI bridge</text><text x="348" y="110" text-anchor="middle" font-size="12">64-bit 外部流</text><text x="348" y="132" text-anchor="middle" font-size="12">拼成 128-bit 内部 beat</text><text x="348" y="154" text-anchor="middle" font-size="12">burst / 4 KB 边界</text><text x="348" y="176" text-anchor="middle" font-size="12">v7 已通过</text>
+<rect x="516" y="45" width="220" height="158" fill="#eaf6ea" stroke="#28343d" stroke-width="2"/><text x="626" y="80" text-anchor="middle" font-size="17" font-weight="700">v8 payload loader</text><text x="626" y="110" text-anchor="middle" font-size="12">target=CTX：逐 beat 写入</text><text x="626" y="132" text-anchor="middle" font-size="12">target=WRAM：6 beat 拼行</text><text x="626" y="154" text-anchor="middle" font-size="12">握手和背压</text><text x="626" y="176" text-anchor="middle" font-size="12">本轮 PASS</text>
+<rect x="794" y="45" width="160" height="158" fill="#fbe9dc" stroke="#28343d" stroke-width="2"/><text x="874" y="80" text-anchor="middle" font-size="17" font-weight="700">CTX / WRAM</text><text x="874" y="110" text-anchor="middle" font-size="12">128-bit activation</text><text x="874" y="132" text-anchor="middle" font-size="12">768-bit weight</text><text x="874" y="154" text-anchor="middle" font-size="12">BRAM inferred</text>
+<rect x="1002" y="74" width="160" height="100" fill="#eeeef0" stroke="#28343d" stroke-width="2"/><text x="1082" y="108" text-anchor="middle" font-size="17" font-weight="700">Pack2 / vector</text><text x="1082" y="134" text-anchor="middle" font-size="12">仍需完整 trace 回放</text>
+<path d="M178 124 H238" stroke="#28343d" stroke-width="3" marker-end="url(#arr)"/><path d="M458 124 H516" stroke="#28343d" stroke-width="3" marker-end="url(#arr)"/><path d="M736 124 H794" stroke="#28343d" stroke-width="3" marker-end="url(#arr)"/><path d="M954 124 H1002" stroke="#28343d" stroke-width="3" marker-end="url(#arr)"/>
+</svg><p class="small muted">这图怎么看：现在已经能证明“描述符指定目标，DMA 读回数据真的能落到片上存储”。但这只验证了装载动作，不等于完整模型已经从这些存储读出所有中间张量并跑完。</p></div>
+
+<h2>2. 编译器现在覆盖了多少内容</h2>
+<p>真实 TurboVLA forward 的 {summary['source_dispatch_events']:,} 个 dispatch 都被编译器归类，输出 {summary['descriptor_count']:,} 个 descriptor。<code>unknown=0</code> 的意思是“没有事件被丢掉”，不是“每个事件都已经有精确硬件”。当前周期模型约 {total_ms:.1f} ms，其中 Pack2 GEMM/BMM 的内部利用率约 {gemm_pct:.1f}%，但它们只占完整时间的一部分。</p>
+<div class="cols"><div><h3>按执行单元的事件数</h3>{bars}</div><div><h3>完整模型周期口径</h3><table><tr><th>指标</th><th>值</th><th>怎么理解</th></tr><tr><td>总周期</td><td>{summary['total_cycles']:,}</td><td>250 MHz 下约 {total_ms:.1f} ms；是周期模型。</td></tr><tr><td>有效 MAC</td><td>{summary['valid_mac_count']:,}</td><td>只统计真正进入 Pack2 的有效乘加。</td></tr><tr><td>PE 时间利用率</td><td>{pe_pct:.2f}%</td><td>大量时间仍在 layout、meta、向量或等待。</td></tr><tr><td>GEMM 内部利用率</td><td>{gemm_pct:.2f}%</td><td>只看阵列正在做 GEMM/BMM 的区间。</td></tr><tr><td>完整模型有效吞吐</td><td>{summary['effective_gops_250mhz']:.2f} GOPS</td><td>相对 Pack2 峰值 {summary['peak_gops_250mhz']:.0f} GOPS，仍只有 {100*summary['effective_gops_250mhz']/summary['peak_gops_250mhz']:.2f}%。</td></tr></table></div></div>
+
+<h2>3. 目前还有哪些没有做成电路，或者编译器还不能完整支持</h2>
+<table><tr><th>模块</th><th>编译器现在做了什么</th><th>电路现在做到什么</th><th>全模型还缺什么</th></tr>{rows}</table>
+<p class="note"><b>最影响“能不能完整跑起来”的不是 Pack2 乘法器。</b>现在更大的缺口是：BMM 的完整 QK→scale/mask→Softmax→AV 链，LayerNorm/Softmax/GELU 的精确数值路径，通用 layout 地址生成，以及 DINO/语言编码器/action head 的权重和中间张量读写。它们目前有事件和周期预算，但不能写成已经完成的专用 FPGA 电路。</p>
+
+<h2>4. 这轮验证和历史 Vivado 结果怎么区分</h2>
+<table><tr><th>检查</th><th>状态</th><th>证据</th></tr>{check_rows}</table>
+<p>最新 v8 loader 是在 v7 payload bridge 之后加入的，所以最新的物理综合数字仍然是 v7 package top 的结果：{viv['lut']:,} LUT、{viv['ff']:,} FF、{viv['dsp']:,} DSP、{viv['bram_tiles']} BRAM tile，4 ns 约束下 WNS {viv['wns_ns']:.3f} ns。这个结果是 synthesis-only；v8 loader 尚未重新跑 Vivado，不能把 v7 数字冒充 v8。</p>
+<table><tr><th>指标</th><th>当前能说的结论</th><th>还不能说的结论</th></tr><tr><td>编译器</td><td class="ok">真实 trace 无 unknown，DMA 目标字段有契约测试</td><td>不能说所有 descriptor 都已由 RTL 逐位执行</td></tr><tr><td>DMA→片上存储</td><td class="ok">CTX/WRAM 集成 smoke 通过</td><td>不能说已接入真实 TurboVLA 权重和中间张量</td></tr><tr><td>Pack2</td><td class="ok">已有独立数据通路和历史综合结果</td><td>不能说完整模型已经利用 768 DSP 跑完</td></tr><tr><td>整机</td><td class="warn">仍是部分 RTL + 行为级辅助</td><td>不能说 250 MHz、板级 DDR、完整 FPGA forward 或 TOPS/W 已完成</td></tr></table>
+
+<h2>5. 下一步建议</h2>
+<ol><li><b>先做真实 payload 回放：</b>从一个 TurboVLA trace 提取一个 GEMM 的 activation/weight tile，用编译器生成 descriptor，经过 v8 DMA loader 写入 CTX/WRAM，再让 Pack2 读出并逐位对拍。</li><li><b>补 BMM 完整链：</b>把两个输入、转置、QK、scale/mask、Softmax、AV 和输出写回串起来。现在只是 staging，不足以代表 attention 电路。</li><li><b>把 FP16 向量单元做成可对拍路径：</b>先固定 LayerNorm 和 Softmax 的输入输出格式，再接 vendor FP16 IP 或明确的定点近似，避免只保留周期占位。</li><li><b>重新做 v8 Vivado 综合：</b>loader 已增加真实写口，应该单独报告它带来的 LUT/FF/BRAM/时序变化，不能沿用 v7 数字。</li><li><b>最后再做 full trace：</b>只有权重加载、layout、残差、非线性和 action head 都有真实数据流，才值得跑完整 RTL trace 和 LIBERO 闭环。</li></ol>
+<p class="muted">本页生成时间：{human}。本页把编译器统计、RTL smoke、周期模型和 Vivado synthesis 分开标注；历史目录保持不变。</p>
+</main></body></html>'''
+    out_dir = ROOT / "reports" / stamp
+    out_dir.mkdir(parents=True, exist_ok=True)
+    out = out_dir / f"{stamp}_TurboVLA全模型v8硬件支持状态.html"
+    out.write_text(html_text, encoding="utf-8")
+    print(out)
+
+
+if __name__ == "__main__":
+    main()

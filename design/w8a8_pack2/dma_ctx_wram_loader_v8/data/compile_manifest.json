@@ -1,0 +1,12 @@
+{
+  "generated_at": "2026-09-16 09:29:46",
+  "schema": "tvla_w8a8_pack2.complete_model.v5_dma_burst",
+  "command_word": "op[63:56],flags[55:48],descriptor_id[47:32],length[15:0]",
+  "descriptor_sideband_bits": 512,
+  "sideband_word_order": "little_endian_8x64",
+  "fp16_mode_bit": "descriptor_sideband[0:1] and first_descriptor_beat[15]",
+  "source_capture_sha256": {
+    "operator_trace.jsonl": "a5ab118422c88ce1694eac6308a51a3771c6d6b0b0922c646fcd576f03dbe684",
+    "module_events.jsonl": "971f6c8c4cebafc44760b60c64bddab4d959a9bbb3848d4e7022483084ced0a9"
+  }
+}

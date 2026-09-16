@@ -12,6 +12,7 @@
 - `design/w8a8_pack2/`：当前主线。包括黄金模型、编译器、16×48 Pack2 阵列、时序版 top、Vivado Tcl 和报告。
 - `design/w8a8_pack2/full_model_v2/`：2026-09-16 的全模型 trace 编译器、Pack2/向量/布局/存储/AUX 集成顶层和回放报告。这里的 AUX 仍是行为级时间线，不等于专用电路。
 - `design/w8a8_pack2/complete_model_v3/`：2026-09-16 05:51:14 的完整算子顶层版本。它把 LayerNorm、Softmax、GELU、Conv/im2col、Embedding/position、layout、BMM、CTX/WRAM、DMA 和 action post 放进显式 unit，并用窄接口顶层完成了一次新的 Vivado route；FP16 IP、完整模型参数流和板级 DDR 仍未闭环。
+- `design/w8a8_pack2/dma_ctx_wram_loader_v8/`：2026-09-16 09:32:40 的 descriptor 驱动 DMA→CTX/WRAM 版本。编译器目标字段、loader 独立测试和 package top 集成测试均通过；v8 尚未重新做 Vivado 综合。
 - `design/w8a16/`：此前的 W8A16 版本，只作为参考，不代表当前 W8A8 设计。
 - `upstream/turbovla_profile/`：TurboVLA 官方代码快照、LIBERO profiling 结果和版本信息。
 - `results/`：量化筛选、W8A8 整数恢复和 profiling 的机器可读结果。

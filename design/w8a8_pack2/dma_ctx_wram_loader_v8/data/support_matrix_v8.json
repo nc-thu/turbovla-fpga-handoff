@@ -1,0 +1,18 @@
+{
+  "generated_at": "2026-09-16 09:29:46",
+  "scope": "TurboVLA full-model hardware boundary, v8 descriptor-driven CTX/WRAM loader",
+  "items": [
+    {"module":"Pack2 GEMM","compiler":"implemented: descriptor, tile mask, scale IDs","rtl":"implemented; inherited Pack2 path, smoke-tested","full_model":"real trace classified; full tensor replay not yet closed"},
+    {"module":"BMM attention","compiler":"dual-input descriptor with layout/transpose flags","rtl":"staging path with transpose/mask; QK/scale/Softmax/AV chain incomplete","full_model":"30 BMM events classified; exact attention replay not validated"},
+    {"module":"LayerNorm / Softmax / GELU / tanh","compiler":"classified as fp16 vector operations","rtl":"bounded vector/FP16 wrapper; exact statistics, exp and reciprocal path incomplete","full_model":"cycle budget exists; full numerical replay not validated"},
+    {"module":"Add / Mul / ReLU / Clamp","compiler":"classified with descriptor and dependencies","rtl":"basic vector path","full_model":"broadcast and general layout cases remain"},
+    {"module":"Conv2d","compiler":"im2col descriptor and traffic accounting","rtl":"small behavioral path","full_model":"generic stride/padding/channel replay remains"},
+    {"module":"Embedding / position encoding","compiler":"embedding, sin/cos and position descriptors","rtl":"partial table/LUT path","full_model":"full table payload and long-sequence replay remains"},
+    {"module":"Layout / reshape / permute / slice / gather","compiler":"events classified and ordered","rtl":"partial address path","full_model":"general address generation and scatter validation remain"},
+    {"module":"CTX / WRAM","compiler":"DMA_READ target field in v6 sideband","rtl":"BRAM inferred; v8 DMA payload writes CTX/WRAM and passed integration smoke","full_model":"descriptor-driven real trace payloads still need replay"},
+    {"module":"DMA AXI / DDR","compiler":"DMA_READ and DMA_WRITE descriptors with byte length","rtl":"bounded burst + 64-bit package bridge; board DDR controller not included","full_model":"real trace has no explicit DMA events; board-level DDR not validated"},
+    {"module":"DINO / language encoder / action head","compiler":"GEMM plus AUX/event descriptors","rtl":"no dedicated full layer implementation; behavior-level accounting only","full_model":"weights, residuals and intermediate tensors not connected end-to-end"},
+    {"module":"Full TurboVLA trace replay","compiler":"6836 events -> 6836 descriptors; unknown=0","rtl":"small top-level and payload smokes only","full_model":"not yet replayed through the complete RTL top"},
+    {"module":"LIBERO FPGA closed loop","compiler":"not applicable","rtl":"not done","full_model":"not done"}
+  ]
+}

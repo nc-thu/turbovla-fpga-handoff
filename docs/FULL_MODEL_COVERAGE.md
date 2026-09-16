@@ -132,3 +132,17 @@ Vivado 2021.2 在 `xczu7ev-ffvc1156-2-e` 上对 `vivado_runs_20260916_0248` 完�
 8. 6.885 W 是 vectorless power，不是带活动文件的真实功耗，也不能据此报告 TOPS/W。
 
 所以 complete_model_v3 的准确称呼是：**真实 trace 驱动的全算子编译器 + 可综合集成顶层 + generic Vivado 实现结果**。它还不是可下载到板上执行完整 TurboVLA 的最终设计。
+
+## 2026-09-16 09:32:40：v8 DMA→CTX/WRAM 装载
+
+v8 位于 `design/w8a8_pack2/dma_ctx_wram_loader_v8/`。这版只补一个明确的数据通路缺口，不能把它理解成整机已经完成。
+
+| 部分 | v8 新增内容 | 证据边界 |
+|---|---|---|
+| 编译器目标字段 | 在 512-bit sideband 的 `[497:496]` 写入 `CTX/WRAM/host` 目标 | 合成 DMA_READ 契约测试通过 |
+| CTX 装载 | 每个内部 128-bit beat 写一个 CTX word | package top 集成 smoke 通过，检查地址 3/4 |
+| WRAM 装载 | 六个 128-bit beat 拼成一个 768-bit weight row | package top 集成 smoke 通过，检查地址 5 |
+| 外部接口 | 64-bit 板级 beat 由 package bridge 拼成内部 128-bit beat | 复用 v7 已通过的 payload bridge |
+| 物理实现 | v8 loader 还没有重新跑 Vivado | v7 synthesis 数字不能当作 v8 结果 |
+
+因此，v8 之后仍然缺：真实 TurboVLA activation/weight payload 的完整 RTL 回放、BMM 的 QK/scale/mask/Softmax/AV 数值链、精确 FP16 激活 IP、DINO/T5/action head 专用数据通路、板级 DDR 和 LIBERO FPGA 闭环。新的支持矩阵在 `design/w8a8_pack2/dma_ctx_wram_loader_v8/data/support_matrix_v8.json`，说明页在该目录的 `reports/2026-09-16_093240/`。
